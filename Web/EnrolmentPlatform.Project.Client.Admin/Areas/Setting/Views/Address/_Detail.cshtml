@@ -1,0 +1,71 @@
+﻿@{
+    Layout = null;
+}
+@model AddressOptionDTO
+
+<div class="panel-body info-cell lable-style">
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">中文名称：</label>
+            <div class="text">@(Model.ChinaName)</div>
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">英文名称：</label>
+            <div class="text">@(Model.EnglishName)</div>
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">拼 音：</label>
+            <div class="text">@(Model.Pinyin)</div>
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">拼音缩写：</label>
+            <div class="text">@( Model.ShortPinyin)</div>
+        </div>
+    </div>
+    <div class="row row-3 layui-hide">
+        <div class="item">
+            <label class="label">类 型：</label>
+            <div class="text">
+                @EnumDescriptionHelper.GetDescription((E_AddressClassify)Model.Classify)
+            </div>
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">中文路径：</label>
+            <div class="text">@(Model.ChinaRoute)</div>
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">拼音路径：</label>
+            <div class="text">@(Model.PinyinRoute)</div>
+            
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">是否直辖市：</label>
+            <div class="text">@(Model.IsMunicipality ? "是" : "否")</div>
+            
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">邮 编：</label>
+            <div class="text">@(Model.ZipCode)</div>
+        </div>
+    </div>
+    <div class="row row-3">
+        <div class="item">
+            <label class="label">电话区号：</label>
+            <div class="text">@(Model.AreaCode)</div>
+        </div>
+    </div>
+</div>

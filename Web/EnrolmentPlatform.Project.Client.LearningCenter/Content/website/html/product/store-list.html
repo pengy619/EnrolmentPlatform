@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+    <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/account-info.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="./play-list.html">
+                            <i class="iconfont icon-youleyuan"></i>
+                            <span>游乐项目管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="product-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>农产品管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./tickets-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./catering-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>餐饮管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./catering-setting.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>菜名设置</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item active">
+                        <a href="./store-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>店铺管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>店铺管理</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap store-list-styel">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <div class="layui-form">
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">状态</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="status" value="1" title="全部" checked>
+                                        <input type="radio" name="status" value="2" title="待审核">
+                                        <input type="radio" name="status" value="3" title="已开业">
+                                        <input type="radio" name="status" value="4" title="已停业">
+                                        <input type="radio" name="status" value="5" title="审核拒绝">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">店铺名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn layui-btn-warm">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <a class="layui-btn layui-btn-warm layui-btn-sm" href="./store-add.html">创建店铺</a>
+                            <span>（只支持创建一家店铺）</span>
+                            <div class="list-box">
+                                <div class="list-item">
+                                    <div class="img-box">
+                                        <img src="../../images/timg.jpg" alt="">
+                                    </div>
+                                    <div class="text-box">
+                                        <div class="title">
+                                            <h3>香格里拉（会展中心店）</h3>
+                                            <button class="layui-btn layui-btn-warm layui-btn-sm">已开业</button>
+                                        </div>
+                                        <div class="p-box">
+                                            <p>地址:深圳市福田区皇岗会展中心益田路299号（会展中心对面）</p>
+                                            <p>电话：0755-23436433 0755-23249583</p>
+                                            <p>营业时间：周一至周日 24小时营业</p>
+                                        </div>
+                                        <div class="btn-box">
+                                            <a class="layui-btn  layui-btn-sm" href="./store-detail.html">详情</a>
+                                            <button class="layui-btn  layui-btn-sm">编辑</button>
+                                            <button class="layui-btn  layui-btn-sm">停业</button>
+                                            <button class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+
+
+</body></html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/account-info.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="./play-list.html">
+                            <i class="iconfont icon-youleyuan"></i>
+                            <span>游乐项目管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="product-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>农产品管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./tickets-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item active">
+                        <a href="./catering-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>餐饮管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./catering-setting.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>菜名设置</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./store-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>店铺管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>餐饮管理</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <div class="layui-form">
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">状态</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="status" value="1" title="全部" checked>
+                                        <input type="radio" name="status" value="2" title="待审核">
+                                        <input type="radio" name="status" value="3" title="已上架">
+                                        <input type="radio" name="status" value="4" title="已下架">
+                                        <input type="radio" name="status" value="5" title="审核拒绝">
+                                        <input type="radio" name="status" value="6" title="草稿">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">套餐名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn layui-btn-warm">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <a class="layui-btn layui-btn-default layui-btn-sm" href="./catering-addinfo.html">发布套餐</a>
+                            <button class="layui-btn layui-btn-default layui-btn-sm">上架</button>
+                            <button class="layui-btn layui-btn-default layui-btn-sm">下架</button>
+                            <button class="layui-btn layui-btn-default layui-btn-sm">复制</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                            <table id="catering-table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script type="text/html" id="tableTool">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" href='./catering-detail.html'>查看</a>
+        <a class="layui-btn layui-btn-default layui-btn-sm" lay-event="audit" href='./catering-addinfo.html'>编辑</button>
+    </script>
+        <script>
+            layui.use(['jquery', 'table', 'layer'], function () {
+                var table = layui.table;
+                var layer = layui.layer;
+                var $ = layui.$;
+                var data = []
+                //模拟数据
+                for (var i = 0; i < 41; i++) {
+                    data.push({
+                        name: '美味海鲜3~4人自助餐（中/晚餐）',
+                        price: '¥12',
+                        soldout: '200',
+                        time: '2018-5-30 15:30',
+                        status: '待审核',
+                    })
+                }
+                //实例表格
+                var tableOptions = {
+                    elem: '#catering-table'
+                    , skin: 'line'
+                    , limit: 20
+                    , data: data//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'name', title: '套餐名称', minWidth: 300 }
+                        , { field: 'price', title: '价格' }
+                        , { field: 'soldout', title: '已售' }
+                        , { field: 'time', title: '更新时间', }
+                        , { field: 'status', title: '销售状态', sort: true }
+                        , { title: '操作', toolbar: '#tableTool', minWidth: 100 }
+                    ]]
+                }
+                table.render(tableOptions)
+
+            })
+        </script>
+
+
+</body></html>

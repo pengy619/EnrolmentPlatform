@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "推荐农产品设置";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            农产品商城配置
+        </div>
+        <div class="panel-body">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li><a href="@Url.Action("SpecialtyShopMall","SettingH5",new { area="Operate"})">推荐分类设置</a></li>
+                    <li><a class="layui-this">推荐农产品设置</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <a href="@Url.Action("RecommendAmusementProductOpt","SettingH5",new { area="Operate"})" class="layui-btn layui-btn-warm layui-btn-sm">添加</a>
+                        <a class="layui-btn layui-btn-primary layui-btn-sm" lay-filter="del" id="btnDelete">删除</a>
+                        <table id="banner-table" lay-filter="table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit">编辑</a>
+</script>
+<script type="text/html" id="tablePic">
+    <div>
+        <img src="{{d.FilePath}}" alt="">
+    </div>
+</script>
+<script type="text/javascript">
+    layui.use(['jquery', 'table'], function () {
+        var table = layui.table;
+        //实例表格
+        var tableOptions = {
+            elem: '#banner-table'
+            , skin: 'line'
+            ,url: '@Url.Action("GetRecommendProductList", "SettingH5")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'FilePath', title: '图片', templet: '#tablePic' }
+                , { field: 'ProductName', title: '产品名称', }
+                , { field: 'Sort', title: '排序' }
+                , { title: '操作', toolbar: '#tableTool', width: 150 }
+            ]]
+        }
+        table.render(tableOptions)
+
+        //编辑事件
+        table.on('tool(table)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'edit') {
+                console.log(data);
+                location.href = "@Url.Action("RecommendAmusementProductOpt","SettingH5",new { area="Operate"})" + "/" + data.Id;
+            }
+        });
+
+        //删除事件  
+        $("#btnDelete").click(function () {
+            var checkdata = table.checkStatus('banner-table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要删除的推荐农产品设置。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            layer.confirm('您确定要删除选中的项吗？', function (index) {
+                //删除处理
+                var arr = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    arr[i] = checkdata[i].Id;
+                }
+                var postData = { Ids: arr };
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    async: false,
+                    data: postData,
+                    url: "@Url.Action("DeleteRecommendProduct", "SettingH5",new { area= "Operate" })",
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            layer.msg("删除成功");
+                            table.reload("banner-table");
+                        } else {
+                            layer.msg(result.Info);
+                        }
+                    }
+                });
+            });
+        })
+
+
+    })
+</script>

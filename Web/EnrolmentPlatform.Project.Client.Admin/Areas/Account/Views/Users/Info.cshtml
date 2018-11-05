@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "会员信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    EnrolmentPlatform.Project.DTO.Systems.UserDto dto = ViewBag.UserInfo;
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            基础信息
+        </div>
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">登录账号</span>
+                        <span class="text">@dto.UserAccount</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">昵称</span>
+                        <span class="text">@dto.Nickname</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">手机号</span>
+                        <span class="text">@dto.Phone</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">性别</span>
+                        <span class="text">@dto.Sex</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">创建时间</span>
+                        <span class="text">@dto.CreateTime</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">启用状态</span>
+                        <span class="text">@dto.StatusName</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label"></span>
+                        <span class="text">
+                            <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery'], function () {
+
+    })
+</script> 

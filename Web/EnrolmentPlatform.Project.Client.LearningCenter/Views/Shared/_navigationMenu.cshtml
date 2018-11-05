@@ -1,0 +1,22 @@
+﻿@model List<EnrolmentPlatform.Project.DTO.Systems.RolePermissionDto>
+<span class="layui-breadcrumb">
+    <a>
+        <cite>工作台</cite>
+    </a>
+    @foreach (var item in Model.OrderBy(it => it.Level))
+    {
+        if (string.IsNullOrEmpty(item.Name))
+        {
+            <a href="javascript:void(0)">
+                <cite>@(TempData["Title"])</cite>
+            </a>
+
+        }
+        else
+        {
+            <a href="@(item.Controller.IsEmpty()?"javascript:void(0)":Url.Action(item.Action, item.Controller, new { area = item.Area }))">
+                <cite>@(item.Name)</cite>
+            </a>
+        }
+    }
+</span>

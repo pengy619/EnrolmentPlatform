@@ -1,0 +1,353 @@
+﻿@{
+    ViewBag.Title = "票务订单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel">
+        <form id="form1" method="post">
+            <div class="panel-title">
+                <div class="layui-form">
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">订单状态</label>
+                        <div class="layui-input-block">
+                            <input type="radio" id="OrderStatus" name="OrderStatus" value="-1" title="全部" checked>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<OrderStatusForTicketEnum, int>())
+                            {
+                                <input type="radio" name="OrderStatus" value="@item.Key" title="@item.Value">
+                            }
+                        </div>
+                    </div>
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">出票状态</label>
+                        <div class="layui-input-block">
+                            <input type="radio" id="TicketStatus" name="TicketStatus" value="-1" title="全部" checked>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<TicketStatusEnum, int>())
+                            {
+                                <input type="radio" name="TicketStatus" value="@item.Key" title="@item.Value">
+                            }
+                        </div>
+                    </div>
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">供应商类型</label>
+                        <div class="layui-input-inline">
+                            <select id="SupplierType" name="SupplierType">
+                                <option value="-1">全部</option>
+                                @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<SupplierTypeEnum, int>())
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+
+                        </div>
+                        <label class="layui-form-label">订单号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="OrderNo" id="OrderNo" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="layui-form-label">产品名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ProductName" id="ProductName" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item flex">
+                        <label class="layui-form-label">订单来源</label>
+                        <div class="layui-input-inline">
+                            <select id="OrderSource" name="OrderSource">
+                                <option value="-1">全部</option>
+                                @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<OrderSourceEnum, int>())
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <label class="layui-form-label">下单账户</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="CreatorAccount" id="CreatorAccount" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="layui-form-label">供应商</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="SupplierName" id="SupplierName" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item flex">
+
+
+
+                        <label class="layui-form-label">下单日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input time-item" id="StartDate" name="StartDate" lay-key="1">
+                        </div>
+                        <div class="layui-form-mid">至</div>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input time-item" id="EndDate" name="EndDate" lay-key="2">
+                        </div>
+
+                        <button class="layui-btn layui-btn-warm" type="button" id="btnSearch" data-type="reload">查询</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" data-type="ToExcel">导出</button>
+            <table id="order-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<!-- 发起退款 -->
+<div id="refund-btn-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item" style="margin-top:10px;">
+            <label class="layui-form-label">退票原因</label>
+            <div class="layui-input-inline">
+                <select id="select_CancelReason" lay-verify="required">
+                    <option value="">请选择</option>
+                    @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<TouristCenterCancleOrderReasonEnum, int>())
+                    {
+                        <option value="@item.Value">@item.Value</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">退票金额</label>
+            <div class="layui-input-inline flex">
+                <span class="pro-color">￥</span>
+                <input type="text" name="" id="modal_RefundAmount" class="layui-input" value="">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">补充说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" id="modal_Remark" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a href="javascript:void(0)" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    {{#  if(d.OrderStatus ==@((int)OrderStatusForTicketEnum.Unpaid)){ }}
+    <button class="layui-btn layui-btn-default layui-btn-sm layui-btn-xs" lay-event="pay">支付</button>
+    <button class="layui-btn layui-btn-primary layui-btn-xs" lay-event="cancel">取消</button>
+    {{#  } }}
+    {{#  if(d.OrderStatus ==@((int)OrderStatusForTicketEnum.Paid)){ }}
+    <button class="layui-btn layui-btn-default layui-btn-sm layui-btn-xs" lay-event="refund">退票</button>
+    {{#  } }}
+</script>
+<script type="text/html" id="timeTpl">
+    {{#
+    return d.CreatorTime.substring(0,10);
+    }}
+</script>
+<script type="text/html" id="timeTpl1">
+    {{#
+    return d.PlayDay.substring(0,10);
+    }}
+</script>
+<script type="text/html" id="ActualAmountTpl">
+    {{#
+    return '¥'+d.ActualAmount.toFixed(2);
+    }}
+</script>
+<script>
+    layui.use(['jquery', 'table', 'laydate', "form"], function () {
+        var form = layui.form;
+        var table = layui.table;
+        var laydate = layui.laydate;
+        var $ = layui.$;
+        //日期
+        laydate.render({
+            elem: '#StartDate'
+        });
+        laydate.render({
+            elem: '#EndDate'
+        });
+        var tableOptions = {
+            elem: '#order-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("Search", "Ticket")'//数据
+            , method: 'post'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'OrderNo', title: '订单编号', sort: true }
+                , { field: 'OrderName', title: '产品名称', }
+                , { field: 'PlayDay', title: '出行日期', templet: '#timeTpl1' }
+                , { field: 'TotalQuantity', title: '购买份数', }
+                , { field: 'ActualAmount', title: '订单总金额', templet: '#ActualAmountTpl' }
+                , { field: 'OrderStatusCH', title: '订单状态', sort: true }
+                , { field: 'TicketStatusCH', title: '出票状态', }
+                , { field: 'CreatorTime', title: '下单日期', templet: '#timeTpl' }
+                , { field: 'OrderSourceCH', title: '订单来源', }
+                , { field: 'CreatorAccount', title: '下单账户', }
+                , { field: 'SupplierTypeCH', title: '供应商类型', }
+                , { field: 'SupplierName', title: '供应商', sort: true }
+                , { title: '操作', toolbar: '#tableTool', minWidth: 150 }
+            ]],
+            where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), TicketStatus: $("input[name='TicketStatus']:checked").val(), OrderNo: $("#OrderNo").val(), SupplierType: $("#SupplierType").val(), ProductName: $("#ProductName").val(), TicketCollector: $("#TicketCollector").val(), CreatorAccount: $("#CreatorAccount").val(), SupplierName: $("#SupplierName").val(), StartDate: $("#StartDate").val(), EndDate: $("#EndDate").val(), OrderSource: $("#OrderSource").val()}
+        }
+        table.render(tableOptions);
+        active = {
+            reload: function () {
+                //执行重载
+                table.reload('order-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    loading: true,
+                    where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), TicketStatus: $("input[name='TicketStatus']:checked").val(), OrderNo: $("#OrderNo").val(), SupplierType: $("#SupplierType").val(), ProductName: $("#ProductName").val(), TicketCollector: $("#TicketCollector").val(), CreatorAccount: $("#CreatorAccount").val(), SupplierName: $("#SupplierName").val(), StartDate: $("#StartDate").val(), EndDate: $("#EndDate").val(), OrderSource: $("#OrderSource").val()}
+                });
+            },
+            ToExcel: function () {
+                $("#form1").attr("action", "/Order/Ticket/ExportToExcel");
+                $("#form1").submit();
+            },
+        };
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'refund') {
+                $("#modal_RefundAmount").val(data["PaidAmount"]);
+                layer.open({
+                    type: 1,
+                    title: '发起退款',
+                    btn: ['提交申请', '取消'],
+                    area: ['600px'], //宽高
+                    content: $('#refund-btn-modal'),
+                    yes: function () {
+                        return  Refund(data["OrderId"]);
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+            else if (layEvent == 'detail') {
+                location.href = "@Url.Action("Detail", "Ticket", new { area = "Order" })" + "/" + data["OrderId"];
+
+            }  else if (layEvent == 'pay') {
+                location.href = "@Url.Action("OrderPay", "ProductForTicket", new { area = "Sale" })" + "/" + data["OrderId"];
+
+            }
+            else if (layEvent == 'cancel') {
+                layer.open({
+                    title: '确认取消订单',
+                    btn: ['确定', '取消'],
+                    yes: function () {
+                        return TouristCenterCancel(data["OrderId"]);
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+        });
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //点击事件
+        form.on("radio", function (data) {
+            $("#btnSearch").click();
+        });
+        var _IsSubmit = false;
+        function Refund(id) {
+            var bool = false;
+            var orderId = id;
+            var refundReason = $("#select_CancelReason").val();
+            var refundAmount = $("#modal_RefundAmount").val();
+            var remark = $("#modal_Remark").val();
+            var regex = /^\d{1,16}(\.\d{1,2})?$/;
+            if (refundReason == "") {
+                layer.msg('请选择退票原因', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (refundAmount == '') {
+                layer.msg('请输入退款金额', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (!regex.test(refundAmount)) {
+                layer.msg('金额格式不正确', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (!_IsSubmit)
+            {
+                $.ajax({
+                        url: "@Url.Action("TouristCenterRefund", "Ticket")",
+                        type: "post",
+                        data: { OrderId: orderId, Reason:refundReason,RefundAmount: refundAmount , Remark: remark},
+                        beforeSend: function () {
+                            _IsSubmit = true;
+                        },
+                        success: function (res) {
+                            bool = res.IsSuccess;
+                            if (res.IsSuccess) {
+                                layer.msg("退票成功", {
+                                            icon: 1
+                                            , time: 2000
+                                }, function () {
+                                    layer.closeAll();
+                                    $("#btnSearch").click();
+                                    });
+
+                            }
+                            else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                            _IsSubmit = false;
+                        }
+                });
+                return bool;
+            }
+        }
+       function TouristCenterCancel(id) {
+        var bool = false;
+        var orderId = id;
+        if (!_IsSubmit)
+        {
+            $.ajax({
+                    url: "@Url.Action("TouristCenterCancel", "Ticket")",
+                    type: "post",
+                    data: { OrderId: orderId},
+                    beforeSend: function () {
+                        _IsSubmit = true;
+                    },
+                    success: function (res) {
+                        bool = res.IsSuccess;
+                        if (res.IsSuccess) {
+                            layer.msg("操作成功", {
+                                        icon: 1
+                                        , time: 2000
+                            }, function () {
+                                layer.closeAll();
+                                $("#btnSearch").click();
+                                });
+
+                        }
+                        else {
+                            layer.msg(res.Info, {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                        _IsSubmit = false;
+                    }
+            });
+            return bool;
+        }
+    }
+    })
+
+</script>

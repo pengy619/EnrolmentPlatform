@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/account-info.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="./play-list.html">
+                            <i class="iconfont icon-youleyuan"></i>
+                            <span>游乐项目管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="product-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>农产品管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./tickets-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item active">
+                        <a href="./catering-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>餐饮管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./catering-setting.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>菜名设置</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./store-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>店铺管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>餐饮管理</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap catering-style">
+                    <div class="panel">
+                        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">基本信息</li>
+                                <li>套餐详细</li>
+                                <li>操作日志</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="panel">
+                                        <div class="panel-title">
+                                            产品状态
+                                        </div>
+                                        <div class="panel-body info-cell">
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">当前状态</label>
+                                                    <div class="text">审核拒绝</div>
+                                                </div>
+                                                <div class="item">
+                                                    <label class="label">供应商</label>
+                                                    <div class="text">供应商A</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">店铺名称</label>
+                                                    <div class="text">店铺AABB</div>
+                                                </div>
+                                                <div class="item">
+                                                    <label class="label">创建时间</label>
+                                                    <div class="text pro-color">2018-2-12 22:12:12</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">审核时间</label>
+                                                    <div class="text">2018-1-6 15:36:00</div>
+                                                </div>
+                                                <div class="item">
+                                                    <label class="label">审核结果说明</label>
+                                                    <div class="text">资料信息有误，请修改后重新提交</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <div class="panel-title">基本信息</div>
+                                        <div class="panel-body info-cell width-95">
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>套餐名称</label>
+                                                    <div class="text">美中西餐套餐3~4人晚餐</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">套餐描述</label>
+                                                    <div class="text">美味超值的晚餐，提供免费停车和免费wifi</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>用餐人数</label>
+                                                    <div class="text">3~4人</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>门店价</label>
+                                                    <div class="text">￥226</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>销售价</label>
+                                                    <div class="text">
+                                                        ￥226
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>需要预约</label>
+                                                    <div class="text">不需要</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>退款规则</label>
+                                                    <div class="text">随时退</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <div class="panel-title">购买须知</div>
+                                        <div class="panel-body info-cell width-95">
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        有效期</label>
+                                                    <div class="text">2017.11.24 至 2018.6.22（周末、法定节假日通用）</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        使用时间</label>
+                                                    <div class="text">10:00-15:00</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        使用规则</label>
+                                                    <div class="text">
+                                                        <p>无需预约，消费高峰时可能需要等位，每张美团券建议10至12人使用，不可使用包间，仅限堂食，不提供餐前外带， 餐毕未吃完可打包，需到店另付打包费1元/盒，团购用户不可同时享受商家其他优惠</p>
+                                                        <p>酒水饮料等问题，请致电商家咨询，以商家反馈为准 如部分菜品因时令或其他不可抗因素导致无法提供，店内会用等价菜品替换，具体事宜请与店内协商，提供免费WiFi</p>
+                                                        <p>免费提供20个停车位</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="panel">
+                                        <div class="panel-title">套餐内容</div>
+                                        <div class="panel-body">
+                                            <table class="layui-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>项目</th>
+                                                        <th>菜单名称</th>
+                                                        <th>数量</th>
+                                                        <th>单价</th>
+                                                        <th>小计</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td rowspan="3">主菜</td>
+                                                        <td>农家一碗香（辣椒）</td>
+                                                        <td>1</td>
+                                                        <td>25</td>
+                                                        <td>25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>农家一碗香（辣椒）</td>
+                                                        <td>1</td>
+                                                        <td>25</td>
+                                                        <td>25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>农家一碗香（辣椒）</td>
+                                                        <td>1</td>
+                                                        <td>25</td>
+                                                        <td>25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">二选一</td>
+                                                        <td>农家一碗香（辣椒）</td>
+                                                        <td>1</td>
+                                                        <td>25</td>
+                                                        <td>25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>农家一碗香（辣椒）</td>
+                                                        <td>1</td>
+                                                        <td>25</td>
+                                                        <td>25</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>主食</td>
+                                                        <td>米饭</td>
+                                                        <td>4</td>
+                                                        <td>2</td>
+                                                        <td>8</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="allPrice">
+                                                <p>价值：
+                                                    <span class="pro-color">￥288</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <div class="panel-title">
+                                            详细信息
+                                        </div>
+                                        <div class="panel-body padding-20">
+                                            <div class="text-box">
+                                                拥有高雅、豪华的中式宴会大厅，以及29间宽阔、雅致的包间，可同时容纳700人就餐。以湘菜为主，粤菜为辅，兼营鄂菜，特别值得一提的是，湘菜集京、粤、川各大菜系之文化精髓，结合湖南之饮食文化理念，形成湘鄂情特色的湘菜风味
+                                            </div>
+                                            <div class="img-box">
+                                                <img src="../../images/product_img01.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table id="logTable"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script>
+            layui.use(['table', 'element', 'layer', 'jquery'], function () {
+                var table = layui.table;
+                var element = layui.element;
+                table.render({
+                    elem: '#logTable'
+                    , data: [{
+                        type: '创建申请',
+                        content: '提交审核',
+                        name: '13107221223',
+                        time: '2017-02-18 15:00:00',
+                    }
+                    ]
+                    , cols: [[
+                        { field: 'type', title: '操作类型' },
+                        { field: 'content', title: '操作内容' },
+                        { field: 'name', title: '操作人' },
+                        { field: 'time', title: '操作时间' }
+                    ]]
+                });
+
+            });
+
+        </script>
+
+
+</body></html>

@@ -1,0 +1,129 @@
+﻿@{
+    Layout = null;
+    var addressList = ViewBag.AddressList as List<AddressDto>;
+    var provinceId = "";
+    var cityId = "";
+    var districtId = "";
+    if (addressList != null && addressList.Any())
+    {
+        provinceId = addressList.FirstOrDefault(t => t.Classify == 3)?.Id.ToString();
+        cityId = addressList.FirstOrDefault(t => t.Classify == 4)?.Id.ToString();
+        districtId = addressList.FirstOrDefault(t => t.Classify == 5)?.Id.ToString();
+    }
+}
+<script src="~/Content/website/js/jquery-1.10.2.min.js"></script>
+<div class="layui-input-inline">
+    <select id="select_Province" lay-filter="select_Province">
+        <option value="0">请选择</option>
+    </select>
+</div>
+<div class="layui-input-inline">
+    <select id="select_City" lay-filter="select_City">
+        <option value="0">请选择</option>
+    </select>
+</div>
+<div class="layui-input-inline">
+    <select id="select_District">
+        <option value="0">请选择</option>
+    </select>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        $.ajax({
+            url: '/Address/GetChinaAllProvince',
+            type: 'get',
+            success: function (data) {
+                if (data.IsSuccess) {
+                    for (var i = 0; i < data.Data.length; i++) {
+                        $("#select_Province").append("<option value='" + data.Data[i].Id + "'>" + data.Data[i].ChinaName + "</option>");
+                    }
+                    if ("@provinceId" != "") {
+                        $("#select_Province").val("@provinceId");
+                        LoadAddressByParentId($("#select_Province"), 1);
+                    }
+                    layui.form.render('select');
+                }
+                else {
+                    alert(data.Info);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseJSON.Info);
+            }
+        });
+    });
+    function LoadAddressByParentId(obj, classify) {
+        var id = $(obj).val();
+        var sid = "";
+        if (id == '0') {
+            if (classify == 1) {
+                sid = "select_City";
+                $("#" + sid).find("option").remove();
+                $("#" + sid).find("option").remove();
+                $("#" + sid).append('<option value="0">请选择</option>');
+                $("#select_District").find("option").remove();
+                $("#select_District").append('<option value="0">请选择</option>');
+            }
+            else if (classify == 2) {
+                sid = "select_District";
+                $("#" + sid).find("option").remove();
+                $("#" + sid).append('<option value="0">请选择</option>');
+            }
+        }
+        else {
+            $.ajax({
+                url: '/Address/GetAddressByParentId?id=' + id,
+                type: 'get',
+                success: function (data) {
+                    if (data.IsSuccess) {
+                        if (classify == 1) {
+                            sid = "select_City";
+                            $("#" + sid).find("option").remove();
+                            $("#" + sid).find("option").remove();
+                            $("#" + sid).append('<option value="0">请选择</option>');
+                            $("#select_District").find("option").remove();
+                            $("#select_District").append('<option value="0">请选择</option>');
+                            for (var i = 0; i < data.Data.length; i++) {
+                                $("#" + sid).append("<option value='" + data.Data[i].Id + "'>" + data.Data[i].ChinaName + "</option>");
+                            }
+                            if ("@cityId" != "") {
+                                $("#select_City").val("@cityId");
+                                LoadAddressByParentId($("#select_City"), 2);
+                            }
+                        }
+                        else if (classify == 2) {
+                            sid = "select_District";
+                            $("#" + sid).find("option").remove();
+                            $("#" + sid).append('<option value="0">请选择</option>');
+                            for (var i = 0; i < data.Data.length; i++) {
+                                $("#" + sid).append("<option value='" + data.Data[i].Id + "'>" + data.Data[i].ChinaName + "</option>");
+                            }
+                            if ("@districtId" != "") {
+                                $("#select_District").val("@districtId");
+                            }
+                        }
+                        layui.form.render('select');
+                    }
+                    else {
+                        alert(data.Info);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseJSON.Info);
+                }
+            });
+        }
+    }
+
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('select(select_Province)', function (data) {
+            LoadAddressByParentId(data.elem, 1)
+        });
+        form.on('select(select_City)', function (data) {
+            LoadAddressByParentId(data.elem, 2)
+        });
+    })
+</script>

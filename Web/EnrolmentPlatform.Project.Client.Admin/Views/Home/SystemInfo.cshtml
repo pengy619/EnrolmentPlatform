@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "系统消息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var messageStatus = ViewBag.MessageStatus as List<KeyValuePair<int, string>>;
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item clear-margin">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="messageStatus" lay-filter="messageStatus" value="0" title="全部" checked>
+                        @foreach (var item in messageStatus)
+                        {
+                            <input type="radio" name="messageStatus" lay-filter="messageStatus" value="@(item.Key)" title="@(item.Value)">
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-primary" data-type="onRead">标记已读</button>
+            <table id="message-table" lay-filter="messagetable"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table','form'], function () {
+        var table = layui.table;
+        //实例表格
+        var tableOptions = {
+            elem: '#message-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("SystemMessageList", "Home", new { area = "" })'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'StatusStr', title: '状态', width: 120 }
+                , { field: 'BusinessName', title: '业务类型', width: 180 }
+                , { field: 'Title', title: '通知消息' }
+                , { field: 'CreatorAccount', title: '发送人', width: 180, sort: true }
+                , { field: 'CreatorTime', title: '发送时间', width: 180, sort: true }
+            ]]
+        }
+        table.render(tableOptions);
+        var $ = layui.$, active = {
+            onRead: function () {
+                var checkStatus = table.checkStatus('message-table'),
+                    data = checkStatus.data;
+                if (data.length == 0) return false;
+
+                var messageIds = [];
+                for (var i = 0; i < data.length; i++) { 
+                    if (data[i].Status == "@((int)EnrolmentPlatform.Project.DTO.Enums.MessageStatusEnum.UnRead)") { 
+                        messageIds.push(data[i].Id);
+                    }
+                }
+                if (messageIds != null && messageIds.length > 0) {
+                    var ajaxOption = {
+                        url: "@Url.Action("MessageOnRead", "Home", new { area = "" })",
+                        type: 'Post',
+                        dataType: 'json',
+                        data: { messageIds: messageIds },
+                        success: function (result) {
+                            if (result.Status) {
+                                table.reload('message-table');
+                            }
+                            else {
+                                layer.msg(result.Message);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    };
+                    $.ajax(ajaxOption);
+                } else {
+                    layer.msg("没有选择未读信息！");
+                }
+            }
+        };
+
+        var form = layui.form;
+        form.on('radio(messageStatus)', function (data) {
+            table.reload('message-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    Status: data.value
+                }
+            });
+        });
+
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    })
+
+</script>

@@ -1,0 +1,186 @@
+﻿@using EnrolmentPlatform.Project.DTO.Enums.Finance;
+@using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
+@model  EnrolmentPlatform.Project.DTO.Finance.BankCardDto
+
+@{
+    ViewBag.Title = "银行卡添加";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = EnumDescriptionHelper.GetItemValueList<BankNameEnum, int>(true);
+    var selectList = new List<SelectListItem>() { new SelectListItem { Value = "", Text = "" } };
+    foreach (var m in list)
+    {
+        var selectListItem = new SelectListItem();
+        selectListItem.Value = m.Key.ToString();
+        selectListItem.Text = m.Value;
+        selectList.Add(selectListItem);
+    }
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-body">
+            <form action="" class="layui-form addcard-style" lay-filter="cardForm">
+                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                <input type="hidden" name="SubBankAddress" value="中信银行长沙分行" />
+                <input type="hidden" name="AddressId"value="" />
+                <div class="layui-form-item">
+                    <label class="layui-form-label">账户类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="CardClassify" value="@((int)BankCardTypeEnum.Enterprise)" title="@EnumDescriptionHelper.GetDescription(BankCardTypeEnum.Enterprise)" checked lay-filter="type">
+                        <input type="radio" name="CardClassify" value="@((int)BankCardTypeEnum.Person)" title="@EnumDescriptionHelper.GetDescription(BankCardTypeEnum.Person)" lay-filter="type">
+                    </div>
+                </div>
+                <div class="company">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label lblCardName">法人名称</label>
+                        <div class="layui-input-inline inp-width">
+                            <input type="text" name="CardName" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" value="@Model.CardName">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label lblIDNumber">组织机构代码</label>
+                        <div class="layui-input-inline inp-width">
+                            <input type="text" name="IDNumber" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" value="@Model.IDNumber">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">银行卡号</label>
+                    <div class="layui-input-inline inp-width">
+                        <input type="text" name="CardNumber" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" value="@Model.CardNumber">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开户银行</label>
+                    <div class="layui-input-inline inp-width">
+                        @Html.DropDownList("Bank", selectList, new { @lay_verify = "required" })
+                    </div>
+                </div>
+                <!-- 省市区 TODO-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开户分行</label>
+                    @Html.Action("Index", "Address", new { area = "" })
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline inp-width">
+                        <input type="text" name="SubBankAddress" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机号码</label>
+                    <div class="layui-input-inline inp-width">
+                        <input type="text" id="Phone" name="Phone" lay-verify="required|phone" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">验证码</label>
+                        <div class="layui-input-inline" style="width:250px;">
+                            <input type="text" name="VerificationCode" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-warm" id="btnSendCode" type="button">获取验证码</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left:142px;">
+                        <button type="button" class="layui-btn layui-btn-warm" lay-submit="" lay-filter="btnConfirm">确定</button>
+                        <button type="button" class="layui-btn layui-btn-primary" id="btnCancel">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+    //验证码计时器
+    var timer = null;
+    function verifyCodeTimer() {
+        var sconed = parseInt($("#btnSendCode").attr("tip"));
+        if (sconed == 1) {
+            $("#btnSendCode").text("获取验证码").removeClass("layui-disabled").attr("tip", "0").removeAttr("disabled");
+            window.clearInterval(timer);
+        }
+        else {
+            sconed = sconed - 1;
+            $("#btnSendCode").text(sconed + "秒重发").attr("tip", sconed);
+        }
+    }
+        layui.use(['form', 'jquery'], function () {
+            var form = layui.form;
+            var $ = layui.jquery;
+            form.on('radio(type)', function (data) {
+                if (data.value == 1) {
+                    $('.lblCardName').html("账户名称");
+                    $('.lblIDNumber').html('身份证号码');
+                } else if (data.value == 0) {
+                    $('.lblCardName').html("法人姓名");
+                    $('.lblIDNumber').html('组织机构代码');
+                };
+            });
+            //提交事件
+            form.on("submit(btnConfirm)", function (data) {
+                var addressId = $("#select_District").val();
+                if (addressId == "0") {
+                    layer.msg("请选择开户地址");
+                    return false;
+                }
+                data.field.AddressId = addressId;
+                $.ajax({
+                    url: "@Url.Action("Option", "BankCard")",
+                    type: "post",
+                    data: data.field,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.IsSuccess) {
+                            layer.msg("操作成功", {
+                                icon: 1
+                                , time: 2000
+                            },function () {
+                                location.href = "@Url.Action("Index", "BankCard")";
+                            }
+                            );
+                        } else {
+                            layer.msg(res.Info, {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                    }
+                });
+            });
+            //取消事件
+            $("#btnCancel").on("click", function () {
+                location.href = "@Url.Action("Index", "BankCard")";
+            });
+
+                    //发送验证码
+            $("#btnSendCode").on('click', function (data) {
+                var phone = $("#Phone").val();
+                if (phone == "" || !(/^1[3|4|5|7|8][0-9]{9}$/.test(phone))) {
+                    layer.msg("手机号码不正确或为空")
+                    return; 
+                }
+                //var sendBtn = data.elem;
+                $(this).text("60秒重发").addClass("layui-disabled").attr("tip", "60").prop("disabled", true);
+                timer = window.setInterval("verifyCodeTimer();", 999);
+
+                var ret;
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    data: { phone: phone},
+                    url: '@Url.Action("SendVeriyCode", "BankCard")',
+                    success: function (result) {
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+}

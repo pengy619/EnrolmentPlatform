@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "餐饮订单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <form id="form1" method="post">
+                <div class="layui-form">
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block">
+                            <input type="radio" id="OrderStatus" name="OrderStatus" lay-filter="Search" value="-1" title="全部" checked>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<OrderStatusForCateringEnum, int>())
+                            {
+                                <input type="radio" name="OrderStatus" value="@item.Key" lay-filter="Search" title="@item.Value">
+                            }
+                        </div>
+                    </div>
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">产品信息</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ProductName" autocomplete="off" class="layui-input">
+                        </div>
+                        <button class="layui-btn layui-btn-warm" type="button" id="btnSearch" data-type="reload">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" data-type="ToExcel">导出</button>
+            <table id="catering-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<div id="audit-btn-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单金额</label>
+            <div class="layui-form-mid" id="div_ActualAmount"></div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">处理结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="modal_IsAgree" value="true" title="同意" lay-filter="modal_IsAgree" checked>
+                <input type="radio" name="modal_IsAgree" value="false" title="拒绝" lay-filter="modal_IsAgree">
+            </div>
+        </div>
+        <div class="layui-form-item" id="div_RefundAmount">
+            <label class="layui-form-label">实际退款金额</label>
+            <div class="layui-input-inline flex">
+                <span class="pro-color">￥</span>
+                <input type="text" name="price" id="modal_RefundAmount" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" id="modal3_Remark" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
+    {{#  if(d.OrderStatus ==@((int)OrderStatusForCateringEnum.Refunding)&&d.CancelForSystem =='@((int)CancelForSystemEnum.Supplier)'){ }}
+    <button class="layui-btn layui-btn-default layui-btn-sm layui-btn-xs" lay-event="audit">处理退款</button>
+    {{#  } }}
+</script>
+<script>
+    layui.use(['jquery', 'table', 'layer', "form"], function () {
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var $ = layui.$;
+        var data = []
+        //实例表格
+        var tableOptions = {
+            elem: '#catering-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("Search", "Catering")'
+            , method: 'post'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'OrderNo', title: '订单编号' }
+                , { field: 'CreatorTime', title: '日期', templet: function (d) { return d.CreatorTime.substring(0, 10) } }
+                , { field: 'ProductName', title: '套餐名称', minWidth: 300 }
+                , { field: 'TotalQuantity', title: '数量' }
+                , { field: 'ActualAmount', title: '金额', templet: function (d) { return '¥' + d.ActualAmount.toFixed(2); } }
+                , { field: 'OrderStatusCH', title: '状态', sort: true }
+                , { title: '操作', toolbar: '#tableTool', minWidth: 100 }
+            ]],
+            where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), ProductName: $("input[name='ProductName']").val() }
+        }
+        table.render(tableOptions)
+        active = {
+            reload: function () {
+                //执行重载
+                table.reload('catering-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    loading: true,
+                    where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), ProductName: $("input[name='ProductName']").val() }
+                });
+            },
+            ToExcel: function () {
+                $("#form1").attr("action", "/Order/Catering/ExportToExcel");
+                $("#form1").submit();
+            },
+        };
+        function layerOpen() {
+            layer.open({
+                type: 1,
+                title: '处理审核',
+                btn: ['确定', '取消'],
+                area: ['500px', '300px'], //宽高
+                content: $('#audit-btn-modal'),
+                yes: function () {
+                    return false
+                },
+                btn2: function () {
+
+                }
+            });
+        }
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'audit') {
+                $("#div_ActualAmount").html("¥" + data["PaidAmount"]);
+                layer.open({
+                    type: 1,
+                    title: '处理审核',
+                    btn: ['确定', '取消'],
+                    area: ['600px', '400px'], //宽高
+                    content: $('#audit-btn-modal'),
+                    yes: function () {
+                        return ScenicHandleRefund(data["OrderId"]);
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+            else if (layEvent == 'detail') {
+                location.href = "@Url.Action("Detail","Catering",new { area="Order"})" + "/" + data["OrderId"];
+
+            }
+        });
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //点击事件
+        form.on("radio(Search)", function (data) {
+            $("#btnSearch").click();
+        });
+
+    });
+    var _IsSubmit = false;
+    //处理退款
+    function ScenicHandleRefund(id) {
+        var bool = false;
+        var orderId = id;
+        var isAgree = $("input[name='modal_IsAgree']:checked").val();
+        var refundAmount = $("#modal_RefundAmount").val();
+        var remark = $("#modal_Remark").val();
+        var regex = /^\d{1,16}(\.\d{1,2})?$/;
+        if (isAgree=="true") {
+            if (refundAmount == '') {
+                layer.msg('请输入退款金额', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (!regex.test(refundAmount)) {
+                layer.msg('金额格式不正确', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+        }
+        else {
+            refundAmount = 0;
+        }
+        if (!_IsSubmit)
+        {
+            $.ajax({
+                    url: "@Url.Action("ScenicHandleRefund", "Catering")",
+                    type: "post",
+                    data: { OrderId: orderId, IsAgree: isAgree, RefundAmount: refundAmount , Remark: remark},
+                    beforeSend: function () {
+                        _IsSubmit = true;
+                    },
+                    success: function (res) {
+                        bool = res.IsSuccess;
+                        if (res.IsSuccess) {
+                            layer.msg("操作成功", {
+                                        icon: 1
+                                        , time: 2000
+                            }, function () {
+                                layer.closeAll();
+                                $("#btnSearch").click();
+                                });
+
+                        }
+                        else {
+                            layer.msg(res.Info, {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                        _IsSubmit = false;
+                    }
+            });
+            return bool;
+        }
+    }
+</script>

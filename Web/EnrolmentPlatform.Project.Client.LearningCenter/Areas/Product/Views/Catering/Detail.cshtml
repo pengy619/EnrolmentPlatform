@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "套餐详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal totalPrice = 0;
+}
+@model ProductForCateringPackageAllDto
+
+<div class="main-wrap catering-style">
+    <div class="panel">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>套餐详细</li>
+                <li>操作日志</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="panel">
+                        <div class="panel-title">
+                            产品状态
+                        </div>
+                        <div class="panel-body info-cell">
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">当前状态</label>
+                                    <div class="text">@(Model.ProductForCateringPackageDataDto.StatusStr)</div>
+                                </div>
+                                <div class="item">
+                                    <label class="label"></label>
+                                    <div class="text"></div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">店铺名称</label>
+                                    <div class="text">@(Model.ProductForCateringPackageDataDto.ShopName)</div>
+                                </div>
+                                <div class="item">
+                                    <label class="label">创建时间</label>
+                                    <div class="text pro-color">@(Model.ProductForCateringPackageDataDto.CreatorTime)</div>
+                                </div>
+                            </div>
+                            @if (Model != null && (Model.ProductForCateringPackageDataDto.Status.Equals((int)ProductStatusEnum.OnSale) || Model.ProductForCateringPackageDataDto.Status.Equals((int)ProductStatusEnum.CheckNo)))
+                            {
+                                <div class="row row-3">
+                                    <div class="item">
+                                        <label class="label">审核时间</label>
+                                        <div class="text">@((Model != null && !Model.ProductForCateringPackageDataDto.ApplyOnSaleTime.Equals(DateTime.MinValue) && !Model.ProductForCateringPackageDataDto.ApplyOnSaleTime.Equals(DateTime.MaxValue)) ? Model.ProductForCateringPackageDataDto.ApplyOnSaleTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</div>
+                                    </div>
+                                    <div class="item">
+                                        <label class="label">审核结果说明</label>
+                                        <div class="text">@(Model != null ? Model.ProductForCateringPackageDataDto.Reason : "")</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">基本信息</div>
+                        <div class="panel-body info-cell width-95">
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        <span class="pro-color">*</span>套餐名称
+                                    </label>
+                                    <div class="text">@(Model.ProductForCateringPackageDataDto.ProductName)</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">套餐描述</label>
+                                    <div class="text">@(Model.ProductForCateringPackageDataDto.Description)</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        <span class="pro-color">*</span>用餐人数
+                                    </label>
+                                    <div class="text">@(EnumDescriptionHelper.GetDescription((UsePeopleEnum)Model.ProductForCateringPackageDataDto.UsePeople))</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        <span class="pro-color">*</span>门店价
+                                    </label>
+                                    <div class="text">￥@(Model.ProductForCateringPackageDataDto.MinMarkPrice)</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        <span class="pro-color">*</span>销售价
+                                    </label>
+                                    <div class="text">
+                                        ￥@(Model.ProductForCateringPackageDataDto.MinDistributionPrice)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        <span class="pro-color">*</span>需要预约
+                                    </label>
+                                    <div class="text">@(Model.ProductForCateringPackageDataDto.IsSubscribe ? "需要" : "不需要")</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        <span class="pro-color">*</span>退款规则
+                                    </label>
+                                    <div class="text">@(EnumDescriptionHelper.GetDescription((RefundRuleEnum)Model.ProductForCateringPackageDataDto.RefundRule))</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">购买须知</div>
+                        <div class="panel-body info-cell width-95">
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        有效期
+                                    </label>
+                                    <div class="text">@(Model.ProductForCateringPackageDataDto.StartExpiryDate.ToString("yyyy.MM.dd")) 至 @(Model.ProductForCateringPackageDataDto.EndExpiryDate.ToString("yyyy.MM.dd"))</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        使用时间
+                                    </label>
+                                    <div class="text">@(Model.ProductForCateringPackageDataDto.UseTime)</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">
+                                        使用规则
+                                    </label>
+                                    <div class="text">
+                                        @(Html.Raw(Model.ProductForCateringPackageDataDto.UseRule))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="panel">
+                        <div class="panel-title">套餐内容</div>
+                        <div class="panel-body">
+                            <table class="layui-table">
+                                <thead>
+                                    <tr>
+                                        <th>项目</th>
+                                        <th>菜单名称</th>
+                                        <th>数量</th>
+                                        <th>单价</th>
+                                        <th>小计</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.ProductForCateringPackageDetailDataDto.ProductForCateringPackageProjectDto != null && Model.ProductForCateringPackageDetailDataDto.ProductForCateringPackageProjectDto.Any())
+                                    {
+                                        foreach (var item in Model.ProductForCateringPackageDetailDataDto.ProductForCateringPackageProjectDto)
+                                        {
+                                            int i = 0;
+                                            string rows = item.ProductForCateringPackageProjectConDto != null && item.ProductForCateringPackageProjectConDto.Any() && item.ProductForCateringPackageProjectConDto.Count > 1 ? ("rowspan=" + item.ProductForCateringPackageProjectConDto.Count + "") : "";
+                                            if (item.ProductForCateringPackageProjectConDto != null && item.ProductForCateringPackageProjectConDto.Any())
+                                            {
+                                                foreach (var item1 in item.ProductForCateringPackageProjectConDto)
+                                                {
+                                                    totalPrice += item1.SubTotalPrice;
+                                                    <tr>
+                                                        @if (i == 0)
+                                                        {
+                                                            <td @(rows)>@(item.PeojectName)</td>
+                                                            i++;
+                                                        }
+                                                        <td>@(item1.FoodName)</td>
+                                                        <td>@(item1.Quantity)</td>
+                                                        <td>@(item1.Price)</td>
+                                                        <td>@(item1.SubTotalPrice)</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="allPrice">
+                                <p>
+                                    价值：
+                                    <span class="pro-color">￥@(totalPrice)</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">
+                            详细信息
+                        </div>
+                        <div class="panel-body padding-20">
+                            @(Html.Raw(Model.ProductForCateringPackageDetailDataDto.PackageDetailInfo))
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    @Html.Partial("~/Views/Shared/_logSettingForTable.cshtml", Model.ProductForCateringPackageDataDto.ProductId)
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

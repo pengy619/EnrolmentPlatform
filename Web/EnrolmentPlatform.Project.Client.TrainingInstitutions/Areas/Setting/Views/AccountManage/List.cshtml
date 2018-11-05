@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "子帐号列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<RoleDto> list = ViewBag.RoleList;
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" id="UserStatus" name="UserStatus" value="" title="全部" checked>
+                        @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.StatusBaseEnum, int>())
+                        {
+                            <input type="radio" name="UserStatus" value="@item.Key" title="@item.Value">
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item flex">
+                    <label class="layui-form-label">所属角色</label>
+                    <div class="layui-input-inline">
+                        <select id="sltRole" name="sltRole">
+                            <option value="">全部</option>
+                            @foreach (var item in list)
+                            {
+                                <option value="@item.RoleId">@item.RoleName</option>
+                            }
+                        </select>
+
+                    </div>
+                    <label class="layui-form-label" style="width:auto">姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="txtUserName" class="layui-input">
+                    </div>
+                    <label class="layui-form-label" style="width:auto">登陆账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="txtUserAccount" class="layui-input">
+                    </div>
+                    <button class="layui-btn " lay-submit="" lay-filter="s">查询</button>
+                </div>
+
+            </div>
+            <a href="@Url.Action("Option","AccountManage",new { area="Setting",parentId=6 })" class="layui-btn layui-btn-warm">创建子帐号</a>
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="d">删除</button>
+        </div>
+        <div class="panel-body">
+            <table id="account-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","AccountManage",new {Area="Setting"}))?userId={{d.UserId}}' lay-event="edit">编辑</a>
+</script>
+<script>
+    layui.use(['jquery', 'table', 'layer'], function () {
+        var table = layui.table, form = layui.form;
+        //实例表格
+        var tableOptions = {
+            elem: '#account-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("Search", "AccountManage")'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', field: 'UserId' }
+                , { field: 'UserName', title: '姓名' }
+                , { field: 'UserAccount', title: '登录账号' }
+                , { field: 'RoleName', title: '所属角色' }
+                , { field: 'IsMasterStr', title: '账号类型' }
+                , { field: 'StatusName', title: '状态', width: 200 }
+                , { title: '操作', toolbar: '#tableTool', width: 200 }
+            ]]
+        }
+        table.render(tableOptions)
+
+        //删除
+        form.on('submit(d)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('account-table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要删除的子帐号。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //删除确认
+            layer.confirm('确认删除？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                //删除处理
+                var userIds = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    userIds[i] = checkdata[i].UserId;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(userIds),
+                    url: '@Url.Action("DeleteUser", "AccountManage")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('删除成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("account-table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+
+                layer.close(index);
+            });
+        });
+
+        //查询
+        form.on('submit(s)', function (data) {
+            //执行重载
+            table.reload('account-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    UserName: $("#txtUserName").val(),
+                    UserAccount: $("#txtUserAccount").val(),
+                    RoleId: $("#sltRole").val(),
+                    Status: $("input[name='UserStatus']:checked").val()
+                }
+            });
+        });
+    })
+</script> 

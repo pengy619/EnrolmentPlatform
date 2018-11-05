@@ -1,0 +1,242 @@
+﻿@{
+    ViewBag.Title = "店铺管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    EnrolmentPlatform.Project.DTO.Product.ShopDto dto = ViewBag.Shop;
+    //openDay
+    var openDayStr = "";
+    if (dto != null)
+    {
+        if (dto.OpenDay.Length == 7)
+        {
+            openDayStr = "周一至周日";
+        }
+        else
+        {
+            foreach (var item in dto.OpenDay)
+            {
+                if (item == '1')
+                {
+                    openDayStr += "周一";
+                }
+                else if (item == '2')
+                {
+                    openDayStr += "周二";
+                }
+                else if (item == '3')
+                {
+                    openDayStr += "周三";
+                }
+                else if (item == '4')
+                {
+                    openDayStr += "周四";
+                }
+                else if (item == '5')
+                {
+                    openDayStr += "周五";
+                }
+                else if (item == '6')
+                {
+                    openDayStr += "周六";
+                }
+                else if (item == '7')
+                {
+                    openDayStr += "周日";
+                }
+            }
+        }
+    }
+
+    var openTime = "";
+    if (dto != null)
+    {
+        if (dto.OpenTime == "0")
+        {
+            openTime = "24小时营业";
+        }
+        else
+        {
+            openTime = dto.OpenTime + "-" + dto.CloseTime;
+        }
+    }
+}
+<div class="main-wrap store-list-styel">
+    <div class="panel">
+        @*<div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="1" title="全部" checked>
+                        <input type="radio" name="status" value="2" title="待审核">
+                        <input type="radio" name="status" value="3" title="已开业">
+                        <input type="radio" name="status" value="4" title="已停业">
+                        <input type="radio" name="status" value="5" title="审核拒绝">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">店铺名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" autocomplete="off" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm">查询</button>
+                </div>
+            </div>
+        </div>*@
+        <div class="panel-body">
+            @if (dto == null)
+            {
+            <a class="layui-btn layui-btn-warm layui-btn-sm" href="@Url.Action("Option", "Shop", new { area = "Product" })">创建店铺</a>
+            }
+            else
+            {
+            <span>（只支持创建一家店铺）</span>
+            <div class="list-box">
+                <div class="list-item">
+                    <div class="img-box">
+                        <img height="160px" src="@dto.FileList.Where(a=>a.IsCover).First().FileName" alt="">
+                    </div>
+                    <div class="text-box">
+                        <div class="title">
+                            <h3>@dto.ShopName</h3>
+                            <button class="layui-btn layui-btn-warm layui-btn-sm">@EnumDescriptionHelper.GetDescription(dto.Status)</button>
+                        </div>
+                        <div class="p-box">
+                            <p>地址:@dto.FullAddressName</p>
+                            <p>电话：@dto.Tel1 @dto.Tel2</p>
+                            <p>营业时间：@openDayStr @openTime</p>
+                        </div>
+                        <div class="btn-box">
+                            <a class="layui-btn  layui-btn-sm" href="@Url.Action("Detail", "Shop", new { area = "Product",shopId=dto.Id.Value })">详情</a>
+                            <a class="layui-btn  layui-btn-sm" href="@Url.Action("Option", "Shop", new { area = "Product",shopId=dto.Id.Value })">编辑</a>
+                            @if (dto.Status == StatusForShopEnum.Enable)
+                            {
+                                <button class="layui-btn  layui-btn-sm" type="button" onclick="javascript:unemployedList('@dto.Id.Value')">停业</button>
+                            }
+                            @if (dto.Status == StatusForShopEnum.DisEnable)
+                            {
+                                <button class="layui-btn  layui-btn-sm" type="button" onclick="javascript:openingList('@dto.Id.Value')">开业</button>
+                            }
+                            @if (dto.Status == StatusForShopEnum.Init || dto.Status == StatusForShopEnum.Checking
+                                || dto.Status == StatusForShopEnum.CheckNo)
+                            {
+                                <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="javascript:deleteInfo('@dto.Id.Value')">删除</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var form,layer;
+    layui.use(['laydate', 'layer', 'form'], function () {
+        layer = layui.layer,form = layui.form;
+    });
+
+    //删除
+    function deleteInfo(id) {
+        //删除确认
+        layer.confirm('确认删除？', {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            var arr = new Array(1);
+            arr[0] = id;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(arr),
+                url: '@Url.Action("DeleteShopList", "Shop")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('删除成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Shop")';
+                        });
+                    }
+                    else {
+                        layer.msg("删除失败", {
+                            icon: 1,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    //停业
+    function unemployedList(id) {
+        //删除确认
+        layer.confirm('确认停业吗？', {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            var arr = new Array(1);
+            arr[0] = id;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(arr),
+                url: '@Url.Action("UnemployedList", "Shop")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('设置成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Shop")';
+                        });
+                    }
+                    else {
+                        layer.msg("设置失败", {
+                            icon: 1,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    //开业
+    function openingList(id) {
+        //删除确认
+        layer.confirm('确认开业吗？', {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            var arr = new Array(1);
+            arr[0] = id;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(arr),
+                url: '@Url.Action("OpeningList", "Shop")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('设置成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Shop")';
+                        });
+                    }
+                    else {
+                        layer.msg("设置失败", {
+                            icon: 1,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+        });
+    }
+</script>

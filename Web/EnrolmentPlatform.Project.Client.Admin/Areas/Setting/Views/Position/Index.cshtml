@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "职位列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" id="table-add">添加</button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" lay-submit="" lay-filter="d">删除</button>
+            <table id="table" lay-filter="jobTable"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> 
+</script>
+<script>
+    layui.use(['jquery', 'table'], function () {
+        var table = layui.table, layer = layui.layer, form = layui.form;
+        var $ = layui.$;
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("Search", "Position")'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', field: 'JobId', width: "5%" }
+                , { field: 'JobName', title: '岗位名称', width: "84.98%" }
+                , { title: '操作', toolbar: '#tableTool', width: "10%" }
+            ]]
+        }
+        table.render(tableOptions)
+
+        //添加
+        $('#table-add').click(function () {
+            layer.prompt({ title: '请输入岗位名称' }, function (value, index, elem) {
+                var dto = {};
+                dto.JobName = value;
+                saveData(dto,table);
+                layer.close(index);
+            });
+        });
+
+        table.on('tool(jobTable)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            //编辑
+            if (layEvent === 'edit') {
+                layer.prompt({ title: '请输入岗位名称', value: data.JobName}, function (value, index, elem) {
+                    var dto = {};
+                    dto.JobId = data.JobId;
+                    dto.JobName = value;
+                    saveData(dto, table);
+                    layer.close(index);
+                });
+            }
+        });
+
+        //删除
+        form.on('submit(d)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要删除的岗位。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //删除确认
+            layer.confirm('确认删除？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                //删除处理
+                var arr = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    arr[i] = checkdata[i].JobId;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("DeletePosition", "Position")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('删除成功。', {
+                                icon: 1,
+                                time: 1500
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 1500
+                            });
+                        }
+                    }
+                });
+
+                layer.close(index);
+            });
+        });
+    });
+
+    function saveData(dto,table) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json;utf-8",
+            dataType: "json",
+            async: false,
+            data: JSON.stringify(dto),
+            url: '@Url.Action("SavePosition", "Position")',
+            success: function (result) {
+                if (result.ret == true) {
+                    layer.msg('保存成功。', {
+                        icon: 1,
+                        time: 1500
+                    }, function () {
+                        table.reload("table");
+                    });
+                }
+                else {
+                    layer.msg(result.msg, {
+                        icon: 2,
+                        time: 1500
+                    });
+                }
+            }
+        });
+    }
+</script>

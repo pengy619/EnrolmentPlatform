@@ -1,0 +1,102 @@
+﻿@using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
+@using EnrolmentPlatform.Project.DTO.Enums.Finance;
+
+@{
+    ViewBag.Title = "账户资产";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-body flex">
+            <div class="panel-body_left"></div>
+            <div class="panel-body_right">
+                <p>账户总额(元):</p>
+                <p>￥@ViewBag.AccountAssets.Assets</p>
+                <p>
+                    待结算金额：
+                    <span>￥@ViewBag.AccountAssets.PendingSettlePrice</span>
+                </p>
+                @*<a href="./finance-application.html">
+                        <button class="layui-btn layui-btn-warm">查看</button>
+                    </a>*@
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">
+            收支明细
+        </div>
+        <div class="panel-body">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="TransactionType" value="1" title="不限" checked>
+                        @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<TransactionTypeEnum, int>())
+                        {
+                            <input type="radio" name="TransactionType" value="@item.Key" title="@item.Value">
+                        }
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">交易时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input time-item" id="txtStartTime">
+                    </div>
+                    <span>至</span>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input time-item" id="txtEndTime">
+                    </div>
+                    <input type="button" name="btnSearch" id="btnSearch" class="layui-btn layui-btn-warm" value="查询" />
+                </div>
+            </div>
+            <table class="layui-hide" id="table" ></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table', 'laydate','form'], function () {
+        var table = layui.table;
+        var laydate = layui.laydate;
+        var form = layui.form;
+        lay('.time-item').each(function () {
+            laydate.render({
+                elem: this
+                , trigger: 'click'
+            });
+        });
+        table.render({
+            elem: '#table',
+            url: '@Url.Action("GetAccountDetailInfoList", "Payment")'//数据
+            , page: true
+            , cols: [[{ field: 'Amount', title: '金额', templet: function (d) { return '￥' + d.Amount.toFixed(2); }, style: 'color:#ff8903;',}
+                , { field: 'TransactionTypeName', title: '交易类型' }
+                , { field: 'TranscationNo', title: '流水单号' }
+                , { field: 'CreatorTime', title: '发生时间'}
+            ]]
+        });
+        //查询事件 
+        $("#btnSearch").click(function () {
+            if (!compareDate($("#txtStartTime").val(), $("#txtEndTime").val())) {
+                layer.msg("结束时间不能小于开始时间");
+                return;
+            }
+            table.reload('table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    TransactionType: $("input[name=TransactionType]:checked").val(),
+                    StartTime: $("#txtStartTime").val(),
+                    EndTime: $('#txtEndTime').val()
+                }
+            });
+        });
+
+        // radio 点击事件
+        form.on("radio", function (data) {
+            $("#btnSearch").click();
+        });
+    });
+</script>

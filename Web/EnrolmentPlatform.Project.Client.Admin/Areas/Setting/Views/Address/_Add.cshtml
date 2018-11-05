@@ -1,0 +1,119 @@
+﻿@{
+    Layout = null;
+}
+
+<form id="from_Add">
+
+    <div style="display:none">
+        <input type="hidden" name="ParentId" value="@ViewBag.ParentId">
+        <input type="hidden" name="ChinaRoute" value="@ViewBag.ChinaRoute">
+        <input type="hidden" name="PinyinRoute" value="@ViewBag.PinyinRoute">
+        <input type="hidden" name="Classify" value="@ViewBag.Classify">
+    </div>
+    <div class="panel-title" id="event_result0" style="margin-bottom:10px">
+
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">中文名称：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="ChinaName" id="txtName" value="" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">英文名称：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="EnglishName" id="txtArea" value="" />
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">类型：</label>
+        <div class="layui-input-inline">
+            <select  disabled="disabled" name="Level">
+                @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<E_AddressClassify, int>())
+                {
+                    if (item.Key.ToString().Equals((string)ViewBag.Classify.ToString()))
+                    {
+                        <option>@item.Value</option>
+                        break;
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">中文路径：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input"  disabled="disabled" value="@ViewBag.ChinaRoute">
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">拼音路径：</label>
+        <div class="layui-input-inline">
+            <input type="number" class="layui-input"  disabled="disabled" value="@ViewBag.PinyinRoute">
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">是否直辖市：</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="IsMunicipality" value="true" title="是">
+            <input type="radio" name="IsMunicipality" value="false" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">邮编：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="ZipCode" id="txtIcon" value="">
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">电话区号：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="AreaCode" id="txtIcon" value="">
+        </div>
+    </div>
+    
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use(['jquery', "form"], function () {
+        var form = layui.form;
+        form.render();
+        var $ = layui.$;
+         //提交
+        form.on('submit(save)', function (data) {
+                $.ajax({
+                    url: '/Setting/Address/AddAddress',
+                    type: 'post',
+                    data: $("#from_Add").serialize(),
+                    success: function (data) {
+                        if (data.IsSuccess) {
+                            layer.msg("保存成功", {
+                                icon: 1,
+                                time: 1200
+                            }, function () {
+                                
+                                $("#using_json0").jstree('refresh');
+                            });
+                        }
+                        else {
+                            layer.msg("保存失败", {
+                                icon: 2,
+                                time: 1200
+                            });
+                        }
+                        
+                    }
+                    
+                });
+            return false;
+
+        });
+    });
+ 
+</script>

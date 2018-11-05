@@ -1,0 +1,108 @@
+﻿@using EnrolmentPlatform.Project.DTO.Finance
+
+@{
+    ViewBag.Title = "提现操作";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input style="display:none" type="text" name="Amount" />
+<input style="display:none" type="password" name="Password" />
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-form-mid layui-word-aux">@ViewBag.SupplierBalance.Name</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">账户余额</label>
+                        <div class="layui-form-mid layui-word-aux pro-color">@ViewBag.SupplierBalance.Balance 元</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">提现至银行卡</label>
+                    <div class="layui-input-block">
+                        @foreach (var m in (List<BankCardListDto>)ViewBag.BankList)
+                        {
+                            <input type="radio" name="BankId" value="@m.Id" title="@string.Format("账户名：{0} 开户行：{1} 账户：{2}",m.CardName,m.Bank,m.CardNumber)">
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">提现金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Amount" name="Amount" lay-verify="required|number" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">元</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">提现密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="Password" name="Password" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" @(ViewBag.SupplierBalance.IsSetPassword ? "" : "readonly")>
+                    </div>
+                    @if (!ViewBag.SupplierBalance.IsSetPassword)
+                    {
+                        <div class="layui-form-mid layui-word-aux">
+                            如果您还没有设置提现密码，请先到【<a href="@Url.Action("Password","Withdraw")">提现密码设置</a>】设置提现密码才能提现。
+                        </div>
+                    }
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">提现说明</label>
+                    <div class="layui-form-mid layui-word-aux pro-color">亲爱的伙伴，您好！你的提现将于24小时内到账</div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="application" id="btnApplyCash" @(ViewBag.SupplierBalance.IsSetPassword ? "" : "disabled")>申请提现</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        layui.use(['jquery', 'form', 'layer'], function () {
+            var element = layui.form;
+            // 申请提现
+            element.on("submit(application)", function (data) {
+                var postData = {};
+                postData.Amount = $("#Amount").val();
+                postData.Password = $("#Password").val();
+                postData.BankId = $(":radio[name=BankId]:checked").val();
+                debugger;
+                if (postData.BankId == "" || postData.BankId == undefined) {
+                    layer.msg("请选择银行卡");
+                    return;
+                }
+                $.ajax({
+                    url: "@Url.Action("Option", "Withdraw")",
+                    type: "post",
+                    data: postData,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.IsSuccess) {
+                            layer.msg("操作成功", {
+                                icon: 1
+                                , time: 2000
+                            }, function () {
+                                location.href = "@Url.Action("Index", "Withdraw")";
+                            });
+                        } else {
+                            layer.msg(res.Info, {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+}

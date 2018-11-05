@@ -1,0 +1,74 @@
+﻿@model string
+@{
+    ViewBag.Title = "用户注册协议";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            用户注册协议
+        </div>
+        <div class="panel-body">
+            <div class="layui-form">
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">协议内容</label>
+                    <div class="layui-input-block" style="width:800px;">
+                        <textarea class="layui-textarea" name="content" id="content" style="display: none">
+                           @Html.Raw(Model)
+                        </textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" lay-submit="" lay-filter="submit">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Html.RenderTextAreaEditorScripts()
+    <script>
+        var isSubmit = true;
+        var editor;
+        $("#content").createEditor({ width: "100%", height: 300 }, function (e) {
+            editor = e;
+        });
+
+        layui.use(['jquery', 'form'], function () {
+            var $ = layui.$;
+            var form = layui.form;
+
+            form.on('submit(submit)', function (data) {
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("UserProtocol", "SettingBasic")",
+                        type: "post",
+                        data: JSON.stringify({ Content: editor.html() }),
+                        contentType: "application/json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 1000
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+}

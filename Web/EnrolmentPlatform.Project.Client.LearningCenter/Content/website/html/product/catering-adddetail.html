@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/account-info.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="./play-list.html">
+                            <i class="iconfont icon-youleyuan"></i>
+                            <span>游乐项目管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="product-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>农产品管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./tickets-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item active">
+                        <a href="./catering-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>餐饮管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./catering-setting.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>菜名设置</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./store-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>店铺管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>餐饮管理</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap catering-adddetail">
+                    <div class="panel">
+                        <div class="panel-title flex">
+                            <div>套餐内容
+                                <button class="layui-btn layui-btn-warm layui-btn-md" id="addProject">添加项目</button>
+                            </div>
+                            <span class="text-size-20">价值:
+                                <span class="pro-color">￥288</span>
+                            </span>
+                        </div>
+                        <div class="panel-body menu" id="menuView">
+                            <div class="menu-item">
+                                <div class="layui-form">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">项目</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="" class="layui-input height-30">
+                                        </div>
+                                        <button class="layui-btn layui-btn-warm layui-btn-sm add-menu">添加菜单</button>
+                                        <button class="layui-btn layui-btn-default layui-btn-sm">删除</button>
+                                    </div>
+                                </div>
+                                <table class="layui-table">
+                                    <thead>
+                                        <tr>
+                                            <th>菜单名称</th>
+                                            <th>数量</th>
+                                            <th>单价</th>
+                                            <th>小计</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead><tbody>
+                                            <tr>
+                                                <td>农家一碗香（辣椒）</td>
+                                                <td>
+                                                    <div class="ui-counter">
+                                                        <span class="reduce">-</span>
+                                                        <input type="text" value="1">
+                                                        <span class="add">+</span>
+                                                    </div>
+                                                </td>
+                                                <td>25</td>
+                                                <td>25</td>
+                                                <td>
+                                                    <button class="layui-btn layui-btn-default layui-btn-sm">删除</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">套餐详情</div>
+                        <div class="panel-body">
+                            <div class="layui-form-item layui-form-text">
+                                <div class="layui-input-block" style="width:800px;">
+                                    <textarea class="layui-textarea" id="LAY_demo1" style="display: none">  
+                                        把编辑器的初始内容放在这textarea即可
+                                     </textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn">提交</button>
+                                    <button class="layui-btn layui-btn-primary">保存草稿</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹出框 -->
+    <div id="add-spec-modal" style="display:none">
+        <div class="margin-10">已选择
+            <span class="pro-color" style="font-weight: 700">8</span>条记录</div>
+        <table id="menuTable"></table>
+    </div>
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script id="demo" type="text/html">
+        <div class="menu-item">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="" class="layui-input height-30">
+                        </div>
+                        <button class="layui-btn layui-btn-warm layui-btn-sm add-menu">添加菜单</button>
+                        <button class="layui-btn layui-btn-default layui-btn-sm">删除</button>
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th>菜单名称</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                            <th>小计</th>
+                            <th>操作</th>
+                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>农家一碗香（辣椒）</td>
+                                <td>
+                                    <div class="ui-counter">
+                                        <span class="reduce">-</span>
+                                        <input type="text" value="1" />
+                                        <span class="add">+</span>
+                                    </div>
+                                </td>
+                                <td>25</td>
+                                <td>25</td>
+                                <td>
+                                    <button class="layui-btn layui-btn-default layui-btn-sm">删除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </thead>
+                </table>
+            </div>
+    </script>
+        <script>
+            layui.use(['laytpl', 'table', 'jquery', 'layer', 'layedit'], function () {
+                var $ = layui.$;
+                var laytpl = layui.laytpl;
+                var layer = layui.layer;
+                var table = layui.table;
+                var layedit = layui.layedit;
+                var conten1 = layedit.build('LAY_demo1');
+                var getTpl = demo.innerHTML
+                    , view = $('#menuView');
+                $('#addProject').on('click', function () {
+                    view.append(getTpl)
+                });
+                var data = [{
+                    name: '青椒炒肉',
+                    price: '￥15',
+                }]
+                var tableOptions = {
+                    elem: '#menuTable'
+                    , skin: 'line'
+                    , limit: 5
+                    , data: data//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'name', title: '菜单名称', width: 280, }
+                        , { field: 'price', title: '单价', width: 265, }
+                    ]]
+                }
+                table.render(tableOptions)
+                $(document).on('click', '.add-menu', function () {
+                    layer.open({
+                        type: 1,
+                        title: '选择菜单',
+                        btn: ['确定', '取消'],
+                        area: ['600px'], //宽高
+                        content: $('#add-spec-modal'),
+                        yes: function () {
+                            return false
+                        },
+                        btn2: function () {
+
+                        }
+                    });
+                    return false
+                })
+            })
+        </script>
+
+
+</body></html>

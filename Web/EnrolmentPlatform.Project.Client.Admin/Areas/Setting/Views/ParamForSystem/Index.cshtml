@@ -1,0 +1,229 @@
+﻿
+@{
+    ViewBag.Title = "系统参数";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model SystemParameterDTO
+
+<form class="layui-form" action="">
+    <div class="main-wrap">
+        <div class="panel">
+            <div class="panel-title">
+                产品审核设置
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form">
+                        <div class="layui-form-item big-label">
+                            <label class="layui-form-label auto-width">自营供应商发布产品是否需要审核</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="IsNeedAdultBySelfSupplier"  value="1" @("1".Equals(Model.IsNeedAdultBySelfSupplier) ?"checked=''":"") title="需要" lay-verify="IsNeedAdultBySelfSupplier">
+                                <input type="radio" name="IsNeedAdultBySelfSupplier"  value="0" @("0".Equals(Model.IsNeedAdultBySelfSupplier) ?"checked=''":"") title="不需要" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">
+                订单取消设置
+            </div>
+            <div class="panel-body">
+
+                <div class="layui-form">
+                    <div class="layui-form-item big-label">
+                        <label class="layui-form-label">B2C农产品订单</label>
+                        <div class="layui-form-mid layui-word-aux">超过</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="B2CSpecialtyCancelTime" value="@Model.B2CSpecialtyCancelTime" lay-verify="B2CSpecialtyCancelTime" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">小时未支付，订单自动取消</div>
+                    </div>
+                </div>
+                <div class="layui-form">
+                    <div class="layui-form-item big-label">
+                        <label class="layui-form-label">B2C票务订单</label>
+                        <div class="layui-form-mid layui-word-aux">超过</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="B2CTicketCancelTime" value="@Model.B2CTicketCancelTime" lay-verify="B2CTicketCancelTime" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">小时未支付，订单自动取消</div>
+                    </div>
+                </div>
+                <div class="layui-form">
+                    <div class="layui-form-item big-label">
+                        <label class="layui-form-label">游客中心票务订单</label>
+                        <div class="layui-form-mid layui-word-aux">超过</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="TouristsCenterTicketCancelTime" value="@Model.TouristsCenterTicketCancelTime" lay-verify="TouristsCenterTicketCancelTime" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">小时未支付，订单自动取消</div>
+                    </div>
+                </div>
+                <div class="layui-form">
+                    <div class="layui-form-item big-label">
+                        <label class="layui-form-label">预售订单尾款支付</label>
+                        <div class="layui-form-mid layui-word-aux">超过</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="PayRetainageAutoCancel" value="@Model.PayRetainageAutoCancel" lay-verify="PayRetainageAutoCancel" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">小时未支付，订单自动取消</div>
+                    </div>
+                </div>
+                <div class="layui-form">
+                    <div class="layui-form-item big-label">
+                        <label class="layui-form-label">餐饮订单</label>
+                        <div class="layui-form-mid layui-word-aux">超过</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="CateringOrderAutoCancel" value="@Model.CateringOrderAutoCancel" lay-verify="CateringOrderAutoCancel" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">小时未支付，订单自动取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">
+                收货设置
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form">
+                        <div class="layui-form-item big-label">
+                            <label class="layui-form-label auto-width">农产品自动收货设置</label>
+                            <div class="layui-form-mid layui-word-aux">发货后</div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="SpecialtyAutoReceiptTime" value="@Model.SpecialtyAutoReceiptTime" lay-verify="SpecialtyAutoReceiptTime" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">天，订单自动完成收货</div>
+                        </div>
+
+                    </div>
+                    <div class="layui-form">
+                        <div class="layui-form-item big-label">
+                            <label class="layui-form-label auto-width">票务自动完成设置</label>
+                            <div class="layui-form-mid layui-word-aux">游玩时间</div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="TikcetAutoComplete" value="@Model.TikcetAutoComplete" lay-verify="TikcetAutoComplete" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">天，订单自动完成</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-body">
+                <button class="layui-btn" lay-submit="" lay-filter="submit">保存设置</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    var regex = /^[0-9]+([.]{1}[0-9]{1})?$/;
+    layui.use(['form', 'layedit'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+        //自定义验证规则
+        form.verify({
+            IsNeedAdultBySelfSupplier: function (value) {
+                if ($("input[name='IsNeedAdultBySelfSupplier']:checked").val() == undefined) {
+                    return '请选择';
+                }
+            },
+            B2CSpecialtyCancelTime: function (value) {
+                if (value.length < 1) {
+                    return '必填项不能为空';
+                }
+                else  if (!regex.test(value)) {
+                    return "格式不正确";
+                }
+
+            },
+            B2CTicketCancelTime: function (value) {
+                if (value.length < 1) {
+                    return '必填项不能为空';
+                }
+                else  if (!regex.test(value)) {
+                    return "格式不正确";
+                }
+            },
+            TouristsCenterTicketCancelTime: function (value) {
+                if (value.length < 1) {
+                    return '必填项不能为空';
+                }
+                else if (!regex.test(value)) {
+                    return "格式不正确";
+                }
+            },
+            SpecialtyAutoReceiptTime: function (value) {
+                if (value.length < 1) {
+                    return '必填项不能为空';
+                }
+                else if (!regex.test(value)) {
+                    return "格式不正确";
+                }
+            },
+            PayRetainageAutoCancel: function (value) {
+                if (value.length < 1) {
+                    return '必填项不能为空';
+                }
+                else if (!regex.test(value)) {
+                    return "格式不正确";
+                }
+            },
+            TikcetAutoComplete: function (value) {
+                if (value.length < 1) {
+                    return '必填项不能为空';
+                }
+                else if (!regex.test(value)) {
+                    return "格式不正确";
+                }
+            },
+            CateringOrderAutoCancel: function (value) {
+                if (value.length < 1) {
+                    return '必填项不能为空';
+                }
+                else if (!regex.test(value)) {
+                    return "格式不正确";
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(submit)', function (data) {
+            $.ajax({
+                    url: "@Url.Action("SystemParameterSet", "ParamForSystem")",
+                    type: "post",
+                    data: JSON.stringify(data.field),
+                    contentType: "application/json",
+                    success: function (res) {
+                        bool = res.IsSuccess;
+                        if (res.IsSuccess) {
+                            layer.msg("设置成功", {
+                                icon: 1
+                                , time: 2000
+                            });
+                         }
+                        else {
+                            layer.msg(res.Info, {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                        
+                    }
+            });
+            //layer.alert(JSON.stringify(data.field), {
+            //    title: '最终的提交信息'
+            //})
+            return false;
+        });
+
+
+    });
+
+</script>

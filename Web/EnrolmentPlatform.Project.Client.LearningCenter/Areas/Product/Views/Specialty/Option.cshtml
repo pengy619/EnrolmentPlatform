@@ -1,0 +1,879 @@
+﻿@using EnrolmentPlatform.Project.DTO.Product;
+@using EnrolmentPlatform.Project.DTO.Enums.Product;
+@model OptionParamForSpecialtyForDataDto
+@{
+    ViewBag.Title = Model.Id.IsEmpty() ? "农产品添加" : "农产品编辑";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var categories = ViewBag.Categories as List<ProductCategoriesDto>;
+    var salesUnits = ViewBag.SalesUnits as List<ProductForSpecialtyUnitDto>;
+    var marketPrice = Model.OptionParamForSpecialtyForPriceDto.FirstOrDefault(t => t.PriceClassify == 3)?.Price;
+    var salesPrice = Model.OptionParamForSpecialtyForPriceDto.FirstOrDefault(t => t.PriceClassify == 2)?.Price;
+}
+
+<div class="main-wrap">
+    <div class="layui-tab layui-tab-brief card-wrap" lay-filter="layuiTab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+            <li lay-id="salesSetting">销售设置</li>
+        </ul>
+        <div class="layui-tab-content">
+            <input type="hidden" id="productId" value="@Model.Id" />
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form">
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">农产品分类</label>
+                        <div class="layui-input-inline">
+                            <select name="categoriesId" id="categoriesId" lay-filter="categoriesId" lay-verify="required">
+                                <option value=""></option>
+                                @foreach (var item in categories)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">农产品名称</label>
+                        <div class="layui-input-inline">
+                            <select name="nameId" id="nameId" lay-filter="nameId" lay-verify="required">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">品种</label>
+                        <div class="layui-input-inline">
+                            <select name="varietiesId" id="varietiesId" lay-filter="varietiesId" lay-verify="required">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">规格</label>
+                        <div class="layui-input-block">
+                            <div id="divFormat">
+                            </div>
+                            <div style="margin-top:10px;">
+                                <button id="add-spec" class="layui-btn layui-btn-warm">添加规格</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">图片</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-primary" id="upload">批量上传图片</button>
+                            <span>（图片格式为jpg/png/bmp，最大为2M，至少上传一张，最多10张。）</span>
+                            <div class="upload-img-box">
+                                @foreach (var item in Model.OptionParamForPictureDto)
+                                {
+                                    <div class="img-item">
+                                        <div class="cover @(item.Iscover?"show":"")">
+                                            <span onclick="setPic(this)">@(item.Iscover ? "主图" : "设为主图")</span>
+                                            <span class="layui-icon" onclick="deletePic(this)">ဇ</span>
+                                        </div>
+                                        <img src="@item.FilePath" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">产品说明</label>
+                        <div class="layui-input-block">
+                            <textarea id="desc" name="desc" placeholder="请输入内容" class="layui-textarea" style="width:600px;">@Html.Raw(Model.SpecialtyExplain)</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            @if (!Model.Id.Equals(Guid.Empty))
+                            {
+                                <button class="layui-btn" lay-submit="" lay-filter="modifyProductForBasicInfo">提交</button>
+                                <button class="layui-btn" lay-submit="" lay-filter="modifyProductForBasicInfo1">提交并下一步</button> 
+                            }
+                            else
+                            {
+                                <button class="layui-btn" lay-submit="" lay-filter="submitProduct">保存并下一步</button>
+                                <button class="layui-btn" lay-submit="" lay-filter="saveBasicInfoForDraft">保存草稿</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-form">
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">销售模式</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="salesModel" value="@((int)ProductSaleModelEnum.SoldNow)" title="@(EnumDescriptionHelper.GetDescription((ProductSaleModelEnum)(int)ProductSaleModelEnum.SoldNow))" lay-filter="salesModel" @((Model.SalesModel == 0 || Model.SalesModel == (int)ProductSaleModelEnum.SoldNow) ? "checked" : "")>
+                            <input type="radio" name="salesModel" value="@((int)ProductSaleModelEnum.Presale)" title="@(EnumDescriptionHelper.GetDescription((ProductSaleModelEnum)(int)ProductSaleModelEnum.Presale))" lay-filter="salesModel" @(Model.SalesModel == (int)ProductSaleModelEnum.Presale ? "checked" : "")>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label lblInventory">库存数量</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="inventory" lay-verify="required" autocomplete="off" class="layui-input" value="@Model.Inventory"
+                                   onblur="if(!/^\d+$/.test(value))$(this).val('')">
+                        </div>
+                        <div class="layui-input-inline">
+                            <input type="checkbox" id="isInventory" title="不限库存" lay-skin="primary" @(Model.IsInventory ? "" : "checked")>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">市场价</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="marketPrice" lay-verify="required" autocomplete="off" class="layui-input"
+                                    onblur="if(!/^(([1-9]\d*(\.\d?[1-9])?)|(0\.\d?[1-9]))$/.test(value))$(this).val('')">
+                        </div>
+                        <div class="layui-input-inline" style="padding:10px 0;">
+                            <label>RMB</label>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">销售单位</label>
+                        <div class="layui-input-inline">
+                            <select id="saleslUnit" name="saleslUnit" lay-filter="saleslUnit" lay-verify="required">
+                                <option value=""></option>
+                                @foreach (var item in salesUnits)
+                                {
+                                    <option value="@item.UnitName">@item.UnitName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">销售价</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="salesPrice" lay-verify="required" autocomplete="off" class="layui-input"
+                                   onblur="if(!/^(([1-9]\d*(\.\d?[1-9])?)|(0\.\d?[1-9]))$/.test(value))$(this).val('')">
+                        </div>
+                        <div class="layui-input-inline" style="padding:10px 0;">
+                            <label id="unit_price_div"></label>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required layui-hide preSaleItem">
+                        <label class="layui-form-label">订金比例</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="depositRatio" autocomplete="off" class="layui-input"
+                                   onblur="if(!/^(([1-9]\d*(\.\d?[1-9])?)|(0\.\d?[1-9]))$/.test(value))$(this).val('')">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%（下单后，需要先行支付的订单金额比例）</div>
+                    </div>
+                    <div class="layui-form-item required layui-hide preSaleItem">
+                        <label class="layui-form-label">供货时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="supplierTime" id="supplierTime">
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">起售数量</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="minBuyQuantity" lay-verify="required" autocomplete="off" class="layui-input"
+                                   onblur="if(!/^[1-9]\d*$/.test(value))$(this).val('')">
+                        </div>
+                        <div class="layui-input-inline" style="padding:10px 0;">
+                            <label id="unit_count_div"></label>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required layui-hide preSaleItem">
+                        <label class="layui-form-label">起止时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="rangeTime" id="rangeTime" placeholder="1900-01-01 - 1900-01-02">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text layui-hide">
+                        <label class="layui-form-label">配送方式</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="express" value="1" title="快递" checked>
+                            <input type="radio" name="express" value="2" title="上门自取">
+                            <div class="form-item-box" style="width:400px;">
+                                <div class="row">
+                                    <input type="radio" name="exp" value="1" title="快递免运费">
+                                </div>
+                                <div class="row">
+                                    <input type="radio" name="exp" value="2" title="快递收费">
+                                    <input type="number" name="expprice" autocomplete="off" class="layui-input">
+                                    <span> 元</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="modifyProductForSaleInfo">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--弹出框模板-->
+<div id="add-spec-modal" style="display:none">
+    <div class="layui-form margin-top-30">
+        <div class="layui-form-item ">
+            <label class="layui-form-label">规格名称</label>
+            <div class="layui-input-inline" style="width:220px;">
+                <input type="text" id="add-spec-name" placeholder="规格名称(例如：大小，重量，净含量)" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+                <div class="layui-form-mid layui-word-aux">(例如：大小，重量，净含量)</div>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">参数</label>
+            <div class="layui-input-inline" style="width:220px;">
+                <input type="text" id="add-spec-param" placeholder="参数(例如：500G，1Kg，500ml，1L)" name="param" lay-verify="required" autocomplete="off" class="layui-input">
+                <div class="layui-form-mid layui-word-aux">(例如：500G，1Kg，500ml，1L)</div>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label"></label>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    @Html.RenderTextAreaEditorScripts()
+    <script>
+        var defaltGuid = "@(Guid.Empty)";
+        var ckedFormatAry;
+        var isSubmit = true;
+        var isNoClickTab = defaltGuid == "@(Model.Id)";
+
+        var editor;
+        $("#desc").createEditor({ width: "100%", height: 300, imageUploadLimit: 10 }, function (e) {
+            editor = e;
+        });
+
+        $("#upload").click(function () {
+            var img_len = $(".upload-img-box .img-item").length;
+            if (img_len>= 10) {
+                layer.msg("最多上传10张图片");
+            } else {
+                editor.loadPlugin('multiimage', function () {
+                    editor.plugin.multiImageDialog({
+                        showRemote: false,
+                        clickFn: function (urlList) {
+                            if (urlList.length > 10 - img_len) {
+                                layer.msg("最多上传10张图片");
+                                return false;
+                            } else {
+                                $.each(urlList, function (i, data) {
+                                    LoadImgBox(data.url, 1);
+                                });
+                                editor.hideDialog();
+                            }
+                        }
+                    });
+                });
+                //editor.loadPlugin('image', function () {
+                //    editor.plugin.imageDialog({
+                //        showRemote: false,
+                //        clickFn: function (url, title, width, height, border, align) {
+                //            LoadImgBox(url, 1);
+                //            editor.hideDialog();
+                //        }
+                //    });
+                //});
+            }
+        });
+
+        //加载图片
+        //type 1：上传图片  2：品种图片
+        function LoadImgBox(url, type) { 
+            var html = "<div class=\"img-item\" data_type=\"" + type+"\">" +
+                "<div class=\"cover\">" +
+                "<span onclick=\"setPic(this)\">设为主图</span>" +
+                "<span class=\"layui-icon\" onclick=\"deletePic(this)\">ဇ</span>" +
+                "</div>" +
+                "<img src=\"" + url + "\" />" +
+                "</div>";
+            $(".upload-img-box").append(html);
+        }
+
+
+        //移除图片
+        function deletePic(_this) {
+            $(_this).parents("div[class='img-item']").remove();
+        }
+
+        //设为主图
+        function setPic(_this) {
+            var isZhutu = $.trim($(_this).text()) == "设为主图";
+            $(".upload-img-box .img-item").each(function () {
+                $(this).find("div").removeClass("show");
+                $(this).find("span:eq(0)").text("设为主图");
+            });
+            if (isZhutu) {
+                $(_this).text("主图");
+                $(_this).parent().addClass("show");
+            } else {
+                $(_this).text("设为主图");
+                $(_this).parent().removeClass("show");
+            }
+        }
+
+        $(".layui-tab-title li").click(function () {
+            if (isNoClickTab) {
+                return false;
+            }
+        })
+
+
+        layui.use(['jquery', 'element', 'layer', 'form', 'laydate', 'laytpl'], function () {
+            var layer = layui.layer, form = layui.form, element = layui.element;
+            var laytpl = layui.laytpl;
+            var $ = layui.$;
+
+            //编辑表单赋值
+            if ("@(Model.Id)" != defaltGuid) {
+                $("#categoriesId").val("@Model.ProductCategoriesId");
+                GetNamesByCategory("@Model.ProductCategoriesId");
+                SwitchSalesModel("@Model.SalesModel");
+                $("input[name=marketPrice]").val("@marketPrice");
+                $("select[name=saleslUnit]").val("@Model.SaleslUnit");
+                $("input[name=salesPrice]").val("@salesPrice");
+                $("input[name=depositRatio]").val("@Model.DepositRatio");
+                $("input[name=minBuyQuantity]").val("@Model.MinBuyQuantity");
+                $("#unit_price_div").html("元/@Model.SaleslUnit");
+                $("#unit_count_div").html("@Model.SaleslUnit");
+            }
+
+            //切换农产品分类
+            form.on("select(categoriesId)", function (data) {
+                $("#nameId").html("<option value=''></option>");
+                $("#varietiesId").html("<option value=''></option>");
+                form.render('select');
+                if (data.value == "") return false;
+                GetNamesByCategory(data.value);
+            });
+
+            //切换农产品名称
+            form.on("select(nameId)", function (data) {
+                $("#varietiesId").html("<option value=''></option>");
+                form.render('select');
+                if (data.value == "") return false;
+                GetVarietiesByName(data.value);
+            });
+
+            //切换品种
+            form.on("select(varietiesId)", function (data) {
+                if (data.value == "") return false;
+                GetFormatsByVariety(data.value);
+            });
+
+            //规格参数选中效果
+            form.on("checkbox(ckbParam)", function (data) {
+                $(data.elem).parent().find("input[type=checkbox]").not(data.elem).prop("checked", false);
+                form.render();
+            });
+
+            //切换销售模式
+            form.on("radio(salesModel)", function (data) {
+                SwitchSalesModel(data.value);
+            });
+
+            //切换单位
+            form.on("select(saleslUnit)", function (data) {
+                $("#unit_price_div").html("元/" + data.value);
+                $("#unit_count_div").html(data.value);
+            });
+
+            function SwitchSalesModel(val) {
+                if (val == "@((int)ProductSaleModelEnum.Presale)") {
+                    $(".lblInventory").html("预售数量");
+                    $(".preSaleItem").removeClass("layui-hide");
+                    $(".preSaleItem input").attr("lay-verify", "required");
+                }
+                else {
+                    $(".lblInventory").html("库存数量");
+                    $(".preSaleItem").addClass("layui-hide");
+                    $(".preSaleItem input").removeAttr("lay-verify");
+                    $(".preSaleItem input").removeClass("layui-form-danger");
+                }
+            }
+
+            var laydate = layui.laydate;
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#supplierTime', //指定元素
+                value: '@((Model.Id.Equals(Guid.Empty)|| !Model.SupplierTime.HasValue) ?DateTime.Now.ToString("yyyy-MM-dd") :Model.SupplierTime.GetValueOrDefault().ToString("yyyy-MM-dd"))'
+            });
+            //预售起止时间
+            laydate.render({
+                elem: '#rangeTime'
+                , range: true,
+                value: '@(((Model.Id.Equals(Guid.Empty) || !Model.SaleStartTime.HasValue) ? DateTime.Now.ToString("yyyy-MM-dd") : Model.SaleStartTime.GetValueOrDefault().ToString("yyyy-MM-dd"))+" - "+((Model.Id.Equals(Guid.Empty) || !Model.SaleStartTime.HasValue) ? DateTime.Now.ToString("yyyy-MM-dd") : Model.SaleEndTime.GetValueOrDefault().ToString("yyyy-MM-dd")))'
+            });
+
+            $('#add-spec').click(function () {
+                var varietiesId = $("#varietiesId").val();
+                if (varietiesId == "") {
+                    layer.msg("请选择一个品种");
+                    return false;
+                }
+                layer.open({
+                    type: 1,
+                    title: '添加规格',
+                    btn: ['确定', '取消'],
+                    //skin: 'layui-layer-rim', //加上边框
+                    area: ['500px'], //宽高
+                    content: $('#add-spec-modal'),
+                    yes: function (index, layero) {
+                        var formatName = $.trim($("#add-spec-name").val());
+                        var formatParms = $.trim($("#add-spec-param").val());
+                        if (formatName.length > 0 && formatParms.length > 0) {
+                            if (isSubmit) {
+                                isSubmit = false;
+                                $.ajax({
+                                    url: "@Url.Action("AddSpecialtyFormats", "Specialty")",
+                                    type: "post",
+                                    data: { VarietiesId: varietiesId, FormatName: formatName, FormatParms: formatParms },
+                                    dataType: "json",
+                                    cache: false,
+                                    success: function (result) {
+                                        isSubmit = true;
+                                        if (result.Status) {
+                                            ckedFormatAry = GetFormatArr();
+                                            GetFormatsByVariety($("#varietiesId").val());
+                                            //var formatHtml = "<div class=\"row\">" +
+                                            //    "<label class=\"row-label\">" + formatName + "</label >" +
+                                            //    "<input type=\"checkbox\" name=\"formatParms\" title=\"" + formatParms + "\" lay-filter=\"ckbParam\">" +
+                                            //    "</div>";
+                                            //$(".spec-check-box").append(formatHtml);
+                                            //form.render('checkbox');
+                                            layer.close(index);
+                                        }
+                                        else {
+                                            layer.msg(result.Message);
+                                        }
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        isSubmit = true;
+                                        layer.msg("系统出现异常，请联系管理员！", "warning");
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    btn2: function () {
+
+                    }
+                });
+                return false
+            })
+
+            //存为草稿
+            form.on('submit(saveBasicInfoForDraft)', function (data) {
+                $("#desc").val(editor.html());
+                if ($(".upload-img-box .img-item").length == 0) {
+                    layer.msg("请上传一张图片");
+                    return false;
+                }
+                var param = {
+                    Id: $("#productId").val(),
+                    VarietiesId: data.field.varietiesId,
+                    ProductName: $("#nameId option:selected").text(),
+                    ProductCategoriesId: data.field.categoriesId,
+                    SpecialtyExplain: $("#desc").val(),
+                    OptionParamForSpecialtyForParamDto: GetFormatArr(),
+                    OptionParamForPictureDto: GetImgArr()
+                };
+                if (!hasMainPic) {
+                    layer.msg("请设置一张主图");
+                    return false;
+                }
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("SaveBasicInfoForDraft", "Specialty")",
+                        type: "post",
+                        data: param,
+                        dataType: "json",
+                        success: function (res) {
+                            isSubmit = true;
+                            if (res.IsSuccess) {
+                                $("#productId").val(res.Data);
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 1000
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+
+            //保存农产品基本设置
+            form.on('submit(modifyProductForBasicInfo)', function (data) {
+                $("#desc").val(editor.html());
+                if ($(".upload-img-box .img-item").length == 0) {
+                    layer.msg("请上传一张图片");
+                    return false;
+                }
+                var param = {
+                    Id: $("#productId").val(),
+                    VarietiesId: data.field.varietiesId,
+                    ProductName: $("#nameId option:selected").text(),
+                    ProductCategoriesId: data.field.categoriesId,
+                    SpecialtyExplain: $("#desc").val(),
+                    OptionParamForSpecialtyForParamDto: GetFormatArr(),
+                    OptionParamForPictureDto: GetImgArr()
+                };
+                if (!hasMainPic) {
+                    layer.msg("请设置一张主图");
+                    return false;
+                }
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("ModifyProductForBasicInfo", "Specialty")",
+                        type: "post",
+                        data: param,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                $("#productId").val(res.Data);
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 2000
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+
+            //保存农产品基本设置下一步
+            form.on('submit(modifyProductForBasicInfo1)', function (data) {
+                $("#desc").val(editor.html());
+                if ($(".upload-img-box .img-item").length == 0) {
+                    layer.msg("请上传一张图片");
+                    return false;
+                }
+                var param = {
+                    Id: $("#productId").val(),
+                    VarietiesId: data.field.varietiesId,
+                    ProductName: $("#nameId option:selected").text(),
+                    ProductCategoriesId: data.field.categoriesId,
+                    SpecialtyExplain: $("#desc").val(),
+                    OptionParamForSpecialtyForParamDto: GetFormatArr(),
+                    OptionParamForPictureDto: GetImgArr()
+                };
+                if (!hasMainPic) {
+                    layer.msg("请设置一张主图");
+                    return false;
+                }
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("ModifyProductForBasicInfo", "Specialty")",
+                        type: "post",
+                        data: param,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                $("#productId").val(res.Data);
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 2000
+                                });
+                                element.tabChange('layuiTab', 'salesSetting');
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+
+            //保存农产品销售设置
+            form.on('submit(modifyProductForSaleInfo)', function (data) {
+                //获取价格
+                var price_value = [];
+                price_value.push({ PriceName: "销售价", PriceClassify: 2, Price: data.field.salesPrice });
+                price_value.push({ PriceName: "市场价", PriceClassify: 3, Price: data.field.marketPrice });
+                //获取起止时间
+                var startTime, endTime = "";
+                if (data.field.salesModel == "@((int)ProductSaleModelEnum.Presale)") {
+                    var rangeTime = data.field.rangeTime;
+                    startTime = rangeTime.substring(0, 10);
+                    endTime = rangeTime.substring(rangeTime.length - 10, rangeTime.length);
+                    if (!compareDate(startTime, endTime)) {
+                        layer.msg("开始日期不能大于结束日期", {
+                            icon: 2
+                            , time: 2000
+                        });
+                        return false;
+                    }
+                }
+                var param = {
+                    Id: $("#productId").val(),
+                    SalesModel: data.field.salesModel,
+                    Inventory: data.field.inventory,
+                    IsInventory: !$("#isInventory").is(":checked"),
+                    DepositRatio: data.field.depositRatio,
+                    SaleslUnit: $("#saleslUnit option:selected").text(),
+                    MinBuyQuantity: data.field.minBuyQuantity,
+                    SupplierTime: data.field.supplierTime,
+                    SaleStartTime: startTime,
+                    SaleEndTime: endTime,
+                    OptionParamForSpecialtyForPriceDto: price_value
+                };
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("ModifyProductForSaleInfo", "Specialty")",
+                        type: "post",
+                        data: param,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 2000
+                                }, function () {
+                                    location.href = '@Url.Action("Index", "Specialty")';
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+
+            //保存下一步
+            form.on('submit(submitProduct)', function (data) {
+                $("#desc").val(editor.html());
+                if ($(".upload-img-box .img-item").length == 0) {
+                    layer.msg("请上传一张图片");
+                    return false;
+                }
+                var param = {
+                    Id: $("#productId").val(),
+                    VarietiesId: $("#varietiesId").val(),
+                    ProductName: $("#nameId option:selected").text(),
+                    ProductCategoriesId: $("#categoriesId").val(),
+                    SpecialtyExplain: $("#desc").val(),
+                    OptionParamForSpecialtyForParamDto: GetFormatArr(),
+                    OptionParamForPictureDto: GetImgArr()
+                };
+                if (!hasMainPic) {
+                    layer.msg("请设置一张主图");
+                    return false;
+                }
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("SaveBasicInfoForDraft", "Specialty")",
+                        type: "post",
+                        data: param,
+                        dataType: "json",
+                        success: function (res) {
+                            isSubmit = true;
+                            if (res.IsSuccess) {
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 1000
+                                });
+                                $("#productId").val(res.Data);
+                                isNoClickTab = false;
+                                element.tabChange('layuiTab', 'salesSetting');
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+
+            //获取添加的图片
+            var hasMainPic = false;
+            function GetImgArr() {
+                var img_value = [];
+                $(".upload-img-box .img-item").each(function () {
+                    var path = $(this).find("img").attr("src");
+                    var iscover_temp = $.trim($(this).find("span:eq(0)").text()) != "设为主图";
+                    var imgObj = { FilePath: path, FileClassify: 1, ForeignKeyClassify: 1, Iscover: iscover_temp, IsFocus: "False" };
+                    img_value.push(imgObj);
+                    if (iscover_temp) hasMainPic = true;
+                });
+                return img_value;
+            }
+
+            //获取选中的规格
+            function GetFormatArr() {
+                var format_value = [];
+                $(".spec-check-box input[name=formatParms]:checked").each(function () {
+                    var formatName = $(this).parent().find("label").html();
+                    var paramName = $(this).attr("title");
+                    format_value.push({ FormatName: formatName, Param: paramName });
+                });
+                return format_value;
+            }
+
+            //根据分类获取农产品名称
+            function GetNamesByCategory(categoriesId) {
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("GetSpecialtyNames", "Specialty")",
+                        type: "get",
+                        data: { categoriesId: categoriesId },
+                        dataType: "json",
+                        cache: false,
+                        success: function (data) {
+                            isSubmit = true;
+                            if (data.length > 0) {
+                                $.each(data, function (key, val) {
+                                    var option = "";
+                                    if ("@Model.ProductName" != "" && "@Model.ProductName" == val.Name) {
+                                        option = "<option selected='selected' value='" + val.Id + "'>" + val.Name + "</option>";
+                                        GetVarietiesByName(val.Id);
+                                    }
+                                    else {
+                                        option = $("<option>").val(val.Id).text(val.Name);
+                                    }
+                                    $("#nameId").append(option);
+                                });
+                                form.render('select');
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            isSubmit = true;
+                            layer.msg("系统出现异常，请联系管理员！", "warning");
+                        }
+                    });
+                }
+            }
+
+            //根据名称获取农产品品种
+            function GetVarietiesByName(nameId) {
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("GetSpecialtyVarieties", "Specialty")",
+                        type: "get",
+                        data: { categoriesId: $("#categoriesId").val(), nameId: nameId },
+                        dataType: "json",
+                        cache: false,
+                        success: function (data) {
+                            isSubmit = true;
+                            if (data.length > 0) {
+                                $.each(data, function (key, val) {
+                                    var option = $("<option>").val(val.Id).text(val.VarietiesName);
+                                    $("#varietiesId").append(option);
+                                });
+                                if ("@Model.VarietiesId" != "@Guid.Empty") {
+                                    $("#varietiesId").val("@Model.VarietiesId");
+                                    GetFormatsByVariety("@Model.VarietiesId");
+                                }
+                                form.render('select');
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            isSubmit = true;
+                            layer.msg("系统出现异常，请联系管理员！", "warning");
+                        }
+                    });
+                }
+            }
+
+            //根据品种获取农产品规格
+            function GetFormatsByVariety(varietiesId) {
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("GetSpecialtyFormats", "Specialty")",
+                        type: "get",
+                        data: { varietiesId: varietiesId },
+                        dataType: "json",
+                        cache: false,
+                        success: function (data) {
+                            isSubmit = true;
+                            var formats = data.ListForProductForSpecialtyFormatNameForSupplierDto;
+                            if (formats.length > 0) {
+                                var formatHtml = "";
+                                $.each(formats, function (key, val) {
+                                    var paramHtml = "";
+                                    var _formatName = val.FormatName;
+                                    $.each(val.Param, function (key, val) {
+                                        paramHtml += "<input type=\"checkbox\" name=\"formatParms\" temp_title=\"" + (_formatName + "" + val) + "\" title=\"" + ("" + val) + "\" lay-filter=\"ckbParam\">";
+                                    })
+                                    formatHtml += "<div class=\"row\">" +
+                                        "<label class=\"row-label\">" + val.FormatName + "</label>" + paramHtml +
+                                        "</div>";
+                                });
+                                $("#divFormat").html("<div class=\"spec-check-box\">" + formatHtml + "</div>");
+                                @foreach (var item in Model.OptionParamForSpecialtyForParamDtoByData)
+                                {
+                                    <text>$(".spec-check-box input[temp_title='@(item.FormatName)@(item.Param)']").attr("checked", true);</text>
+                                }
+                                if (ckedFormatAry != null && ckedFormatAry.length > 0) {
+                                    for (var i = 0; i < ckedFormatAry.length; i++) {
+                                        $(".spec-check-box input[temp_title='" + (ckedFormatAry[i].FormatName + "" + ckedFormatAry[i].Param) + "']").attr("checked", true);
+                                    }
+                                    ckedFormatAry = [];
+                                }
+                                form.render('checkbox');
+                            }
+                            //仅添加页面加载品种图片
+                            if ("@(Model.Id)" == defaltGuid) {
+                                //切换品种，移除上一次品种的图片，保留已上传的图片
+                                $(".upload-img-box>div[data_type='2']").remove();
+
+                                var pictures = data.OptionParamForPictureDto;
+                                if (pictures.length > 0) {
+                                    $.each(pictures, function (key, val) { 
+                                        LoadImgBox(val.FilePath, 2);
+                                    });
+                                }
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            isSubmit = true;
+                            layer.msg("系统出现异常，请联系管理员！", "warning");
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+
+} 

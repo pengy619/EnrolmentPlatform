@@ -1,0 +1,616 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>订单</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/account-info.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="./play-list.html">
+                            <i class="iconfont icon-youleyuan"></i>
+                            <span>游乐项目管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="product-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>农产品管理</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item active">
+                        <a href="./tickets-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>票务管理</cite>
+                            </a>
+                            <a>
+                                <cite>票务编辑</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="layui-tab layui-tab-brief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">基本信息</li>
+                                <li>详细信息</li>
+                                <li>库存价格</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <form class="layui-form add-style">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">类别</label>
+                                            <div class="layui-input-block">
+                                                <input type="radio" name="type" value="0" title="单票">
+                                                <input type="radio" name="type" value="1" title="套票" checked>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">上架状态</label>
+                                            <div class="layui-input-block">
+                                                <input type="radio" name="status" value="0" title="上架">
+                                                <input type="radio" name="status" value="1" title="下架" checked>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item input-inline-400">
+                                            <label class="layui-form-label">产品名称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">主题</label>
+                                            <div class="layui-input-inline">
+                                                <select name="" lay-verify="required">
+                                                    <option value="0">极限运动</option>
+                                                    <option value="1">家庭亲子</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">票种</label>
+                                            <div class="layui-input-inline">
+                                                <select name="" lay-verify="required">
+                                                    <option value="0">普通票</option>
+                                                    <option value="1">成人票</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">包含景点</label>
+                                            <div class="layui-input-block">
+                                                <div class="layui-btn-group">
+                                                    <button class="layui-btn layui-btn-primary layui-btn-sm">
+                                                        隆里古城
+                                                    </button>
+                                                    <button class="layui-btn layui-btn-primary layui-btn-sm">
+                                                        <i class="layui-icon"></i>
+                                                    </button>
+                                                </div>
+                                                <button class="layui-btn layui-btn-sm" id="btn1">
+                                                    <i class="layui-icon"></i> 添加
+                                                </button>
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">所属景点与所属游乐项目至少需填一项</div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">包含游乐项目</label>
+                                            <div class="layui-input-block">
+                                                <div class="layui-btn-group">
+                                                    <button class="layui-btn layui-btn-primary layui-btn-sm">
+                                                        隆里古城山地车
+                                                    </button>
+                                                    <button class="layui-btn layui-btn-primary layui-btn-sm">
+                                                        <i class="layui-icon"></i>
+                                                    </button>
+                                                </div>
+                                                <button class="layui-btn layui-btn-sm" id="btn2">
+                                                    <i class="layui-icon"></i> 添加
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">产品包含人数</label>
+                                                <div class="layui-form-mid">成人</div>
+                                                <div class="layui-input-inline" style="width: 100px;">
+                                                    <input type="text" class="layui-input">
+                                                </div>
+                                                <div class="layui-form-mid">人，儿童</div>
+                                                <div class="layui-input-inline" style="width: 100px;">
+                                                    <input type="text" class="layui-input">
+                                                </div>
+                                                <div class="layui-form-mid">人</div>
+                                                <div class="layui-form-mid layui-word-aux">1件产品对应的人数，例如情侣套餐预订1件对应的是2人。</div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">购买年龄限制</label>
+                                                <div class="layui-input-inline" style="width: 100px;">
+                                                    <input type="text" class="layui-input">
+                                                </div>
+                                                <div class="layui-form-mid">岁到</div>
+                                                <div class="layui-input-inline" style="width: 100px;">
+                                                    <input type="text" class="layui-input">
+                                                </div>
+                                                <div class="layui-form-mid">岁</div>
+                                                <div class="layui-form-mid layui-word-aux">“0”表示不限制(必选录入身份才会起效)</div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">退款规则</label>
+                                            <div class="layui-input-block">
+                                                <input type="radio" name="refund" value="0" title="不可退">
+                                                <input type="radio" name="refund" value="1" title="满足条件可退" checked>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">线上预订时间限制</label>
+                                                <div class="layui-form-mid">游玩日期前</div>
+                                                <div class="layui-input-inline" style="width: 100px;">
+                                                    <input type="text" class="layui-input">
+                                                </div>
+                                                <div class="layui-form-mid">天</div>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" class="layui-input" id="test4" placeholder="HH:mm:ss">
+                                                </div>
+                                                <div class="layui-form-mid">前预订</div>
+                                                <div class="layui-form-mid layui-word-aux">填“0”表示当天游玩可当天买票，无需提前预订</div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label"></label>
+                                            <div class="layui-form">
+                                                <table class="layui-table" style="width:50%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>退款时间</th>
+                                                            <th>退款方式</th>
+                                                        </tr>
+                                                        </thead><tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="layui-form-item">
+                                                                        <label class="layui-form-mid">游玩时期前</label>
+                                                                        <div class="layui-input-inline" style="width:100px;">
+                                                                            <input type="text" class="layui-input">
+                                                                        </div>
+                                                                        <div class="layui-form-mid">天</div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="layui-inline">
+                                                                        <div class="layui-input-inline">
+                                                                            <select name="modules" lay-verify="required" lay-search="">
+                                                                                <option value=""></option>
+                                                                                <option value="1">退款方式1</option>
+                                                                                <option value="2">退款方式2</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="layui-form-item">
+                                                                        <label class="layui-form-mid">游玩时期后</label>
+                                                                        <div class="layui-input-inline" style="width:100px;">
+                                                                            <input type="text" class="layui-input">
+                                                                        </div>
+                                                                        <div class="layui-form-mid">天内</div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="layui-inline">
+                                                                        <div class="layui-input-inline">
+                                                                            <select name="modules" lay-verify="required" lay-search="">
+                                                                                <option value=""></option>
+                                                                                <option value="1">退款方式1</option>
+                                                                                <option value="2">退款方式2</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn">发布</button>
+                                                <button class="layui-btn layui-btn-primary">存草稿</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <form class="layui-form add-data-style">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">图片</label>
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn layui-btn-primary" id="upload">上传图片</button>
+                                                <span>（图片格式为jpg/png/bmp，最大为2M，至少上传一张，最多10张。）</span>
+                                                <div class="upload-img-box">
+                                                    <div class="img-item">
+                                                        <div class="cover">
+                                                            <span>设为主图</span>
+                                                            <span class="layui-icon">ဇ</span>
+                                                        </div>
+                                                        <img src="../../images/product_img01.jpg" alt="">
+                                                        <input type="text" class="img-name" placeholder="图片名称">
+                                                    </div>
+                                                    <div class="img-item">
+                                                        <div class="cover">
+                                                            <span>设为主图</span>
+                                                            <span class="layui-icon">ဇ</span>
+                                                        </div>
+                                                        <img src="../../images/product_img01.jpg" alt="">
+                                                        <input type="text" class="img-name" placeholder="图片名称">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item layui-form-text">
+                                            <label class="layui-form-label">预定说明</label>
+                                            <div class="layui-input-block" style="width:800px;">
+                                                <textarea class="layui-textarea" id="LAY_demo1" style="display: none">  
+                                                                            把编辑器的初始内容放在这textarea即可
+                                                        </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item layui-form-text">
+                                            <label class="layui-form-label">使用说明</label>
+                                            <div class="layui-input-block" style="width:800px;">
+                                                <textarea class="layui-textarea" id="LAY_demo2" style="display: none">  
+                                                                                把编辑器的初始内容放在这textarea即可
+                                                        </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn">发布</button>
+                                                <button class="layui-btn layui-btn-primary">存草稿</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="panel-body price-style">
+                                        <div class="panel-body-left">
+                                            <div class="date-title">
+                                                <i class="layui-icon"></i>
+                                                <span>2018年3月</span>
+                                                <i class="layui-icon"></i>
+                                            </div>
+                                            <div class="date-body">
+                                                <table class="layui-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="pro-color">日</th>
+                                                            <th>一</th>
+                                                            <th>二</th>
+                                                            <th>三</th>
+                                                            <th>四</th>
+                                                            <th>五</th>
+                                                            <th class="pro-color">六</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>1</td>
+                                                            <td>2</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>4</td>
+                                                            <td>5</td>
+                                                            <td>6</td>
+                                                            <td>7</td>
+                                                            <td>8</td>
+                                                            <td>9</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10
+                                                                <p>销售价：360</p>
+                                                                <p>可售：300张</p>
+                                                            </td>
+                                                            <td>11
+                                                                <p>销售价：360</p>
+                                                                <p>可售：300张</p>
+                                                            </td>
+                                                            <td>12
+                                                                <p>销售价：360</p>
+                                                                <p>可售：300张</p>
+                                                            </td>
+                                                            <td>13
+                                                                <p>销售价：360</p>
+                                                                <p>可售：300张</p>
+                                                            </td>
+                                                            <td>14
+                                                                <p>销售价：360</p>
+                                                                <p>可售：300张</p>
+                                                            </td>
+                                                            <td>15</td>
+                                                            <td>16</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>17</td>
+                                                            <td>18</td>
+                                                            <td>19</td>
+                                                            <td>20</td>
+                                                            <td>21</td>
+                                                            <td>22</td>
+                                                            <td>23</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>24</td>
+                                                            <td>25</td>
+                                                            <td>26</td>
+                                                            <td>27</td>
+                                                            <td>28</td>
+                                                            <td>29</td>
+                                                            <td>30</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body-right">
+                                            <form class="layui-form">
+                                                <div class="layui-form-item">
+                                                    <label class="layui-form-label">开始日期</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="date" id="date1" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <label class="layui-form-label">结束日期</label>
+                                                    <div class="layui-input-inline">
+                                                        <input type="text" name="date" id="date2" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-from-item" style="text-align:center;margin-bottom:15px;">
+                                                    <div class="layui-input-inline">
+                                                        <input type="checkbox" name="" value="" title="星期一" lay-skin="primary">
+                                                        <input type="checkbox" name="" value="" title="星期二" lay-skin="primary">
+                                                        <input type="checkbox" name="" value="" title="星期三" lay-skin="primary">
+                                                        <input type="checkbox" name="" value="" title="星期四" lay-skin="primary">
+                                                        <input type="checkbox" name="" value="" title="星期五" lay-skin="primary">
+                                                        <input type="checkbox" name="" value="" title="星期六" lay-skin="primary">
+                                                        <input type="checkbox" name="" value="" title="星期日" lay-skin="primary">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <label class="layui-form-label">每日可售</label>
+                                                    <div class="layui-input-inline" style="width: 100px;">
+                                                        <input type="text" name="date" id="date1" class="layui-input">
+                                                    </div>
+                                                    <div class="layui-form-mid">张</div>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <label class="layui-form-label">销售价</label>
+                                                    <div class="layui-input-inline" style="width: 100px;">
+                                                        <input type="text" name="date" id="date1" class="layui-input">
+                                                    </div>
+                                                </div>
+                                                <div class="layui-form-item" style="text-align:center;">
+                                                    <button class="layui-btn">保存</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn">发布</button>
+                                                <button class="layui-btn layui-btn-primary">存草稿</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹出框 -->
+    <div id="add-spec-modal1" style="display:none">
+        <div class="layui-form  margin-top-30">
+            <div class="layui-form-item">
+                <label class="layui-form-label">景点名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add-spec-name" name="name" required autocomplete="off" class="layui-input">
+                </div>
+                <button class="layui-btn layui-btn-warm">查询</button>
+            </div>
+        </div>
+        <table id="table1"></table>
+    </div>
+    <div id="add-spec-modal2" style="display:none">
+        <div class="layui-form  margin-top-30">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:100px;">游乐项目名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add-spec-name" name="name" required autocomplete="off" class="layui-input">
+                </div>
+                <button class="layui-btn layui-btn-warm">查询</button>
+            </div>
+        </div>
+        <table id="table2"></table>
+    </div>
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script>
+            layui.use(['element', 'laydate', 'layer', 'table', 'jquery', 'layedit'], function () {
+                var element = layui.element;
+                var laydate = layui.laydate;
+                var layer = layui.layer;
+                var table = layui.table;
+                var $ = layui.$;
+                var layedit = layui.layedit;
+                var conten1 = layedit.build('LAY_demo1');
+                var content2 = layedit.build('LAY_demo2');
+                laydate.render({
+                    elem: '#test4'
+                    , type: 'time'
+                });
+                $('#btn1').click(function () {
+                    layer.open({
+                        type: 1,
+                        title: '选择产品包含景点',
+                        btn: ['确定', '取消'],
+                        //skin: 'layui-layer-rim', //加上边框
+                        area: ['800px'], //宽高
+                        content: $('#add-spec-modal1'),
+                        yes: function () {
+                            return false
+                        },
+                        btn2: function () {
+
+                        }
+                    });
+                    return false
+                })
+                //实例表格
+                var data = [{
+                    name: '隆里古城',
+                    type: '自然景观',
+                    site: '黔东南苗族侗族自治州锦屏县隆里乡二零二省道旁边'
+                }]
+                var tableOptions = {
+                    elem: '#table1'
+                    , skin: 'line'
+                    , limit: 5
+                    , data: data//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'name', title: '景点名称', width: 150, }
+                        , { field: 'type', title: '景点类型', width: 150, }
+                        , { field: 'site', title: '地址', width: 500 }
+                    ]]
+                }
+                table.render(tableOptions)
+                $('#btn2').click(function () {
+                    layer.open({
+                        type: 1,
+                        title: '选择产品包含景点',
+                        btn: ['确定', '取消'],
+                        //skin: 'layui-layer-rim', //加上边框
+                        area: ['800px'], //宽高
+                        content: $('#add-spec-modal2'),
+                        yes: function () {
+                            return false
+                        },
+                        btn2: function () {
+
+                        }
+                    });
+                    return false
+                })
+                //实例表格
+                table.render({
+                    elem: '#table2'
+                    , skin: 'line'
+                    , limit: 5
+                    , data: [{
+                        name: '隆里演艺活动',
+                        number: '20170519',
+                        site: '黔东南苗族侗族自治州锦屏县隆里乡二零二省道旁边',
+                        scope: '景点内'
+                    }]//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'number', title: '编号', width: 150, }
+                        , { field: 'name', title: '游乐项目名称', width: 150, }
+                        , { field: 'site', title: '地址', width: 400 }
+                        , { field: 'scope', title: '景点范围', width: 100 }
+                    ]]
+                })
+            });
+
+        </script>
+
+
+</body></html>

@@ -1,0 +1,200 @@
+﻿@using EnrolmentPlatform.Project.DTO.Product;
+@model OptionParamForSpecialtyForDataDto
+@{
+    ViewBag.Title = "农产品详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="layui-tab layui-tab-brief card-wrap" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+            <li>销售设置</li>
+            <li>操作日志</li>
+        </ul>
+        <div class="layui-tab-content no-padding">
+            <div class="layui-tab-item layui-show">
+                <div class="info-cell info-panel">
+                    <div class="title">
+                        创建信息
+                    </div>
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">状态</span>
+                            <span class="text">@(EnumDescriptionHelper.GetDescription((ProductStatusEnum)Model.Status))</span>
+                        </div>
+                        <div class="item">
+                            <span class="label">创建时间</span>
+                            <span class="text">@(Model.CreatorTime.ToDateTimeString())</span>
+                        </div>
+                    </div>
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">最后操作时间</span>
+                            <span class="text">@(Model.LastModifyTime.ToDateTimeString())</span>
+                        </div>
+                        @if (Model != null && (Model.Status.Equals((int)ProductStatusEnum.OnSale) || Model.Status.Equals((int)ProductStatusEnum.CheckNo)))
+                        {
+                            <div class="item">
+                                <span class="label">审核结果说明</span>
+                                <span class="text">@(Model.Reason)</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="layui-form"> 
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">产品编号</label>
+                        <div class="layui-input-inline">
+                            <span class="text">@Model.ProductNumber</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">农产品分类</label>
+                        <div class="layui-input-inline">
+                            <span class="text">@Model.ProductCategoriesName</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">农产品名称</label>
+                        <div class="layui-input-inline">
+                            <span class="text">@Model.ProductName</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">品种</label>
+                        <div class="layui-input-inline">
+                            <span class="text">@Model.VarietiesName</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">规格</label>
+                        <div class="layui-input-block">
+                            <div class="spec-check-box">
+                                @foreach (var item in Model.OptionParamForSpecialtyForParamDtoByData)
+                {
+                    <div class="row">
+                        <label class="row-label">@item.FormatName</label>
+                        <button class="layui-btn layui-layui-btn-sm">@item.Param</button>
+                    </div>
+}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图片</label>
+                        <div class="layui-input-block">
+                            <div class="upload-img-box" id="layer-photos">
+                                @foreach (var item in Model.OptionParamForPictureDto)
+                {
+                    <div class="img-item">
+                        @if (item.Iscover)
+        {
+                <div class="cover show" style="height:25px;bottom: 0;">
+                    <span>主图</span>
+                </div>
+}
+                        <img layer-src="@(item.FilePath)" src="@item.FilePath" alt="">
+                    </div>
+}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">产品说明</label>
+                        <div class="layui-input-block">
+                            <span class="text">@Html.Raw(Model.SpecialtyExplain)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="info-cell">
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">销售模式</span>
+                            <span class="text">@(EnumDescriptionHelper.GetDescription((ProductSaleModelEnum)Model.SalesModel))</span>
+                        </div>
+                    </div>
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">@(Model.SalesModel == (int)ProductSaleModelEnum.Presale ? "预售数量" : "库存数量")</span>
+                            <span class="text">@(!Model.IsInventory ? "不限库存" : Model.Inventory.ToString())</span>
+                        </div>
+                    </div>
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">市场价</span>
+                            <span class="text">@(Model.OptionParamForSpecialtyForPriceDto.FirstOrDefault(t => t.PriceClassify == (int)ProductPriceClassifyEnum.MarkPrice)?.Price)</span>
+                        </div>
+                    </div>
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">销售单位</span>
+                            <span class="text">@Model.SaleslUnit</span>
+                        </div>
+                    </div>
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">销售价</span>
+                            <span class="text">@(Model.OptionParamForSpecialtyForPriceDto.FirstOrDefault(t => t.PriceClassify == (int)ProductPriceClassifyEnum.DistributionPrice)?.Price)</span>
+                        </div>
+                    </div>
+                    @if (Model.SalesModel == (int)ProductSaleModelEnum.Presale)
+                    {
+                        <div class="row row-3">
+                            <div class="item">
+                                <span class="label">订金比例</span>
+                                <span class="text">@Model.DepositRatio %</span>
+                            </div>
+                        </div>
+                        <div class="row row-3">
+                            <div class="item">
+                                <span class="label">供货时间</span>
+                                <span class="text">@Model.SupplierTime.ToDateString()</span>
+                            </div>
+                        </div>
+                        <div class="row row-3">
+                            <div class="item">
+                                <span class="label">起止时间</span>
+                                <span class="text">@(string.Format("{0}-{1}", Model.SaleStartTime.ToDateString(), Model.SaleEndTime.ToDateString()))</span>
+                            </div>
+                        </div>
+                    }
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">起售数量</span>
+                            <span class="text">@Model.MinBuyQuantity</span>
+                        </div>
+                    </div>
+                    <div class="row row-3">
+                        <div class="item">
+                            <span class="label">下架时间</span>
+                            <span class="text">@Model.OffSaleTime.ToString("yyyy-MM-dd")</span>
+                        </div>
+                    </div>
+                    @*
+                        <div class="row row-3">
+                            <div class="item">
+                                <span class="label">配送方式</span>
+                                <span class="text">快递 快递免运费</span>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+            <div class="layui-tab-item padding-10">
+                @Html.Partial("~/Views/Shared/_logSettingForTable.cshtml", Model.Id)
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    layui.use(['jquery', 'layer'], function () {
+        //调用示例
+        layer.photos({
+            photos: '#layer-photos'
+            , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+        });
+    })
+</script>

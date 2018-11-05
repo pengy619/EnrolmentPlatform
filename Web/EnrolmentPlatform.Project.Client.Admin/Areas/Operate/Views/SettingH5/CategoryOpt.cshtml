@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewBag.Title = "农产品分类配置";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int status = ViewBag.OpreationStatus;
+    EnrolmentPlatform.Project.DTO.Product.RecommendProductCategoriesDto dto = ViewBag.Info;
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            农产品分类配置
+        </div>
+        <div class="panel-body">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传图片</label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-primary" type="button" id="upload">上传图片</button>
+                        <span>（图片格式为jpg/png/bmp，最大为2M。）</span>
+                        <div class="upload-img-box">
+                            <div class="img-item">
+                                <div class="cover">
+                                    <span class="layui-icon" onclick="RemovePic()">ဇ</span>
+                                </div>
+                                <img src='@(status==2?dto.FilePath:"")' id="imgLogo" alt="">
+                                <input type="hidden" id="hidImg" value='@(status==2?dto.FilePath:"")' />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline">
+                        <input id="txtSort" type="number" lay-verify="required|number" style="width:200px;" name="Sort" class="layui-input" value='@(status==2?dto.Sort.ToString():"")'>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">分类</label>
+                    <div class="layui-input-inline">
+                        <label id="lblCategoryName">@(status == 2 ? dto.CateName.ToString() : "")</label>
+                        <input type="hidden" id="hidCategoryId" value='@(status == 2 ? dto.CateId.ToString() : "")' />
+                        <button class="layui-btn layui-btn-primary sele-btn" type="button">选择</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" type="button" lay-submit="" lay-filter="save">保存</button>
+                        <a href="@Url.Action("SpecialtyShopMall","SettingH5","Operate")" class="layui-btn layui-btn-primary">取消</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 选择分类 -->
+<div id="add-projects" style="display:none;">
+    <table id="table" lay-filter="table"></table>
+</div>
+<div style="display:none">
+    <textarea id="text_editor"></textarea>
+</div>
+<input type="hidden" id="hidId" value='@(status==2?dto.Id.ToString():"")' />
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="chooice">选择</a>
+</script>
+@Html.RenderTextAreaEditorScripts()
+<script>
+    layui.use(['layer', 'table', 'jquery',], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var layer = layui.layer, form = layui.form;
+
+        //打开选择农产品分类窗口
+        var index;
+        $('.sele-btn').click(function () {
+            index = layer.open({
+                type: 1,
+                title: '选择分类',
+                area: ['420px', '300px'], //宽高
+                content: $('#add-projects'),
+                yes: function () {
+                    return false
+                },
+                btn2: function () {
+
+                }
+            });
+            return false
+        });
+
+        //绑定农产品分类列表
+        table.render({
+            elem: '#table'
+            , skin: 'line'
+            , url: '@Url.Action("ProductCategoriesSearch", "SettingH5")'
+            , page: false //开启分页
+            , cols: [[ //表头
+                { field: 'Name', title: '分类名称', width: 300, }
+                , { title: '操作', toolbar: '#tableTool', width: 100 }
+            ]]
+        });
+
+        //选择农产品分类
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent == "chooice") {
+                $("#hidCategoryId").val(data.Id);
+                $("#lblCategoryName").text(data.Name);
+                layer.close(index);
+            }
+        });
+
+        //提交方法
+        form.on('submit(save)', function (data) {
+            var dto = {};
+            dto.Id = $("#hidId").val();
+            dto.CateId = $("#hidCategoryId").val();
+            dto.CateName = $("#lblCategoryName").text();
+            dto.FilePath = $("#hidImg").val();
+            dto.Sort = $("#txtSort").val();
+
+            //图片判断
+            if (dto.FilePath == "") {
+                layer.msg("请上传图片", {
+                    icon: 2,
+                    time: 1500
+                });
+                return false;
+            }
+
+            //游乐项目判断
+            if (dto.CateId == "" || dto.CateName == "") {
+                layer.msg("请选择农产品类型", {
+                    icon: 2,
+                    time: 1500
+                });
+                return false;
+            }
+
+            //保存
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("Save", "SettingH5")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('保存成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@(Url.Action("SpecialtyShopMall", "SettingH5"))';
+                        });
+                    }
+                    else {
+                        layer.msg(result.info, {
+                            icon: 2,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+    //移除图片
+    function RemovePic() {
+        $("#hidImg").val("");
+        $("#imgLogo").attr("src", "");
+    }
+
+    $(function () {
+        var editor;
+        $("#text_editor").createEditor({ width: "100%", height: 300 }, function (e) {
+            editor = e;
+        });
+
+        //图片上传
+        $("#upload").click(function () {
+            editor.loadPlugin('image', function () {
+                editor.plugin.imageDialog({
+                    showRemote: false,
+                    clickFn: function (url, title, width, height, border, align) {
+                        $("#imgLogo").attr("src", url);
+                        $("#hidImg").val(url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+    });
+</script>

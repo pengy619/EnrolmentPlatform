@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_tye3ga57s8w1m7vi.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="../users/supplier-list.html" id="users">
+        <i class="iconfont icon-account"></i>
+        用户
+    </a>
+    <a href="../operate/website-setting.html" id="operate">
+        <i class="iconfont icon-yunyingguanli"></i>
+        运营
+    </a>
+    <a href="../article/article-list.html" id="article">
+        <i class="iconfont icon-wenzhang"></i>
+        内容
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/product-param/farm-param.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-nongchanpin"></i> 农产品</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="product-list.html">农产品管理</a>
+                            </dd>
+                            <dd>
+                                <a href="varieties-list.html">品种管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-fapiaoguanli"></i> 票务
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../product/tickets-list.html">票务管理</a>
+                            </dd>
+                            <dd class="active">
+                                <a href="../product/landmark-list.html">景点管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../product/play-list.html">游乐项目管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <!-- <li class="layui-nav-item">
+                                <a href="javascript:;">
+                                    <i class="iconfont icon-youleyuan"></i> 游乐项目
+                                </a>
+                                <dl class="layui-nav-child">
+                                    <dd>
+                                        <a href="javascript:;">自营游乐项目</a>
+                                    </dd>
+                                    <dd>
+                                        <a href="javascript:;">外部游乐项目</a>
+                                    </dd>
+                                </dl>
+                            </li> -->
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>景点管理</cite>
+                            </a>
+                            <a>
+                                <cite>景点添加</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href="">
+        <i class="iconfont icon-dingdan"></i>
+        <span class="layui-badge">3</span>
+    </a>
+    <a href="">
+        <i class="iconfont icon-xiaoxi"></i>
+    </a>
+    <a href="">
+        <i class="iconfont icon-iconfontlipinduihuanbangzhu"></i>
+    </a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap landmark-style">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <form class="layui-form">
+                                <div class="layui-form-item input-inline-400">
+                                    <label class="layui-form-label">景点名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">景点等级</label>
+                                    <div class="layui-input-inline">
+                                        <select name="" lay-verify="required">
+                                            <option value="0">AAAA</option>
+                                            <option value="1">AAA</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item input-inline-400">
+                                    <label class="layui-form-label">景点地址</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="title" required lay-verify="required" autocomplete="off" placeholder="请输入地址然后获取位置" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn layui-btn-warm">获取位置</button>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">景点坐标</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="map-box">
+                                        地图
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">景点联系人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">景点电话</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">景点类型</label>
+                                    <div class="layui-input-inline">
+                                        <select name="" lay-verify="required">
+                                            <option value=""></option>
+                                            <option value="0">文化景区</option>
+                                            <option value="1">自然景区</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">图片</label>
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn layui-btn-primary" id="upload">上传图片</button>
+                                        <span>（图片格式为jpg/png/bmp，最大为2M，至少上传一张，最多10张。）</span>
+                                        <div class="upload-img-box">
+                                            <div class="img-item">
+                                                <div class="cover">
+                                                    <span>设为主图</span>
+                                                    <span class="layui-icon">ဇ</span>
+                                                </div>
+                                                <img src="../../images/product_img01.jpg" alt="">
+                                                <input type="text" class="img-name" placeholder="图片名称">
+                                            </div>
+                                            <div class="img-item">
+                                                <div class="cover">
+                                                    <span>设为主图</span>
+                                                    <span class="layui-icon">ဇ</span>
+                                                </div>
+                                                <img src="../../images/product_img01.jpg" alt="">
+                                                <input type="text" class="img-name" placeholder="图片名称">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label class="layui-form-label">预定须知</label>
+                                    <div class="layui-input-block" style="width:800px;">
+                                        <textarea class="layui-textarea" id="LAY_demo1" style="display: none">  
+                                                                把编辑器的初始内容放在这textarea即可
+                                            </textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label class="layui-form-label">详情介绍</label>
+                                    <div class="layui-input-block" style="width:800px;">
+                                        <textarea class="layui-textarea" id="LAY_demo2" style="display: none">  
+                                                                    把编辑器的初始内容放在这textarea即可
+                                            </textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label class="layui-form-label">交通指南</label>
+                                    <div class="layui-input-block" style="width:800px;">
+                                        <textarea class="layui-textarea" id="LAY_demo3" style="display: none">  
+                                                                            把编辑器的初始内容放在这textarea即可
+                                            </textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit="" lay-filter="formDemo">保存</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script>
+
+            layui.use(['jquery', 'layedit'], function () {
+                var $ = layui.$;
+                var layedit = layui.layedit;
+                var conten1 = layedit.build('LAY_demo1');
+                var content2 = layedit.build('LAY_demo2');
+                var content3 = layedit.build('LAY_demo3');
+            })
+
+        </script>
+
+
+</body></html>

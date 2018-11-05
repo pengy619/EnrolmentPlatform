@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_tye3ga57s8w1m7vi.css"> <link rel="stylesheet" href="../../../css/main.css"> <link rel="stylesheet" href="../../../css/replace.css">
+        <title>设置</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="../../product/product-list.html" id="product">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="../../users/supplier-list.html" id="users">
+        <i class="iconfont icon-account"></i>
+        用户
+    </a>
+    <a href="../../operate/website-setting.html" id="operate">
+        <i class="iconfont icon-yunyingguanli"></i>
+        运营
+    </a>
+    <a href="../../article/article-list.html" id="article">
+        <i class="iconfont icon-wenzhang"></i>
+        内容
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="product-param/farm-param.html" id="setting" class="active">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-shezhi"></i> 参数设置</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../product-param/farm-param.html">农产品参数</a>
+                            </dd>
+                            <dd>
+                                <a href="../product-param/system-param.html">系统参数</a>
+                            </dd>
+                            <dd>
+                                    <a href="../product-param/tickets-param.html">票务参数</a>
+                                </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-zuzhijigou"></i> 组织架构设置</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../org-setting/department-manage.html">部门管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../org-setting/position-manage.html">职位管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../org-setting/roles-setting.html">角色设置</a>
+                            </dd>
+                            <dd>
+                                <a href="../org-setting/staff-manage.html">员工管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../org-setting/shop-manage.html">门店管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-gongnengfuwu"></i> 公共插件配置
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd class="active">
+                                <a href="../plugin-setting/payment-plugin.html">支付插件</a>
+                            </dd>
+                            <dd class="active">
+                                <a href="../plugin-setting/sms-plugin.html">短信插件</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-rizhi"></i> 系统日志
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../system-logs/login-logs.html">登录日志管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../system-logs/edit-logs.html">操作日志管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>设置</cite>
+                            </a>
+                            <a>
+                                <cite>公共插件</cite>
+                            </a>
+                            <a>
+                                <cite>短信插件</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span>135*****753 <i class="layui-icon">&#xe625;</i> </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <button class="layui-btn layui-btn-default layui-btn-sm">启用</button>
+                            <button class="layui-btn layui-btn-default layui-btn-sm">禁用</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                            <table id="table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--引入js-->
+     <script src="../../../framework/layui/layui.js"></script> <script src="../../../js/common.js"></script>
+    <script type="text/html" id="tableTool">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit">编辑</a>
+    </script>
+        <script>
+            layui.use(['jquery','table',], function () {
+                var table = layui.table;
+                var data = [{
+                    name: '短信插件1',
+                    version: '1.0',
+                    status: '启用',
+                },{
+                    name: '短信插件2',
+                    version: '1.0',
+                    status: '启用',
+                },{
+                    name: '短信插件3',
+                    version: '1.0',
+                    status: '启用',
+                }]
+                //实例表格
+                var tableOptions = {
+                    elem: '#table'
+                    , skin: 'line'
+                    , limit: 20
+                    , data: data//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'name', title: '名称', }
+                        , { field: 'version', title: '版本', }
+                        , { field: 'status', title: '状态', sort: true }
+                        , { title: '操作', toolbar: '#tableTool', minWidth: 150 }
+                    ]]
+                }
+                table.render(tableOptions)
+            })
+        </script>
+
+
+
+
+</body></html>

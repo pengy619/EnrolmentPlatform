@@ -1,0 +1,198 @@
+2018-04-04 18:20:43,717  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-04-04 18:20:43——System.Data.Entity.Infrastructure.DbUpdateException：An error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 WisdomScenic.Project.Domain.EFContext.WisdomScenicDbContext.SaveChanges() 位置 E:\Project\Wisdom.Trip\Web.Service\WisDomScenic.Project.Domain\EFContext\WisdomScenicDbContext.cs:行号 73
+   在 WisdomScenic.Project.DAL.Systems.T_BannerRepository.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.DAL\Systems\T_BannerRepository.cs:行号 83
+   在 WisdomScenic.Project.BLL.Systems.T_BannerService.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\Systems\T_BannerService.cs:行号 44
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<>c__DisplayClass3_0.<AddBanner>b__0() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 54
+   在 System.Threading.Tasks.Task`1.InnerInvoke()
+   在 System.Threading.Tasks.Task.Execute()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<AddBanner>d__3.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 51
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()EntityFrameworkactionExecutedContext.Exception.InnerException.MessageAn error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()EntityFramework
+2018-04-04 18:20:48,425  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-04-04 18:20:48——System.Data.Entity.Infrastructure.DbUpdateException：An error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 WisdomScenic.Project.Domain.EFContext.WisdomScenicDbContext.SaveChanges() 位置 E:\Project\Wisdom.Trip\Web.Service\WisDomScenic.Project.Domain\EFContext\WisdomScenicDbContext.cs:行号 73
+   在 WisdomScenic.Project.DAL.Systems.T_BannerRepository.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.DAL\Systems\T_BannerRepository.cs:行号 83
+   在 WisdomScenic.Project.BLL.Systems.T_BannerService.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\Systems\T_BannerService.cs:行号 44
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<>c__DisplayClass3_0.<AddBanner>b__0() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 54
+   在 System.Threading.Tasks.Task`1.InnerInvoke()
+   在 System.Threading.Tasks.Task.Execute()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<AddBanner>d__3.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 51
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()EntityFrameworkactionExecutedContext.Exception.InnerException.MessageAn error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()EntityFramework
+2018-04-04 18:20:49,605  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-04-04 18:20:49——System.Data.Entity.Infrastructure.DbUpdateException：An error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 WisdomScenic.Project.Domain.EFContext.WisdomScenicDbContext.SaveChanges() 位置 E:\Project\Wisdom.Trip\Web.Service\WisDomScenic.Project.Domain\EFContext\WisdomScenicDbContext.cs:行号 73
+   在 WisdomScenic.Project.DAL.Systems.T_BannerRepository.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.DAL\Systems\T_BannerRepository.cs:行号 83
+   在 WisdomScenic.Project.BLL.Systems.T_BannerService.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\Systems\T_BannerService.cs:行号 44
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<>c__DisplayClass3_0.<AddBanner>b__0() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 54
+   在 System.Threading.Tasks.Task`1.InnerInvoke()
+   在 System.Threading.Tasks.Task.Execute()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<AddBanner>d__3.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 51
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()EntityFrameworkactionExecutedContext.Exception.InnerException.MessageAn error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()EntityFramework
+2018-04-04 18:20:55,394  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-04-04 18:20:55——System.Data.Entity.Infrastructure.DbUpdateException：An error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 WisdomScenic.Project.Domain.EFContext.WisdomScenicDbContext.SaveChanges() 位置 E:\Project\Wisdom.Trip\Web.Service\WisDomScenic.Project.Domain\EFContext\WisdomScenicDbContext.cs:行号 73
+   在 WisdomScenic.Project.DAL.Systems.T_BannerRepository.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.DAL\Systems\T_BannerRepository.cs:行号 83
+   在 WisdomScenic.Project.BLL.Systems.T_BannerService.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\Systems\T_BannerService.cs:行号 44
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<>c__DisplayClass3_0.<AddBanner>b__0() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 54
+   在 System.Threading.Tasks.Task`1.InnerInvoke()
+   在 System.Threading.Tasks.Task.Execute()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<AddBanner>d__3.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 51
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()EntityFrameworkactionExecutedContext.Exception.InnerException.MessageAn error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()EntityFramework
+2018-04-04 18:23:33,379  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-04-04 18:23:33——System.Data.Entity.Infrastructure.DbUpdateException：An error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 WisdomScenic.Project.Domain.EFContext.WisdomScenicDbContext.SaveChanges() 位置 E:\Project\Wisdom.Trip\Web.Service\WisDomScenic.Project.Domain\EFContext\WisdomScenicDbContext.cs:行号 73
+   在 WisdomScenic.Project.DAL.Systems.T_BannerRepository.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.DAL\Systems\T_BannerRepository.cs:行号 83
+   在 WisdomScenic.Project.BLL.Systems.T_BannerService.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\Systems\T_BannerService.cs:行号 44
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<>c__DisplayClass3_0.<AddBanner>b__0() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 54
+   在 System.Threading.Tasks.Task`1.InnerInvoke()
+   在 System.Threading.Tasks.Task.Execute()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<AddBanner>d__3.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 51
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()EntityFrameworkactionExecutedContext.Exception.InnerException.MessageAn error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()EntityFramework
+2018-04-04 18:24:21,593  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-04-04 18:24:21——System.Data.Entity.Infrastructure.DbUpdateException：An error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 WisdomScenic.Project.Domain.EFContext.WisdomScenicDbContext.SaveChanges() 位置 E:\Project\Wisdom.Trip\Web.Service\WisDomScenic.Project.Domain\EFContext\WisdomScenicDbContext.cs:行号 73
+   在 WisdomScenic.Project.DAL.Systems.T_BannerRepository.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.DAL\Systems\T_BannerRepository.cs:行号 83
+   在 WisdomScenic.Project.BLL.Systems.T_BannerService.AddBanner(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\Systems\T_BannerService.cs:行号 44
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<>c__DisplayClass3_0.<AddBanner>b__0() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 54
+   在 System.Threading.Tasks.Task`1.InnerInvoke()
+   在 System.Threading.Tasks.Task.Execute()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.WebApi.Areas.Systems.BannerController.<AddBanner>d__3.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Areas\Systems\BannerController.cs:行号 51
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()EntityFrameworkactionExecutedContext.Exception.InnerException.MessageAn error occurred while updating the entries. See the inner exception for details.——堆栈信息：   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()EntityFramework

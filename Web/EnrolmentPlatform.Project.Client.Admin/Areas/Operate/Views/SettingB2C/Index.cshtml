@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "首页配置";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            首页配置
+        </div>
+        <div class="panel-body">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">轮播图配置</li>
+                    <li><a href="@Url.Action("RecommendAmusementProject","SettingB2C","Operate")">游乐项目设置</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <a href="@Url.Action("IndexOption","SettingB2C",new { area="Operate",parentId=6 })" class="layui-btn layui-btn-warm layui-btn-sm">添加</a>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="del">删除</button>
+                        <table id="banner-table" lay-filter="table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit">编辑</a>
+</script>
+<script type="text/html" id="tablePic">
+    <div>
+        <img src="{{d.ImgPath}}" alt="">
+    </div>
+</script>
+<script>
+    layui.use(['jquery', 'table'], function () {
+        var table = layui.table;
+        //实例表格
+        var tableOptions = {
+            elem: '#banner-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("BannerList", "SettingB2C")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'ImgPath', title: '图片', templet: '#tablePic' }
+                , { field: 'Url', title: '链接', }
+                , { field: 'Sort', title: '排序', edit: true }
+                , { title: '操作', toolbar: '#tableTool', width: 150 }
+            ]]
+        }
+        table.render(tableOptions)
+
+        var $ = layui.$, active = {
+            del: function () {
+                var checkStatus = table.checkStatus('banner-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+                layer.confirm('您确定要删除选中的项吗？', function (index) {
+                    var ckb_value = [];
+                    for (var i = 0; i < data.length; i++) {
+                        ckb_value.push(data[i].BannerId);
+                    }
+                    var ajaxOption = {
+                        url: "@Url.Action("DeleteBanners", "SettingB2C")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { idList: ckb_value },
+				        success: function (result) {
+                            if (result.IsSuccess) {
+                                table.reload('banner-table');
+                            }
+                            else {
+                                layer.msg(result.Info);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
+                    $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            }
+        };
+
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent === 'edit') {
+                location.href = "@Url.Action("IndexOption", "SettingB2C")?id=" + data.BannerId;
+            }
+        })
+
+        //更新排序
+        table.on('edit(table)', function (obj) {
+            var value = obj.value //得到修改后的值
+                , data = obj.data //得到所在行所有键值
+                , field = obj.field; //得到字段
+            var ajaxOption = {
+                url: "@Url.Action("UpdateBannerSort", "SettingB2C")",
+                type: 'Post',
+                async: false,
+                dataType: 'json',
+                data: { BannerId: data.BannerId, Sort: value },
+				success: function (result) {
+                    if (result.IsSuccess) {
+                        table.reload('banner-table');
+                    }
+                    else {
+                        layer.msg(result.Info);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.msg("系统出现异常，请联系管理员！");
+                }
+            }
+            $.ajax(ajaxOption);
+        });
+    })
+</script>

@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>订单</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="../product/product-list.html" id="product">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="order-list.html" id="order" class="active">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/account-info.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item">
+                        <a href="order-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>农产品订单</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./refund-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>退换货订单</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item active">
+                        <a href="./order-tickets.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务订单</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./order-cancel.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务核销</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                            <a href="./catering-list.html">
+                                <i class="iconfont icon-nongchanpin"></i>
+                                <span>餐饮订单</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="./catering-cancel.html">
+                                <i class="iconfont icon-nongchanpin"></i>
+                                <span>餐饮核销</span>
+                            </a>
+                        </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>订单</cite>
+                            </a>
+                            <a>
+                                <cite>票务订单</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <div class="layui-form">
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">订单状态</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="status" value="1" title="全部" checked>
+                                        <input type="radio" name="status" value="2" title="待支付">
+                                        <input type="radio" name="status" value="3" title="已支付">
+                                        <input type="radio" name="status" value="4" title="退款中">
+                                        <input type="radio" name="status" value="5" title="已退款">
+                                        <input type="radio" name="status" value="6" title="已完成">
+                                        <input type="radio" name="status" value="7" title="已取消">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">订单状态</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="status" value="1" title="全部" checked>
+                                        <input type="radio" name="status" value="2" title="未出票">
+                                        <input type="radio" name="status" value="3" title="已出票">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">订单号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <label class="layui-form-label">产品名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <label class="layui-form-label">取票人</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <label class="layui-form-label">下单账户</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item ">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">交易时间</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" class="layui-input time-item" lay-key="1">
+                                        </div>
+                                        <div class="layui-form-mid">至</div>
+                                        <div class="layui-input-inline">
+                                            <input type="text" class="layui-input time-item" lay-key="2">
+                                        </div>
+                                    </div>
+                                    <button class="layui-btn layui-btn-warm">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <button class="layui-btn layui-btn-warm layui-btn-sm">导出</button>
+                            <table id="order-table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 发起退款 -->
+    <div id="refund-btn-modal2" style="display:none">
+        <div class="layui-form big-label">
+            <div class="layui-form-item" style="margin-top:10px;">
+                <label class="layui-form-label">退款原因</label>
+                <div class="layui-input-inline">
+                    <select name="" lay-verify="required">
+                        <option value=""></option>
+                        <option value="1">layer</option>
+                        <option value="2">form</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">退款金额</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="" class="layui-input" value="￥198">
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label">说明</label>
+                <div class="layui-input-inline">
+                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style="width:300px;"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 退款弹出框 -->
+    <div id="refund-btn-modal1" style="display:none">
+        <div class="layui-form big-label">
+            <div class="layui-form-item">
+                <label class="layui-form-label">订单原金额</label>
+                <div class="layui-form-mid pro-color">￥198.00</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">处理结果</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="model" value="1" title="同意" checked>
+                    <input type="radio" name="model" value="2" title="拒绝">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">实际退款金额</label>
+                <div class="layui-input-inline flex">
+                    <span class="pro-color">￥</span>
+                    <input type="text" name="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label">说明</label>
+                <div class="layui-input-inline">
+                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style="width:300px;"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 改价 -->
+    <div id="change-btn-modal" style="display:none">
+        <div class="layui-form big-label">
+            <div class="layui-form-item">
+                <label class="layui-form-label">订单金额</label>
+                <div class="layui-form-mid pro-color">￥198.00</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">修改后金额</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script type="text/html" id="tableTool">
+        <a href="./order-ticketsdetail.html" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <button class="layui-btn layui-btn-default layui-btn-sm layui-btn-xs" lay-event="change">改价</button>
+        <button class="layui-btn layui-btn-default layui-btn-sm layui-btn-xs" lay-event="refund1">处理退款</button>
+        <button class="layui-btn layui-btn-default layui-btn-sm layui-btn-xs" lay-event="refund2">发起退款</button>
+    </script>
+        <script>
+            layui.use(['jquery', 'table'], function () {
+                var table = layui.table;
+                var $ = layui.$;
+                table.render({
+                    elem: '#order-table'
+                    , skin: 'line'
+                    , limit: 20
+                    , data: [{
+                        number: 'ABCD123456',
+                        name: '夜间演艺活动票成人票',
+                        cxdate: '2018-3-19',
+                        quantity: '2',
+                        allamount: '￥199.00',
+                        ddstatus: '待支付',
+                        cpstatus: '未出票',
+                        xddate: '2018-3-18',
+                        user: '13712345678'
+                    }]//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'number', title: '订单编号', sort: true }
+                        , { field: 'name', title: '产品名称', }
+                        , { field: 'cxdate', title: '出行日期', }
+                        , { field: 'quantity', title: '购买数量', }
+                        , { field: 'allamount', title: '订单总金额', }
+                        , { field: 'ddstatus', title: '订单状态', sort: true }
+                        , { field: 'cpstatus', title: '出票状态', }
+                        , { field: 'xddate', title: '下单日期' }
+                        , { field: 'user', title: '下单账户', }
+                        , { title: '操作', toolbar: '#tableTool', minWidth: 300 }
+                    ]]
+                });
+                table.on('tool(table)', function (obj) {
+                    var data = obj.data; //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+                    if (layEvent == 'refund1') {
+                        layer.open({
+                            type: 1,
+                            title: '处理退款',
+                            btn: ['确定', '取消'],
+                            area: ['600px', '400px'], //宽高
+                            content: $('#refund-btn-modal1'),
+                            yes: function () {
+                                return false
+                            },
+                            btn2: function () {
+
+                            }
+                        });
+                    }
+                    if (layEvent == 'change') {
+                        layer.open({
+                            type: 1,
+                            title: '修改价格',
+                            btn: ['确定', '取消'],
+                            area: ['500px'], //宽高
+                            content: $('#change-btn-modal'),
+                            yes: function () {
+                                return false
+                            },
+                            btn2: function () {
+
+                            }
+                        });
+                    }
+                    if (layEvent == 'refund2') {
+                        layer.open({
+                            type: 1,
+                            title: '发起退款',
+                            btn: ['提交申请', '取消'],
+                            area: ['600px', '360px'], //宽高
+                            content: $('#refund-btn-modal2'),
+                            yes: function () {
+                                return false
+                            },
+                            btn2: function () {
+
+                            }
+                        });
+                    }
+                });
+            })
+        </script>
+
+
+</body></html>

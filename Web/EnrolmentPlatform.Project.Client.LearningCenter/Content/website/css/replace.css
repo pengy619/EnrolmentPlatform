@@ -1,0 +1,26 @@
+.layui-form-radio > i:hover, .layui-form-radioed > i {
+  color: #3b74b9; }
+
+.layui-form-checked[lay-skin=primary] i {
+  background: #3b74b9;
+  background-color: #3b74b9;
+  border-color: #3b74b9;
+  color: #fff; }
+
+.layui-form-checkbox[lay-skin=primary]:hover i {
+  border-color: #3b74b9;
+  color: #fff; }
+
+.layui-btn-primary:hover {
+  border-color: #3b74b9;
+  color: #3b74b9; }
+
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+  background-color: #3b74b9; }
+
+.layui-btn.layui-btn-default {
+  background-color: #3b74b9; }
+
+.layui-layer-btn .layui-layer-btn0 {
+  border-color: #fb7c15 !important;
+  background-color: #fb7c15 !important; }

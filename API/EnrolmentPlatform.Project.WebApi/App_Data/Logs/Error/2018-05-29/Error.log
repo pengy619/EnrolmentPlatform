@@ -1,0 +1,56 @@
+2018-05-29 11:17:16,480  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-05-29 11:17:16——System.TimeoutException：Timeout performing GET WisdomSecnic_1005, inst: 0, mgr: ExecuteSelect, err: never, queue: 0, qu: 0, qs: 0, qc: 0, wr: 0, wq: 0, in: 0, ar: 0, clientName: DESKTOP-OKHAP5L, serverEndpoint: 127.0.0.1:6379, keyHashSlot: 1425, IOCP: (Busy=0,Free=1000,Min=4,Max=1000), WORKER: (Busy=3,Free=32764,Min=4,Max=32767), Local-CPU: unavailable (Please take a look at this article for some common client-side issues that can cause timeouts: https://github.com/StackExchange/StackExchange.Redis/tree/master/Docs/Timeouts.md)——堆栈信息：   在 StackExchange.Redis.ConnectionMultiplexer.ExecuteSyncImpl[T](Message message, ResultProcessor`1 processor, ServerEndPoint server)
+   在 StackExchange.Redis.RedisBase.ExecuteSync[T](Message message, ResultProcessor`1 processor, ServerEndPoint server)
+   在 StackExchange.Redis.RedisDatabase.StringGet(RedisKey key, CommandFlags flags)
+   在 WisdomScenic.Project.Infrastructure.RedisHelper.Get[T](String key) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Cache\RedisHelper.cs:行号 81
+   在 WisdomScenic.Project.WebApi.Controllers.ServiceController.<>c__DisplayClass0_0.<GetToken>b__0() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Controllers\ServiceController.cs:行号 37
+   在 System.Threading.Tasks.Task`1.InnerInvoke()
+   在 System.Threading.Tasks.Task.Execute()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.WebApi.Controllers.ServiceController.<GetToken>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\Controllers\ServiceController.cs:行号 22
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Threading.Tasks.TaskHelpersExtensions.<CastToObject>d__3`1.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()StackExchange.Redis
+2018-05-29 11:22:24,727  WisdomScenic.Project.Attributes.API.ApiExceptionFilter : 2018-05-29 11:22:24——System.TimeoutException：Timeout performing SET WisdomSecnic_CustormIP, inst: 5, mgr: ExecuteSelect, err: never, queue: 0, qu: 0, qs: 0, qc: 0, wr: 0, wq: 0, in: 0, ar: 0, clientName: DESKTOP-OKHAP5L, serverEndpoint: 127.0.0.1:6379, keyHashSlot: 12035, IOCP: (Busy=3,Free=997,Min=4,Max=1000), WORKER: (Busy=5,Free=32762,Min=4,Max=32767), Local-CPU: unavailable (Please take a look at this article for some common client-side issues that can cause timeouts: https://github.com/StackExchange/StackExchange.Redis/tree/master/Docs/Timeouts.md)——堆栈信息：   在 StackExchange.Redis.ConnectionMultiplexer.ExecuteSyncImpl[T](Message message, ResultProcessor`1 processor, ServerEndPoint server)
+   在 StackExchange.Redis.RedisBase.ExecuteSync[T](Message message, ResultProcessor`1 processor, ServerEndPoint server)
+   在 WisdomScenic.Project.Infrastructure.RedisHelper.Set(String key, Object value) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Cache\RedisHelper.cs:行号 102
+   在 WisdomScenic.Project.Attributes.API.ApiSecurityFilter.OnActionExecuting(HttpActionContext actionContext) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Attributes\ApiSecurityFilter.cs:行号 65
+   在 System.Web.Http.Filters.ActionFilterAttribute.OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()StackExchange.Redis

@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+@model OptionParamForTicketForDataForXiangDto
+<style type="text/css"> 
+    .layui-form-label > em { color: #f00; font-style: normal; padding: 0 5px; }
+</style>
+<div class="layui-form-item">
+    <label class="layui-form-label"><em>*</em>介绍图片</label>
+    <div class="layui-input-block">
+        <button type="button" class="layui-btn layui-btn-primary" id="upload">批量上传图片</button>
+        <span>（图片格式为jpg/png/bmp，最大为2M，至少上传一张，最多10张。）</span>
+        <div class="upload-img-box">
+            @if (Model.OptionParamForPictureDto != null && Model.OptionParamForPictureDto.Any())
+            {
+                foreach (var item in Model.OptionParamForPictureDto)
+                {
+                    <div class="img-item">
+                        <div class="cover @(item.Iscover ? "show" : "")">
+                            <span onclick="setPic(this)">@(item.Iscover ? "主图" : "设为主图")</span>
+                            <span class="layui-icon" onclick="deletePic(this)">ဇ</span>
+                        </div>
+                        <img src="@item.FilePath" alt="">
+                        <input type="text" value="@(item.FileName)" class="img-name" placeholder="图片名称">
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label"><em>*</em>预订说明</label>
+    <div class="layui-input-block" style="width:800px;">
+        <textarea id="BookDescription" name="BookDescription" placeholder="请输入内容" class="layui-textarea" style="width:600px;">@Html.Raw(Model.BookDescription)</textarea>
+    </div>
+</div>
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label"><em>*</em>使用说明</label>
+    <div class="layui-input-block" style="width:800px;">
+        <textarea id="UseDescription" name="UseDescription" placeholder="请输入内容" class="layui-textarea" style="width:600px;">@Html.Raw(Model.UseDescription)</textarea>
+    </div>
+</div>

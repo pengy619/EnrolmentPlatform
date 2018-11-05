@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "发票详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">发票信息</div>
+        <div class="panel-body info-cell">
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">发票编号</label>
+                    <div class="text">13107331223</div>
+                </div>
+                <div class="item">
+                    <label class="label">用户名称</label>
+                    <div class="text">锦屏A供应商</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">提交用户</label>
+                    <div class="text">13712345678</div>
+                </div>
+                <div class="item">
+                    <label class="label">用户类型</label>
+                    <div class="text">供应商</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">提现时间</label>
+                    <div class="text">2018-01-23 12:00:00</div>
+                </div>
+                <div class="item">
+                    <label class="label">审核状态</label>
+                    <div class="text pro-color">待开发票</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">审核时间</label>
+                    <div class="text">2018-01-22 12:00:00</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">审核结果说明</label>
+                    <div class="text">资料信息有误，请修改后重新提交</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">开票资料</div>
+        <div class="panel-body info-cell">
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">发票抬头</label>
+                    <div class="text">云旅通科技有限公司</div>
+                </div>
+                <div class="item">
+                    <label class="label">发票金额</label>
+                    <div class="text">￥1099.00</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">发票类型</label>
+                    <div class="text">专用</div>
+                </div>
+                <div class="item">
+                    <label class="label">发票邮寄地址</label>
+                    <div class="text">深圳市 南山区特发信息港</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">操作日志</div>
+        <div class="panel-body">
+            <table class="layui-hide" id="invoiceTable"></table>
+        </div>
+    </div>
+    <div class="main-fixed-footer center">
+        <button class="layui-btn layui-btn-primary" id="button">
+            <a href="./finance-invoicelist.html">返回</a>
+        </button>
+    </div>
+</div>
+
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#invoiceTable'
+            , data: [{
+                mode: '创建申请',
+                company: '提交审核',
+                number: '1916204873356'
+            }
+            ]
+            , cols: [[
+                { field: 'mode', title: '寄送方式' },
+                { field: 'company', title: '快递公司' },
+                { field: 'number', title: '运单号' },
+            ]]
+        });
+    });
+</script>

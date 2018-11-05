@@ -1,0 +1,249 @@
+﻿
+@{
+    ViewBag.Title = "添加游乐项目";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int status = ViewBag.OpreationStatus;
+    EnrolmentPlatform.Project.DTO.Product.RecommendAmusementProjectDto dto = ViewBag.Info;
+}
+<form class="layui-form">
+    <div class="main-wrap">
+        <div class="panel">
+            <div class="panel-title">
+                添加游乐项目
+            </div>
+            <div class="panel-body">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传图片</label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-primary" type="button" id="upload">上传图片</button>
+                        <span>（图片格式为jpg/png/bmp，最大为2M）</span>
+                        <div class="upload-img-box">
+                            <div class="img-item">
+                                <div class="cover">
+                                    <span class="layui-icon" onclick="RemovePic()">ဇ</span>
+                                </div>
+                                <img src='@(status==2?dto.FilePath:"")' id="imgLogo" alt="">
+                                <input type="hidden" id="hidImg" value='@(status==2?dto.FilePath:"")' />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline">
+                        <input id="txtSort" type="number" lay-verify="required|number" style="width:200px;" name="Sort" class="layui-input" value='@(status==2?dto.Sort.ToString():"")'>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">游乐项目</label>
+                    <div class="layui-input-inline" style="width:600px;">
+                        <button class="layui-btn layui-btn-primary sele-btn" type="button">选择</button>
+                        <table class="layui-table" id="pro-table"></table>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" type="button" lay-submit="" lay-filter="save">保存</button>
+                        <a href="@Url.Action("RecommendAmusementProject","SettingB2C","Operate")" class="layui-btn layui-btn-primary">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 选择游乐项目 -->
+    <div id="add-projects" style="display:none">
+        <div class="layui-form  margin-top-30">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width:100px;">游乐项目名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="txtProductName" name="name" autocomplete="off" class="layui-input">
+                </div>
+                <label class="layui-form-label" style="width:100px;">所属景点</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="txtScenicSpotName" name="name" autocomplete="off" class="layui-input">
+                </div>
+                <button class="layui-btn layui-btn-warm" type="button" data-type="reload" lay-submit="" lay-filter="s">查询</button>
+            </div>
+        </div>
+        <table id="table" lay-filter="table"></table>
+    </div>
+</form>
+<div style="display:none">
+    <textarea id="text_editor"></textarea>
+</div>
+<input type="hidden" id="hidId" value='@(status==2?dto.Id.ToString():"")' />
+<input type="hidden" id="hidProjectId" value='@(status==2?dto.AmusementProjectId.ToString():"")' />
+<input type="hidden" id="hidProjectName" value='@(status==2?dto.AmusementProjectName:"")' />
+@Html.RenderTextAreaEditorScripts()
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="chooice">选择</a>
+</script>
+<script>
+    layui.use(['layer', 'table', 'jquery',], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var layer = layui.layer, form = layui.form;
+        table.render({
+            elem: '#pro-table'
+            , skin: 'line'
+            , data: [@(Html.Raw(ViewBag.ProjectInfo))]
+            , cols: [[ //表头
+                { field: 'ProjectNumber', title: '编号', withd: 100 }
+                , { field: 'ProjectName', title: '游乐项目名称', width: 200 }
+                , { field: 'SupplierName', title: '供应商', width: 150 }
+                , { field: 'ScenicSpotNameStr', title: '所属景点', width: 150 }
+            ]]
+        });
+
+        //打开选择游乐项目窗口
+        var index;
+        $('.sele-btn').click(function () {
+            index = layer.open({
+                type: 1,
+                title: '选择游戏项目',
+                area: ['790px', '450px'], //宽高
+                content: $('#add-projects')
+            });
+            return false
+        });
+
+        //景点选择列表
+        table.render({
+            elem: '#table'
+            , skin: 'line'
+            , limit: 5
+            , url: '@Url.Action("TicketSearch", "SettingB2C")'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'ProjectNumber', title: '编号', width: 100, }
+                , { field: 'ProjectName', title: '游乐项目名称', width: 150, }
+                , { field: 'Address', title: '所在地', width: 200 }
+                , { field: 'ScenicSpotNameStr', title: '所属景点', width: 150 }
+                , { field: 'ScenicRangeStr', title: '景点范围', width: 100 }
+                , { title: '操作', toolbar: '#tableTool', width: 100 }
+            ]]
+        });
+
+        //选择游乐项目
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if (layEvent == "chooice") {
+                table.render({
+                    elem: '#pro-table'
+                    , skin: 'line'
+                    , data: [data]
+                    , cols: [[ //表头
+                        { field: 'ProjectNumber', title: '编号', withd: 100 }
+                        , { field: 'ProjectName', title: '游乐项目名称', width: 200 }
+                        , { field: 'SupplierName', title: '供应商', width: 150 }
+                        , { field: 'ScenicSpotNameStr', title: '所属景点', width: 150 }
+                    ]]
+                });
+                $("#hidProjectId").val(data.Id);
+                $("#hidProjectName").val(data.ProjectName);
+                layer.close(index);
+            }
+        });
+
+        //查询
+        form.on('submit(s)', function (data) {
+            //执行重载
+            table.reload('table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    ProjectName: $("#txtProductName").val(),
+                    ScenicSpotName: $("#txtScenicSpotName").val()
+                }
+            });
+        });
+
+        //提交方法
+        form.on('submit(save)', function (data) {
+            var dto = {};
+            dto.Id = $("#hidId").val();
+            dto.AmusementProjectId = $("#hidProjectId").val();
+            dto.AmusementProjectName = $("#hidProjectName").val();
+            dto.FilePath = $("#hidImg").val();
+            dto.Sort = $("#txtSort").val();
+
+            //图片判断
+            if (dto.FilePath == "") {
+                layer.msg("请上传图片", {
+                    icon: 2,
+                    time: 1500
+                });
+                return false;
+            }
+
+            //游乐项目判断
+            if (dto.AmusementProjectId == "" || dto.AmusementProjectName == "") {
+                layer.msg("请选择游乐项目", {
+                    icon: 2,
+                    time: 1500
+                });
+                return false;
+            }
+
+            //保存
+            $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(dto),
+                    url: '@Url.Action("Save", "SettingB2C")',
+                    success: function (result) {
+                        if (result.ret == true) {
+                            layer.msg('保存成功。', {
+                                icon: 1,
+                                time: 1500
+                            }, function () {
+                                window.location.href = '@(Url.Action("RecommendAmusementProject", "SettingB2C"))';
+                            });
+                        }
+                        else {
+                            layer.msg(result.info, {
+                                icon: 2,
+                                time: 1500
+                            });
+                        }
+                    }
+            });
+            return false;
+        });
+    });
+
+    //移除图片
+    function RemovePic() {
+        $("#hidImg").val("");
+        $("#imgLogo").attr("src", "");
+    }
+
+    $(function () {
+        var editor;
+        $("#text_editor").createEditor({ width: "100%", height: 300 }, function (e) {
+            editor = e;
+        });
+
+        //图片上传
+        $("#upload").click(function () {
+            editor.loadPlugin('image', function () {
+                editor.plugin.imageDialog({
+                    showRemote: false,
+                    clickFn: function (url, title, width, height, border, align) {
+                        $("#imgLogo").attr("src", url);
+                        $("#hidImg").val(url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+    });
+
+</script>
+

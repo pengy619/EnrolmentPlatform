@@ -1,0 +1,102 @@
+﻿@using EnrolmentPlatform.Project.DTO.Finance;
+@using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
+@model SettlementsDetailsDto
+@{
+    ViewBag.Title = "结算单信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title"> 结算单信息</div>
+        <div class="panel-body info-cell">
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">结算单号</label>
+                    <div class="text">@Model.SettlementNo</div>
+                </div>
+                <div class="item">
+                    <label class="label">订单数量</label>
+                    <div class="text">@Model.OrderQuantity</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">订单总额</label>
+                    <div class="text">￥@Model.TotalOrderAmount</div>
+                </div>
+                <div class="item">
+                    <label class="label">申请结算金额</label>
+                    <div class="text pro-color">￥@Model.SettlementAmount</div>
+                </div>
+            </div>
+            <div class="row row-3"> 
+                <div class="item">
+                    <label class="label">申请时间</label>
+                    <div class="text">@Model.CreatorTime</div>
+                </div>
+                <div class="item">
+                    <label class="label">结算状态</label>
+                    <div class="text pro-color">@EnumDescriptionHelper.GetDescription(Model.Status)</div>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <div class="panel detail-style">
+        <div class="panel-title">结算单预览</div>
+        <div class="panel-body info-cell">
+            <div class="cw-table-title">
+                <span>结算单</span>
+                <span class="">结算周期：@Model.SettlementCycle</span>
+            </div>
+            <table id="infoTable" lay-filter="infotable">
+                <thead>
+                    <tr>
+                        <th lay-data="{field:'Classify'}">订单类型</th>
+                        <th lay-data="{field:'OrderNo'}">订单编号</th>
+                        <th lay-data="{field:'ProductName'}">产品信息</th>
+                        <th lay-data="{field:'Amount'}">订单总金额</th>
+                        <th lay-data="{field:'OrderStatus'}">订单状态</th>
+                        <th lay-data="{field:'CreatorTime'}">订单完成时间</th>
+                        <th lay-data="{field:'SettlementAmount'}">申请结算金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SettlementsOrderInfoDtos != null)
+                    {
+                        foreach (var m in Model.SettlementsOrderInfoDtos)
+                        {
+                            <tr>
+                                <td>@m.ClassifyName</td>
+                                <td>@m.OrderNo</td>
+                                <td>@m.ProductName</td>
+                                <td>@m.Amount</td>
+                                <td>@m.OrderStatusName</td>
+                                <td>@m.CreatorTime</td>
+                                <td>@m.SettlementAmount</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <div class="allamount">结算金额合计：<span class="pro-color">￥@Model.SettlementAmount</span></div>
+
+        </div>
+    </div>
+    <div class="main-fixed-footer center">
+        <a class="layui-btn layui-btn-primary" href="@Url.Action("SettlementCenter","Payment",new { parentId=4})">返回</a> 
+    </div>
+</div>
+
+@section scripts{
+    <script src="../../framework/layui/layui.js"></script>
+    <script src="../../js/common.js"></script>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+            table.init("infotable", { limit: 100 });
+        });
+
+    </script>
+}

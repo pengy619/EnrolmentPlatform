@@ -1,0 +1,158 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var opStatus = ViewBag.OPStatus;
+    EnrolmentPlatform.Project.DTO.Systems.RoleDto dto = ViewBag.RoleInfo;
+    string permissionList = "";
+    if (opStatus == 2)
+    {
+        permissionList = string.Join(",", dto.PermissionList.ToArray());
+    }
+    ViewBag.Title = opStatus == 1 ? "新建角色" : "修改角色";
+}
+
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            @(ViewBag.Title)
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">角色名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="txtRole" value='@((opStatus == 2) ? dto.RoleName : "")'
+                               lay-verify="required" maxlength="20">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="2" title="启用" @((opStatus == 1 || (opStatus == 2 && dto.Status == EnrolmentPlatform.Project.DTO.Enums.StatusBaseEnum.Enabled)) ? "checked" : "")>
+                        <input type="radio" name="status" value="1" title="禁用" @((opStatus == 2 && dto.Status == EnrolmentPlatform.Project.DTO.Enums.StatusBaseEnum.Disabled) ? "checked" : "")>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-title required">
+            选择功能
+        </div>
+        <div class="panel-body">
+            <form class="layui-form">
+                <div id="layui-xtree-demo1" style="width:400px;padding: 10px 0 25px 5px;"></div>
+            </form>
+            <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
+            <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidRoleId" value='@((opStatus == 2) ? dto.RoleId.Value.ToString() :"")' />
+<script src="/Content/website/framework/layui/layui-xtree.js"></script>
+<script>
+    layui.use(['jquery', 'form'], function () {
+        var form = layui.form,layer = layui.layer;
+
+        //绑定权限树
+        var json = @Html.Raw(ViewBag.PermissionList);
+        var xtree = new layuiXtree({
+            elem: 'layui-xtree-demo1'
+            , form: form
+            , data: json
+            , ckallback: function () { } //全选框状态改变后执行的回调函数 
+            , click: function (data) {  //节点选中状态改变事件监听，全选框有自己的监听事件
+                //console.log(data.elem); //得到checkbox原始DOM对象
+                //console.log(data.elem.checked); //开关是否开启，true或者false
+                //console.log(data.value); //开关value值，也可以通过data.elem.value得到
+                //console.log(data.othis); //得到美化后的DOM对象
+
+                //首页不允许取消勾选
+                var curItem = $(data.elem);
+                if (curItem.attr("title") == "首页") {
+                    $("#layui-xtree-demo1 input[type='checkbox']").each(function () {
+                        var curTitle = $(this).attr("title");
+                        if (curTitle == "首页") {
+                            $(this).prop("checked", true);
+                        }
+                    });
+                    form.render();
+                }
+            }
+        });
+
+        //默认初始权限
+        var curPermission = "@permissionList";
+        $("#layui-xtree-demo1 input[type='checkbox']").each(function () {
+            var curTitle = $(this).attr("title");
+            if (curTitle == "首页") {
+                $(this).prop("checked", true);
+            }
+            else {
+                //查找是否有权限
+                var curId = $(this).val();
+                var permissionArr = curPermission.split(',');
+                var hasPermission = false;
+                for (var a = 0; a < permissionArr.length; a++) {
+                    if (permissionArr[a] == curId) {
+                        hasPermission = true;
+                        //break;
+                    }
+                }
+
+                //如果有权限
+                if (hasPermission == true) {
+                    //勾选
+                    $(this).prop("checked", true);
+                }
+            }
+            form.render();
+        });
+
+        //提交
+        form.on('submit(s)', function (data) {
+            var checedList = $("#layui-xtree-demo1 input[type='checkbox']:checked");
+            if (checedList.size() == 0) {
+                layer.msg('请选择角色的权限。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //提交
+            var dto = {};
+            dto.RoleName = $("#txtRole").val();
+            dto.IntStatus = $("input[name='status']:checked").val();
+            dto.RoleId = $("#hidRoleId").val();
+            dto.PermissionList = new Array(checedList.size());
+            checedList.each(function (i) {
+                dto.PermissionList[i] = $(this).val();
+            });
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("SaveRole", "Roles")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('保存成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            window.location.href = '@Url.Action("List", "Roles")';
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    })
+</script> 

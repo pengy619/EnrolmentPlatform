@@ -1,0 +1,96 @@
+﻿@model  List<EnrolmentPlatform.Project.DTO.Finance.BankCardListDto>
+@{
+    ViewBag.Title = "银行卡管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap cw-flex">
+    @foreach (var m in Model)
+    {
+        <div class="back-card">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="iconfont icon-brush"></i>
+                </div>
+                <div class="card-body-text">
+                    <p>@m.Bank</p>
+                    <p>@m.CardNumber</p>
+                    <p>@m.CardName</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="layui-btn layui-btn-warm layui-btn-sm btnUnbinding" data-id="@m.Id" lay-filter="unbinding">解绑</button>
+            </div>
+        </div>
+    }
+    @if (Model.Count >= 5)
+    {
+        <div class="back-card">
+            <div class="card-body">
+                <div class="card-body-text">
+                    最多绑定5张卡
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="back-card">
+            <div class="add-card">
+                <i class="layui-icon"></i>
+                <a href="@Url.Action("Option", "BankCard", new { area = "Finance", parentId = 4 })">点击添加新的银行卡</a>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script type="text/javascript">
+        layui.use(['element', 'jquery'], function () {
+            var element = layui.element;
+            var $ = layui.jquery;
+            //银行卡解除事件
+            var isSubmit = true;
+            $(".btnUnbinding").on("click", function () {
+                if (isSubmit) {
+                var id = $(this).data("id");
+                $.ajax({
+                    url: "@Url.Action("UnbindingBankCard", "BankCard")",
+                    data: { Id: id },
+                    type: "post",
+                    dataType: "json",
+                    beforeSend: function () {
+                        isSubmit = false;
+                    },
+                    success: function (res) {
+                        if (res.IsSuccess) {
+                            layer.open({
+                                title: '提示'
+                                , content: "操作成功",
+                                yes: function (index, layero) {
+                                    location.reload();
+                                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                }
+                            });
+                        } else {
+                            layer.open({
+                                title: '提示'
+                                , content: res.Info
+                            });
+                        }
+                    },
+                    complete: function () {
+                        isSubmit = true;
+                    }
+                })
+                }
+                });
+        });
+
+        $(function () {
+
+        })
+
+    </script>
+
+}
+

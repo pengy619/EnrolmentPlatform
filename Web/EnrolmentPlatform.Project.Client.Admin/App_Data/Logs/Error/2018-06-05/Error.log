@@ -1,0 +1,1057 @@
+2018-06-05 10:51:42,430  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 28
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:51:45,327  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 28
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:51:47,643  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 28
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:52:21,164  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 28
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:52:24,048  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 28
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:52:42,451  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 28
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:54:51,639  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:57:36,615  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:57:40,155  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:57:47,950  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 10:57:56,345  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:00:30,412  Wisdom.Client.Admin.Filter.ExceptionFilter : System.Threading.Tasks.TaskCanceledException: 已取消一个任务。
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.<GetAsync>d__5`1.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 178
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 25
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:01:26,862  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingBasicController.<UserProtocol>d__0.MoveNext() 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingBasicController.cs:行号 28
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:03:44,279  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:03:47,494  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:03:49,995  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:05:44,474  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:05:47,800  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:05:51,377  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:07:14,445  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:07:21,698  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:07:23,557  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:07:36,155  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view '                           
+                        ' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/                           
+                        .aspx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .ascx
+~/Areas/Operate/Views/Shared/                           
+                        .aspx
+~/Areas/Operate/Views/Shared/                           
+                        .ascx
+~/Views/SettingBasic/                           
+                        .aspx
+~/Views/SettingBasic/                           
+                        .ascx
+~/Views/Shared/                           
+                        .aspx
+~/Views/Shared/                           
+                        .ascx
+~/Areas/Operate/Views/SettingBasic/                           
+                        .cshtml
+~/Areas/Operate/Views/SettingBasic/                           
+                        .vbhtml
+~/Areas/Operate/Views/Shared/                           
+                        .cshtml
+~/Areas/Operate/Views/Shared/                           
+                        .vbhtml
+~/Views/SettingBasic/                           
+                        .cshtml
+~/Views/SettingBasic/                           
+                        .vbhtml
+~/Views/Shared/                           
+                        .cshtml
+~/Views/Shared/                           
+                        .vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:17:12,814  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view 'test' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/test.aspx
+~/Areas/Operate/Views/SettingBasic/test.ascx
+~/Areas/Operate/Views/Shared/test.aspx
+~/Areas/Operate/Views/Shared/test.ascx
+~/Views/SettingBasic/test.aspx
+~/Views/SettingBasic/test.ascx
+~/Views/Shared/test.aspx
+~/Views/Shared/test.ascx
+~/Areas/Operate/Views/SettingBasic/test.cshtml
+~/Areas/Operate/Views/SettingBasic/test.vbhtml
+~/Areas/Operate/Views/Shared/test.cshtml
+~/Areas/Operate/Views/Shared/test.vbhtml
+~/Views/SettingBasic/test.cshtml
+~/Views/SettingBasic/test.vbhtml
+~/Views/Shared/test.cshtml
+~/Views/Shared/test.vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:17:22,988  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view 'test' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/test.aspx
+~/Areas/Operate/Views/SettingBasic/test.ascx
+~/Areas/Operate/Views/Shared/test.aspx
+~/Areas/Operate/Views/Shared/test.ascx
+~/Views/SettingBasic/test.aspx
+~/Views/SettingBasic/test.ascx
+~/Views/Shared/test.aspx
+~/Views/Shared/test.ascx
+~/Areas/Operate/Views/SettingBasic/test.cshtml
+~/Areas/Operate/Views/SettingBasic/test.vbhtml
+~/Areas/Operate/Views/Shared/test.cshtml
+~/Areas/Operate/Views/Shared/test.vbhtml
+~/Views/SettingBasic/test.cshtml
+~/Views/SettingBasic/test.vbhtml
+~/Views/Shared/test.cshtml
+~/Views/Shared/test.vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:17:25,559  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view 'test' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/test.aspx
+~/Areas/Operate/Views/SettingBasic/test.ascx
+~/Areas/Operate/Views/Shared/test.aspx
+~/Areas/Operate/Views/Shared/test.ascx
+~/Views/SettingBasic/test.aspx
+~/Views/SettingBasic/test.ascx
+~/Views/Shared/test.aspx
+~/Views/Shared/test.ascx
+~/Areas/Operate/Views/SettingBasic/test.cshtml
+~/Areas/Operate/Views/SettingBasic/test.vbhtml
+~/Areas/Operate/Views/Shared/test.cshtml
+~/Areas/Operate/Views/Shared/test.vbhtml
+~/Views/SettingBasic/test.cshtml
+~/Views/SettingBasic/test.vbhtml
+~/Views/Shared/test.cshtml
+~/Views/Shared/test.vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:17:28,131  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view 'test' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/test.aspx
+~/Areas/Operate/Views/SettingBasic/test.ascx
+~/Areas/Operate/Views/Shared/test.aspx
+~/Areas/Operate/Views/Shared/test.ascx
+~/Views/SettingBasic/test.aspx
+~/Views/SettingBasic/test.ascx
+~/Views/Shared/test.aspx
+~/Views/Shared/test.ascx
+~/Areas/Operate/Views/SettingBasic/test.cshtml
+~/Areas/Operate/Views/SettingBasic/test.vbhtml
+~/Areas/Operate/Views/Shared/test.cshtml
+~/Areas/Operate/Views/Shared/test.vbhtml
+~/Views/SettingBasic/test.cshtml
+~/Views/SettingBasic/test.vbhtml
+~/Views/Shared/test.cshtml
+~/Views/Shared/test.vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:18:05,680  Wisdom.Client.Admin.Filter.ExceptionFilter : System.InvalidOperationException: The view 'test' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Areas/Operate/Views/SettingBasic/test.aspx
+~/Areas/Operate/Views/SettingBasic/test.ascx
+~/Areas/Operate/Views/Shared/test.aspx
+~/Areas/Operate/Views/Shared/test.ascx
+~/Views/SettingBasic/test.aspx
+~/Views/SettingBasic/test.ascx
+~/Views/Shared/test.aspx
+~/Views/Shared/test.ascx
+~/Areas/Operate/Views/SettingBasic/test.cshtml
+~/Areas/Operate/Views/SettingBasic/test.vbhtml
+~/Areas/Operate/Views/Shared/test.cshtml
+~/Areas/Operate/Views/Shared/test.vbhtml
+~/Views/SettingBasic/test.cshtml
+~/Views/SettingBasic/test.vbhtml
+~/Views/Shared/test.cshtml
+~/Views/Shared/test.vbhtml
+   在 System.Web.Mvc.ViewResult.FindView(ControllerContext context)
+   在 System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-06-05 11:27:00,256  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:27:17,380  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	123
+</p>
+<p>
+	<...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:29:32,787  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:18,619  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:21,691  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:22,216  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:22,369  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:22,529  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:22,713  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:22,889  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)
+2018-06-05 11:30:38,407  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Web.HttpRequestValidationException (0x80004005): 从客户端(Content="<p>
+	test
+</p>
+<p>
+	...")中检测到有潜在危险的 Request.Form 值。
+   在 System.Web.HttpRequest.ValidateString(String value, String collectionKey, RequestValidationSource requestCollection)
+   在 System.Web.HttpValueCollection.EnsureKeyValidated(String key)
+   在 System.Web.HttpValueCollection.GetValues(String name)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.ValueProviderResultPlaceholder.GetResultFromCollection(String key, NameValueCollection collection, CultureInfo culture)
+   在 System.Web.Mvc.NameValueCollectionValueProvider.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.ValueProviderCollection.GetValue(String key, Boolean skipValidation)
+   在 System.Web.Mvc.DefaultModelBinder.BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+   在 System.Web.Mvc.DefaultModelBinder.BindProperties(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexElementalModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Object model)
+   在 System.Web.Mvc.DefaultModelBinder.BindComplexModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValue(ControllerContext controllerContext, ParameterDescriptor parameterDescriptor)
+   在 System.Web.Mvc.ControllerActionInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__19(AsyncCallback asyncCallback, Object asyncState)

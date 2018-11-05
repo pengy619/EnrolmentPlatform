@@ -1,0 +1,16 @@
+﻿
+/*开发使用*/
+
+.price-style .layui-form-checkbox[lay-skin=primary] { margin-bottom: 5px }
+
+#riliDiv tr:hover { background: #fff !important; }
+
+#riliDiv td { cursor: pointer !important; }
+
+#riliDiv td:hover { background: #f2f2f2 !important; }
+  
+.main-wrap .panel-body.img-style .row:nth-child(1) .item { width: 100% !important; }
+
+.main-wrap .panel-body.img-style .row:nth-child(1) .img-box { width: 10%; margin-right: 20px; position: relative; }
+.main-wrap .panel-body.img-style .row:nth-child(1) .img-box img { width: 100% !important; }
+.main-wrap .panel-body.img-style .row:nth-child(1) .img-box p { position: absolute; }

@@ -1,0 +1,131 @@
+﻿@using EnrolmentPlatform.Project.DTO.Finance;
+@using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
+@model BankCardDetailDto
+@{
+    ViewBag.Title = "银行卡详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">申请信息</div>
+        <div class="panel-body info-cell">
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">提交用户</label>
+                    <div class="text">@Model.CreatorAccount</div>
+                </div>
+                <div class="item">
+                    <label class="label">企业名称</label>
+                    <div class="text">@Model.EnterpriseName</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">企业类型</label>
+                    <div class="text">@EnumDescriptionHelper.GetDescription(Model.EnterpriceType)</div>
+                </div>
+
+                <div class="item">
+                    <label class="label">提交时间</label>
+                    <div class="text">@Model.CreatorTime</div>
+                </div>
+             
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">审核状态</label>
+                    <div class="text">审核通过</div>
+                </div>
+            </div>
+            @*<div class="row row-3">
+                <div class="item">
+                    <label class="label">审核时间</label>
+                    <div class="text">2018-01-22 12:00:00</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">审核结果说明</label>
+                    <div class="text">资料信息有误，请修改后重新提交</div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">银行卡信息</div>
+        <div class="panel-body info-cell">
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">账户名</label>
+                    <div class="text">@Model.CardName</div>
+                </div>
+                <div class="item">
+                    <label class="label">开户行</label>
+                    <div class="text">@Model.Bank</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">账户</label>
+                    <div class="text">@Model.CardNumber</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-fixed-footer center">
+        @*<button class="layui-btn layui-btn-warm" id="audit-btn">审核</button>*@
+        @*<button class="layui-btn layui-btn-primary" id="btn-back">*@
+            <a  class="layui-btn layui-btn-primary"  href="@Url.Action("BankCard","Withdraw",new { parentId=4})">返回</a>
+        @*</button>*@
+    </div>
+</div>
+<!-- 弹出层 -->
+<div id="audit-btn-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="model" value="1" title="审核通过" checked>
+                <input type="radio" name="model" value="2" title="审核拒绝">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        $("#audit-btn").click(function () {
+            layer.open({
+                type: 1,
+                title: '处理审核',
+                btn: ['确定', '取消'],
+                area: ['500px', '300px'], //宽高
+                content: $('#audit-btn-modal'),
+                yes: function () {
+                    return false
+                },
+                btn2: function () {
+
+                }
+            });
+        });
+        form.on('radio(type)', function (data) {
+            if (data.value == 1) {
+                $('.company').hide();
+                $('.personage').removeClass('layui-hide');
+            } else if (data.value == 0) {
+                $('.company').show();
+                $('.personage').addClass('layui-hide');
+            };
+        });
+    });
+</script>

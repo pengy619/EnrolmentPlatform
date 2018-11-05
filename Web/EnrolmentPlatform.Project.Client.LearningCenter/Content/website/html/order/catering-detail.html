@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>订单</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="../product/product-list.html" id="product">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="order-list.html" id="order" class="active">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/account-info.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item">
+                        <a href="order-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>农产品订单</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./refund-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>退换货订单</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./order-tickets.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务订单</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./refund-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>票务核销</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item active">
+                        <a href="./catering-list.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>餐饮订单</span>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="./catering-cancel.html">
+                            <i class="iconfont icon-nongchanpin"></i>
+                            <span>餐饮核销</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>订单</cite>
+                            </a>
+                            <a>
+                                <cite>订单列表</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap catering-detail">
+                    <div class="panel">
+                        <div class="panel-title flex">
+                            <div>
+                                <span>订单状态：
+                                    <span style="color:red">退款中</span>
+                                </span>
+                                <span>将于10天过期</span>
+                            </div>
+                            <div>
+                                <button class="layui-btn layui-btn-sm layui-btn-warm">审核</button>
+                                <!-- <button class="layui-btn layui-btn-sm layui-btn-warm">退款</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">消费券号（到店凭券号或二维码均可完成消费）</div>
+                        <div class="panel-body flex">
+                            <div class="ticket-list">
+                                <div class="ticket-item flex">
+                                    <div class="number">消费券号：2353 2359 0082 9028</div>
+                                    <div class="status pro-color">[未使用]</div>
+                                </div>
+                                <div class="ticket-item flex">
+                                    <div class="number">消费券号：2353 2359 0082 9028</div>
+                                    <div class="status pro-color">[未使用]</div>
+                                </div>
+                                <div class="ticket-item flex">
+                                    <div class="number">消费券号：2353 2359 0082 9028</div>
+                                    <div class="status pro-color">[未使用]</div>
+                                </div>
+                                <div class="ticket-item flex">
+                                    <div class="number">消费券号：2353 2359 0082 9028</div>
+                                    <div class="status pro-color">[未使用]</div>
+                                </div>
+                            </div>
+                            <div class="img-box">
+                                <img src="../../images/idcard.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">
+                            订单信息
+                        </div>
+                        <div class="panel-body">
+                            <div class="info-cell no-padding">
+                                <div class="row row-3">
+                                    <div class="item">
+                                        <span class="label">订单号</span>
+                                        <span class="text">0123456789</span>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">下单时间</span>
+                                        <span class="text">2018-03-18 11:26:21</span>
+                                    </div>
+                                </div>
+                                <div class="row row-3">
+                                    <div class="item">
+                                        <span class="label">付款日期</span>
+                                        <span class="text">2018-5-31 13:46:25</span>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">订单总金额</span>
+                                        <span class="text pro-color">￥310</span>
+                                    </div>
+                                </div>
+                                <div class="row row-3">
+                                    <div class="item">
+                                        <span class="label">付款方式</span>
+                                        <span class="text">微信</span>
+                                    </div>
+                                    <div class="item">
+                                        <span class="label">交易流水号</span>
+                                        <span class="text">2018902339203232242</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title"></div>
+                        <div class="panel-body">
+                            <table class="layui-table">
+                                <thead>
+                                    <tr>
+                                        <th>项目</th>
+                                        <th>单价</th>
+                                        <th>数量</th>
+                                        <th>总价</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>美味海鲜3~4人自助餐（中/晚餐）</p>
+                                            <img src="../../images/idcard.jpg" alt="">
+                                        </td>
+                                        <td>￥228</td>
+                                        <td>10</td>
+                                        <td class="pro-color">￥2280</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">
+                            退款信息
+                        </div>
+                        <div class="panel-body">
+                            <ul class="layui-timeline">
+                                <li class="layui-timeline-item">
+                                    <i class="layui-icon layui-timeline-axis"></i>
+                                    <div class="layui-timeline-content layui-text">
+                                        <h3 class="layui-timeline-title">退款申请</h3>
+                                        <p>
+                                            申请退款金额：￥310
+                                            <br>申请时间：2018-03-18 16:28:56
+                                            <br>退款说明：临时取消，申请退款。
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="layui-timeline-item">
+                                    <i class="layui-icon layui-timeline-axis"></i>
+                                    <div class="layui-timeline-content layui-text">
+                                        <h3 class="layui-timeline-title">处理结果</h3>
+                                        <p>
+                                            处理结果：
+                                            <span class="pro-color">同意退款</span>
+                                            <br>退款方式：原路返回
+                                            <br>实际退款金额：￥310
+                                            <br>处理时间：2018-03-18 16:28:56
+                                            <br>处理结果说明：经核实情况属实，同意退款
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">
+                            订单日志
+                        </div>
+                        <div class="panel-body">
+                            <ul class="layui-timeline">
+                                <li class="layui-timeline-item">
+                                    <i class="layui-icon layui-timeline-axis"></i>
+                                    <div class="layui-timeline-content layui-text">
+                                        <h3 class="layui-timeline-title">2018-3-1 14:32:23</h3>
+                                        <p>
+                                            提交订单成功
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="layui-timeline-item">
+                                    <i class="layui-icon layui-timeline-axis"></i>
+                                    <div class="layui-timeline-content layui-text">
+                                        <h3 class="layui-timeline-title">2018-3-1 14:32:23</h3>
+                                        <p>
+                                            付款成功
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body></html>

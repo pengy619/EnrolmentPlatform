@@ -1,0 +1,154 @@
+﻿@using EnrolmentPlatform.Project.DTO.Finance;
+@using EnrolmentPlatform.Project.DTO.Enums.Finance;
+@using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
+
+@model  ApplyCashDetailDto
+@{
+    ViewBag.Title = "提现信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input type="hidden" id="Id" value="@Model.Id" />
+<div class="main-wrap">
+    <div class="panel app-detail-style">
+        <div class="panel-title">提现信息</div>
+        <div class="panel-body info-cell">
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">申请账号</label>
+                    <div class="text">@Model.CreatorAccount</div>
+                </div>
+                <div class="item">
+                    <label class="label">用户名称</label>
+                    <div class="text">@Model.CardName</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">用户类型</label>
+                    <div class="text">@Model.UserType</div>
+                </div>
+                <div class="item">
+                    <label class="label">提现金额</label>
+                    <div class="text pro-color">￥@Model.Amount</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">提现时间</label>
+                    <div class="text">@Model.CreatorTime</div>
+                </div>
+                <div class="item">
+                    <label class="label">审核状态</label>
+                    <div class="text">@EnumDescriptionHelper.GetDescription(Model.Status)</div>
+                </div>
+            </div>
+            @if (Model.Status != EnrolmentPlatform.Project.DTO.Enums.Finance.CashApplyStatusEnum.Checking)
+            {
+                <div class="row row-3">
+                    <div class="item">
+                        <label class="label">审核时间</label>
+                        <div class="text">@Model.AuditTime</div>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <label class="label">审核结果说明</label>
+                        <div class="text">@Model.OptionReason</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">银行卡信息</div>
+        <div class="panel-body info-cell">
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">账户名</label>
+                    <div class="text">@Model.CardName</div>
+                </div>
+                <div class="item">
+                    <label class="label">开户行</label>
+                    <div class="text">@Model.Bank</div>
+                </div>
+            </div>
+            <div class="row row-3">
+                <div class="item">
+                    <label class="label">账户</label>
+                    <div class="text">@Model.CardNumber</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">操作日志</div>
+        <div class="panel-body">
+            @Html.Partial("~/Views/Shared/_logSettingForTable.cshtml", Model.Id)
+        </div>
+    </div>
+    <div class="main-fixed-footer center">
+        @if (Model.Status == EnrolmentPlatform.Project.DTO.Enums.Finance.CashApplyStatusEnum.Checking)
+        {
+            <button class="layui-btn layui-btn-warm" id="audit-btn" type="button">审核</button>
+        }
+
+        <a class="layui-btn layui-btn-primary" href="@Url.Action("Index","Withdraw",new { parentId=4})">返回</a>
+
+    </div>
+</div>
+<!-- 弹出层 -->
+<div id="audit-btn-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="CashApplyStatus" value="@CashApplyStatusEnum.Agree" title="@EnumDescriptionHelper.GetDescription(CashApplyStatusEnum.Agree)" checked>
+                <input type="radio" name="CashApplyStatus" value="@CashApplyStatusEnum.Refuse" title="@EnumDescriptionHelper.GetDescription(CashApplyStatusEnum.Refuse)">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style="width:300px;" id="txtOptionReason"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    layui.use(['table', 'layer', 'jquery'], function () {
+        var table = layui.table;
+        var layer = layui.layer;
+        var $ = layui.$;
+        $("#audit-btn").click(function () {
+            layer.open({
+                type: 1,
+                title: '处理审核',
+                btn: ['确定', '取消'],
+                area: ['500px', '300px'], //宽高
+                content: $('#audit-btn-modal'),
+                yes: function (index) {
+                    var ids = [$("#Id").val()];
+                    $.ajax({
+                        url: "@Url.Action("AuditApplyCash", "Withdraw")",
+                        type: "post",
+                        async: false,
+                        dataType: 'json',
+                        data: { Ids: ids, Status: $("input[name=CashApplyStatus]:checked").val(), OptionReason: $("#txtOptionReason").val() },
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                layer.msg("操作成功");
+                                layer.close(index);
+                            } else
+                                layer.msg(res.Info);
+                        }
+                    });
+                },
+                btn2: function () {
+
+                }
+            });
+        });
+
+    });
+</script>

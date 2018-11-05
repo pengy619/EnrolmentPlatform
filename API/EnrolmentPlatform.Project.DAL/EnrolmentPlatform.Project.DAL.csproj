@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F8FD30B5-23F5-445A-AF11-F94B9170ADE5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EnrolmentPlatform.Project.DAL</RootNamespace>
+    <AssemblyName>EnrolmentPlatform.Project.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\EnrolmentPlatform.Project.WebApi\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=2.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.1.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.BulkInsert-ef6.6.0.1.2\lib\net45\EntityFramework.BulkInsert.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.2.0\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accounts\T_AccountBasicRepository.cs" />
+    <Compile Include="Accounts\T_AccountVerificationRepository.cs" />
+    <Compile Include="Accounts\T_DeliveryAddressRepository.cs" />
+    <Compile Include="Accounts\T_EnterpriseRepository.cs" />
+    <Compile Include="BaseRepository.cs" />
+    <Compile Include="DbContextFactory.cs" />
+    <Compile Include="Finance\T_AccountDetailInfoRepository.cs" />
+    <Compile Include="Finance\T_OrderSettlementInfoRepository.cs" />
+    <Compile Include="Finance\T_OrderSettlementRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\T_DepartmentRepository.cs" />
+    <Compile Include="Systems\T_PositionRepository.cs" />
+    <Compile Include="Systems\T_RoleRepository.cs" />
+    <Compile Include="Systems\T_AddressRepository.cs" />
+    <Compile Include="Systems\T_FileRepository.cs" />
+    <Compile Include="Systems\T_SystemBasicSettingRepository.cs" />
+    <Compile Include="Systems\T_SystemLoginLogRepository.cs" />
+    <Compile Include="Systems\T_LogSettingDetailRepository.cs" />
+    <Compile Include="Systems\T_LogSettingRepository.cs" />
+    <Compile Include="Systems\T_SystemMessageRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EnrolmentPlatform.Project.Domain\EnrolmentPlatform.Project.Domain.csproj">
+      <Project>{686cbad4-db7e-4fae-8256-49555acdeeff}</Project>
+      <Name>EnrolmentPlatform.Project.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnrolmentPlatform.Project.DTO\EnrolmentPlatform.Project.DTO.csproj">
+      <Project>{F15A7169-93EF-4902-A159-19802DFED563}</Project>
+      <Name>EnrolmentPlatform.Project.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnrolmentPlatform.Project.IDAL\EnrolmentPlatform.Project.IDAL.csproj">
+      <Project>{f23f60ce-9aea-419a-bb9d-709942ba6e3a}</Project>
+      <Name>EnrolmentPlatform.Project.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnrolmentPlatform.Project.Infrastructure\EnrolmentPlatform.Project.Infrastructure.csproj">
+      <Project>{dbcadb3b-50de-4e56-82c4-9a73c157dc1d}</Project>
+      <Name>EnrolmentPlatform.Project.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Orders\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

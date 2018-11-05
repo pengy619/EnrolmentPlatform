@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_tye3ga57s8w1m7vi.css"> <link rel="stylesheet" href="../../../css/main.css"> <link rel="stylesheet" href="../../../css/replace.css">
+        <title>设置</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="../../product/product-list.html" id="product">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="../../users/supplier-list.html" id="users">
+        <i class="iconfont icon-account"></i>
+        用户
+    </a>
+    <a href="../../operate/website-setting.html" id="operate">
+        <i class="iconfont icon-yunyingguanli"></i>
+        运营
+    </a>
+    <a href="../../article/article-list.html" id="article">
+        <i class="iconfont icon-wenzhang"></i>
+        内容
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="product-param/farm-param.html" id="setting" class="active">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-shezhi"></i> 参数设置</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../product-param/farm-param.html">农产品参数</a>
+                            </dd>
+                            <dd>
+                                <a href="../product-param/system-param.html">系统参数</a>
+                            </dd>
+                            <dd>
+                                    <a href="/product-param/tickets-param.html">票务参数</a>
+                                </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-zuzhijigou"></i> 组织架构设置</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../org-setting/department-manage.html">部门管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../org-setting/position-manage.html">职位管理</a>
+                            </dd>
+                            <dd class="active">
+                                <a href="../org-setting/roles-setting.html">角色设置</a>
+                            </dd>
+                            <dd>
+                                <a href="../org-setting/staff-manage.html">员工管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../org-setting/shop-manage.html">门店管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-gongnengfuwu"></i> 公共插件配置
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../plugin-setting/payment-plugin.html">支付插件</a>
+                            </dd>
+                            <dd>
+                                <a href="../plugin-setting/sms-plugin.html">短信插件</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-rizhi"></i> 系统日志
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../system-logs/login-logs.html">登录日志管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../system-logs/edit-logs.html">操作日志管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>设置</cite>
+                            </a>
+                            <a>
+                                <cite>组织架构</cite>
+                            </a>
+                            <a>
+                                <cite>角色设置</cite>
+                            </a>
+                            <a>
+                                <cite>添加角色</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href="">
+        <i class="iconfont icon-dingdan"></i>
+        <span class="layui-badge">3</span>
+    </a>
+    <a href="">
+        <i class="iconfont icon-xiaoxi"></i>
+    </a>
+    <a href="">
+        <i class="iconfont icon-iconfontlipinduihuanbangzhu"></i>
+    </a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="panel-title">
+                            新建角色
+                        </div>
+                        <div class="panel-body">
+                            <div class="layui-form">
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">角色名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">启用状态</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="status" value="1" title="启用" checked>
+                                        <input type="radio" name="status" value="2" title="禁用">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-title">
+                            选择功能
+                        </div>
+                        <div class="panel-body">
+                            <form class="layui-form">
+                                <div id="layui-xtree-demo1" style="width:400px;padding: 10px 0 25px 5px;"></div>
+                            </form>
+                            <button class="layui-btn ">保存
+                                </button><button class="layui-btn layui-btn-primary">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--引入js-->
+     <script src="../../../framework/layui/layui.js"></script> <script src="../../../js/common.js"></script>
+        <script src="../../../framework/layui/layui-xtree.js"></script>
+        <script>
+            layui.use(['jquery', 'form'], function () {
+                var form = layui.form;
+                var json = [
+                    {
+                        title: "首页", value: "首页", data: [
+                            { title: "首页", value: "首页", data: [] }
+                            , {
+                                title: "系统消息", value: "系统消息", data: [
+                                    { title: "系统消息1.1", value: "系统消息1.1", data: [] }
+                                ]
+                            }
+                        ]
+                    }
+                    , {
+                        title: "产品", value: "产品", data: [
+                            { title: "产品2.1", value: "产品2.1", data: [] }
+                            , { title: "产品2.2", value: "产品2.2", data: [] }
+                            , { title: "产品2.3", value: "产品2.3", data: [] }
+                        ]
+                    }
+                    , { title: "营销", value: "营销", data: [] }
+                ];
+                var xtree = new layuiXtree({
+                    elem: 'layui-xtree-demo1'
+                    , form: form
+                    , data: json
+                    , ckallback: function () { } //全选框状态改变后执行的回调函数 
+                    , click: function (data) {  //节点选中状态改变事件监听，全选框有自己的监听事件
+                        console.log(data.elem); //得到checkbox原始DOM对象
+                        console.log(data.elem.checked); //开关是否开启，true或者false
+                        console.log(data.value); //开关value值，也可以通过data.elem.value得到
+                        console.log(data.othis); //得到美化后的DOM对象
+                    }
+                });
+            })
+        </script>
+
+
+</body></html>

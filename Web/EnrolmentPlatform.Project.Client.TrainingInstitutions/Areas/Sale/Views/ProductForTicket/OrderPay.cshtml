@@ -1,0 +1,255 @@
+﻿@model EnrolmentPlatform.Project.DTO.Orders.OrderDetailForTicketDTO
+@{
+    ViewBag.Title = "订单支付";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            产品信息
+        </div>
+
+        <div class="panel-body">
+            <table id="product-table" lay-filter="table" class="tr-no-position">
+                <thead>
+                    <tr>
+                        <th lay-data="{field:'ProductNumber'}">产品编号</th>
+                        <th lay-data="{field:'TicketClassifyStr', width:80}">类别</th>
+                        <th lay-data="{field:'ProductName'}">产品名称</th>
+                        <th lay-data="{field:'ThemeName'}">主题</th>
+                        <th lay-data="{field:'CateName'}">票种</th>
+                        <th lay-data="{field:'PlayDate'}">游玩日期</th>
+                        <th lay-data="{field:'Price'}">单价</th>
+                        <th lay-data="{field:'Quantity'}">购买数量</th>
+                        <th lay-data="{field:'TotalAmount'}">金额小计</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.OrderForTicket.ProductNo </td>
+                        <td>@(Model.OrderForTicket.TicketClassify == 1 ? "单票" : "套票")</td>
+                        <td class="layui-table-link"> @Model.OrderForTicket.ProductName</td>
+                        <td>@Model.OrderForTicket.Theme</td>
+                        <td>@Model.OrderForTicket.ProductCategory</td>
+                        <td>@Model.OrderForTicket.PlayDay</td>
+                        <td>@Model.OrderForTicket.Amount </td>
+                        <td>@Model.OrderForTicket.ProductQuantity</td>
+                        <td><span class="pro-color">￥@Model.OrderBasic.UpdateTotalAmount</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">
+            付款信息
+        </div>
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row">
+                    <div class="item">
+                        <span class="label">付款方式</span>
+                        <span class="block">
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-sm layui-btn-blue" onclick="changePayType(this,1)">现金支付</button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" onclick="changePayType(this,2)">微信支付</button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" onclick="changePayType(this,3)">支付宝支付</button>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <span class="label">待支付金额</span>
+                        <span class="text pro-color">
+                            ￥@Model.OrderBasic.UpdateTotalAmount
+                        </span>
+                    </div>
+                </div>
+                <div class="row" id="type1">
+                    <div class="item">
+                        <span class="label"></span>
+                        <span class="block">
+                            <button class="layui-btn  layui-btn-warm" onclick="cashPay(this)">已支付，并出票</button>
+                            <a class="layui-btn  layui-btn-primary" href="@Url.Action("Index","ProductForTicket")">返回</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="OrderId" value="@Model.OrderForTicket.OrderId" />
+</div>
+
+<!-- 微信支付弹窗 -->
+<div id="type2" style="display: none" class="row">
+    <div class="item">
+        <span class="label"></span>
+        <span class="block">
+            <div class="qrcode">
+                <img src="" alt="" id="qrcode">
+                <p id="title"></p>
+            </div>
+        </span>
+    </div>
+</div>
+
+<!--支付成功弹窗模板-->
+<div class="success-modal">
+    <div class="icon">
+        <i class="layui-icon"></i>
+    </div>
+    <p class="strong">客户已成功支付￥@(Model.OrderBasic.UpdateTotalAmount)，系统将立即出票</p>
+    <p>产品名称：@(Model.OrderForTicket.ProductName)，数量：@(Model.OrderForTicket.ProductQuantity)</p>
+    <p>订单号：@(Model.OrderBasic.OrderNo)</p>
+</div>
+
+<script>
+    var tableData = [], currentRow = {}
+    var isSubmit = true;
+    layui.use(['jquery', 'table', 'laytpl', 'layer'], function () {
+        var table = layui.table;
+        $ = layui.$;
+        var laytpl = layui.laytpl;
+        layer = layui.layer;
+        table.init('table', {
+            height: 115 //设置高度
+            , limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+            //支持所有基础参数
+        });
+    })
+
+    //切换支付方式
+    function changePayType(e, type) {
+        $(e).removeClass('layui-btn-primary')
+        $(e).addClass('layui-btn-blue')
+        $(e).siblings().removeClass('layui-btn-blue')
+        $(e).siblings().addClass('layui-btn-primary')
+        $('#type1').hide()
+        if (type == 1) {
+            $('#type1').show();
+        }
+        if (type == 2) {
+            weChatPay();//生成微信二维码
+        }
+        if (type == 3) {
+            alipay();//生成支付宝二维码
+        }
+    }
+
+    //下单成功
+    function success() {
+        layer.open({
+            type: 1,
+            shade: 0.3,
+            title: '提示', //不显示标题
+            scrollbar: false,//屏蔽滚动
+            area: '550px',
+            content: $('.success-modal'),
+            btn: ['继续购物', '查看订单'],
+            yes: function () {
+                window.location.href="@Url.Action("Index","ProductForTicket", new { area = "Sale" })"
+            },
+            btn2: function () {
+                window.location.href="@Url.Action("Index","Ticket", new { area = "Order" })"
+            }, closeBtn:0
+        });
+    }
+    //现金支付
+    function cashPay(e) {
+        if (isSubmit) {
+            $.ajax({
+                url: "@Url.Action("CashPay", "Pay",new { area=""})",
+                type: "post",
+                data: {"orderNo":"@(Model.OrderBasic.OrderNo)","userId":"@(ViewBag.UserId)"},
+                beforeSend: function () {
+                    isSubmit = false;
+                    $(e).text("正在支付…");
+                },
+                success: function (res) {
+                    if (res.IsSuccess) {
+                        success();
+                    } else {
+                        layer.msg(res.Info, {
+                            icon: 2
+                        });
+                    }
+                }, complete: function () {
+                    $(e).text("已经支付，并出票");
+                    isSubmit = true;
+                }
+            });
+        }
+    }
+    //微信支付生成微信二维码
+    function weChatPay() {
+         if (isSubmit) {
+            $.ajax({
+               url: "@Url.Action("WeChatPay", "Pay",new { area=""})",
+                type: "post",
+                data: {"orderNo":"@(Model.OrderBasic.OrderNo)","userId":"@(ViewBag.UserId)"},
+                success: function (res) {
+                    if (res.IsSuccess) {
+                        $("#qrcode").attr("src", res.Data);
+                        $("#title").text("微信扫码支付");
+                        layer.open({
+                            type: 1,
+                            title: '微信支付',
+                            btn: ['支付完成', '取消'],
+                            area: ['400px','260px'], //宽高
+                            content: $('#type2'),
+                            yes: function () {
+                                window.location.href = "@Url.Action("Index","Ticket", new { area = "Order" })";
+                            },
+                            btn2: function () {
+
+                            }
+                        });
+                    } else {
+                        layer.msg(res.Info, {
+                            icon: 2
+                        });
+                    }
+                }, complete: function () {
+                    isSubmit = true;
+                }
+            });
+        }
+    }
+        //微信支付生成微信二维码
+    function alipay() {
+         if (isSubmit) {
+            $.ajax({
+               url: "@Url.Action("GenerateAlipayQRCode", "Pay",new { area=""})",
+                type: "post",
+                data: {"orderNo":"@(Model.OrderBasic.OrderNo)","userId":"@(ViewBag.UserId)"},
+                success: function (res) {
+                    if (res.IsSuccess) {
+                        $("#qrcode").attr("src", res.Data);
+                        $("#title").text("支付宝扫码支付");
+                        layer.open({
+                            type: 1,
+                            title: '支付宝支付',
+                            btn: ['支付完成', '取消'],
+                            area: ['400px','260px'], //宽高
+                            content: $('#type2'),
+                            yes: function () {
+                                window.location.href = "@Url.Action("Index","Ticket", new { area = "Order" })";
+                            },
+                            btn2: function () {
+
+                            }
+                        });
+                    } else {
+                        layer.msg(res.Info, {
+                            icon: 2
+                        });
+                    }
+                }, complete: function () {
+                    isSubmit = true;
+                }
+            });
+        }
+    }
+</script>

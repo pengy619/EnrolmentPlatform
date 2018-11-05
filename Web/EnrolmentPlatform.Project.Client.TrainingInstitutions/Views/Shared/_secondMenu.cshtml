@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+    var baseController = ((EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers.BaseController)this.ViewContext.Controller);
+    List<EnrolmentPlatform.Project.DTO.Systems.RolePermissionDto> allRoleList = null;
+    Guid curMoudleId = EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter.LoginInfoHandle.GetMoudleId(this.ViewContext.RouteData);
+    if (baseController.IsMaster == true)
+    {
+        allRoleList = EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter.LoginInfoHandle.GetAllPermissionList();
+    }
+    else
+    {
+        allRoleList = EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter.LoginInfoHandle.GetUserPermissions();
+    }
+
+    var fistMenuList = allRoleList.Where(a => a.ParentId == curMoudleId).ToList();
+    var curMenuId = EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter.LoginInfoHandle.GetMenuId(this.ViewContext.RouteData);
+}
+
+<ul class="layui-nav layui-nav-tree" lay-filter="test">
+    @foreach (var item in fistMenuList)
+    {
+        if (item.Level == 3)
+        {
+            <li class='layui-nav-item @(curMenuId==item.Id?"active":"")'>
+                <a href="@Url.Action(item.Action, item.Controller, new { area = item.Area })">
+                    <i class="iconfont @item.Icon"></i><span>@item.Name</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            var childList = allRoleList.Where(a => a.ParentId == item.Id).ToList();
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">
+                    <i class="iconfont @item.Icon"></i>@item.Name
+                </a>
+                <dl class="layui-nav-child">
+                    @foreach (var item2 in childList)
+                    {
+                        <dd @(curMenuId == item2.Id ? "class=active" : "")>
+                            <a href="@Url.Action(item2.Action, item2.Controller, new { area = item2.Area })">@item2.Name</a>
+                        </dd>
+                    }
+            </dl>
+        </li>
+        }
+    }
+</ul>

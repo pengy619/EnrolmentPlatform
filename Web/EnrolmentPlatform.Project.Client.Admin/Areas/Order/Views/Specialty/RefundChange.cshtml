@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "退换货订单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">订单状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="Status" value="-1" title="全部" checked>
+                        @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<RefundableStatusEnum, int>())
+                        {
+                            <input type="radio" name="Status" value="@item.Key" title="@item.Value">
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">退换货单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" id="txt_RefundableNo" value="@ViewBag.RefundableNo" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">订单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" id="txt_OrderNo" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">产品名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" id="txt_ProductName" autocomplete="off" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" id="btnSearch" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="order-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+<script>
+    var _IsSubmit = false;
+    layui.use(['jquery', 'table', 'layer', "form"], function () {
+        var form = layui.form;
+        var table = layui.table;
+        //实例表格
+        var tableOptions = {
+            elem: '#order-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("RefundChangeSearch", "Specialty")'//数据
+            , method: 'post'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'RefundableNo', title: '退换货单号', sort: true, minWidth: 210 }
+                , { field: 'CreatorTime', title: '日期', }
+                , { field: 'ProductName', title: '产品名称', }
+                , { field: 'OrderNo', title: '订单号', sort: true }
+                , { field: 'ProductQuantity', title: '退货数量', sort: true }
+                , { field: 'StatusCH', title: '状态', }
+                , { title: '操作', toolbar: '#tableTool', minWidth: 150 }
+            ]],
+            where: { Status: $("input[name='Status']:checked").val(), RefundableNo: $("#txt_RefundableNo").val(), OrderNo: $("#txt_OrderNo").val(), ProductName: $("#txt_ProductName").val() }
+        }
+        table.render(tableOptions)
+        //var $ = layui.$,
+        active = {
+            reload: function () {
+                //执行重载
+                table.reload('order-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: { Status: $("input[name='Status']:checked").val(), RefundableNo: $("#txt_RefundableNo").val(), OrderNo: $("#txt_OrderNo").val(), ProductName: $("#txt_ProductName").val() }
+                });
+            }
+        };
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //点击事件
+        form.on("radio", function (data) {
+            $("#btnSearch").click();
+        });
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'detail') {
+                location.href = "@Url.Action("RefundChangeDetail", "Specialty", new { area = "Order" })" + "/" + data["Id"];
+            }
+            
+        });
+
+
+    });
+
+
+
+</script>
+

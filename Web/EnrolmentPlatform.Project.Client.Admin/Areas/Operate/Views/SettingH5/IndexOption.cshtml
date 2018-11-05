@@ -1,0 +1,126 @@
+﻿@model BannerDto
+@{
+    ViewBag.Title = Model.BannerId.IsEmpty() ? "添加首页配置" : "编辑首页配置";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            @(ViewBag.Title)
+        </div>
+        <div class="panel-body">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">轮播图</label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-primary" id="upload">上传图片</button>
+                        <span>（图片格式为jpg/png/bmp，最大为2M。）</span>
+                        <div class="upload-img-box">
+                            <div class="img-item">
+                                @*<div class="cover">
+                                        <span class="layui-icon">ဇ</span>
+                                    </div>*@
+                                <img src="@Model.ImgPath" alt="">
+                            </div>
+                        </div>
+                        <div style="display:none">
+                            <textarea id="imgload" name="imgload"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">链接</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="Url" class="layui-input" lay-verify="url" value="@Model.Url">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="Sort" class="layui-input" value="@Model.Sort">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+                        <a href="@Url.Action("Index", "SettingH5")" class="layui-btn layui-btn-primary">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Html.RenderTextAreaEditorScripts()
+    <script>
+        var isSubmit = true;
+        var editor;
+        $("#imgload").createEditor({ width: "100%", height: 50 }, function (e) {
+            editor = e;
+        });
+
+        $("#upload").click(function () {
+            editor.loadPlugin('image', function () {
+                editor.plugin.imageDialog({
+                    showRemote: false,
+                    clickFn: function (url, title, width, height, border, align) {
+                        $(".upload-img-box img").attr("src", url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+        layui.use(['jquery', 'form'], function () {
+            var $ = layui.$;
+            var form = layui.form;
+
+            form.on('submit(save)', function (data) {
+                var imgPath = $(".upload-img-box img").attr("src");
+                if (imgPath == "") {
+                    layer.msg('请添加轮播图', {
+                        icon: 2,
+                        time: 2000
+                    })
+                    return false;
+                }
+                var param = {
+                    BannerId: '@Model.BannerId',
+                    ImgPath: imgPath,
+                    Url: data.field.Url,
+                    Sort: data.field.Sort
+                };
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("SaveBanner", "SettingH5")",
+                        type: "post",
+                        data: param,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 1000
+                                }, function () {
+                                    location.href = "@Url.Action("Index", "SettingH5")";
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+}
+

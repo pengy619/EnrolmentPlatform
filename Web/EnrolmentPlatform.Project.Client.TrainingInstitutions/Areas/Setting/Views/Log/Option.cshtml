@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "操作日志";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form margin-top-10">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">内容</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="txt_KeyWrod" class="layui-input">
+                    </div>
+                    <label class="layui-form-label" style="width:90px;">操作时间范围</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="date" class="layui-input" placeholder="请选择">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="Option-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'table', 'layer', 'laydate'], function () {
+        var table = layui.table;
+        var laydate = layui.laydate;
+        //实例表格
+        var tableOptions = {
+            elem: '#Option-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("SearchOptionLog", "Log")'//数据
+            , method: 'post'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'BusinessName', title: '日志内容', },
+                 { field: 'IP', title: 'IP地址', }
+                , { field: 'CreatorTime', title: '操作时间', sort: true }
+                , { field: 'CreatorAccount', title: '操作员', }
+            ]],
+            where: { KeyWrod: $("#txt_KeyWrod").val(), DateStr: $("#date").val() }
+        }
+        table.render(tableOptions)
+        //var $ = layui.$,
+        active = {
+            reload: function () {
+                //执行重载
+                table.reload('Option-table', {
+
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: { KeyWrod: $("#txt_KeyWrod").val(), DateStr: $("#date").val() }
+                });
+            }
+        };
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        laydate.render({
+            elem: '#date',
+            range: true
+        });
+
+    });
+</script> 

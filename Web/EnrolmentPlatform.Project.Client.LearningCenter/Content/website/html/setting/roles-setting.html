@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_v9ifdcin6pw4s4i.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+    <title>设置</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="../product/product-list.html" id="product">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="account-info.html" id="setting" class="active">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-account"></i> 账户管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="account-info.html">账户信息</a>
+                            </dd>
+                            <dd class="active">
+                                <a href="roles-setting.html">角色设置</a>
+                            </dd>
+                            <dd>
+                                <a href="child-account.html">子账户管理</a>
+                            </dd>
+                            <dd>
+                                <a href="modify-password.html">登录密码修改</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-rizhi"></i> 系统日志
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="login-logs.html">登录日志管理</a>
+                            </dd>
+                            <dd>
+                                <a href="edit-logs.html">操作日志管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button"><i class="layui-icon"></i> </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a><cite>工作台</cite></a>
+                            <a><cite>设置</cite></a>
+                            <a><cite>账户管理</cite></a>
+                            <a><cite>角色设置</cite></a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <a href="role-add.html" class="layui-btn ">新建</a>
+                            <button class="layui-btn layui-btn-primary">删除</button>
+                        </div>
+                        <div class="panel-body">
+                            <table id="roles-table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--引入js-->
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+    <script type="text/html" id="tableTool">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" href="order-detail.html?id={{d.id}}" lay-event="edit">编辑</a>
+        
+        <!-- 这里同样支持 laytpl 语法，如： -->
+        <!-- {{#  if(d.auth > 2){ }}
+          <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
+        {{#  } }} -->
+    </script>
+    <script type="text/html" id="statusTpl">
+        <span>{{d.status?'启用':'禁用'}}</span>
+    </script>
+    <script>
+        layui.use(['jquery','table','layer'], function(){
+            var table = layui.table;
+            var data=[]
+            //模拟数据
+            for(var i=0;i<10;i++){
+                data.push({
+                    id:'1',
+                    role:'经理',
+                    status:true,
+                })
+            }
+            //实例表格
+            var tableOptions={
+              elem: '#roles-table'
+              ,skin:'line'
+              ,limit:20
+              ,data:data//数据
+              ,page: true //开启分页
+              ,cols: [[ //表头
+                {type:'checkbox'}
+                ,{field: 'role', title: '角色'}
+                ,{field: 'status', title: '是否启用',width:300,templet: '#statusTpl' }
+                ,{title: '操作', toolbar: '#tableTool',width:200}
+              ]]
+            }
+            table.render(tableOptions)
+            table.on('tool(table)', function(obj){
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                if(layEvent=='detail'){
+                    
+                }
+            })
+            
+        })
+    </script>
+
+
+</body></html>

@@ -1,0 +1,379 @@
+﻿
+@{
+    ViewBag.Title = "票务详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model OptionParamForTicketForDataDto
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>详细资料</li>
+                <li>库存价格</li>
+                <li>操作日志</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="panel">
+                        <div class="panel-title">
+                            创建信息
+                        </div>
+                        <div class="panel-body info-cell">
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">创建人</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.CreatorAccount : "")</div>
+                                </div>
+                                <div class="item">
+                                    <label class="label">创建时间</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.CreatorTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">状态</label>
+                                    <div class="text pro-color">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.StatusStr : "")</div>
+                                </div>
+                                @if (Model != null && (Model.OptionParamForTicketForDataForBasicDto.Status.Equals((int)ProductStatusEnum.OnSale) || Model.OptionParamForTicketForDataForBasicDto.Status.Equals((int)ProductStatusEnum.CheckNo)))
+                                {
+                                    <div class="item">
+                                        <label class="label">审核时间</label>
+                                        <div class="text">@((Model != null && !Model.OptionParamForTicketForDataForBasicDto.ApplyOnSaleTime.Equals(DateTime.MinValue) && !Model.OptionParamForTicketForDataForBasicDto.ApplyOnSaleTime.Equals(DateTime.MaxValue)) ? Model.OptionParamForTicketForDataForBasicDto.ApplyOnSaleTime.ToString("yyyy-MM-dd HH:mm:ss") : "")</div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="row row-3">
+                                @if (Model != null && (Model.OptionParamForTicketForDataForBasicDto.Status.Equals((int)ProductStatusEnum.OnSale) || Model.OptionParamForTicketForDataForBasicDto.Status.Equals((int)ProductStatusEnum.CheckNo)))
+                                {
+                                    <div class="item">
+                                        <label class="label">审核结果说明</label>
+                                        <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.Reason : "")</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">门票信息</div>
+                        <div class="panel-body info-cell lable-style">
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">产品编号</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.ProductNumber : "")</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">类别</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.TicketClassifyStr : "")</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">产品名称</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.ProductName : "")</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">主题</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.ThemeName : "")</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">票种</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.ProductCateName : "")</div>
+                                </div>
+                            </div>
+                            @if (Model != null && Model.OptionParamForTicketForDataForBasicDto.ScenicSpotForKeyValueDto != null && Model.OptionParamForTicketForDataForBasicDto.ScenicSpotForKeyValueDto.Any())
+                            {
+                                <div class="row row-3">
+                                    <div class="item">
+                                        <label class="label">包含景点</label>
+                                        <div class="text">
+                                            @foreach (var item in Model.OptionParamForTicketForDataForBasicDto.ScenicSpotForKeyValueDto)
+                                            {
+                                                <a href="javascript:void(0)">@(item.Value + ",")</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model != null && Model.OptionParamForTicketForDataForBasicDto.AmusementProjectForKeyValueDto != null && Model.OptionParamForTicketForDataForBasicDto.AmusementProjectForKeyValueDto.Any())
+                            {
+                                <div class="row row-3">
+                                    <div class="item">
+                                        <label class="label">包含游乐项目</label>
+                                        <div class="text">
+                                            @foreach (var item in Model.OptionParamForTicketForDataForBasicDto.AmusementProjectForKeyValueDto)
+                                            {
+                                                <a href="@Url.Action("Detail", "PlayMng", new { id = item.Id })" style="text-decoration: underline">@(item.Value + ",")</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">产品包含人数</label>
+                                    <div class="text">成人：@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.AdultNumber : 0)人，儿童：@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.ChildNumber : 0)人</div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">购买年龄限制</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.BuyMinAge : 0)岁到@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.BuyMaxAge : 0)岁</div>
+                                    <p class="pro-color" style="margin-left:20px">“0”表示不限制(必选录入身份才会起效)</p>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">线上预订时间限制</label>
+                                    <div class="text">需游玩日期前 @(Model != null ? Model.OptionParamForTicketForDataForBasicDto.BookTimeLimitDay : 0) 天@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.BookTimeLimitHour : 0):@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.BookTimeLimitMinute : 0)前预订</div>
+                                    <p class="pro-color" style="margin-left:20px">填“0”表示当天游玩可当天买票，无需提前预订</p>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item">
+                                    <label class="label">退款规则</label>
+                                    <div class="text">@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.RefundRuleStr : "")@(Model.OptionParamForTicketForDataForBasicDto.RefundRule == (int)RefundPriceEnum.Before ? (Model.OptionParamForTicketForDataForBasicDto.RefundDay.ToString() + "天，可申请退款") : Model.OptionParamForTicketForDataForBasicDto.RefundRule == (int)RefundPriceEnum.After ? (Model.OptionParamForTicketForDataForBasicDto.RefundDay.ToString() + "天内，可申请退款（含游玩日期前也可退）") : "")</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="panel">
+                        <div class="panel-body info-cell img-style">
+                            <div class="row row-3">
+                                <div class="item" id="layer-photos">
+                                    <label class="label">介绍图片</label>
+                                    @if (Model != null && Model.OptionParamForTicketForDataForXiangDto.OptionParamForPictureDto != null && Model.OptionParamForTicketForDataForXiangDto.OptionParamForPictureDto.Any())
+                                    {
+                                        foreach (var item in Model.OptionParamForTicketForDataForXiangDto.OptionParamForPictureDto)
+                                        {
+                                            <div class="img-box">
+                                                <img layer-src="@(item.FilePath)" src="@(item.FilePath)" alt="@(item.FileName)">
+                                                @if (item.Iscover)
+                                                {
+                                                    <p>主图</p>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item" style="width:80%;">
+                                    <label class="label">预订说明</label>
+                                    <div class="text">
+                                        @(Html.Raw(Model != null ? Model.OptionParamForTicketForDataForXiangDto.BookDescription : ""))
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-3">
+                                <div class="item" style="width:80%;">
+                                    <label class="label">使用说明</label>
+                                    <div class="text">
+                                        @(Html.Raw(Model != null ? Model.OptionParamForTicketForDataForXiangDto.UseDescription : ""))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="panel">
+                        <div class="panel-title">库存价格设置</div>
+                        <div class="panel-body price-style">
+                            <div class="panel-body-left">
+                                <div class="date-title">
+                                    <i class="layui-icon left date-icon"></i>
+                                    <span class="data-month"></span>
+                                    <i class="layui-icon date-icon"></i>
+                                </div>
+                                <div class="date-body">
+                                    @Html.Partial("~/Views/Shared/_calendar.cshtml")
+                                </div>
+                            </div>
+                            <div class="panel-body-right">
+                                <div class="layui-form">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">销售日期</label>
+                                        <div class="layui-form-mid" id="StartTime"></div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">每日可售</label>
+                                        <div class="layui-form-mid" id="Count"></div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">销售价</label>
+                                        <div class="layui-form-mid" id="Price"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    @Html.Partial("~/Views/Shared/_logSettingForTable.cshtml", Model.OptionParamForTicketForDataForBasicDto.Id)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var searchInventory = '@Url.Action("SearchScheduleForTicket", "Inventory", new { area = "Product" })';
+    var isSubmit = true;
+    var ticketId = "@(Model != null ? Model.OptionParamForTicketForDataForBasicDto.Id : Guid.Empty)";
+
+    layui.use(['form', 'laydate', 'table', 'jquery', 'laytpl'], function () {
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var $ = layui.$;
+        var table = layui.table;
+        var laytpl = layui.laytpl;
+        var date = new Date;
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var mydate = (year.toString() + '年' + month.toString() + "月");
+        $('.data-month').text(mydate);
+        var $td = $('#riliDiv .tbody').find('td');
+        var day = date.getDate(), days;
+        var startTime_db;
+        var endTime_db;
+
+        function initCal(yy, mm, dd) {
+            if (mm == 2 && yy % 4 == 0 && yy % 100 !== 0) {
+                days = 28;
+            } else if (mm == 1 || mm == 3 || mm == 5 || mm == 7 || mm == 8 || mm == 10 || mm == 12) {
+                days = 31;
+            } else if (mm == 4 || mm == 6 || mm == 9 || mm == 11) {
+                days = 30;
+            } else {
+                days = 29;
+            }
+            var m = mm < 3 ? (mm == 1 ? 13 : 14) : mm;
+            yy = m > 12 ? yy - 1 : yy;
+            var c = Number(yy.toString().substring(0, 2)),
+                y = Number(yy.toString().substring(2, 4)),
+                d = 1;
+            var week = y + parseInt(y / 4) + parseInt(c / 4) - 2 * c + parseInt(26 * (m + 1) / 10) + d - 1;
+            week = week < 0 ? (week % 7 + 7) % 7 : week % 7;
+            $td.text('').attr("date", "");
+            for (var i = 0; i < days; i++) {
+                var i_j = i + 1;
+                $td.eq(week % 7 + i).text(i_j).attr("date", yy + "-" + (mm < 10 ? ("0" + mm) : mm) + "-" + (i_j < 10 ? ("0" + i_j) : i_j)).attr("day", i_j);
+            }
+            $('#riliDiv .tbody').find('tr').each(function () {
+                var hasCount = 0;
+                $(this).find("td").each(function () {
+                    var hasHide = $(this).attr("date");
+                    if (hasHide == undefined || hasHide.length <= 0) {
+                        hasCount++;
+                    }
+                })
+                if (hasCount == 7) {
+                    $(this).removeClass("layui-hide").addClass("layui-hide");
+                } else {
+                    $(this).removeClass("layui-hide");
+                }
+            })
+            startTime_db = yy + "-" + mm + "-01";
+            endTime_db = getLastDayCurrMonth(startTime_db);
+            getdateInfo(startTime_db, endTime_db)
+        }
+
+        initCal(year, month, day);
+
+        $(document).on("click", ".date-icon", function () {
+            if ($(this).hasClass("left")) {
+                if (month == 1) {
+                    month = 12;
+                    year--;
+                    mydate = (year.toString() + '年' + month.toString() + "月");
+                    $('.data-month').text(mydate);
+                } else {
+                    month--;
+                    mydate = (year.toString() + '年' + month.toString() + "月");
+                    $('.data-month').text(mydate);
+                }
+            } else {
+                if (month == 12) {
+                    month = 1;
+                    year++;
+                    mydate = (year.toString() + '年' + month.toString() + "月");
+                    $('.data-month').text(mydate);
+                } else {
+                    month++;
+                    mydate = (year.toString() + '年' + month.toString() + "月");
+                    $('.data-month').text(mydate);
+                }
+            }
+            initCal(year, month, day);
+        })
+
+        $td.click(function () {
+            var dataTemp = $(this).attr("data_temp");
+            var dateTemp = $(this).attr("date");
+            if (dataTemp != undefined && dataTemp.length > 0) {
+                $("#Count").html(dataTemp.split('_')[0] + "张");
+                $("#Price").html(dataTemp.split('_')[1] + "元");
+                $("#StartTime").html(dateTemp);
+            } else {
+                $("#StartTime").html(dateTemp);
+                $("#Count").html("暂无数据");
+                $("#Price").html("暂无数据");
+            }
+        })
+
+        function getLastDayCurrMonth(d) {
+            var temp_date = new Date(d);
+            var temp_year = temp_date.getFullYear() + "";
+            var temp_month = (temp_date.getMonth() + 1) + "";
+            // 本月最后一天日期
+            var lastDateOfCurrentMonth = new Date(temp_year, temp_month, 0);
+            return temp_year + "-" + temp_month + "-" + lastDateOfCurrentMonth.getDate();
+        }
+
+        function getdateInfo(startTime, endTime) {
+            if (isSubmit) {
+                isSubmit = false;
+                $.ajax({
+                    url: searchInventory,
+                    type: 'Post',
+                    async: false,
+                    dataType: 'json',
+                    data: { ProductId: ticketId, StartTime: startTime, EndTime: endTime },
+                    success: function (result) {
+                        isSubmit = true;
+                        if (result != null && result.length >= 0) {
+                            $(".tbody").find("td").each(function () {
+                                $(this).attr("data_temp", "");
+                            })
+                            for (var j = 0; j < result.length; j++) {
+                                var $td_temp = $(".tbody").find("td[date='" + result[j].PlayDay + "']");
+                                $td_temp.attr("data_temp", result[j].InventCount + "_" + result[j].Price);
+                                $td_temp.html($td_temp.attr("day") + "" + "<p>销售价：" + result[j].Price + "</p><p>可售：" + result[j].InventCount + "张</p>");
+                            }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        isSubmit = true;
+                        layer.msg("系统出现异常，请联系管理员！");
+                    }
+                });
+            }
+        }
+
+        //调用示例
+        layer.photos({
+            photos: '#layer-photos'
+            , anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+        });
+    })
+</script>

@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_tye3ga57s8w1m7vi.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="../users/supplier-list.html" id="users">
+        <i class="iconfont icon-account"></i>
+        用户
+    </a>
+    <a href="../operate/website-setting.html" id="operate">
+        <i class="iconfont icon-yunyingguanli"></i>
+        运营
+    </a>
+    <a href="../article/article-list.html" id="article">
+        <i class="iconfont icon-wenzhang"></i>
+        内容
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/product-param/farm-param.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-nongchanpin"></i> 农产品</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="product-list.html">农产品管理</a>
+                            </dd>
+                            <dd class="active">
+                                <a href="varieties-list.html">品种管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-fapiaoguanli"></i> 票务
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd>
+                                    <a href="../product/tickets-list.html">门票产品</a>
+                                </dd>
+                                <dd>
+                                    <a href="../product/landmark-list.html">景点管理</a>
+                                </dd>
+                                <dd>
+                                    <a href="../product/play-list.html">游乐项目管理</a>
+                                </dd>
+                            </dl>
+                        </li>
+                    <!-- <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-youleyuan"></i> 游乐项目
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="javascript:;">自营游乐项目</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">外部游乐项目</a>
+                            </dd>
+                        </dl>
+                    </li> -->
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>品种管理</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href="">
+        <i class="iconfont icon-dingdan"></i>
+        <span class="layui-badge">3</span>
+    </a>
+    <a href="">
+        <i class="iconfont icon-xiaoxi"></i>
+    </a>
+    <a href="">
+        <i class="iconfont icon-iconfontlipinduihuanbangzhu"></i>
+    </a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <div class="layui-form">
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">启用状态</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="status" value="1" title="全部" checked>
+                                        <input type="radio" name="status" value="2" title="已启用">
+                                        <input type="radio" name="status" value="3" title="已禁用">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">农产品分类</label>
+                                    <div class="layui-input-inline">
+                                        <select name="producttype">
+                                            <option value=""></option>
+                                            <option value="0">蔬菜</option>
+                                            <option value="1">水果</option>
+                                        </select>
+                                    </div>
+                                    <label class="layui-form-label">农产品名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <label class="layui-form-label">品种</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <button class="layui-btn layui-btn-warm">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <a href="varieties-add.html" class="layui-btn layui-btn-warm layui-btn-sm">添加品种</a>
+                            <button class="layui-btn layui-btn-default layui-btn-sm">启用</button>
+                            <button class="layui-btn layui-btn-default layui-btn-sm">禁用</button>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm">删除</button>
+                            <table id="product-table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--引入js-->
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script type="text/html" id="tableTool">
+        <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit">编辑</a>
+    </script>
+        <script>
+            layui.use(['jquery', 'table', 'layer'], function () {
+                var table = layui.table;
+                var data = []
+                //模拟数据
+                for (var i = 0; i < 41; i++) {
+                    data.push({
+                        type: '水果',
+                        name: '苹果',
+                        varieties: '水晶苹果',
+                        status: '已启用',
+                    })
+                }
+                //实例表格
+                var tableOptions = {
+                    elem: '#product-table'
+                    , skin: 'line'
+                    , limit: 20
+                    , data: data//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { type: 'checkbox', fixed: 'left' }
+                        , { field: 'type', title: '农产品分类', }
+                        , { field: 'name', title: '农产品名称', }
+                        , { field: 'varieties', title: '品种' }
+                        , { field: 'status', title: '状态', sort: true }
+                        , { title: '操作', toolbar: '#tableTool', width: 150 }
+                    ]]
+                }
+                table.render(tableOptions)
+                table.on('tool(table)', function (obj) {
+                    var data = obj.data; //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+                })
+
+            })
+        </script>
+
+
+</body></html>

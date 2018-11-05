@@ -1,0 +1,241 @@
+﻿
+@{
+    ViewBag.Title = "供应商管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                @*<div class="layui-form-item ">
+                        <label class="layui-form-label">审核状态</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="status" value="1" title="全部" checked>
+                            <input type="radio" name="status" value="2" title="待审核">
+                            <input type="radio" name="status" value="3" title="审核通过">
+                            <input type="radio" name="status" value="3" title="审核拒绝">
+                        </div>
+                    </div>*@
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="" title="全部" checked>
+                        <input type="radio" name="status" value="@((int)StatusBaseEnum.Enabled)" title="已启用">
+                        <input type="radio" name="status" value="@((int)StatusBaseEnum.Disabled)" title="已禁用">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">供应商名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="supplierName" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">登录账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="loginAccount" autocomplete="off" class="layui-input">
+                    </div>
+                    <button type="button" class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <a href="@Url.Action("Option","Supplier",new { area="Account",parentId=5 })" class="layui-btn layui-btn-warm layui-btn-sm">创建供应商</a>
+            <button class="layui-btn layui-btn-default layui-btn-sm" data-type="enable">启用</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" data-type="disable">禁用</button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="delete">删除</button>
+            <table id="supplier-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="resetPwd">重置密码</a>
+</script>
+<script>
+    layui.use(['jquery', 'table', 'layer','form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+         
+        //实例表格
+        var tableOptions = {
+            elem: '#supplier-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("SupplierList", "Supplier")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'SupplierName', title: '供应商名称', }
+                , { field: 'BusinessTypeStr', title: '类型', }
+                , { field: 'LoginAccount', title: '登录账号' }
+                , { field: 'Contact', title: '联系人' }
+                , { field: 'SettlementCycleStr', title: '结算周期' }
+                , { field: 'StatusStr', title: '启用状态', sort: true }
+                , { title: '操作', toolbar: '#tableTool', width: 150 }
+            ]]
+        }
+        table.render(tableOptions)
+
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('supplier-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        Status: $("input[name=status]:checked").val(),
+                        SupplierName: $('#supplierName').val(),
+                        LoginAccount: $('#loginAccount').val()
+                    }
+                });
+            },
+            enable: function () {
+                var checkStatus = table.checkStatus('supplier-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+                var ckb_value = [];
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Status == "@((int)StatusBaseEnum.Enabled)") {
+                        layer.msg("请勾选已禁用的供应商进行启用");
+                        return false;
+                    }
+                    ckb_value.push(data[i].SupplierId);
+                }
+                layer.confirm('您确定要启用选中的供应商吗？', function (index) {
+                    var ajaxOption = {
+                        url: "@Url.Action("UpdateSupplierStatus", "Supplier")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { Ids: ckb_value, Status: @((int)StatusBaseEnum.Enabled) },
+				        success: function (result) {
+                            if (result.IsSuccess) {
+                                table.reload('supplier-table');
+                            }
+                            else {
+                                layer.msg(result.Info);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
+                    $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            },
+            disable: function () {
+                var checkStatus = table.checkStatus('supplier-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+                var ckb_value = [];
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Status == "@((int)StatusBaseEnum.Disabled)") {
+                        layer.msg("请勾选已启用的供应商进行禁用");
+                        return false;
+                    }
+                    ckb_value.push(data[i].SupplierId);
+                }
+                layer.confirm('您确定要禁用选中的供应商吗？', function (index) {
+                    var ajaxOption = {
+                        url: "@Url.Action("UpdateSupplierStatus", "Supplier")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { Ids: ckb_value, Status: @((int)StatusBaseEnum.Disabled) },
+				        success: function (result) {
+                            if (result.IsSuccess) {
+                                table.reload('supplier-table');
+                            }
+                            else {
+                                layer.msg(result.Info);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
+                    $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            },
+            delete: function () {
+                var checkStatus = table.checkStatus('supplier-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+                layer.confirm('您确定要删除选中的供应商吗？', function (index) {
+                    var ckb_value = [];
+                    for (var i = 0; i < data.length; i++) {
+                        ckb_value.push(data[i].SupplierId);
+                    }
+                    var ajaxOption = {
+                        url: "@Url.Action("DeleteSuppliers", "Supplier")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { Ids: ckb_value },
+				        success: function (result) {
+                            if (result.IsSuccess) {
+                                table.reload('supplier-table');
+                            }
+                            else {
+                                layer.msg(result.Info);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
+                    $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            }
+        };
+
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //radio 选择事件
+        form.on("radio", function (data) {
+            active["reload"].call(this);
+        });
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent === 'edit') {
+                location.href = "@Url.Action("Option", "Supplier")?supplierId=" + data.SupplierId;
+            } else if (layEvent === 'resetPwd') {
+                layer.confirm('您确定要为该供应商账号重置密码吗？', function (index) {
+                    var ajaxOption = {
+                        url: "@Url.Action("ResetPassword", "Supplier")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { supplierId: data.SupplierId },
+				        success: function (result) {
+                            if (result.IsSuccess) {
+                                layer.msg("重置密码成功", {
+                                    icon: 1
+                                    , time: 1000
+                                });
+                            }
+                            else {
+                                layer.msg(result.Info);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
+                    $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            }
+        })
+
+    })
+</script> 

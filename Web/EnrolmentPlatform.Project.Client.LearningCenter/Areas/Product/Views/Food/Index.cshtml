@@ -1,0 +1,100 @@
+﻿@model List<FoodListDto>
+@{
+    ViewBag.Title = "菜名设置";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap catering-setting">
+    <div class="panel">
+        <div class="panel-title">
+            @using (Html.BeginForm("Index", "Food", FormMethod.Get, new { @class = "layui-form" }))
+            {
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜名</label>
+                    <div class="layui-input-inline">
+                        @Html.TextBox("FoodName", null, new { autocomplete = "off", @class = "layui-input" })
+                    </div>
+                    <button class="layui-btn layui-btn-warm" type="submit">查询</button>
+                </div>
+            }
+        </div>
+        <div class="panel-body">
+            <div>
+                共计：
+                <span class="pro-color">@Model.Count</span>个菜单
+                <a class="layui-btn layui-btn-warm layui-btn-sm" href="@Url.Action("Option","Food",new { area="Product"})">添加菜名</a>
+            </div>
+            <div class="menu-box" id="foodList">
+                @if (Model != null && Model.Any())
+                {
+                    var index = 1;
+                    foreach (var item in Model)
+                    {
+                        if (index == 1 || index % 3 == 1)
+                        {
+                            @Html.Raw("<div class=\"info-box flex\">");
+                        }
+                        <div class="info-item flex">
+                            <div class="img-box">
+                                <a href="@Url.Action("Detail","Food",new { id=item.FoodId })">
+                                    <img src="@(item.ImgUrl.IsEmpty() ? "/Content/website/images/noimg.jpg" : item.ImgUrl)" alt="" onerror="this.src = '/Content/website/images/noimg.jpg'">
+                                </a>
+                            </div>
+                            <div class="text-box">
+                                <h3>@item.FoodName</h3>
+                                <span class="pro-color">￥@item.Price.ToString("0.##")</span>
+                                <div class="btn-box">
+                                    <a href="@Url.Action("Option", "Food",new { id=item.FoodId })" class="layui-btn layui-btn-warm layui-btn-sm">修改</a>
+                                    <button class="layui-btn layui-btn-warm layui-btn-sm delete" data-foodid="@item.FoodId">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                        if (index % 3 == 0 || index == Model.Count)
+                        {
+                            @Html.Raw("</div>");
+                        }
+                        index++;
+                    }
+                }
+                else
+                {
+                    <div style="height:400px; text-align:center;">
+                        <img src="~/Content/website/images/nodata.jpg" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script type="text/javascript">
+        $(function () {
+            $("#foodList .delete").click(function () {
+                var foodId = $(this).data("foodid");
+                layer.confirm('您确定要删除该菜名吗？', function (index) {
+                    var ajaxOption = {
+                        url: "@Url.Action("DeleteFood", "Food")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { foodId: foodId },
+				        success: function (result) {
+                            if (result.IsSuccess) {
+                                location.href = location.href;
+                            }
+                            else {
+                                layer.msg(result.Info);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
+                    $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            })
+        })
+</script>
+}

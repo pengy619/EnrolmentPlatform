@@ -1,0 +1,401 @@
+﻿@{
+    ViewBag.Title = "店铺管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<EnrolmentPlatform.Project.DTO.Product.ShopDto> list = ViewBag.DataList;
+}
+<div class="main-wrap store-list-styel">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="" title="全部" @((ViewBag.Status==null)?"checked":"")>
+                        <input type="radio" name="status" @((ViewBag.Status== (int)StatusForShopEnum.Checking)?"checked":"") value="@((int)StatusForShopEnum.Checking)" title="待审核">
+                        <input type="radio" name="status" @((ViewBag.Status== (int)StatusForShopEnum.Enable) ?"checked":"") value="@((int)StatusForShopEnum.Enable)" title="已开业">
+                        <input type="radio" name="status" @((ViewBag.Status== (int)StatusForShopEnum.DisEnable) ?"checked":"") value="@((int)StatusForShopEnum.DisEnable)" title="已停业">
+                        <input type="radio" name="status" @((ViewBag.Status== (int)StatusForShopEnum.CheckNo) ?"checked":"") value="@((int)StatusForShopEnum.CheckNo)" title="审核拒绝">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">供应商</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" value='@(ViewBag.SupplierName!=null?ViewBag.SupplierName:"")' id="txtSupplierName" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">店铺名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" value='@(ViewBag.ShopName!=null?ViewBag.ShopName:"")' id="txtShopName" autocomplete="off" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" type="button" onclick="javascript:Search()">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" id="audit-btn">审核</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" type="button" onclick="kaiye()">开业</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" type="button" onclick="tingye()">停业</button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="shanchu()">删除</button>
+            <div class="list-box">
+                @if (list != null && list.Count > 0)
+                {
+                    foreach (var dto in list)
+                    {
+                    <div class="list-item">
+                        <div class="layui-form">
+                            <input type="checkbox" name="selectList" value="@dto.Id" title="" lay-skin="primary">
+                        </div>
+                        <div class="img-box">
+                            <img height="160px" src="@dto.FileList.Where(a=>a.IsCover).First().FileName" alt="">
+                        </div>
+                        <div class="text-box">
+                            <div class="title">
+                                <h3>@dto.ShopName</h3>
+                                <button class="layui-btn layui-btn-warm layui-btn-sm">@EnumDescriptionHelper.GetDescription(dto.Status)</button>
+                            </div>
+                            <div class="p-box">
+                                <p>地址:@dto.FullAddressName</p>
+                                <p>电话：@dto.Tel1 @dto.Tel2</p>
+                                <p>营业时间：@EnrolmentPlatform.Project.Client.Admin.Areas.Product.Controllers.ShopListNameHelper.GetOpenDayName(dto) @EnrolmentPlatform.Project.Client.Admin.Areas.Product.Controllers.ShopListNameHelper.GetOpenTimeName(dto)</p>
+                                <p>供 应 商：@dto.EnterpriseName</p>
+                            </div>
+                            <div class="btn-box">
+                                <a class="layui-btn layui-btn-sm" href="@Url.Action("Detail", "Shop", new { area = "Product",shopId=dto.Id.Value  })">详情</a>
+                                @if (dto.Status == StatusForShopEnum.Init || dto.Status == StatusForShopEnum.Checking
+                                    || dto.Status == StatusForShopEnum.CheckNo)
+                                {
+                                    <button class="layui-btn layui-btn-primary layui-btn-sm" type="button" onclick="javascript:deleteInfo('@dto.Id.Value')">删除</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    }
+                }
+            </div>
+            <div class="page" id="page"></div>
+        </div>
+    </div>
+</div>
+<!-- 弹出层 -->
+<div id="audit-btn-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="model" value="1" title="审核通过" checked>
+                <input type="radio" name="model" value="2" title="审核拒绝">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" id="txtComment" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', 'layer', 'laypage'], function () {
+        var form, layer;
+        var table = layui.table;
+        layer = layui.layer, form = layui.form;
+        var laypage = layui.laypage;
+        var $ = layui.$;
+        function layerOpen() {
+            layer.open({
+                type: 1,
+                title: '处理审核',
+                btn: ['确定', '取消'],
+                area: ['500px', '300px'], //宽高
+                content: $('#audit-btn-modal'),
+                yes: function () {
+                    var selectList = $("input[name='selectList']:checked");
+                    if (selectList.length < 1) {
+                        layer.msg("请先选择店铺。", {
+                            icon: 2,
+                            time: 1500
+                        });
+                        return false;
+                    }
+                    var arr = new Array(selectList.length);
+                    selectList.each(function (i) {
+                        arr[i] = $(this).val();
+                    });
+                    var dto = {};
+                    var checkedVal = $("input[name='model']:checked").val();
+                    if (checkedVal == "1") {
+                        dto.IsSucess = true;
+                    }
+                    else {
+                        dto.IsSucess = false;
+                    }
+                    dto.ShopIdList = arr;
+                    dto.Comment = $("#txtComment").val();
+                    audit(dto);
+                    return false
+                },
+                btn2: function () {
+
+                }
+            });
+        }
+        $("#audit-btn").click(function () {
+            var selectList = $("input[name='selectList']:checked");
+            if (selectList.length < 1) {
+                layer.msg("请先选择店铺。", {
+                    icon: 2,
+                    time: 1500
+                });
+                return false;
+            }
+            layerOpen();
+        });
+
+        //分页
+        var count =@(ViewBag.ReCount);
+        var limit =@(ViewBag.Limit);
+        var curr =@(ViewBag.Page);
+        laypage.render({
+            elem: 'page'
+            , curr: curr
+            , count: count
+            , limit: limit
+            , limits:[2,5,10,20]
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , jump: function (obj, first) {
+                if (!first) {
+                    var limit = obj.limit;
+                    var curr = obj.curr;
+                    var url = changeUrlParam("Limit", limit, "");
+                    url = changeUrlParam("Page", curr, url);
+                    window.location.href = url;
+                }
+            }
+        });
+    });
+
+    //查询
+    function Search() {
+        var status = $("input[name='status']:checked").val();
+        var supplierName = $("#txtSupplierName").val();
+        var shopName = $("#txtShopName").val();
+        var url = changeUrlParam("Status", status, "");
+        url = changeUrlParam("SupplierName", supplierName, url);
+        url = changeUrlParam("ShopName", shopName, url);
+        window.location.href = url;
+    }
+
+    //删除操作
+    function deleteInfo(id) {
+        var arr = new Array(1);
+        arr[0] = id;
+        deleteOp(arr);
+    }
+
+    //删除主体方法
+    function deleteOp(idlist) {
+        //删除确认
+        layer.confirm('确认删除？', {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(idlist),
+                url: '@Url.Action("DeleteShopList", "Shop")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('删除成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Shop")';
+                        });
+                    }
+                    else {
+                        layer.msg("删除失败", {
+                            icon: 2,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    //停业
+    function unemployedList(idList) {
+        //删除确认
+        layer.confirm('确认停业吗？', {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(idList),
+                url: '@Url.Action("UnemployedList", "Shop")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('设置成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Shop")';
+                        });
+                    }
+                    else {
+                        layer.msg("设置失败", {
+                            icon: 2,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    //开业
+    function openingList(idList) {
+        //删除确认
+        layer.confirm('确认开业吗？', {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(idList),
+                url: '@Url.Action("OpeningList", "Shop")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('设置成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Shop")';
+                        });
+                    }
+                    else {
+                        layer.msg("设置失败", {
+                            icon: 2,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    //审核
+    function audit(dto) {
+        //删除确认
+        layer.confirm('确认审核吗？', {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("Audit", "Shop")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('审核成功。', {
+                            icon: 1,
+                            time: 1500
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Shop")';
+                        });
+                    }
+                    else {
+                        layer.msg("审核失败", {
+                            icon: 2,
+                            time: 1500
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    //获得地址栏参数
+    function getUrlParms(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null;
+    }
+
+    //修改Url
+    function changeUrlParam(name, value, url) {
+        if (url == null || url == "" || url == undefined) {
+            url = window.location.href;
+        }
+
+        var regex = new RegExp(name + "[^\\?&]*");
+        var urlParam = name + "=" + value;
+        if (regex.test(url)) {
+            return url.replace(regex, urlParam);
+        }
+        else {
+            if (url.indexOf('?') > -1) {
+                return url + "&" + urlParam;
+            }
+            return url + "?" + urlParam;
+        }
+    }
+
+    function kaiye() {
+        var selectList = $("input[name='selectList']:checked");
+        if (selectList.length<1) {
+            layer.msg("请先选择店铺。", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+        var arr = new Array(selectList.length);
+        selectList.each(function (i) {
+            arr[i] = $(this).val();
+        });
+        openingList(arr);
+    }
+
+    function tingye() {
+        var selectList = $("input[name='selectList']:checked");
+        if (selectList.length < 1) {
+            layer.msg("请先选择店铺。", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+        var arr = new Array(selectList.length);
+        selectList.each(function (i) {
+            arr[i] = $(this).val();
+        });
+        unemployedList(arr);
+    }
+
+    function shanchu() {
+        var selectList = $("input[name='selectList']:checked");
+        if (selectList.length < 1) {
+            layer.msg("请先选择店铺。", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+        var arr = new Array(selectList.length);
+        selectList.each(function (i) {
+            arr[i] = $(this).val();
+        });
+        deleteOp(arr);
+    }
+</script>

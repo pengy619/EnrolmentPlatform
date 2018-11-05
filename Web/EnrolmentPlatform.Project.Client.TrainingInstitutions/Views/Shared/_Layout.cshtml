@@ -1,0 +1,76 @@
+﻿@{
+    TempData["Title"] = ViewBag.Title;
+    var action = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var areaName = ViewContext.RouteData.DataTokens["area"] == null ? "" : ViewContext.RouteData.DataTokens["area"].ToString().ToLower();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智联智行-游客服务中心-@ViewBag.Title</title>
+    <link href="~/Content/website/framework/layui/css/layui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_hx34356fmwzmpldi.css">
+    <link href="~/Content/website/css/main.css?v=@(DllVersion.Version)" rel="stylesheet" />
+    <link href="~/Content/website/css/replace.css?v=@(DllVersion.Version)" rel="stylesheet" />
+    <link href="~/Content/website/css/zss.css?v=@(DllVersion.Version)" rel="stylesheet" />
+    <!--引入js-->
+    <script src="~/Content/website/framework/layui/layui.js"></script>
+    <script src="~/Content/website/js/common.js?v=@(new Random().Next(0,10))"></script>
+    <script src="~/Content/website/js/dev.js?v=@(new Random().Next(0,10))"></script>
+    <script src="~/Content/website/js/jquery-1.10.2.min.js"></script>
+    <style>
+        .layui-body {
+            overflow-y: scroll;
+        }
+
+        body {
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @Html.Partial("~/Views/Shared/_mainMenu.cshtml")
+        <div class="body-wrap">
+            <div class="left-wrap" id="secondMenu">
+                @Html.Partial("~/Views/Shared/_secondMenu.cshtml")
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        @Html.Action("NavigationMenu", "Home", new { area = "", areaName = areaName, controllerName = controllerName, action = action })
+                    </div>
+                    <div class="user-tools">
+                    
+                        <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+                        <span class="account">
+                            @(((EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers.BaseController)this.ViewContext.Controller).UserAccount) <i class="layui-icon">&#xe625;</i>
+                            <dl class="user-dropdown">
+                               
+                                <dd>
+                                    <a href="@Url.Action("LoginOut","Home",new { area=""})">安全退出</a>
+                                </dd>
+                            </dl>
+                        </span>
+
+                    </div>
+                </div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        layui.use(['element', 'jquery'], function () {
+            var element = layui.element;
+            var $ = layui.$;
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

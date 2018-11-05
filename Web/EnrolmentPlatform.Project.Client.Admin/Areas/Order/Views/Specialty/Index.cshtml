@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewBag.Title = "农产品订单管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">订单状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="OrderStatus" value="-1" lay-filter="Search" title="全部" checked>
+                        @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<OrderStatusForSpecialtyEnum, int>())
+                        {
+                            <input type="radio" name="OrderStatus" value="@item.Key" lay-filter="Search" title="@item.Value">
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">销售模式</label>
+                    <div class="layui-input-inline">
+                        <select name="SalesModel">
+                            <option value="-1" selected="selected">请选择</option>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<ProductSaleModelEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+
+                        </select>
+                    </div>
+                    <label class="layui-form-label">订单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="OrderNo" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">订单来源</label>
+                    <div class="layui-input-inline">
+                        <select id="OrderSource" name="OrderSource">
+                            <option value="-1">全部</option>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<OrderSourceEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+
+                    <button class="layui-btn layui-btn-warm" id="btnSearch" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="order-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<!--弹出框模板-->
+<div id="button3-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item ">
+            <label class="layui-form-label">订单金额</label>
+            <div class="layui-input-block">
+                <span class="text pro-color"  id="sp_PaidAmount"></span>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">处理结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="modal3_IsAgree" value="true" lay-filter="modal3_IsAgree" title="同意" checked>
+                <input type="radio" name="modal3_IsAgree" value="false" lay-filter="modal3_IsAgree" title="拒绝">
+            </div>
+        </div>
+        <div class="layui-form-item " id="div_RefundAmount">
+            <label class="layui-form-label">实际退款金额</label>
+            <div class="layui-input-inline flex">
+                <span class="pro-color">￥</span>
+                <input type="text" name="price" id="modal3_RefundAmount" value=""  required autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">处理结果说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" id="modal3_Remark" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    {{# if (d.CancelForSystem == @((int)CancelForSystemEnum.Supplier) && d.OrderStatus == @((int)OrderStatusForSpecialtyEnum.Refunding)) { }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="ScenicHandleRefund">处理退款</a>
+    {{#  } }}
+</script>
+<script type="text/html" id="timeTpl">
+    {{#
+    return d.CreatorTime.substring(0,10);
+}} 
+</script>
+<script type="text/html" id="ActualAmountTpl">
+    {{#
+    return '¥'+d.ActualAmount.toFixed(2);
+}}
+</script>
+<script>
+
+    layui.use(['jquery', 'table', "form"], function () {
+        var form = layui.form;
+        var table = layui.table;
+        //实例表格
+        var tableOptions = {
+            elem: '#order-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("Search", "Specialty")'//数据
+            , method: 'post'
+            , page: true //开启分页
+
+            , cols: [[ //表头
+                { field: 'OrderNo', title: '订单编号', sort: true, minWidth: 210 }
+                , { field: 'SalesModelCH', title: '销售模式', }
+                , { field: 'OrderName', title: '产品信息', }
+                , { field: 'TotalQuantity', title: '购买数量', sort: true }
+                , { field: 'ActualAmount', title: '订单总金额', sort: true, templet: '#ActualAmountTpl'}
+                , { field: 'OrderStatusCH', title: '订单状态', }
+                , { field: 'CreatorAccount', title: '下单账户', sort: true }
+                , { field: 'OrderSourceCH', title: '订单来源', }
+                , { field: 'Consignee', title: '收货人', }
+                , { field: 'CreatorTime', title: '下单日期', sort: true, minWidth: 180, templet:'#timeTpl'}
+                , { title: '操作', toolbar: '#tableTool', minWidth: 150 }
+            ]],
+            where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), SalesModel: $("select[name='SalesModel']").val(), OrderNo: $("input[name='OrderNo']").val(), OrderSource: $("#OrderSource").val()}
+        }
+        table.render(tableOptions)
+        //var $ = layui.$,
+            active = {
+            reload: function () {
+                //执行重载
+                table.reload('order-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                     loading: true,
+                     where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), SalesModel: $("select[name='SalesModel']").val(), OrderNo: $("input[name='OrderNo']").val(), OrderSource: $("#OrderSource").val() }
+                });
+            }
+        };
+            $('.panel .layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+            //点击事件
+            form.on("radio(Search)", function (data) {
+                $("#btnSearch").click();
+            });
+            form.on('radio(modal3_IsAgree)', function (data) {
+                if (data.value == "false") {
+                    $("#modal3_RefundAmount").val('');
+                    $("#div_RefundAmount").css("display", "none");
+                }
+                else {
+                    $("#div_RefundAmount").css("display", "block");
+
+                }
+            });
+            table.on('tool(table)', function (obj) {
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+                if (layEvent == 'detail') {
+                    location.href = "@Url.Action("Detail", "Specialty", new { area = "Order" })" + "/" + data["OrderId"];
+
+                }
+                else if (layEvent == 'ScenicHandleRefund') {
+                    if (data['SaleModel'] == @((int)ProductSaleModelEnum.Presale)) {
+                        $("#modal3_RefundAmount").attr("disabled","disabled");
+                    }
+                    else 
+                    {
+                        $("#modal3_RefundAmount").removeAttr("disabled");
+                    }
+                    $("#sp_PaidAmount").html("￥" + data["PaidAmount"]);
+                    $("#modal3_RefundAmount").val(data["PaidAmount"]);
+                    layer.open({
+                        type: 1,
+                        title: '退款处理',
+                        btn: ['确定', '取消'],
+                        //skin: 'layui-layer-rim', //加上边框
+                        area: ['500px'], //宽高
+                        content: $('#button3-modal'),
+                        yes: function () {
+                            return ScenicHandleRefund(data["OrderId"]);
+                        },
+                        btn2: function () {
+
+                        }
+                    });
+                }
+            });
+            var _IsSubmit = false;
+            function ScenicHandleRefund(orderid) {
+                var bool = false;
+                var orderId = orderid;
+                var isAgree = $("input[name='modal3_IsAgree']:checked").val();
+                var refundAmount = $("#modal3_RefundAmount").val();
+                var remark = $("#modal3_Remark").val();
+                var regex = /^\d{1,16}(\.\d{1,2})?$/;
+                if (isAgree=="true") {
+                    if (refundAmount == '') {
+                        layer.msg('请输入退款金额', {
+                            icon: 2
+                            , time: 2000
+                        });
+                        return false;
+                    }
+                    if (!regex.test(refundAmount)) {
+                        layer.msg('金额格式不正确', {
+                            icon: 2
+                            , time: 2000
+                        });
+                        return false;
+                    }
+                }
+                else {
+                    refundAmount = 0;
+                }
+                if (!_IsSubmit)
+                {
+                    $.ajax({
+                            url: "@Url.Action("ScenicHandleRefund", "Specialty")",
+                            type: "post",
+                            data: { OrderId: orderId, IsAgree: isAgree, RefundAmount: refundAmount , Remark: remark},
+                            beforeSend: function () {
+                                _IsSubmit = true;
+                            },
+                            success: function (res) {
+                                bool = res.IsSuccess;
+                                if (res.IsSuccess) {
+                                    layer.msg("操作成功", {
+                                                icon: 1
+                                                , time: 2000
+                                    }, function () {
+                                        layer.closeAll();
+                                        $("#btnSearch").click();
+                                        });
+
+                                }
+                                else {
+                                    layer.msg(res.Info, {
+                                        icon: 2
+                                        , time: 2000
+                                    });
+                                }
+                                _IsSubmit = false;
+                            }
+                    });
+                    return bool;
+                }
+            }
+
+    })
+</script>

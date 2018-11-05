@@ -1,0 +1,391 @@
+﻿
+@{
+    ViewBag.Title = "票务管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var TypeForTicket = ViewBag.TypeForTicket as List<KeyValuePair<int, string>>;
+    var ProductStatus = ViewBag.ProductStatus as List<KeyValuePair<int, string>>;
+    var SupplierType = ViewBag.SupplierType as List<KeyValuePair<int, string>>;
+    var ProductCate = ViewBag.ProductCate as List<ProductCategoriesDto>;
+    var TikcetParamTheme = ViewBag.TikcetParamTheme as List<ProductCategoriesDto>;
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">类别</label>
+                    <div class="layui-input-block">
+                        <input type="radio" lay-filter="status_search" name="typeForTicket" value="0" title="全部" checked>
+                        @if (TypeForTicket != null && TypeForTicket.Any())
+                        {
+                            foreach (var item in TypeForTicket)
+                            {
+                                <input type="radio" lay-filter="status_search" name="typeForTicket" value="@(item.Key)" title="@(item.Value)">
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" lay-filter="status_search" name="productStatus" value="0" title="全部" checked>
+                        @if (ProductStatus != null && ProductStatus.Any())
+                        {
+                            foreach (var item in ProductStatus)
+                            {
+                                if (!item.Key.Equals((int)ProductStatusEnum.Draft))
+                                {
+                                    <input type="radio" lay-filter="status_search" name="productStatus" value="@(item.Key)" title="@(item.Value)">
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">供应商类型</label>
+                    <div class="layui-input-inline">
+                        <select name="supplierType" lay-filter="sel_search">
+                            <option value="0">全部</option>
+                            @if (SupplierType != null && SupplierType.Any())
+                            {
+                                foreach (var item in SupplierType)
+                                {
+                                    <option value="@(item.Key)">@(item.Value)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">票种</label>
+                    <div class="layui-input-inline">
+                        <select name="productCate" lay-filter="sel_search">
+                            <option value="@(Guid.Empty)">全部</option>
+                            @if (ProductCate != null && ProductCate.Any())
+                            {
+                                foreach (var item in ProductCate)
+                                {
+                                    <option value="@(item.Id)">@(item.Name)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">主题</label>
+                    <div class="layui-input-inline">
+                        <select name="tikcetParamTheme" lay-filter="sel_search">
+                            <option value="@(Guid.Empty)">全部</option>
+                            @if (TikcetParamTheme != null && TikcetParamTheme.Any())
+                            {
+                                foreach (var item in TikcetParamTheme)
+                                {
+                                    <option value="@(item.Id)">@(item.Name)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">产品名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="productName" placeholder="产品名称" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">供应商</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="supplierName" placeholder="供应商" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">产品编号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="projectNumber" placeholder="产品编号" autocomplete="off" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" data-type="onSale">批量审核</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" data-type="onSales">上架</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" data-type="offSale">下架</button>
+            <table id="tickets-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 弹出层 -->
+<div id="audit-btn-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="result_checking" lay-filter="result_checking" value="1" title="审核通过" checked>
+                <input type="radio" name="result_checking" lay-filter="result_checking" value="2" title="审核拒绝">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-inline">
+                <textarea id="desc" placeholder="请输入内容" class="layui-textarea" style="width:300px; resize:none;">门票合格，准许上架</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+<script>
+    var searchUrl = '@Url.Action("TicketList", "Tickets", new { area = "Product" })';
+    var onSaleUrl = '@Url.Action("TicketOnSale", "Tickets", new { area = "Product" })';
+    var offSaleUrl = '@Url.Action("TicketOffSale", "Tickets", new { area = "Product" })';
+    var isSubmit = true;
+    var defaltStatus = 1;
+
+    layui.use(['jquery', 'table', 'layer', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        //实例表格
+        var tableOptions = {
+            elem: '#tickets-table'
+            , skin: 'line'
+            , limit: 20
+            , url:searchUrl//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'ProductNumber', title: '产品编号', sort: true }
+                , { field: 'TicketClassifyStr', title: '类别', }
+                , { field: 'ProductName', title: '产品名称', width: 300 }
+                , { field: 'ThemeName', title: '主题' }
+                , { field: 'CateName', title: '票种', }
+                , { field: 'SupplierTypeStr', title: '供应商类型', }
+                , { field: 'SupplierName', title: '供应商', }
+                , { field: 'StatusStr', title: '状态', sort: true }
+                , { title: '操作', toolbar: '#tableTool', minWidth: 150 }
+            ]]
+        }
+
+        table.render(tableOptions);
+
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('tickets-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        Type: $("input[name=typeForTicket]:checked").val(),
+                        Status: $("input[name=productStatus]:checked").val(),
+                        SupplierType: $("select[name=supplierType]").val(),
+                        ProductCateId: $("select[name=productCate]").val(),
+                        ThemeId: $("select[name=tikcetParamTheme]").val(),
+                        ProductName: $.trim($('#productName').val()),
+                        SupplierName: $.trim($('#supplierName').val()),
+                        Number: $.trim($('#projectNumber').val())
+                    }
+                });
+            },
+            onSale: function () {
+                var checkStatus = table.checkStatus('tickets-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+
+                var productIds = [];
+                var isOption = true;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Status != "@((int)ProductStatusEnum.Checking)") {
+                        isOption = false;
+                        layer.msg("请勾选待审核的产品进行审核！");
+                        break;
+                    } else {
+                        productIds.push(data[i].ProductId);
+                    }
+                }
+                if (isOption) {
+                    layer.open({
+                        type: 1,
+                        title: '处理审核',
+                        btn: ['确定', '取消'],
+                        area: ['500px', '300px'], //宽高
+                        content: $('#audit-btn-modal'),
+                        yes: function (z_index) {
+                            if (isSubmit) {
+                                isSubmit = false;
+                                $.ajax({
+                                    url: onSaleUrl,
+                                    type: 'Post',
+                                    async: false,
+                                    dataType: 'json',
+                                    data: { ticketIds: productIds, Status: defaltStatus, Remark: $("#desc").val() },
+                                    success: function (result) {
+                                        isSubmit = true;
+                                        if (result.IsSuccess) {
+                                            table.reload('tickets-table');
+                                            layer.msg(result.Info);
+                                        }
+                                        else {
+                                            layer.msg(result.Info);
+                                        }
+                                        layer.close(z_index);
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        isSubmit = true;
+                                        layer.msg("系统出现异常，请联系管理员！");
+                                    }
+                                });
+                            }
+                        },
+                        btn2: function () {
+                        }
+                    });
+                }
+            },
+            onSales: function () {
+                var checkStatus = table.checkStatus('tickets-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+
+                var productIds = [];
+                var isOption = true;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Status != "@((int)ProductStatusEnum.OffSale)") {
+                        isOption = false;
+                        layer.msg("请勾选已下架的产品进行强制上架！");
+                        break;
+                    } else {
+                        productIds.push(data[i].ProductId);
+                    }
+                }
+                if (isOption) {
+                    layer.confirm('您确定要上架选中的门票产品吗？', function (index) {
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: onSaleUrl,
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { ticketIds: productIds, Status: 10, Remark: "管理后台强制上架" },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        table.reload('tickets-table');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                        layer.close(index);
+                    });
+                }
+            },
+            offSale: function () {
+                var checkStatus = table.checkStatus('tickets-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+
+                var productIds = [];
+                var isOption = true;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Status != "@((int)ProductStatusEnum.OnSale)") {
+                        isOption = false;
+                        layer.msg("请勾选已上架的产品进行下架！");
+                        break;
+                    } else {
+                        productIds.push(data[i].ProductId);
+                    }
+                }
+                if (isOption) {
+                    layer.confirm('您确定要下架选中的门票产品吗？', function (index) {
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: offSaleUrl,
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { ticketIds: productIds },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        table.reload('tickets-table');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                        layer.close(index);
+                    });
+                }
+            }
+        };
+
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        form.on('radio(result_checking)', function (data) {
+            defaltStatus = data.value;
+            $("#desc").val(defaltStatus == "1" ? "门票产品合格，准许上架" : "门票产品不合格，需要仔细校对");
+        });
+
+        form.on('radio(status_search)', function (data) {
+            //执行重载
+            table.reload('tickets-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    Type: $("input[name=typeForTicket]:checked").val(),
+                    Status: $("input[name=productStatus]:checked").val(),
+                    SupplierType: $("select[name=supplierType]").val(),
+                    ProductCateId: $("select[name=productCate]").val(),
+                    ThemeId: $("select[name=tikcetParamTheme]").val(),
+                    ProductName: $.trim($('#productName').val()),
+                    SupplierName: $.trim($('#supplierName').val()),
+                    Number: $.trim($('#projectNumber').val())
+                }
+            });
+        });
+        form.on('select(sel_search)', function (data) {
+            //执行重载
+            table.reload('tickets-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    Type: $("input[name=typeForTicket]:checked").val(),
+                    Status: $("input[name=productStatus]:checked").val(),
+                    SupplierType: $("select[name=supplierType]").val(),
+                    ProductCateId: $("select[name=productCate]").val(),
+                    ThemeId: $("select[name=tikcetParamTheme]").val(),
+                    ProductName: $.trim($('#productName').val()),
+                    SupplierName: $.trim($('#supplierName').val()),
+                    Number: $.trim($('#projectNumber').val())
+                }
+            });
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent === 'detail') {
+                location.href = "@Url.Action("Detail", "Tickets")?ticketId=" + data.ProductId;
+            }
+        })
+
+    })
+</script>

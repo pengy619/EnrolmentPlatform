@@ -1,0 +1,209 @@
+﻿@using EnrolmentPlatform.Project.DTO.Product;
+@model RecommendProductDto
+
+@{
+    ViewBag.Title = "推荐农产品配置";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            推荐农产品配置
+        </div>
+        <div class="panel-body">
+            <div class="layui-form">
+                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                <input type="hidden" id="ProductName" name="ProductName" value="@Model.ProductName" />
+                <input type="hidden" id="ProductId" name="ProductId" value="@Model.ProductId" />
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传图片</label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-primary" id="upload" type="button">上传图片</button>
+                        <span>（图片格式为jpg/png/bmp，最大为2M。）</span>
+                        <div class="upload-img-box">
+                            <div class="img-item">
+                                <div class="cover">
+                                    <span class="layui-icon" onclick="RemovePic()">ဇ</span>
+                                </div>
+                                <img src="@Model.FilePath" id="img_FilePath" alt="">
+                                <input type="hidden" id="hid_FilePath" value="@Model.FilePath" name="FilePath" lay-verify="FilePath" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline">
+                        <input id="txtSort" type="number" lay-verify="required|number" style="width:200px;" name="Sort" class="layui-input" value='@Model.Sort'>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">农产品选择</label>
+                    <div class="layui-input-inline">
+
+                        <button class="layui-btn layui-btn-primary sele-btn">选择</button>
+
+                        <table class="layui-table" id="pro-table" lay-filter="pro-table"></table>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+                        <a class="layui-btn layui-btn-primary" href="@Url.Action("RecommendAmusementProduct","SettingH5",new { area="Operate"})">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 选择分类 -->
+<div id="add-projects" style="display:none">
+    <div class="layui-form  margin-top-30">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width:100px;">农产品名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="txtProductName" name="name" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn layui-btn-warm" type="button" data-type="reload" id="btnSearch">查询</button>
+        </div>
+    </div>
+    <table id="table" lay-filter="table"></table>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="choice">选择</a>
+</script>
+
+<div style="display:none">
+    <textarea id="text_editor"></textarea>
+</div>
+
+@Html.RenderTextAreaEditorScripts()
+
+
+<script type="text/javascript">
+    var editor;
+    $("#text_editor").createEditor({ width: "100%", height: 300 }, function (e) {
+        editor = e;
+    });
+
+    $("#upload").click(function () {
+        editor.loadPlugin('image', function () {
+            editor.plugin.imageDialog({
+                showRemote: false,
+                clickFn: function (url, title, width, height, border, align) {
+                    $("#hid_FilePath").val(url);
+                    $("#img_FilePath").attr("src", url);
+                    editor.hideDialog();
+                }
+            });
+        });
+    });
+    function RemovePic() {
+        $("#hid_FilePath").val("");
+        $("#img_FilePath").attr("src", "");
+    }
+    layui.use(['layer', 'table', 'jquery','form'], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var layer = layui.layer;
+        var form = layui.form;
+        var productData = [];
+        if("@Model.ProductName"!="")
+            productData.push({ ProductNumber: "@Model.ProductNumber", ProductName: "@Model.ProductName", ProductId: "@Model.ProductId", Price:0});
+        table.render({
+            elem: '#pro-table'
+            , skin: 'line'
+            , limit: 50
+            , data: productData
+            , cols: [[ //表头
+                { field: 'ProductNumber', title: '编号' }
+                , { field: 'ProductName', title: '农产品名称', width: 200 }
+            ]]
+        });
+        $('.sele-btn').click(function () {
+            console.log("sdasdfsdfsd");
+            layer.open({
+                type: 1,
+                title: '选择农产品',
+                area: ['800px',"500px"], //宽高
+                content: $('#add-projects'),
+                yes: function () {
+                    return false
+                },
+                btn2: function () {
+
+                }
+            });
+            table.render({
+                elem: '#table'
+                , skin: 'line'
+                , limit: 5
+                , url: "@Url.Action("GetSpecialtyProductPageList", "SettingH5", new { area= "Operate" })"//数据
+                , page: { layout: ['count','prev', 'page', 'next']} //开启分页
+                , cols: [[ //表头
+                    { field: 'ProductNumber', title: '编号'}
+                    , { field: 'ProductName', title: '农产品名称' }
+                    , { field: 'Price', title: '价格'  }
+                    , { title: '操作', toolbar: '#tableTool' }
+                ]]
+            });
+            // 农产品选择
+            table.on("tool(table)", function (obj) {
+                if (obj.event === "choice") {
+                    console.log(obj.data);
+                    $("#ProductId").val(obj.data.ProductId);
+                    $("#ProductName").val(obj.data.ProductName);
+                    var data = [];
+                    data.push(obj.data);
+                    table.reload("pro-table", {
+                        data: data
+                    });
+                    layer.closeAll();
+                }
+            });
+            return false;
+        });
+        //查询事件
+        $("#btnSearch").click(function () {
+            table.reload("table", {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                    , limit: 5
+                }, where: {
+                    ProductName: $("#txtProductName").val()
+                }
+            });
+        });
+        //保存事件
+        form.on("submit(save)", function (obj) {
+            var postData = obj.field;
+            if (postData.FilePath == "") {
+                layer.msg("请上传图片！");
+                return;}
+            if (postData.ProductName == "") {
+                layer.msg("请选择农产品！");
+                return;
+            }
+            $.ajax({
+                url: "@Url.Action("AddOrEditRecommendProduct", "SettingH5", new { area = "Operate" })",
+                type: "post",
+                dataType: "json",
+                data: postData,
+                success: function (res) {
+                    if (res.IsSuccess) {
+                        layer.msg("操作成功")
+                        location.href = "@Url.Action("RecommendAmusementProduct", "SettingH5", new { area = "Operate" })";
+                    } else {
+                        layer.msg(res.Info);
+                    }
+                }
+            })
+        })
+    })
+</script>

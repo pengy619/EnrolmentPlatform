@@ -1,0 +1,371 @@
+﻿@{
+    ViewBag.Title = "店铺管理创建/编辑";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<EnrolmentPlatform.Project.DTO.Product.CateringParamDto> foodSeries = ViewBag.FoodSeries;
+    List<EnrolmentPlatform.Project.DTO.Product.CateringParamDto> serviceFacilities = ViewBag.ServiceFacilities;
+    EnrolmentPlatform.Project.DTO.Product.ShopDto dto = ViewBag.Shop;
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">基本信息</div>
+        <div class="panel-body">
+            <form class="layui-form">
+                <div class="layui-form-item input-inline-400 required">
+                    <label class="layui-form-label">店铺名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="txtShopName" name="name" value='@( dto != null ? dto.ShopName : "")' required lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">菜系</label>
+                    <div class="layui-input-inline">
+                        <select name="" lay-verify="required" id="sltSoodSeries">
+                            <option value=""></option>
+                            @if (foodSeries != null)
+                            {
+                                foreach (var item in foodSeries)
+                                {
+                                    <option @( dto != null && dto.CuisineId == item.ParamId ? "selected" : "") value="@item.ParamId">@item.ParamName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">地址</label>
+                    @Html.Action("Index", "Address", new { area = "", addressId = (dto!=null?dto.AddressId.ToString():"") })
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="text" value='@( dto != null ? dto.Address : "")' name="name" id="txtAddress" required lay-verify="required" autocomplete="off" class="layui-input" placeholder="详细地址">
+                    </div>
+                </div>
+                <div class="layui-form-item required input-inline-400">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" value='@( dto != null ? dto.Tel1 : "")' name="title" id="txtTel1" required lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="text" value='@( dto != null ? dto.Tel2 : "")' name="name" id="txtTel2" required lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">营业日</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" @( dto != null && dto.OpenDay.Contains("1") ? "checked" : "") name="openDay" value="1" title="周一" lay-skin="primary">
+                        <input type="checkbox" @( dto != null && dto.OpenDay.Contains("2") ? "checked" : "") name="openDay" value="2" title="周二" lay-skin="primary">
+                        <input type="checkbox" @( dto != null && dto.OpenDay.Contains("3") ? "checked" : "") name="openDay" value="3" title="周三" lay-skin="primary">
+                        <input type="checkbox" @( dto != null && dto.OpenDay.Contains("4") ? "checked" : "") name="openDay" value="4" title="周四" lay-skin="primary">
+                        <input type="checkbox" @( dto != null && dto.OpenDay.Contains("5") ? "checked" : "") name="openDay" value="5" title="周五" lay-skin="primary">
+                        <input type="checkbox" @( dto != null && dto.OpenDay.Contains("6") ? "checked" : "") name="openDay" value="6" title="周六" lay-skin="primary">
+                        <input type="checkbox" @( dto != null && dto.OpenDay.Contains("7") ? "checked" : "") name="openDay" value="7" title="周日" lay-skin="primary">
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">营业时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" value='@( dto != null && dto.OpenTime!="0" ? (dto.OpenTime+" - " + dto.CloseTime) : "")' class="layui-input" id="time">
+                        </div>
+                        <input type="checkbox" name="type" @( dto != null && dto.OpenTime=="0" ? "checked" : "") id="chk24Hours" value="0" title="24小时营业" lay-skin="primary">
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">服务设备</label>
+                        @if (foodSeries != null)
+                        {
+                            foreach (var item in serviceFacilities)
+                            {
+                            <input type="checkbox" @( dto != null && dto.ServiceFacilitiesIds.Contains(item.ParamId.ToString()) ? "checked" : "") name="ServiceFacilities" value="@item.ParamId" title="@item.ParamName" lay-skin="primary">
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">图片</label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-primary" id="upload" type="button">批量上传图片</button>
+                        <span>（图片格式为jpg/png/bmp，最大为2M，至少上传一张，最多10张。）</span>
+                        <div class="upload-img-box">
+                            @if (dto != null)
+                            {
+                                foreach (var item in dto.FileList)
+                                {
+                                <div class="img-item">
+                                    <div class="cover @(item.IsCover ? "show" : "")">
+                                        <span onclick="setPic(this)">@(item.IsCover ? "主图" : "设为主图")</span>
+                                        <span class="layui-icon" onclick="deletePic(this)">ဇ</span>
+                                    </div>
+                                    <img src="@item.FileName" />
+                                </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a class="layui-btn" lay-submit lay-filter="demo1">保存</a>
+                        @if (dto.Status == StatusForShopEnum.Init)
+                        {
+                        <a class="layui-btn" lay-submit lay-filter="demo2">保存并提交</a>
+                        }
+                        <button class="layui-btn layui-btn-primary" type="button" onclick="javascript: window.location.href = '/Product/Shop';">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidShopId" value='@(dto!=null?dto.Id.ToString():"")' />
+<div style="display:none">
+    <textarea id="text_editor"></textarea>
+</div>
+@Html.RenderTextAreaEditorScripts()
+<script>
+    layui.use(['laydate', 'layer', 'form'], function () {
+        var laydate = layui.laydate, layer2 = layui.layer, form = layui.form;
+        laydate.render({
+            elem: '#time', type: 'time', format: 'HH:mm'
+            , range: true
+        });
+
+        //保存
+        form.on('submit(demo1)', function (data) {
+            SaveInfo("@((int)StatusForShopEnum.Init)",layer2);
+        });
+
+        //保存并提交
+        form.on('submit(demo2)', function (data) {
+            SaveInfo("@((int)StatusForShopEnum.Checking)",layer2);
+        });
+    });
+
+    $(function () {
+        var editor;
+        $("#text_editor").createEditor({ width: "100%", height: 300 }, function (e) {
+            editor = e;
+        });
+
+        $("#upload").click(function () {
+            var img_len = $(".upload-img-box .img-item").length;
+            if (img_len >= 10) {
+                layer.msg("最多上传10张图片");
+            } else {
+                editor.loadPlugin('multiimage', function () {
+                    editor.plugin.multiImageDialog({
+                        showRemote: false,
+                        clickFn: function (urlList) {
+                            if (urlList.length > 10 - img_len) {
+                                layer.msg("最多上传10张图片");
+                                return false;
+                            } else {
+                                $.each(urlList, function (i, data) {
+                                    LoadImgBox(data.url);
+                                });
+                                editor.hideDialog();
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        //加载图片
+        //type 1：上传图片  2：品种图片
+        function LoadImgBox(url) {
+            var html = "<div class=\"img-item\">" +
+                "<div class=\"cover\">" +
+                "<span onclick=\"setPic(this)\">设为主图</span>" +
+                "<span class=\"layui-icon\" onclick=\"deletePic(this)\">ဇ</span>" +
+                "</div>" +
+                "<img src=\"" + url + "\" />" +
+                "</div>";
+            $(".upload-img-box").append(html);
+        }
+    });
+
+    //移除图片
+    function deletePic(_this) {
+        $(_this).parents("div[class='img-item']").remove();
+    }
+
+    //设为主图
+    function setPic(_this) {
+        var isZhutu = $.trim($(_this).text()) == "设为主图";
+        $(".upload-img-box .img-item").each(function () {
+            $(this).find("div").removeClass("show");
+            $(this).find("span:eq(0)").text("设为主图");
+        });
+        if (isZhutu) {
+            $(_this).text("主图");
+            $(_this).parent().addClass("show");
+        } else {
+            $(_this).text("设为主图");
+            $(_this).parent().removeClass("show");
+        }
+    }
+
+    //保存信息
+    function SaveInfo(status, layer2) {
+        var dto = {};
+        dto.Id = $("#hidShopId").val();
+        dto.ShopName = $.trim($("#txtShopName").val());
+        dto.FullAddressName = $("#select_Province").find("option:selected").text() + $("#select_City").find("option:selected").text();
+        if ($("#select_District").val() != "" && $("#select_District").val() != "0") {
+            dto.FullAddressName = dto.FullAddressName + $("#select_District").find("option:selected").text();
+        }
+        //如果有地区选项
+        if ($("#select_District option").size() > 1) {
+            //地址ID为地区ID
+            dto.AddressId = $("#select_District").val();
+        }
+        else {
+            //否则为城市ID
+            dto.AddressId = $("#select_City").val();
+        }
+        dto.Address = $.trim($("#txtAddress").val());
+        dto.FullAddressName = dto.FullAddressName + dto.Address;
+        dto.CuisineId = $("#sltSoodSeries").val();
+        dto.CuisineName = $("#sltSoodSeries").find("option:selected").text();
+        dto.Tel1 = $.trim($("#txtTel1").val());
+        dto.Tel2 = $.trim($("#txtTel2").val());
+        dto.Status = status;
+
+        //开放星期
+        dto.OpenDay = "";
+        var openDayList = $("input[name='openDay']:checked");
+        if (openDayList.size() > 0) {
+            openDayList.each(function () {
+                dto.OpenDay = dto.OpenDay + $(this).val();
+            });
+        }
+
+        //开放时间
+        dto.OpenTime = "";
+        dto.CloseTime = "";
+        if ($("#chk24Hours").prop("checked")) {
+            dto.OpenTime = "0";
+            dto.CloseTime = "0";
+        }
+        else {
+            var timeText = $.trim($("#time").val());
+            if (timeText != "") {
+                var timeArr = timeText.split('-');
+                dto.OpenTime = $.trim(timeArr[0]);
+                dto.CloseTime = $.trim(timeArr[1]);
+            }
+        }
+
+        //服务设施
+        dto.ServiceFacilitiesIds = "";
+        var list2 = $("input[name='ServiceFacilities']:checked");
+        if (list2.size() > 0) {
+            list2.each(function (index) {
+                dto.ServiceFacilitiesIds = dto.ServiceFacilitiesIds + $(this).val();
+                if (index < list2.size() - 1) {
+                    dto.ServiceFacilitiesIds = dto.ServiceFacilitiesIds + "|";
+                }
+            });
+        }
+
+        //图片
+        dto.FileList = GetImgArr();
+
+        if (dto.AddressId == "" || dto.AddressId == "0") {
+            layer2.msg("请选择所在地区", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+
+        if (dto.OpenDay == "") {
+            layer2.msg("请选择营业日", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+
+        if (dto.OpenDay == "") {
+            layer2.msg("请选择营业日", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+
+        if (dto.OpenTime == "" || dto.CloseTime == "") {
+            layer2.msg("请选择营业时间", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+
+        if (dto.ServiceFacilitiesIds == "") {
+            layer2.msg("请选择服务设备", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+
+        if (dto.FileList.length < 1) {
+            layer2.msg("请上传最少1张图片", {
+                icon: 2,
+                time: 1500
+            });
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json;utf-8",
+            dataType: "json",
+            async: false,
+            data: JSON.stringify(dto),
+            url: '@Url.Action("SaveShop", "Shop")',
+            success: function (result) {
+                if (result.ret == true) {
+                    layer2.msg('保存成功。', {
+                        icon: 1,
+                        time: 1500
+                    }, function () {
+                        window.location.href = '@Url.Action("Index", "Shop")';
+                    });
+                }
+                else {
+                    layer2.msg(result.msg, {
+                        icon: 1,
+                        time: 1500
+                    });
+                }
+            }
+        });
+        return false;
+    }
+
+    //获取添加的图片
+    function GetImgArr() {
+        var hasMainPic = false;
+        var img_value = [];
+        $(".upload-img-box .img-item").each(function () {
+            var item = {};
+            item.FileName = $(this).find("img").attr("src");
+            item.IsCover = $.trim($(this).find("span:eq(0)").text()) != "设为主图";
+            if (item.IsCover) hasMainPic = true;
+            img_value.push(item);
+        });
+        if (img_value.length > 0 && hasMainPic == false) {
+            img_value[0].IsCover = true;
+        }
+        return img_value;
+    }
+</script>

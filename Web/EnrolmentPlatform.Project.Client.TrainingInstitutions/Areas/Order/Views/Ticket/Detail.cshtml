@@ -1,0 +1,492 @@
+﻿
+@{
+    ViewBag.Title = "订单信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model OrderDetailForTicketDTO
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            订单信息
+        </div>
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">订单号</span>
+                        <span class="text">@Model.OrderBasic.OrderNo</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">订单创建时间</span>
+                        <span class="text">@Model.OrderBasic.CreatorTime.ToDateTimeString()</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">订单状态</span>
+                        <span class="text">@EnumDescriptionHelper.GetDescription((OrderStatusForTicketEnum)Model.OrderBasic.OrderStatus)</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">订单总金额</span>
+                        <span class="text pro-color">￥@( Model.OrderBasic.ActualAmount.ToDouble()) <span>（待支付金额：￥@(Model.OrderBasic.OrderStatus == (int)OrderStatusForTicketEnum.Unpaid ? Model.OrderBasic.ActualAmount.ToDouble() : (double)0)）</span></span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">出票状态</span>
+                        <span class="text">@EnumDescriptionHelper.GetDescription((TicketStatusEnum)Model.OrderForTicket.Status)</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">用户名</span>
+                        <span class="text">@Model.OrderBasic.CreatorAccount</span>
+                    </div>
+                </div>
+                <div class="row row-3">
+                    <div class="item">
+                        <span class="label">订单来源</span>
+                        <span class="text">@EnumDescriptionHelper.GetDescription((OrderSourceEnum)Model.OrderBasic.OrderSource)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.OrderBillList != null && Model.OrderBillList.Any())
+    {
+        <div class="panel">
+            <div class="panel-title">
+                付款信息
+            </div>
+            <div class="panel-body">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th>交易流水号</th>
+                            <th>付款金额</th>
+                            <th>状态</th>
+                            <th>支付方式</th>
+                            <th>支付时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderBillList)
+                        {
+                            <tr>
+                                <td>@item.TranscationNo</td>
+                                <td>￥@item.Amount.ToString("#0.00")</td>
+                                <td>@EnumDescriptionHelper.GetDescription((OrderPayStatusEnum)item.PayStatus)</td>
+                                <td>@EnumDescriptionHelper.GetDescription((OrderPayClassifyEnum)item.PayClassify)</td>
+                                <td>@((item.PayStatus == (int)BillPayStatusEnum.Paid) ? item.LastModifyTime.ToDateTimeString() : "")</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+    <div class="panel">
+        <div class="panel-title">
+            产品信息
+        </div>
+        <div class="panel-body">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>产品编号</th>
+                        <th>产品名称</th>
+                        <th>主题</th>
+                        <th>票种</th>
+                        <th>出行日期</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>订单总金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>@Model.OrderForTicket.ProductNo</td>
+                        <td>@Model.OrderForTicket.ProductName</td>
+                        <td>@Model.OrderForTicket.Theme</td>
+                        <td>@Model.OrderForTicket.ProductCategory</td>
+                        <td>@Model.OrderForTicket.PlayDay.ToDateString()</td>
+                        <td>￥@Model.OrderForTicket.Amount.ToString("#0.00")</td>
+                        <td>@Model.OrderForTicket.ProductQuantity.ToString()</td>
+                        <td>￥@((Model.OrderForTicket.Amount * Model.OrderForTicket.ProductQuantity).ToString("#0.00"))</td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @if (Model.TouristList != null && Model.TouristList.Any())
+    {
+        <div class="panel">
+            <div class="panel-title">
+                取票人/出行人信息
+            </div>
+            <div class="panel-body">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>身份证</th>
+                            <th>手机号</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TouristList)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Credentials</td>
+                                <td>@item.Phone</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    @if (Model.OrderBasic.PayStatus != (int)OrderPayStatusEnum.Unpaid)
+    {
+        if (Model.VerificationForTicketList != null && Model.VerificationForTicketList.Any())
+        {
+
+            <div class="panel">
+                <div class="panel-title">
+                    核销信息
+                </div>
+                <div class="panel-body">
+                    <table class="layui-table" id="layer-photos-demo">
+                        <thead>
+                            <tr>
+                                <th>票号及二维码</th>
+                                <th>景点/项目名称</th>
+                                <th>有效日期</th>
+                                <th>核销状态</th>
+                                <th>核销时间</th>
+                                <th>核销方式</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.TicketTokenList != null && Model.TicketTokenList.Any())
+                            {
+                                foreach (var item in Model.TicketTokenList)
+                                {
+                                    var list = Model.VerificationForTicketList.Where(t => t.TicketTokenId == item.Id).ToList();
+
+                                    if (list != null && list.Any())
+                                    {
+                                        int count = list.Count();
+                                        int rows = 0;
+                                        foreach (var itemv in list)
+                                        {
+                                            rows++;
+                                            <tr>
+                                                @if (rows == 1)
+                                                {
+                                                    <td @(rows == 1 ? ("rowspan = " + count.ToString()) : "")>
+                                                        @item.TicketToken
+                                                        <div class="layer-photos-demo">
+                                                            <img layer-src="@Url.Action("GetRQCode","RQCode",new { Area="",content=item.TicketToken})" src="@Url.Action("GetRQCode","RQCode",new { Area="",content=item.TicketToken})" alt="@item.TicketToken" />
+                                                        </div>
+                                                    </td>
+                                                }
+                                                <td>@itemv.ScenicProjectName</td>
+                                                <td>@itemv.ExpiryDate.ToDateString()</td>
+                                                <td>@EnumDescriptionHelper.GetDescription((TicketVerificationStatusEnum)itemv.Status)</td>
+                                                <td>@(itemv.Status == (int)TicketVerificationStatusEnum.Verificated ? itemv.LastModifyTime.ToDateTimeString() : "")</td>
+                                                <td>@(itemv.Status == (int)TicketVerificationStatusEnum.Verificated ? @EnumDescriptionHelper.GetDescription((VerificationModeEnum)itemv.Pattern) : "")</td>
+                                                <td>
+                                                    <a href="@Url.Action("Index","VerificationTicket",new { ticketToken=item.TicketToken })" class="layui-btn layui-btn-primary layui-btn-sm">查看</a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+
+    @if (Model.OrderProcessList != null && Model.OrderProcessList.Any())
+    {
+        var orderRefund = Model.OrderProcessList.Where(t => t.ProcessClassify == 2).OrderByDescending(t => t.CreatorTime).ToList();
+        if (orderRefund != null && orderRefund.Any())
+        {
+            <div class="panel">
+                <div class="panel-title">
+                    退款信息
+                </div>
+                <div class="panel-body">
+                    <ul class="layui-timeline">
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">退款申请</h3>
+                                @foreach (var item in orderRefund)
+                                {
+                                    <p>
+                                        @if (!(!string.IsNullOrWhiteSpace(item.Remark) && item.Remark.Contains("不同意")))
+                                        {
+                                            <br>@Html.Raw("退款金额：" + item.Amount.ToDouble())
+                                        }
+
+                                        <br>操作类型：@item.ProcessName
+                                        @if (!(!string.IsNullOrWhiteSpace(item.Remark) && item.Remark.Contains("不同意")))
+                                        {
+                                            <br>@Html.Raw("退款方式：原路返回")
+                                        }
+
+                                        <br>操作时间：@item.CreatorTime.ToDateTimeString()
+                                        @if (!(!string.IsNullOrWhiteSpace(item.ProcessName) && item.ProcessName.Contains("申请")))
+                                        {
+                                            <br>@Html.Raw("处理结果：" + @item.Remark)
+                                        }
+                                    </p>
+                                }
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+    <div class="panel margin-bottom-50">
+        <div class="panel-title">
+            操作日志
+        </div>
+        <div class="panel-body">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="200">
+                    <col>
+                    <col width="200">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>操作类型</th>
+                        <th>操作内容</th>
+                        <th>操作人</th>
+                        <th>操作时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.OrderProcessList != null && Model.OrderProcessList.Any())
+                    {
+                        foreach (var item in Model.OrderProcessList)
+                        {
+                            <tr>
+                                <td>@item.ProcessName</td>
+                                <td>@item.Remark</td>
+                                <td>@item.CreatorAccount</td>
+                                <td>@item.CreatorTime.ToDateTimeString()</td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="main-fixed-footer center">
+        @if (Model.OrderBasic.OrderStatus == (int)OrderStatusForTicketEnum.Unpaid)
+        {
+            <button class="layui-btn layui-btn-danger" id="button4">支付</button>
+            <button class="layui-btn layui-btn-primary" id="button1">取消</button>
+        }
+
+        @if (Model.OrderBasic.OrderStatus == (int)OrderStatusForTicketEnum.Paid)
+        {
+            <button class="layui-btn layui-btn-primary" id="button3">退票</button>
+        }
+        <button class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1)">返回</button>
+    </div>
+</div>
+
+<div id="button3-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item" style="margin-top:10px;">
+            <label class="layui-form-label">退票原因</label>
+            <div class="layui-input-inline">
+                <select id="select_CancelReason" lay-verify="required">
+                    <option value="">请选择</option>
+                    @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<TouristCenterCancleOrderReasonEnum, int>())
+                    {
+                        <option value="@item.Value">@item.Value</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">退票金额</label>
+            <div class="layui-input-inline flex">
+                <span class="pro-color">￥</span>
+                <input type="text" name="" id="modal_RefundAmount" class="layui-input" value="@Model.PaidAmount.ToDouble()">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">补充说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" id="modal_Remark" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', 'layer'], function () {
+        var $ = layui.$;
+        var layer = layui.layer;
+        layer.photos({
+            photos: '#layer-photos-demo'
+            , anim: 5
+            , name: ''
+            , area: ['260px', '260px'],
+        });
+        $("#button3").click(function () {
+            layer.open({
+                type: 1,
+                title: '发起退款',
+                btn: ['确定', '取消'],
+                //skin: 'layui-layer-rim', //加上边框
+                area: ['500px'], //宽高
+                content: $('#button3-modal'),
+                yes: function () {
+                    return Refund();
+                },
+                btn2: function () {
+
+                }
+            });
+        });
+        $("#button1").click(function () {
+            layer.open({
+                title: '确认取消订单',
+                btn: ['确定', '取消'],
+                yes: function () {
+                    return TouristCenterCancel();
+                },
+                btn2: function () {
+
+                }
+            });
+        });
+        $("#button4").click(function () {
+            location.href = "@Url.Action("OrderPay", "ProductForTicket", new { area = "Sale" })" + "/" + '@Model.OrderBasic.Id.ToString()';
+        });
+    });
+    var _IsSubmit = false;
+    function Refund() {
+            var bool = false;
+            var orderId = '@Model.OrderBasic.Id.ToString()';
+            var refundReason = $("#select_CancelReason").val();
+            var refundAmount = $("#modal_RefundAmount").val();
+            var remark = $("#modal_Remark").val();
+            var regex = /^\d{1,16}(\.\d{1,2})?$/;
+            if (refundReason == "") {
+                layer.msg('请选择退票原因', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (refundAmount == '') {
+                layer.msg('请输入退款金额', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (!regex.test(refundAmount)) {
+                layer.msg('金额格式不正确', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (!_IsSubmit)
+            {
+                $.ajax({
+                        url: "@Url.Action("TouristCenterRefund", "Ticket")",
+                        type: "post",
+                        data: { OrderId: orderId, Reason:refundReason,RefundAmount: refundAmount , Remark: remark},
+                        beforeSend: function () {
+                            _IsSubmit = true;
+                        },
+                        success: function (res) {
+                            bool = res.IsSuccess;
+                            if (res.IsSuccess) {
+                                layer.msg("退票成功", {
+                                            icon: 1
+                                            , time: 2000
+                                }, function () {
+                                    layer.closeAll();
+                                    location.reload();
+                                    });
+
+                            }
+                            else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                            _IsSubmit = false;
+                        }
+                });
+                return bool;
+            }
+        }
+    function TouristCenterCancel() {
+        var bool = false;
+        var orderId = '@(Model.OrderBasic.Id.ToString())';
+        if (!_IsSubmit)
+        {
+            $.ajax({
+                    url: "@Url.Action("TouristCenterCancel", "Ticket")",
+                    type: "post",
+                    data: { OrderId: orderId},
+                    beforeSend: function () {
+                        _IsSubmit = true;
+                    },
+                    success: function (res) {
+                        bool = res.IsSuccess;
+                        if (res.IsSuccess) {
+                            layer.msg("操作成功", {
+                                        icon: 1
+                                        , time: 2000
+                            }, function () {
+                                layer.closeAll();
+                                location.reload();
+                                });
+
+                        }
+                        else {
+                            layer.msg(res.Info, {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                        _IsSubmit = false;
+                    }
+            });
+            return bool;
+        }
+    }
+</script>
+

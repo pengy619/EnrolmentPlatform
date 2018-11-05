@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-default layui-btn-sm">启用</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm">禁用</button> 
+            <table id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool"> 
+</script>
+<script>
+    layui.use(['jquery', 'table',], function () {
+        var table = layui.table;
+        var data = [{
+            name: '支付宝（纯网关）',
+            version: '1.0',
+            status: '启用',
+        }, {
+            name: '微信支付',
+            version: '1.0',
+            status: '启用',
+        }, {
+            name: '财付通（担保交易）',
+            version: '1.0',
+            status: '启用',
+        }]
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            , limit: 20
+            , data: data//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'name', title: '名称', }
+                , { field: 'version', title: '版本', }
+                , { field: 'status', title: '状态', sort: true } 
+            ]]
+        }
+        table.render(tableOptions)
+    })
+</script> 

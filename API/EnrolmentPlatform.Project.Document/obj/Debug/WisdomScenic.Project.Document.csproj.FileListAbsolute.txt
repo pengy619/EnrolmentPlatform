@@ -1,0 +1,6 @@
+E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Document\bin\Debug\WisdomScenic.Project.Document.dll
+E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Document\bin\Debug\WisdomScenic.Project.Document.pdb
+E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Document\obj\Debug\WisdomScenic.Project.Document.csproj.CoreCompileInputs.cache
+E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Document\obj\Debug\WisdomScenic.Project.Document.dll
+E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Document\obj\Debug\WisdomScenic.Project.Document.pdb
+E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Document\obj\Debug\WisdomScenic.Project.Document.csprojResolveAssemblyReference.cache

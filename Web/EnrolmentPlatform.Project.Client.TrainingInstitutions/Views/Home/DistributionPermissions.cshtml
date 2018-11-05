@@ -1,0 +1,156 @@
+﻿@using EnrolmentPlatform.Project.DTO.Enums.Systems;
+@using EnrolmentPlatform.Project.Infrastructure.EnumHelper
+@{
+    ViewBag.Title = "DistributionPermissions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var lst = EnumDescriptionHelper.GetItemKeyList<SystemTypeEnum>();
+}
+;
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            功能权限添加
+        </div>
+        <div class="panel-body">
+            <div class="layui-form margin-top-10">
+
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">系统类型</label>
+                    <div class="layui-input-inline">
+                        <select name="" id="sltSystemType" lay-verify="required" lay-filter="system">
+                            <option value="">请选择类型</option>
+                            @foreach (var item in lst)
+                            {
+                                <option value="@((int)item)">@(EnumDescriptionHelper.GetDescription(item))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">父级</label>
+                    <div class="layui-input-inline">
+                        <select name="quiz" id="sltParent">
+                            <option value="00000000-0000-0000-0000-000000000000">根节点</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="txtName" value="" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">Area(区域)</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="txtArea" value="" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">Controller(控制器)</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="txtController" value="" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">Action(行为)</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="txtAction" value="" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">排序</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="txtSort" value="" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">权限等级</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="txtLevel" value="" lay-verify="required">
+                        （1：头部模块，2：左侧一级菜单，3：左右二级菜单，4：左侧菜单下面的Acion操作）
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">Ico图标</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="txtIcon" value="">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'form'], function () {
+        var form = layui.form, layer = layui.layer;
+
+        //提交
+        form.on('submit(save)', function (data) {
+            var dto = {};
+            dto.ParentId = $("#sltParent").val();
+            dto.Name = $("#txtName").val();
+            dto.SystemType = $("#sltSystemType").val();
+            dto.AreaName = $("#txtArea").val();
+            dto.ControllerName = $("#txtController").val();
+            dto.ActionName = $("#txtAction").val();
+            dto.Sort = $("#txtSort").val();
+            dto.Level = $("#txtLevel").val();
+            dto.Icon = $("#txtIcon").val();
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("SavePermission", "Home")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg("添加成功", {
+                            icon: 1,
+                            time: 1200
+                        }, function () {
+                            window.location.href = window.location.href;
+                        });
+                    }
+                    else {
+                        layer.msg("添加失败", {
+                            icon: 2,
+                            time: 1200
+                        });
+                    }
+                }
+            });
+        });
+
+        //系统更改
+        form.on('select(system)', function (data) {
+            if (data.value == "") {
+                return false;
+            }
+            $("#sltParent").empty();
+            $("#sltParent").append("<option value='00000000-0000-0000-0000-000000000000'>根节点</option>");
+            var systemType = { "systemType": data.value };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(systemType),
+                url: '@Url.Action("GetSystemPermissionList", "Home")',
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#sltParent").append("<option value='" + result[i].Id + "'>" + result[i].Name + "</option>");
+                    }
+                }
+            });
+            form.render();
+        });
+    });
+</script> 

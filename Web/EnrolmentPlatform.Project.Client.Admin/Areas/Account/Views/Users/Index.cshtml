@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = "会员列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap layui-form">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form-item ">
+                <label class="layui-form-label">启用状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status2" value="" title="全部" checked>
+                    <input type="radio" name="status2" value="2" title="已启用">
+                    <input type="radio" name="status2" value="1" title="已禁用">
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label">登录账号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="" id="txtUserAccount" autocomplete="off" class="layui-input">
+                </div>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="s">查询</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-default layui-btn-sm" lay-submit="" lay-filter="q">启用</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" lay-submit="" lay-filter="j">禁用</button>
+            <table id="members-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a href="@Url.Action("Info","Users",new { area="Account" })?userId={{d.UserId}}" class="layui-btn layui-btn-default layui-btn-xs" lay-event="detail">查看</a>
+</script>
+<script>
+    layui.use(['jquery', 'table', 'layer','form'], function () {
+        var table = layui.table, form = layui.form;
+        //实例表格
+        var tableOptions = {
+            elem: '#members-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("Search", "Users")'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', field: 'UserId' }
+                , { field: 'Nickname', title: '昵称'}
+                , { field: 'Phone', title: '手机' }
+                , { field: 'Sex', title: '性别' }
+                , { field: 'CreateTime', title: '创建时间' }
+                , { field: 'StatusName', title: '启用状态', sort: true }
+                , { title: '操作', toolbar: '#tableTool', width: 150 }
+            ]]
+        }
+        table.render(tableOptions);
+
+        //启用
+        form.on('submit(q)', function (data) {
+             //选中行
+            var checkdata = table.checkStatus('members-table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要启用的会员。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //启用确认
+            layer.confirm('确认启用？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                //启用处理
+                var userIds = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    userIds[i] = checkdata[i].UserId;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(userIds),
+                    url: '@Url.Action("ActiveUser", "Users")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('启用成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("members-table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+
+                layer.close(index);
+            });
+        });
+
+        //禁用
+        form.on('submit(j)', function (data) {
+             //选中行
+            var checkdata = table.checkStatus('members-table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要禁用的会员。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //禁用确认
+            layer.confirm('确认禁用？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                //禁用处理
+                var userIds = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    userIds[i] = checkdata[i].UserId;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(userIds),
+                    url: '@Url.Action("InActiveUser", "Users")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('禁用成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("members-table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+
+                layer.close(index);
+            });
+        });
+        //radio  选择事件
+        form.on("radio", function (data) {
+            //执行重载
+            table.reload('members-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    Status: $("input[name='status2']:checked").val(),
+                    UserAccount: $("#txtUserAccount").val()
+                }
+            });
+        });
+
+        //查询
+        form.on('submit(s)', function (data) {
+            //执行重载
+            table.reload('members-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    Status: $("input[name='status2']:checked").val(),
+                    UserAccount: $("#txtUserAccount").val()
+                }
+            });
+        });
+    })
+</script> 

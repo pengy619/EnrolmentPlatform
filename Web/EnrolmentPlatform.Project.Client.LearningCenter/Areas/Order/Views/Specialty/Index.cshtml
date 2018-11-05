@@ -1,0 +1,515 @@
+﻿
+@{
+    ViewBag.Title = "农产品订单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">订单状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="OrderStatus" value="-1" lay-filter="Search" title="全部" checked>
+                        @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<OrderStatusForSpecialtyEnum, int>())
+                        {
+                            <input type="radio" name="OrderStatus" value="@item.Key" lay-filter="Search" title="@item.Value">
+                        }
+
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">销售模式</label>
+                    <div class="layui-input-inline">
+                        <select name="SalesModel">
+                            <option value="-1" selected="selected">请选择</option>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<ProductSaleModelEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+
+                        </select>
+                    </div>
+                    <label class="layui-form-label">订单来源</label>
+                    <div class="layui-input-inline">
+                        <select id="OrderSource" name="OrderSource">
+                            <option value="-1">全部</option>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<OrderSourceEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+
+                    <label class="layui-form-label">订单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="OrderNo" autocomplete="off" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" id="btnSearch" data-type="reload">查询</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="order-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<!--弹出框模板-->
+<div id="button1-modal" style="display:none">
+    <div class="layui-form">
+        <div class="layui-form-item ">
+            <label class="layui-form-label">订单原金额</label>
+            <div class="layui-input-block">
+                <span class="text pro-color" id="sp_price"></span>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">修改后金额</label>
+            <div class="layui-input-inline">
+                <input type="text" id="txt_OrderPrice" name="price" required autocomplete="off" class="layui-input">
+            </div>
+            <span class="after-input">元</span>
+        </div>
+    </div>
+</div>
+<div id="button2-modal" style="display:none">
+    <div class="layui-form">
+        <div class="layui-form-item ">
+            <label class="layui-form-label">寄送方式</label>
+            <div class="layui-input-block">
+                <span class="text">快递</span>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">快递公司</label>
+            <div class="layui-input-inline">
+                <input type="text" name="express" id="txt_express" required autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">运单号</label>
+            <div class="layui-input-inline">
+                <input type="number" name="number" id="txt_number" required autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="button3-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item ">
+            <label class="layui-form-label">订单金额</label>
+            <div class="layui-input-block">
+                <span class="text pro-color" id="sp_PaidAmount"></span>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">处理结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="modal3_IsAgree" value="true" lay-filter="modal3_IsAgree" title="同意" checked>
+                <input type="radio" name="modal3_IsAgree" value="false" lay-filter="modal3_IsAgree" title="拒绝">
+            </div>
+        </div>
+        <div class="layui-form-item" id="div_RefundAmount">
+            <label class="layui-form-label">实际退款金额</label>
+            <div class="layui-input-inline flex">
+                <span class="pro-color">￥</span>
+                <input type="text" name="price" id="modal3_RefundAmount" value="" required autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">处理结果说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" id="modal3_Remark" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="button4-modal" style="display:none">
+    <div class="layui-form margin-top-20">
+        <div class="layui-form-item ">
+            <label class="layui-form-label">退款原因</label>
+            <div class="layui-input-inline">
+                <select name="express" id="select_CancelReason" lay-verify="required">
+                    <option value="">请选择</option>
+                    @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<SupplierCancleOrderReasonEnum, int>())
+                    {
+                        <option value="@item.Value">@item.Value</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">补充说明</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" id="txt_Remark" class="layui-textarea" style="width:300px;"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:void(0)" lay-event="detail">查看</a>
+    {{#  if(d.OrderStatus ==@((int)OrderStatusForSpecialtyEnum.Unpaid)){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="updatePrice" >改价</a>
+    {{#  } }}
+    {{#  if(d.OrderStatus ==@((int)OrderStatusForSpecialtyEnum.UnSend)){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="SupplierSendGood">发货</a>
+    {{#  } }}
+    {{# if (d.CancelForSystem == @((int)CancelForSystemEnum.Consumer) && d.OrderStatus == @((int)OrderStatusForSpecialtyEnum.Refunding)) { }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="SupplierHandleRefund">处理退款</a>
+    {{#  } }}
+    {{# if (d.SalesModel == @((int)ProductSaleModelEnum.Presale)&&(d.OrderStatus == @((int)OrderStatusForSpecialtyEnum.UnSend)|| d.OrderStatus == @((int)OrderStatusForSpecialtyEnum.UnReceived)|| d.OrderStatus == @((int)OrderStatusForSpecialtyEnum.PayDeposit)|| d.OrderStatus == @((int)OrderStatusForSpecialtyEnum.UnRetainage))) { }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="SupplierRefund">发起退款</a>
+    {{#  } }}  
+    
+</script>
+<script type="text/html" id="timeTpl">
+    {{#
+    return d.CreatorTime.substring(0,10);
+    }}
+</script>
+<script type="text/html" id="ActualAmountTpl">
+    {{#
+    return '¥'+d.ActualAmount.toFixed(2);
+    }}
+</script>
+<script>
+    var _IsSubmit = false;
+    layui.use(['jquery', 'table', 'layer', "form"], function () {
+        var form = layui.form;
+        var table = layui.table;
+        //实例表格
+        var tableOptions = {
+            elem: '#order-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("Search", "Specialty")'//数据
+            , method: 'post'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'OrderNo', title: '订单编号', sort: true, minWidth: 210 }
+                , { field: 'SalesModelCH', title: '销售模式', width: 100 }
+                , { field: 'OrderName', title: '产品信息', }
+                , { field: 'TotalQuantity', title: '购买数量', sort: true, width: 100 }
+                , { field: 'ActualAmount', title: '订单总金额', sort: true, templet: '#ActualAmountTpl', width: 150 }
+                , { field: 'OrderStatusCH', title: '订单状态', width: 100 }
+                , { field: 'CreatorAccount', title: '下单账户', sort: true }
+                , { field: 'Consignee', title: '收货人', width: 100 }
+                , { field: 'CreatorTime', title: '下单日期', sort: true, minWidth: 180, templet: '#timeTpl' }
+                , { field: 'OrderSourceCH', title: '订单来源', width: 100 }
+                , { title: '操作', toolbar: '#tableTool', minWidth: 150 }
+            ]],
+            where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), SalesModel: $("select[name='SalesModel']").val(), OrderNo: $("input[name='OrderNo']").val(), OrderSource: $("#OrderSource").val()}
+        }
+        table.render(tableOptions)
+        //var $ = layui.$,
+        active = {
+            reload: function () {
+                //执行重载
+                table.reload('order-table', {
+
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: { OrderStatus: $("input[name='OrderStatus']:checked").val(), SalesModel: $("select[name='SalesModel']").val(), OrderNo: $("input[name='OrderNo']").val(), OrderSource: $("#OrderSource").val() }
+                });
+            }
+        };
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //点击事件
+        form.on("radio(Search)", function (data) {//lay-filter="Search"
+            $("#btnSearch").click();
+        });
+        form.on('radio(modal3_IsAgree)', function (data) {
+            if (data.value == "false") {
+                $("#modal3_RefundAmount").val('');
+                $("#div_RefundAmount").css("display", "none");
+            }
+            else {
+                $("#div_RefundAmount").css("display", "block");
+
+            }
+        });
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'detail') {
+                location.href = "@Url.Action("Detail", "Specialty", new { area = "Order" })" + "/" + data["OrderId"];
+            }
+            else if (layEvent == 'updatePrice') {
+                $("#sp_price").html(data["ActualAmount"]);
+                layer.open({
+                    type: 1,
+                    title: '修改价格',
+                    btn: ['确定', '取消'],
+                    //skin: 'layui-layer-rim', //加上边框
+                    area: ['500px'], //宽高
+                    content: $('#button1-modal'),
+                    yes: function () {
+                        var orderId = data["OrderId"];
+                        var updateTotalAmount = $("#txt_OrderPrice").val();
+                        var regex = /^\d{1,16}(\.\d{1,2})?$/;
+                        if (!regex.test(updateTotalAmount)) {
+                            layer.msg('金额格式不正确', {
+                                icon: 2
+                                , time: 2000
+                            });
+                            return false;
+                        }
+                        if (!_IsSubmit) {
+                            $.ajax({
+                                url: "@Url.Action("SupplierUpdatePrice", "Specialty")",
+                                type: "post",
+                                data: { OrderId: orderId, UpdateTotalAmount: updateTotalAmount },
+                                beforeSend: function () {
+                                    _IsSubmit = true;
+                                },
+                                success: function (res) {
+                                    bool = res.IsSuccess;
+                                    if (res.IsSuccess) {
+                                        layer.msg("修改成功", {
+                                            icon: 1
+                                            , time: 2000
+                                        }, function () {
+                                            layer.closeAll();
+                                            $("#btnSearch").click();
+                                        });
+                                    }
+                                    else {
+                                        layer.msg(res.Info, {
+                                            icon: 2
+                                            , time: 2000
+                                        });
+                                    }
+                                    _IsSubmit = false;
+                                }
+                            });
+                            return bool;
+                        }
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+            else if (layEvent == 'SupplierSendGood') {
+
+                layer.open({
+                    type: 1,
+                    title: '发货',
+                    btn: ['确定', '取消'],
+                    //skin: 'layui-layer-rim', //加上边框
+                    area: ['400px', '300px'], //宽高
+                    content: $('#button2-modal'),
+                    yes: function () {
+                        return SupplierSendGood(data["OrderId"]);
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+            else if (layEvent == 'SupplierHandleRefund') {
+                $("#sp_PaidAmount").html("￥" + data["PaidAmount"]);
+                $("#modal3_RefundAmount").val(data["PaidAmount"]);
+                layer.open({
+                    type: 1,
+                    title: '退款处理',
+                    btn: ['确定', '取消'],
+                    //skin: 'layui-layer-rim', //加上边框
+                    area: ['500px'], //宽高
+                    content: $('#button3-modal'),
+                    yes: function () {
+                        return SupplierHandleRefund(data["OrderId"]);
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+            else if (layEvent == 'SupplierRefund') {
+                //SupplierRefund
+                layer.open({
+                    type: 1,
+                    title: '退款',
+                    btn: ['确定', '取消'],
+                    //skin: 'layui-layer-rim', //加上边框
+                    area: ['500px'], //宽高
+                    content: $('#button4-modal'),
+                    yes: function () {
+                        return SupplierRefund(data["OrderId"]);
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+        })
+
+        //发货
+        function SupplierSendGood(orderid) {
+            var bool = false;
+            var orderId = orderid;
+            var expressCompany = $("#txt_express").val();
+            var waybillNumber = $("#txt_number").val();
+            if (expressCompany=="") {
+                layer.msg('请输入快递公司', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (waybillNumber == "") {
+                layer.msg('请输入运单号', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            else if (!(/^\d+$/.test(waybillNumber))) {
+                layer.msg('运单号只能为数字', {
+                    icon: 2
+                    , time: 2000
+                });
+                return false;
+            }
+            if (!_IsSubmit)
+            {
+                $.ajax({
+                        url: "@Url.Action("SupplierSendGood", "Specialty")",
+                        type: "post",
+                        data: { OrderId: orderId, ExpressCompany: expressCompany, WaybillNumber: waybillNumber },
+                        beforeSend: function () {
+                            _IsSubmit = true;
+                        },
+                        success: function (res) {
+                            bool = res.IsSuccess;
+                            if (res.IsSuccess) {
+                                layer.msg("发货成功", {
+                                            icon: 1
+                                            , time: 2000
+                                }, function () {
+                                    layer.closeAll();
+                                    $("#btnSearch").click();
+                                        });
+                            }
+                            else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                            _IsSubmit = false;
+                        }
+                });
+                return bool;
+            }
+        }
+        function SupplierHandleRefund(orderid) {
+            var bool = false;
+            var orderId = orderid;
+            var isAgree = $("input[name='modal3_IsAgree']:checked").val();
+            var refundAmount = $("#modal3_RefundAmount").val();
+            var remark = $("#modal3_Remark").val();
+            var regex = /^\d{1,16}(\.\d{1,2})?$/;
+            if (isAgree == "true") {
+                if (!regex.test(refundAmount)) {
+                    layer.msg('请输入退款金额', {
+                        icon: 2
+                        , time: 2000
+                    });
+                    return false;
+                }
+            }
+            else {
+                refundAmount = 0;
+            }
+            if (!_IsSubmit)
+            {
+                $.ajax({
+                        url: "@Url.Action("SupplierHandleRefund", "Specialty")",
+                        type: "post",
+                        data: { OrderId: orderId, IsAgree: isAgree, RefundAmount: refundAmount , Remark: remark},
+                        beforeSend: function () {
+                            _IsSubmit = true;
+                        },
+                        success: function (res) {
+                            bool = res.IsSuccess;
+                            if (res.IsSuccess) {
+                                layer.msg("操作成功", {
+                                            icon: 1
+                                            , time: 2000
+                                }, function () {
+                                    layer.closeAll();
+                                    $("#btnSearch").click();
+                                    });
+
+                            }
+                            else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                            _IsSubmit = false;
+                        }
+                });
+                return bool;
+            }
+        }
+        //供应商退款
+    function SupplierRefund(orderId) {
+        var bool = false;
+        var orderId = orderId;
+        var refundReason = $("#select_CancelReason").val();
+        var remark = $("#txt_remark").val();
+        if (refundReason=="") {
+            layer.msg('请选择退款原因', {
+                icon: 2
+                , time: 2000
+            });
+            return false;
+        }
+
+        if (!_IsSubmit)
+        {
+            $.ajax({
+                    url: "@Url.Action("SupplierRefund", "Specialty")",
+                    type: "post",
+                    data: { OrderId: orderId, RefundReason: refundReason, Remark: remark},
+                    beforeSend: function () {
+                        _IsSubmit = true;
+                    },
+                    success: function (res) {
+                        bool = res.IsSuccess;
+                        if (res.IsSuccess) {
+                            layer.msg("申请退款成功，等待平台审核", {
+                                        icon: 1
+                                        , time: 2000
+                            }, function () {
+                                layer.closeAll();
+                                $("#btnSearch").click();
+                                });
+
+                        }
+                        else {
+                            layer.msg(res.Info, {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                        _IsSubmit = false;
+                    }
+            });
+            return bool;
+        }
+    }
+    });
+
+</script> 

@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_hx34356fmwzmpldi.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../sell/sell-tickets.html" id="product">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        销售
+    </a>
+    <a href="../order/order-tickets.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="roles-setting.html" id="setting" class="active">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-account"></i> 账户管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="roles-setting.html">角色设置</a>
+                            </dd>
+                            <dd>
+                                <a href="child-account.html">子账户管理</a>
+                            </dd>
+                            <dd>
+                                <a href="modify-password.html">登录密码修改</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-rizhi"></i> 系统日志
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd class="active">
+                                <a href="login-logs.html">登录日志管理</a>
+                            </dd>
+                            <dd>
+                                <a href="edit-logs.html">操作日志管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>设置</cite>
+                            </a>
+                            <a>
+                                <cite>日志/消息</cite>
+                            </a>
+                            <a>
+                                <cite>登录日志管理</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href=""><i class="iconfont icon-dingdan"></i><span class="layui-badge">3</span></a>
+    <a href=""><i class="iconfont icon-xiaoxi"></i></a>
+    <a href=""><i class="iconfont icon-iconfontlipinduihuanbangzhu"></i></a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <div class="layui-form margin-top-10">
+                                <div class="layui-form-item ">
+                                    <label class="layui-form-label">账户名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" class="layui-input">
+                                    </div>
+                                    <label class="layui-form-label" style="width:90px;">登录时间</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="date" class="layui-input" placeholder="请选择">
+                                    </div>
+                                    <button class="layui-btn layui-btn-warm" id="search">查询</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table id="product-table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--引入js-->
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+        <script>
+            layui.use(['jquery', 'table', 'layer','laydate'], function () {
+                var table = layui.table;
+                var laydate=layui.laydate;
+                var $=layui.$
+                var data = []
+                //模拟数据
+                for (var i = 0; i < 41; i++) {
+                    data.push({
+                        user: 'admin',
+                        ip: '192.168.18.1(广东深圳)',
+                        date: '2018-03-22 15:00:00',
+                    })
+                }
+                //实例表格
+                var tableOptions = {
+                    elem: '#product-table'
+                    , skin: 'line'
+                    , limit: 20
+                    , data: data//数据
+                    , page: true //开启分页
+                    , cols: [[ //表头
+                        { field: 'user', title: '账户名', }
+                        , { field: 'ip', title: 'IP', }
+                        , { field: 'date', title: '登录时间', sort: true }
+                    ]]
+                }
+                var tableIns=table.render(tableOptions)
+
+                laydate.render({
+                    elem: '#date',
+                    range: true
+                });
+                
+                $('#search').click(function(){
+                    console.log(123)
+                    tableIns.reload(tableOptions)
+                })
+            })
+        </script>
+
+
+</body></html>

@@ -1,0 +1,392 @@
+﻿@model EnterpriseAddDto
+@{
+    ViewBag.Title = "基础信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var businessRangs = ViewBag.BusinessRangs as List<KeyValuePair<int, string>>;
+    var settlementCycles = ViewBag.SettlementCycles as List<KeyValuePair<int, string>>;
+}
+
+
+<div class="main-wrap">
+    <div class="layui-form">
+        @Html.HiddenFor(t => t.EnterpriseId)
+        <div class="panel">
+            <div class="panel-title">
+                基础信息
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">供应商名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="EnterpriseName" autocomplete="off" class="layui-input" lay-verify="required" value="@Model.EnterpriseName">
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">供应商类型</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="SupplierType" value="@((int)SupplierTypeEnum.Self)" title="自营供应商" lay-filter="supplierType" @(Model.SupplierType == SupplierTypeEnum.Self ? "checked" : "")>
+                            <input type="radio" name="SupplierType" value="@((int)SupplierTypeEnum.External)" title="外部供应商" lay-filter="supplierType" @(Model.SupplierType == SupplierTypeEnum.External ? "checked" : "")>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required businessType layui-hide">
+                        <label class="layui-form-label">业务类型</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="BusinessType" value="@((int)EnterpriseBusinessTypeEnum.Farmer)" title="农户" lay-filter="businessType" @(Model.BusinessType.HasValue && Model.BusinessType == EnterpriseBusinessTypeEnum.Farmer ? "checked" : "")>
+                            <input type="radio" name="BusinessType" value="@((int)EnterpriseBusinessTypeEnum.CommercialTenant)" title="商户" lay-filter="businessType" @(Model.BusinessType.HasValue && Model.BusinessType == EnterpriseBusinessTypeEnum.CommercialTenant ? "checked" : "")>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">业务范围</label>
+                        <div class="layui-input-block">
+                            @foreach (var item in businessRangs)
+                            {
+                                <input type="checkbox" name="BusinessRang" value="@item.Key" title="@item.Value" @(Model.BusinessRang != null && Model.BusinessRang.Contains(item.Key.ToString()) ? "checked" : "")>
+                            }
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="Contact" autocomplete="off" class="layui-input" lay-verify="required" value="@Model.Contact">
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">手机号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="Phone" autocomplete="off" class="layui-input" lay-verify="required|phone" value="@Model.Phone">
+                        </div>
+                    </div>
+                    <div class="layui-form-item input-inline-400 required">
+                        <label class="layui-form-label">通信地址</label>
+                        @Html.Action("Index", "Address", new { area = "", addressId = Model.AddressId })
+                    </div>
+                    <div class="layui-form-item input-inline-400">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="Address" autocomplete="off" class="layui-input" lay-verify="required" value="@Model.Address">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">
+                账号信息
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">登录账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="UserAccount" autocomplete="off" class="layui-input" lay-verify="required" value="@Model.UserAccount">
+                        </div>
+                    </div>
+                    <div class="layui-form-item userPwd required">
+                        <label class="layui-form-label">登录密码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="UserPwd" value="abc123456" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">
+                结算信息
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">结算周期</label>
+                        <div class="layui-input-block">
+                            @if (!Model.EnterpriseId.IsEmpty())
+                            {
+                                <input type="radio" readonly="readonly" name="SettlementCycle" value="@Model.SettlementCycle" title="@EnumDescriptionHelper.GetDescription((SettlementCycleEnum)Model.SettlementCycle)" checked>
+                                <small class="gray-color">结算周期，暂不支持变更</small>
+                            }
+                            else
+                            {
+                                foreach (var item in settlementCycles)
+                                {
+                                    <input type="radio" readonly="readonly" name="SettlementCycle" value="@item.Key" title="@item.Value" @((int)Model.SettlementCycle == item.Key ? "checked" : "")>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">费率</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="Rate" value="@Model.Rate.ToString("0.##")" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%</div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">保证金</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="DepositAmount" value="@Model.DepositAmount.ToString("0.##")" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">
+                资质信息
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form-item license required">
+                        <label class="layui-form-label">营业执照号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="LicenseNo" id="LicenseNo" autocomplete="off" class="layui-input" lay-verify="required" value="@Model.LicenseNo">
+                        </div>
+                    </div>
+                    <div class="layui-form-item license required">
+                        <label class="layui-form-label">到期时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="BusinessEndDate" id="BusinessEndDate" autocomplete="off" class="layui-input" lay-verify="required">
+                        </div>
+                    </div>
+                    <div class="panel-title license">
+                        营业执照图片
+                        <small class="gray-color">图片格式为jpg/png/bmp，最大为2M</small>
+                    </div>
+                    <div class="panel-body license">
+                        <div class="upload-img-box" id="BusinessLicense">
+                            <div class="upload-btn"></div>
+                        </div>
+                        <div style="display:none">
+                            <textarea id="imgload" name="imgload"></textarea>
+                        </div>
+                    </div>
+                    <div class="panel-title">
+                        身份证照片
+                        <small class="gray-color">图片格式为jpg/png/bmp，最大为2M</small>
+                    </div>
+                    <div class="panel-body" style="display: flex;">
+                        <div class="upload-img-box" id="IDCardReverse">
+                            <div class="upload-btn"></div>
+                        </div>
+                        <div class="upload-img-box" id="IDCardUpwards">
+                            <div class="upload-btn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">
+                其它信息
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form-item input-inline-400">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-inline">
+                            <textarea name="Remark" placeholder="请输入内容" class="layui-textarea">@Model.Remark</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+            <a href="@Url.Action("Index", "Supplier")" class="layui-btn layui-btn-primary">取消</a>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Html.RenderTextAreaEditorScripts()
+    <script>
+        var isSubmit = true;
+        var editor;
+        $("#imgload").createEditor({ width: "100%", height: 50 }, function (e) {
+            editor = e;
+        });
+
+        $(".upload-img-box").delegate(".upload-btn", "click", function () {
+            var imgBox = $(this).parent();
+            editor.loadPlugin('image', function () {
+                editor.plugin.imageDialog({
+                    showRemote: false,
+                    clickFn: function (url, title, width, height, border, align) {
+                        LoadImgBox(imgBox, url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+
+        //加载图片
+        function LoadImgBox(imgBox, url) {
+            var html = "<div class=\"img-item\">" +
+                "<div class=\"cover\">" +
+                "<span class=\"layui-icon\" onclick=\"deletePic(this)\">ဇ</span>" +
+                "</div>" +
+                "<img src=\"" + url + "\" alt=\"\">" +
+                "</div>";
+            $(imgBox).html(html);
+        }
+
+        //移除图片
+        function deletePic(obj) {
+            $(obj).parents(".upload-img-box").html("<div class=\"upload-btn\"></div>");
+        }
+
+        layui.use(['jquery', 'form', 'laydate'], function () {
+            var $ = layui.$;
+            var form = layui.form;
+
+            //编辑表单赋值
+            if ("@(Model.EnterpriseId)" != "@Guid.Empty") {
+                switchSupplierType(@((int)Model.SupplierType));
+                switchBusinessType(@((int)Model.BusinessType.GetValueOrDefault()));
+                $("input[name=UserAccount]").attr("readonly", "readonly");
+                $(".userPwd").addClass("layui-hide");
+                $("input[name=UserPwd]").removeAttr("lay-verify");
+                if ("@Model.BusinessLicenseUrl" != "") {
+                    LoadImgBox($("#BusinessLicense"), "@Model.BusinessLicenseUrl");
+                }
+                if ("@Model.IDCardReverseUrl" != "") {
+                    LoadImgBox($("#IDCardReverse"), "@Model.IDCardReverseUrl");
+                }
+                if ("@Model.IDCardUpwardsUrl" != "") {
+                    LoadImgBox($("#IDCardUpwards"), "@Model.IDCardUpwardsUrl");
+                }
+            }
+
+            //切换供应商类型
+            form.on('radio(supplierType)', function (data) {
+                switchSupplierType(data.value);
+            });
+
+            function switchSupplierType(val) {
+                if (val == "@((int)SupplierTypeEnum.Self)") {
+                    $(".businessType").addClass("layui-hide");
+                } else {
+                    $(".businessType").removeClass("layui-hide");
+                }
+            }
+
+            //切换业务类型
+            form.on('radio(businessType)', function (data) {
+                switchBusinessType(data.value);
+            });
+
+            function switchBusinessType(val) {
+                if (val == "@((int)EnterpriseBusinessTypeEnum.Farmer)") {
+                    $(".license").addClass("layui-hide");
+                    $("#LicenseNo").removeAttr("lay-verify");
+                    $("#BusinessEndDate").removeAttr("lay-verify");
+                    $("#LicenseNo").val("");
+                    $("#BusinessEndDate").val("");
+                } else {
+                    $(".license").removeClass("layui-hide");
+                    $("#LicenseNo").attr("lay-verify", "required");
+                    $("#BusinessEndDate").attr("lay-verify", "required");
+                }
+            }
+
+            //营业执照到期时间
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#BusinessEndDate',
+                value: '@(Model.BusinessEndDate.HasValue?Model.BusinessEndDate.Value.ToString("yyyy-MM-dd"):"")'
+            });
+
+            form.on('submit(save)', function (data) {
+                var businessType = "";
+                if (data.field.SupplierType == "@((int)SupplierTypeEnum.External)") {
+                    if ($("input[name=BusinessType]:checked").length == 0) {
+                        layer.msg('请选择业务类型', {
+                            icon: 2,
+                            time: 2000
+                        })
+                        return false;
+                    }
+                    businessType = data.field.BusinessType;
+                }
+                var businessRang = [];
+                $("input[name=BusinessRang]:checked").each(function () {
+                    businessRang.push($(this).val());
+                });
+                if (businessRang.length == 0) {
+                    layer.msg('请选择业务范围', {
+                        icon: 2,
+                        time: 2000
+                    })
+                    return false;
+                }
+                var addressId = $("#select_District").val();
+                if (addressId == "0") {
+                    layer.msg('请选择通信地址', {
+                        icon: 2,
+                        time: 2000
+                    })
+                    return false;
+                }
+                var businessLincenseUrl = "";
+                if (businessType != "@((int)EnterpriseBusinessTypeEnum.Farmer)") {
+                    if ($("#BusinessLicense img").length == 0) {
+                        layer.msg('请添加营业执照图片', {
+                            icon: 2,
+                            time: 2000
+                        })
+                        return false;
+                    }
+                    businessLincenseUrl = $("#BusinessLicense img").attr("src");
+                }
+                if ($("#IDCardReverse img").length == 0) {
+                    layer.msg('请添加身份证正面照', {
+                        icon: 2,
+                        time: 2000
+                    })
+                    return false;
+                }
+                if ($("#IDCardUpwards img").length == 0) {
+                    layer.msg('请添加身份证背面照', {
+                        icon: 2,
+                        time: 2000
+                    })
+                    return false;
+                }
+                data.field.BusinessType = businessType;
+                data.field.BusinessRang = businessRang;
+                data.field.AddressId = addressId;
+                data.field.BusinessLicenseUrl = businessLincenseUrl;
+                data.field.IDCardReverseUrl = $("#IDCardReverse img").attr("src");
+                data.field.IDCardUpwardsUrl = $("#IDCardUpwards img").attr("src");
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("SaveSupplier", "Supplier")",
+                        type: "post",
+                        data: data.field,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 1000
+                                }, function () {
+                                    location.href = "@Url.Action("Index", "Supplier")";
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+}

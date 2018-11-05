@@ -1,0 +1,191 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var opStatus = ViewBag.OPStatus;
+    EnrolmentPlatform.Project.DTO.Systems.UserDto dto = ViewBag.UserInfo;
+    List<EnrolmentPlatform.Project.DTO.Systems.RoleDto> roleList = ViewBag.RoleList;
+    List<EnrolmentPlatform.Project.DTO.Systems.DepartmentDto> departmentList = ViewBag.DepartmentList;
+    List<EnrolmentPlatform.Project.DTO.Systems.JobDto> jobList = ViewBag.JobList;
+    ViewBag.Title = opStatus==2?"编辑员工": "新增员工";
+}
+<div class="main-wrap layui-form" id="divStaffOption">
+    <div class="panel">
+        <div class="panel-title">
+            员工信息
+        </div>
+        <div class="panel-body">
+            <div class="layui-form-item required">
+                <label class="layui-form-label">员工姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" style="display: none;">
+                    <input type="text" id="txtUserName" name="" lay-verify="required" class="layui-input" value='@((opStatus == 2) ? dto.UserName : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" value="男" title="男" checked>
+                    <input type="radio" name="sex" value="女" title="女">
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label">所属部门</label>
+                <div class="layui-input-inline">
+                    <select name="province" id="selDepartment">
+                        <option value=""></option>
+                        @foreach (var item in departmentList)
+                        {
+                            <option @Html.Raw((opStatus == 2 && departmentList.Count(a => a.DepartmentId == dto.DepartmentId) > 0) ? "selected" : "") value="@item.DepartmentId">@item.DepartmentName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label">职位</label>
+                <div class="layui-input-inline">
+                    <select name="province" id="selJob">
+                        <option value=""></option>
+                        @foreach (var item in jobList)
+                        {
+                            <option @Html.Raw((opStatus == 2 && jobList.Count(a => a.JobId == dto.JobID) > 0) ? "selected" : "") value="@item.JobId">@item.JobName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">联系电话</label>
+                <div class="layui-input-inline ">
+                    <input type="text" name="" id="txtPhone" lay-verify="required|phone" class="layui-input" value='@((opStatus == 2) ? dto.Phone : "")'>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-title">
+            登录账号
+        </div>
+        <div class="panel-body">
+            <div class="layui-form">
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">登录账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="txtUserAccount" name="" readonly="readonly" onfocus="this.removeAttribute('readonly');" class="layui-input" @Html.Raw(opStatus == 1 ? "lay-verify='required'" : "") @(opStatus == 2 ? "readonly='readonly'" : "") value='@((opStatus == 2) ? dto.UserAccount : "")'>
+                    </div>
+                </div>
+                <div class="layui-form-item  @(opStatus == 1 ? "required" : "") ">
+                    <label class="layui-form-label">登录密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" style="display: none;">
+                        <input type="password" id="txtPassword" name="" class="layui-input" @Html.Raw(opStatus == 1 ? "lay-verify='password'" : "")>
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">所属角色</label>
+                    <div class="layui-input-inline">
+                        <select name="province" id="selRole" lay-verify="required">
+                            <option value=""></option>
+                            @foreach (var item in roleList)
+                            {
+                                <option @Html.Raw((opStatus == 2 && roleList.Count(a => a.RoleId == dto.RoleId) > 0) ? "selected" : "") value="@item.RoleId">@item.RoleName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="2" title="启用" @((opStatus == 1 || (opStatus == 2 && dto.Status == EnrolmentPlatform.Project.DTO.Enums.StatusBaseEnum.Enabled)) ? "checked" : "")>
+                        <input type="radio" name="status" value="1" title="禁用" @((opStatus == 2 && dto.Status == EnrolmentPlatform.Project.DTO.Enums.StatusBaseEnum.Disabled) ? "checked" : "")>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline ">
+                        <textarea name="desc" placeholder="请输入内容" id="txtComment" class="layui-textarea">@((opStatus == 2) ? dto.Comment : "")</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-body">
+            <button class="layui-btn" lay-submit="" lay-filter="s">确定</button>
+            <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">取消</button>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidUserId" value='@((opStatus == 2) ? dto.UserId.Value.ToString() :"")' />
+<script>
+    layui.use(['jquery', 'form', 'layer'], function () {
+        var form = layui.form, layer = layui.layer;
+
+        //登陆密码验证
+        form.verify({
+            password: [
+                /^[\S]{6,12}$/
+                , '密码长度为6-12位。'
+            ]
+        });
+
+        //提交
+        form.on('submit(s)', function (data) {
+            //提交
+            var dto = {};
+            dto.UserName = $("#txtUserName").val();
+            dto.UserAccount = $("#txtUserAccount").val();
+            dto.Password = $("#txtPassword").val();
+            dto.RoleId = $("#selRole").val();
+            dto.DepartmentId = $("#selDepartment").val();
+            dto.JobID = $("#selJob").val();
+            dto.Sex = $("input[name='sex']:checked").val();
+            dto.Phone = $("#txtPhone").val();
+            dto.IntStatus = $("input[name='status']:checked").val();
+            dto.UserId = $("#hidUserId").val();
+            dto.Comment = $("#txtComment").val();
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("SaveUser", "Staff")',
+                success: function (result) {
+                    if (result.ret == 1) {
+                        layer.msg('保存成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Staff")';
+                        });
+                    }
+                    else if (result.ret == 2)
+                    {
+                        layer.msg('密码已经被修改，马上跳转登录界面。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            window.location.href = '@Url.Action("LoginOut", "Home",new { area=""})';
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+    //window.load = function () {
+    //    var hidUserId = $("#hidUserId").val();
+    //    if (hidUserId == "") {
+    //        alert('1');
+    //        $("#divStaffOption input[type='text']").val("");
+    //    }
+    //}
+</script> 

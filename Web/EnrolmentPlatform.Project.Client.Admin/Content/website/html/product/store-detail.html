@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="../../framework/layui/css/layui.css"> <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_tye3ga57s8w1m7vi.css"> <link rel="stylesheet" href="../../css/main.css"> <link rel="stylesheet" href="../../css/replace.css">
+        <title>产品</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-wrap"><div class="logo">
+    <img src="../../images/home_logo.png" alt="智联智行">
+</div>
+<div class="nav">
+    <a href="../index.html" id="index">
+        <i class="iconfont icon-shouye"></i>
+        首页
+    </a>
+    <a href="product-list.html" id="product" class="active">
+        <i class="iconfont icon-chanpinpeizhi"></i>
+        产品
+    </a>
+    <a href="../order/order-list.html" id="order">
+        <i class="iconfont icon-dingdan"></i>
+        订单
+    </a>
+    <a href="../finance/finance-list.html" id="finance">
+        <i class="iconfont icon-baobiaotongji"></i>
+        财务
+    </a>
+    <a href="../users/supplier-list.html" id="users">
+        <i class="iconfont icon-account"></i>
+        用户
+    </a>
+    <a href="../operate/website-setting.html" id="operate">
+        <i class="iconfont icon-yunyingguanli"></i>
+        运营
+    </a>
+    <a href="../article/article-list.html" id="article">
+        <i class="iconfont icon-wenzhang"></i>
+        内容
+    </a>
+    <a href="javascript:;" id="">
+        <i class="iconfont icon-money"></i>
+        营销
+    </a>
+    <a href="../setting/product-param/farm-param.html" id="setting">
+        <i class="iconfont icon-shezhi"></i>
+        设置
+    </a>
+</div></div>
+        <div class="body-wrap">
+            <div class="left-wrap">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-nongchanpin"></i> 农产品</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="product-list.html">农产品管理</a>
+                            </dd>
+                            <dd>
+                                <a href="varieties-list.html">品种管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-fapiaoguanli"></i> 票务
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="../product/tickets-list.html">票务管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../product/landmark-list.html">景点管理</a>
+                            </dd>
+                            <dd>
+                                <a href="../product/play-list.html">游乐项目管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="iconfont icon-youleyuan"></i>餐饮
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="./catering-list.html">餐饮管理</a>
+                            </dd>
+                            <dd class="active">
+                                <a href="./store-list.html">店铺管理</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-wrap">
+                <div class="breadcrumb-bar">
+                    <div class="collapse-button" id="collapse-button">
+                        <i class="layui-icon"></i>
+                    </div>
+                    <div class="breadcrumb-wrap">
+                        <span class="layui-breadcrumb">
+                            <a>
+                                <cite>工作台</cite>
+                            </a>
+                            <a>
+                                <cite>产品</cite>
+                            </a>
+                            <a>
+                                <cite>店铺管理</cite>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="user-tools">
+    <a href="">
+        <i class="iconfont icon-dingdan"></i>
+        <span class="layui-badge">3</span>
+    </a>
+    <a href="">
+        <i class="iconfont icon-xiaoxi"></i>
+    </a>
+    <a href="">
+        <i class="iconfont icon-iconfontlipinduihuanbangzhu"></i>
+    </a>
+    <span class="account">
+        135*****753 <i class="layui-icon">&#xe625;</i> 
+        <dl class="user-dropdown">
+            <dd>
+                <a href="">个人信息</a>
+            </dd>
+            <dd>
+                <a href="">安全退出</a>
+            </dd>
+        </dl>
+    </span>
+</div>
+                </div>
+                <div class="main-wrap store-detail-styel">
+                    <div class="panel">
+                        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">基本信息</li>
+                                <li>操作日志</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="panel">
+                                        <div class="panel-title">
+                                            产品状态
+                                        </div>
+                                        <div class="panel-body info-cell">
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">当前状态</label>
+                                                    <div class="text">审核拒绝</div>
+                                                </div>
+                                                <div class="item">
+                                                    <label class="label">供应商</label>
+                                                    <div class="text">供应商A</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">创建时间</label>
+                                                    <div class="text pro-color">2018-2-12 22:12:12</div>
+                                                </div>
+                                                <div class="item">
+                                                    <label class="label">审核时间</label>
+                                                    <div class="text">2018-1-6 15:36:00</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">审核结果说明</label>
+                                                    <div class="text">资料信息有误，请修改后重新提交</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel">
+                                        <div class="panel-title">基本信息</div>
+                                        <div class="panel-body info-cell width-95">
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>店铺名称</label>
+                                                    <div class="text">香格里拉（会展中心店）</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">类型</label>
+                                                    <div class="text">中西餐</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        地址</label>
+                                                    <div class="text">深圳市福田区皇岗会展中心益田路299号（会展中心对面）</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        电话</label>
+                                                    <div class="text">0755-23436433 0755-23249583</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        营业时间</label>
+                                                    <div class="text">
+                                                        周一至周日 24小时营业
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>服务设施</label>
+                                                    <div class="text">免费wifi</div>
+                                                </div>
+                                            </div>
+                                            <div class="row row-3">
+                                                <div class="item">
+                                                    <label class="label">
+                                                        <span class="pro-color">*</span>图片</label>
+                                                    <div class="text">
+                                                       <div class="img-box">
+                                                           <img src="../../images/timg.jpg" alt="">
+                                                       </div>
+                                                       <div class="img-box">
+                                                            <img src="../../images/timg.jpg" alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table id="logTable"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script src="../../framework/layui/layui.js"></script> <script src="../../js/common.js"></script>
+    <script>
+         layui.use(['table', 'element', 'layer', 'jquery'], function () {
+                    var table = layui.table;
+                    var element = layui.element;
+                    table.render({
+                        elem: '#logTable'
+                        , data: [{
+                            type: '创建申请',
+                            content: '提交审核',
+                            name: '13107221223',
+                            time: '2017-02-18 15:00:00',
+                        }
+                        ]
+                        , cols: [[
+                            { field: 'type', title: '操作类型' },
+                            { field: 'content', title: '操作内容' },
+                            { field: 'name', title: '操作人' },
+                            { field: 'time', title: '操作时间' }
+                        ]]
+                    });
+
+                });
+    </script>
+
+
+</body></html>

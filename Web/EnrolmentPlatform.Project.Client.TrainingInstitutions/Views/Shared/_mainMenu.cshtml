@@ -1,0 +1,71 @@
+﻿@{
+    Layout = null;
+    var baseController = ((EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers.BaseController)this.ViewContext.Controller);
+
+    //当前角色权限
+    List<EnrolmentPlatform.Project.DTO.Systems.RolePermissionDto> allRoleList = null;
+    if (baseController.IsMaster == true)
+    {
+        //主账户查找所有权限
+        allRoleList = EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter.LoginInfoHandle.GetAllPermissionList();
+    }
+    else
+    {
+        //否则查询当前用户权限
+        allRoleList = EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter.LoginInfoHandle.GetUserPermissions();
+    }
+
+    //当前模块ID
+    Guid curMoudleId = EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter.LoginInfoHandle.GetMoudleId(this.ViewContext.RouteData);
+    var moduleList = allRoleList.Where(a => a.Level == 1).OrderBy(a => a.Sort).ToList();
+
+    //LOGO
+    Dictionary<string, string> parames = new Dictionary<string, string>();
+    Tuple<string, string> parameters = WebApiHelper.GetQueryString(parames);
+    var msg = WebApiHelper.Get<HttpResponseMsg>("/api/SystemBasicSetting/GetTotalStationSet", parameters.Item1, parameters.Item2, System.Configuration.ConfigurationManager.AppSettings["StaffId"].ToInt());
+    string logo = "~/Content/website/images/home_logo.png";
+    if (msg.IsSuccess)
+    {
+        var dto = msg.Data.ToString().ToObject<TotalStationSetDTO>();
+        if (dto != null && !string.IsNullOrWhiteSpace(dto.WebsiteLogo))
+        {
+            logo = dto.WebsiteLogo;
+        }
+    }
+}
+<div class="top-wrap">
+    <div class="logo" style="cursor:pointer; margin-left:18px;">
+        <img src="@logo" onclick="window.location.href='@Url.Action("Index","Home",new { area=""})'" style="max-height:43px;"/>
+    </div>
+    <div class="nav">
+        @foreach (var item in moduleList)
+        {
+            //查找下面第一个界面作作为模块默认界面
+            EnrolmentPlatform.Project.DTO.Systems.RolePermissionDto menuDto = null;
+            var firstDto = allRoleList.Where(a => a.ParentId == item.Id).OrderBy(a => a.Sort).FirstOrDefault();
+            if (firstDto == null)
+            {
+                continue;
+            }
+            else
+            {
+                if (firstDto.Level == 3)
+                {
+                    menuDto = firstDto;
+                }
+                else
+                {
+                    menuDto = allRoleList.FirstOrDefault(a => a.ParentId == firstDto.Id);
+                }
+            }
+
+            if (menuDto != null)
+            {
+            <a href="@Url.Action(menuDto.Action, menuDto.Controller, new { area = menuDto.Area })" @(curMoudleId == item.Id ? "class=active" : "")>
+                <i class="iconfont @item.Icon"></i>
+                @item.Name
+            </a>
+            }
+        }
+    </div>
+</div>

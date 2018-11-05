@@ -1,0 +1,389 @@
+﻿
+@{
+    ViewBag.Title = "游乐项目管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var playProjectStatus = ViewBag.PlayProjectStatus as List<KeyValuePair<int, string>>;
+    var scenicRange = ViewBag.ScenicRange as List<KeyValuePair<int, string>>;
+    var supplierType = ViewBag.SupplierType as List<KeyValuePair<int, string>>;
+}
+
+
+<div class="main-wrap play-style">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" lay-filter="status_search" value="0" title="全部" checked>
+                        @foreach (var item in playProjectStatus)
+                        {
+                            <input type="radio" name="status" lay-filter="status_search" value="@item.Key" title="@item.Value">
+                        }
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width:100px;">供应商类型</label>
+                    <div class="layui-input-inline">
+                        <select name="supplierType" lay-filter="sel_search">
+                            <option value="0">全部</option>
+                            @foreach (var item in supplierType)
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">景点范围</label>
+                    <div class="layui-input-inline">
+                        <select name="scenicRange" lay-filter="sel_search">
+                            <option value="0">全部</option>
+                            @foreach (var item in scenicRange)
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">游乐项目编号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="projectNumber" placeholder="游乐项目编号" autocomplete="off" class="layui-input ckshuzi">
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <label class="layui-form-label" style="width:100px;">游乐项目名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="projectName" placeholder="游乐项目名称" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">所属景点</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="scenicSpotName" placeholder="所属景点" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">创建人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="createName" placeholder="创建人" autocomplete="off" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" id="audit-btn">批量审核</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" data-type="onSale">启用</button>
+            <button class="layui-btn layui-btn-default layui-btn-sm" data-type="offSale">禁用</button>
+            <table id="paly-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<!-- 弹出层 -->
+<div id="audit-btn-modal" style="display:none">
+    <div class="layui-form big-label">
+        <div class="layui-form-item">
+            <label class="layui-form-label">审核结果</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="result_checking" lay-filter="result_checking" value="1" title="审核通过" checked>
+                <input type="radio" name="result_checking" lay-filter="result_checking" value="2" title="审核拒绝">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-inline">
+                <textarea id="desc" placeholder="请输入内容" class="layui-textarea" style="width:300px; resize:none;">游乐项目合格，准许通过</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a href="javascript:void(0)" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a href="javascript:void(0)" class="layui-btn layui-btn-default layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+
+    var searchUrl = '@Url.Action("PlayList", "PlayMng", new { area = "Product" })';
+    var onSaleUrl = '@Url.Action("AuditPlay", "PlayMng", new { area = "Product" })';
+    var ondelUrl = '@Url.Action("DeletePlay", "PlayMng", new { area = "Product" })';
+    var onsaleUrl1 = '@Url.Action("DeletePlay", "PlayMng", new { area = "Product" })';
+    var onoffsaleUrl1 = '@Url.Action("DeletePlay", "PlayMng", new { area = "Product" })';
+
+    var isSubmit = true;
+    var defaltStatus = 1;
+    layui.use(['jquery', 'table', 'layer', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        //实例表格
+        var tableOptions = {
+            elem: '#paly-table'
+            , skin: 'line'
+            , limit: 20
+            , url: searchUrl//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox', fixed: 'left' }
+                , { field: 'ProjectNumber', title: '游乐项目编号', sort: true }
+                , { field: 'ProjectName', title: '游乐项目名称', sort: true }
+                , { field: 'Address', title: '所在地', }
+                , { field: 'ScenicSpotNameStr', title: '所属景点', }
+                , { field: 'ScenicRangeStr', title: '景点范围' }
+                , { field: 'SupplierTypeStr', title: '供应商类别' }
+                , { field: 'SupplierName', title: '创建人' }
+                , { field: 'StatusStr', title: '状态', sort: true }
+                , { title: '操作', toolbar: '#tableTool', minWidth: 150 }
+            ]]
+        }
+        table.render(tableOptions)
+
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('paly-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        Status: $("input[name=status]:checked").val(),
+                        ScenicRange: $("select[name=scenicRange]").val(),
+                        SupplierType: $("select[name=supplierType]").val(),
+                        ProjectName: $.trim($('#projectName').val()),
+                        ScenicSpotName: $.trim($('#scenicSpotName').val()),
+                        CreateName: $.trim($('#createName').val()),
+                        Number: $.trim($('#projectNumber').val())
+                    }
+                });
+            },
+            onSale: function () {
+                var checkStatus = table.checkStatus('paly-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+
+                var ids = [];
+                var isOption = true;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Status == "@((int)StatusForPlayProjectEnum.Enable)") {
+                        isOption = false;
+                        layer.msg("请勾选未启用的游玩项目进行强制启用！");
+                        break;
+                    } else {
+                        ids.push(data[i].Id);
+                    }
+                }
+                if (isOption) {
+                    layer.confirm('您确定要强制启用选中的游玩项目吗？', function (index) {
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: '@Url.Action("Enable", "PlayMng")',
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { ids: ids },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        layer.msg(result.Info);
+                                        table.reload('paly-table');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                        layer.close(index);
+                    });
+                }
+            },
+            offSale: function () {
+                var checkStatus = table.checkStatus('paly-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) return false;
+
+                var ids = [];
+                var isOption = true;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].Status == "@((int)StatusForPlayProjectEnum.DisEnable)") {
+                        isOption = false;
+                        layer.msg("请勾选未禁用的游玩项目进行强制禁用！");
+                        break;
+                    } else {
+                        ids.push(data[i].Id);
+                    }
+                }
+                if (isOption) {
+                    layer.confirm('您确定要强制禁用选中的游玩项目吗？', function (index) {
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: '@Url.Action("DisEnable", "PlayMng")',
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { ids: ids },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        layer.msg(result.Info);
+                                        table.reload('paly-table');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                        layer.close(index);
+                    });
+                }
+            }
+        };
+
+        $("#audit-btn").click(function () {
+            var checkStatus = table.checkStatus('paly-table')
+                    , data = checkStatus.data;
+            if (data.length == 0) return false;
+
+            var optionIds = [];
+            var isOption = true;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Status != "@((int)StatusForPlayProjectEnum.Checking)") {
+                    isOption = false;
+                    layer.msg("请勾选待审核的游玩项目进行审核！");
+                    break;
+                } else {
+                    optionIds.push(data[i].Id);
+                }
+            }
+            if (isOption) {
+                layer.open({
+                    type: 1,
+                    title: '处理审核',
+                    btn: ['确定', '取消'],
+                    area: ['500px', '300px'], //宽高
+                    content: $('#audit-btn-modal'),
+                    yes: function (z_index) {
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: onSaleUrl,
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { ids: optionIds, Status: defaltStatus, Remark: $("#desc").val() },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        table.reload('paly-table');
+                                        layer.msg(result.Info);
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                    layer.close(z_index);
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            }
+        });
+
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        form.on('radio(result_checking)', function (data) {
+            defaltStatus = data.value;
+            $("#desc").val(defaltStatus == "1" ? "游乐项目合格，准许通过" : "游乐项目不合格，需要仔细校对");
+        });
+
+        form.on('radio(status_search)', function (data) {
+            //执行重载
+            table.reload('paly-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    Status: $("input[name=status]:checked").val(),
+                    ScenicRange: $("select[name=scenicRange]").val(),
+                    SupplierType: $("select[name=supplierType]").val(),
+                    ProjectName: $.trim($('#projectName').val()),
+                    ScenicSpotName: $.trim($('#scenicSpotName').val()),
+                    CreateName: $.trim($('#createName').val()),
+                    Number: $.trim($('#projectNumber').val())
+                }
+            });
+        });
+        form.on('select(sel_search)', function (data) {
+            //执行重载
+            table.reload('paly-table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    Status: $("input[name=status]:checked").val(),
+                    ScenicRange: $("select[name=scenicRange]").val(),
+                    SupplierType: $("select[name=supplierType]").val(),
+                    ProjectName: $.trim($('#projectName').val()),
+                    ScenicSpotName: $.trim($('#scenicSpotName').val()),
+                    CreateName: $.trim($('#createName').val()),
+                    Number: $.trim($('#projectNumber').val())
+                }
+            });
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent === 'detail') {
+                location.href = "@Url.Action("Detail", "PlayMng")?id=" + data.Id;
+            } else if (layEvent === 'del') {
+                layer.confirm('您确定要删除该游乐项目吗？', function (index) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url:ondelUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { id: data.Id },
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table.reload('paly-table');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                        layer.close(index);
+                    }
+                });
+            }
+        })
+
+    })
+</script>  

@@ -1,0 +1,17 @@
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\WisdomScenic.Project.Document\bin\Debug\EnrolmentPlatform.Project.Document.dll
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\WisdomScenic.Project.Document\bin\Debug\EnrolmentPlatform.Project.Document.pdb
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\WisdomScenic.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.csproj.CoreCompileInputs.cache
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\WisdomScenic.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.dll
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\WisdomScenic.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.pdb
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\EnrolmentPlatform.Project.Document\bin\Debug\EnrolmentPlatform.Project.Document.dll
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\EnrolmentPlatform.Project.Document\bin\Debug\EnrolmentPlatform.Project.Document.pdb
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.csprojResolveAssemblyReference.cache
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.csproj.CoreCompileInputs.cache
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.dll
+E:\Project\Source\EnrolmentPlatform\EnrolmentPlatform.Project.WebApi\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.pdb
+E:\Project\Source\EnrolmentPlatform\API\EnrolmentPlatform.Project.Document\bin\Debug\EnrolmentPlatform.Project.Document.dll
+E:\Project\Source\EnrolmentPlatform\API\EnrolmentPlatform.Project.Document\bin\Debug\EnrolmentPlatform.Project.Document.pdb
+E:\Project\Source\EnrolmentPlatform\API\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.csprojResolveAssemblyReference.cache
+E:\Project\Source\EnrolmentPlatform\API\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.csproj.CoreCompileInputs.cache
+E:\Project\Source\EnrolmentPlatform\API\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.dll
+E:\Project\Source\EnrolmentPlatform\API\EnrolmentPlatform.Project.Document\obj\Debug\EnrolmentPlatform.Project.Document.pdb

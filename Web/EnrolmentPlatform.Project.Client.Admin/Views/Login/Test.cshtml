@@ -1,0 +1,243 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智联智行-景区后台-@ViewBag.Title</title>
+    <link href="~/Content/website/framework/layui/css/layui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_580083_tye3ga57s8w1m7vi.css">
+    <link href="~/Content/website/css/main.css?v=@(DllVersion.Version)" rel="stylesheet" />
+    <link href="~/Content/website/css/replace.css?v=@(DllVersion.Version)" rel="stylesheet" />
+    <link href="~/Content/website/css/zss.css?v=@(DllVersion.Version)" rel="stylesheet" />
+    <link href="~/Content/website/css/dev.css?v=@(DllVersion.Version)" rel="stylesheet" />
+    <!--引入js-->
+    <script src="~/Content/website/framework/layui/layui.js"></script>
+    <script src="~/Content/website/js/common.js?v=@(DllVersion.Version)"></script>
+    <script src="~/Content/website/js/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/website/js/dev.js?v=@(DllVersion.Version)"></script>
+</head>
+<body>
+    <div class="demoTable">
+        搜索商户：
+        <div class="layui-inline">
+            <input class="layui-input" name="keyword" id="keyword" autocomplete="off">
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+    </div>
+    <div class="layui-btn-group ButtonTable">
+        <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+        <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+        <button class="layui-btn" data-type="isAll">验证是否全选</button>
+        <button class="layui-btn" data-type="deleteChoice">批量删除</button>
+    </div>
+
+    <table class="layui-table" lay-data="{url:'/Home/Search', page:true, id:'tableContent'}" lay-filter="tablefilter">
+        <thead>
+            <tr>
+                <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+                <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
+                <th lay-data="{field:'BusinessName', width:80}">业务名称</th>
+                <th lay-data="{field:'CreatorTime', width:80}">操作时间</th>
+                <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#bar'}"></th>
+            </tr>
+        </thead>
+    </table>
+
+    <script type="text/html" id="bar">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+<textarea id="txtContent" name="txtContent"></textarea>
+    <div style="display:none">
+        <textarea id="imgload" name="imgload"></textarea>
+    </div>
+
+    <button id="btn_img_picture" data-type="reload">上传</button>
+</body>
+</html>
+@*富文本控件*@
+<link href="~/Content/website/js/kindeditor-4.1.10/themes/default/default.css" rel="stylesheet" />
+<script src="~/Content/website/js/kindeditor-4.1.10/kindeditor-min.js"></script>
+<script src="~/Content/website/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script>
+        layui.use('table', function () {
+            var table = layui.table;
+            //监听表格复选框选择
+            table.on('checkbox(tablefilter)', function (obj) {
+                console.log(obj)
+            });
+            //监听工具条
+            table.on('tool(tablefilter)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'detail') {
+                    layer.msg('ID：' + data.id + ' 的查看操作');
+                } else if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'edit') {
+                    layer.alert('编辑行：<br>' + JSON.stringify(data))
+                }
+            });
+
+            var $ = layui.$, active = {
+                getCheckData: function () { //获取选中数据
+                    var checkStatus = table.checkStatus('tableContent')
+                    data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                }
+                , getCheckLength: function () { //获取选中数目
+                    var checkStatus = table.checkStatus('tableContent')
+                    data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                }
+                , isAll: function () { //验证是否全选
+                    var checkStatus = table.checkStatus('tableContent');
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                },
+                deleteChoice: function () {
+                    var checkStatus = table.checkStatus('tableContent')
+                    data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                },
+                reload: function () {
+                    var demoReload = $('#keyword');
+                    table.reload('tableContent', {
+                        where: {
+                            keyword: demoReload.val()
+                        }
+                    });
+                }
+            };
+
+            $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+        });
+</script>
+<script type="text/javascript">
+        var txtContent, imgload;
+        KindEditor.ready(function (K) {
+            txtContent = K.create('textarea[id="txtContent"]', {
+                allowFileManager: true,
+                items: ['justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'removeformat', 'fontname', 'fontsize', 'forecolor', 'hilitecolor', 'bold', 'underline', 'strikethrough', 'wordpaste', 'indent', 'outdent'],
+                resizeType: 0,
+                width: "100%",
+                height: 250
+            });
+            imgload = K.create('textarea[id="imgload"]', {
+                allowFileManager: true,
+                uploadJson: '/Content/website/js/kindeditor-4.1.10/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/website/js/kindeditor-4.1.10/asp.net/file_manager_json.ashx',
+                items: ['image'],
+                resizeType: 0,
+                width: "100%",
+                height: 50,
+                imageSizeLimit: '2MB'
+            });
+            K('#btn_img_picture').click(function () {
+                imgload.loadPlugin('image', function () {
+                    imgload.plugin.imageDialog({
+                        showRemote: false,
+                        clickFn: function (url, title, width, height, border, align) {
+                            alert(url);
+                            imgload.hideDialog();
+                        }
+                    });
+                });
+            });
+        });
+
+</script>
+<script>
+        var ApiUrl = "http://localhost:9001/";
+        $(function () {
+            $.ajax({
+                type: "get",
+                url: ApiUrl + "api/Service/GetToken?staffId=1006",
+                data: {},
+                success: function (data, status) {
+                    alert(data)
+                },
+                error: function (e) {
+
+                },
+                complete: function () {
+
+                },
+                headers: {
+                    "staffid": "1006",
+                    "timestamp": new Date().getTime(),
+                    "nonce": "12345678",
+                    "staffkey": "BA24936A-8317-4F06-9BD5-BA5D18CC1EDA",
+                    "Access-Control-Allow-Origin": "http://localhost:9001",
+                    "Access-Control-Allow-Headers": "X-Requested-With"
+                }
+            });
+        });
+</script>
+<script>
+
+        (function ($) {
+            $.extend({
+                myTime: {
+                    /**
+                     * 当前时间戳
+                     * return <int>        unix时间戳(秒)
+                     */
+                    CurTime: function () {
+                        return Date.parse(new Date()) / 1000;
+                    },
+                    /**
+                     * 日期 转换为 Unix时间戳
+                     * param <string> 2014-01-01 20:20:20  日期格式
+                     * return <int>        unix时间戳(秒)
+                     */
+                    DateToUnix: function (string) {
+                        var f = string.split(' ', 2);
+                        var d = (f[0] ? f[0] : '').split('-', 3);
+                        var t = (f[1] ? f[1] : '').split(':', 3);
+                        return (new Date(
+                            parseInt(d[0], 10) || null,
+                            (parseInt(d[1], 10) || 1) - 1,
+                            parseInt(d[2], 10) || null,
+                            parseInt(t[0], 10) || null,
+                            parseInt(t[1], 10) || null,
+                            parseInt(t[2], 10) || null
+                        )).getTime() / 1000;
+                    },
+                    /**
+                     * 时间戳转换日期
+                     * param <int> unixTime    待时间戳(秒)
+                     * param <bool> isFull    返回完整时间(Y-m-d 或者 Y-m-d H:i:s)
+                     * param <int>  timeZone   时区
+                     */
+                    UnixToDate: function (unixTime, isFull, timeZone) {
+                        if (typeof (timeZone) == 'number') {
+                            unixTime = parseInt(unixTime) + parseInt(timeZone) * 60 * 60;
+                        }
+                        var time = new Date(unixTime * 1000);
+                        var ymdhis = "";
+                        ymdhis += time.getUTCFullYear() + "-";
+                        ymdhis += (time.getUTCMonth() + 1) + "-";
+                        ymdhis += time.getUTCDate();
+                        if (isFull === true) {
+                            ymdhis += " " + time.getUTCHours() + ":";
+                            ymdhis += time.getUTCMinutes() + ":";
+                            ymdhis += time.getUTCSeconds();
+                        }
+                        return ymdhis;
+                    }
+                }
+            });
+        })(jQuery);
+</script>

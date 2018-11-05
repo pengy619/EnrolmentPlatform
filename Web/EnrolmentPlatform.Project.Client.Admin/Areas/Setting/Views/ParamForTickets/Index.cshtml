@@ -1,0 +1,560 @@
+﻿
+@{
+    ViewBag.Title = "票务参数";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title" id="cateClassify_ul">
+                <li class="layui-this">票种设置</li>
+                <li>票主题</li>
+                <li>景点等级</li>
+                <li>景点类型</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="panel-body">
+                        <button class="layui-btn layui-btn-warm layui-btn-sm" id="table1-add">添加</button>
+                        <table id="table1" lay-filter="table1"></table>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="panel-body">
+                        <button class="layui-btn layui-btn-warm layui-btn-sm" id="table2-add">添加</button>
+                        <table id="table2" lay-filter="table2"></table>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="panel-body">
+                        <button class="layui-btn layui-btn-warm layui-btn-sm" id="table3-add">添加</button>
+                        <table id="table3" lay-filter="table3"></table>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="panel-body">
+                        <button class="layui-btn layui-btn-warm layui-btn-sm" id="table4-add">添加</button>
+                        <table id="table4" lay-filter="table4"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool1">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit1">编辑</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="del1">删除</a>
+</script>
+<script type="text/html" id="tableTool2">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit2">编辑</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="del2">删除</a>
+</script>
+<script type="text/html" id="tableTool3">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit3">编辑</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="del3">删除</a>
+</script>
+<script type="text/html" id="tableTool4">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit4">编辑</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="del4">删除</a>
+</script>
+<script>
+    var isSubmit = true;
+    var searchCateUrl = "@Url.Action("GetProductCategoriesForAdmin", "ParamForTickets", new { area = "Setting" })";
+    var addCateUrl = "@Url.Action("AddProductCategories", "ParamForTickets", new { area = "Setting" })";
+    var editCateUrl = "@Url.Action("ModifyProductCategories", "ParamForTickets", new { area = "Setting" })";
+    var delCateUrl = "@Url.Action("DelProductCategories", "ParamForTickets", new { area = "Setting" })";
+    var searchParamUrl = "@Url.Action("GetTicketParamForAdmin", "ParamForTickets", new { area = "Setting" })";
+    var addParamUrl = "@Url.Action("AddTicketParam", "ParamForTickets", new { area = "Setting" })";
+    var editParamUrl = "@Url.Action("ModifyTicketParam", "ParamForTickets", new { area = "Setting" })";
+    var delParamUrl = "@Url.Action("DelTicketParam", "ParamForTickets", new { area = "Setting" })";
+     
+     
+    layui.use(['jquery', 'table', 'layer'], function () {
+        var table_cate = layui.table;
+        var table_zhuti = layui.table;
+        var table_level = layui.table;
+        var table_class = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var $ = layui.$;   
+
+        /****************票种开始****************/
+        //实例表格
+        var table_cateParam = {
+            elem: '#table1'
+            , skin: 'line'
+            , limit: 20
+            , url: searchCateUrl//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'Name', title: '票种' }
+                , { title: '操作', toolbar: '#tableTool1', width: 150 }
+            ]]
+        };
+
+        $('#table1-add').click(function () {
+            layer.prompt({ title: '添加票种' }, function (value, index, elem) {
+                if (value.length > 0) {
+                    var key = value;
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: addCateUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Key: key },
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_cate.reload('table1');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                }
+                layer.close(index);
+            });
+        })
+
+        table_cate.on('tool(table1)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'edit1') {
+                layer.prompt({ title: '修改票种', value: data.Name }, function (value, index, elem) {
+                    if (value.length > 0) {
+                        var key = value;
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: editCateUrl,
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { Key: key, Id: data.Id },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        table_cate.reload('table1');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                    }
+                    layer.close(index);
+                });
+            }
+
+            if (layEvent == 'del1') {
+                layer.confirm('您确定要删除票种吗？', function (index) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: delCateUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Id: data.Id },
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_cate.reload('table1');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                    layer.close(index);
+                });
+            }
+        })
+
+        /****************票种结束****************/
+
+        /****************主题开始****************/
+        //实例表格
+        var table_zhutiParam = {
+            elem: '#table2'
+            , skin: 'line'
+            , limit: 20
+            , url: searchParamUrl//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'Name', title: '票主题' }
+                , { title: '操作', toolbar: '#tableTool2', width: 150 }
+            ]],
+            where: { Classify: 1 }
+        };
+
+        $('#table2-add').click(function () {
+            layer.prompt({ title: '添加票主题' }, function (value, index, elem) {
+                if (value.length > 0) {
+                    var key = value;
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: addParamUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Key: key, Classify: 1},
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_zhuti.reload('table2');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                }
+                layer.close(index);
+            });
+        })
+
+        table_zhuti.on('tool(table2)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'edit2') {
+                layer.prompt({ title: '修改票主题', value: data.Name }, function (value, index, elem) {
+                    if (value.length > 0) {
+                        var key = value;
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: editParamUrl,
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { Key: key, Id: data.Id },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        table_zhuti.reload('table2');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                    }
+                    layer.close(index);
+                });
+            }
+
+            if (layEvent == 'del2') {
+                layer.confirm('您确定要删除票主题吗？', function (index) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: delParamUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Id: data.Id },
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_zhuti.reload('table2');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                    layer.close(index);
+                });
+            }
+        })
+
+        /****************主题结束****************/
+
+        /****************等级开始****************/
+        //实例表格
+        var table_levelParam = {
+            elem: '#table3'
+            , skin: 'line'
+            , limit: 20
+            , url: searchParamUrl//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'Name', title: '景点等级' }
+                , { title: '操作', toolbar: '#tableTool3', width: 150 }
+            ]],
+            where: { Classify: 2 }
+        };
+
+        $('#table3-add').click(function () {
+            layer.prompt({ title: '添加景点等级' }, function (value, index, elem) {
+                if (value.length > 0) {
+                    var key = value;
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: addParamUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Key: key, Classify: 2 },
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_level.reload('table3');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                }
+                layer.close(index);
+            });
+        })
+
+        table_level.on('tool(table3)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'edit3') {
+                layer.prompt({ title: '修改景点等级', value: data.Name }, function (value, index, elem) {
+                    if (value.length > 0) {
+                        var key = value;
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: editParamUrl,
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { Key: key, Id: data.Id },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        table_level.reload('table3');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                    }
+                    layer.close(index);
+                });
+            }
+
+            if (layEvent == 'del3') {
+                layer.confirm('您确定要删除景点等级吗？', function (index) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: delParamUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Id: data.Id },
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_level.reload('table3');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                    layer.close(index);
+                });
+            }
+        })
+
+        /****************等级结束****************/
+
+        /****************类型开始****************/
+        //实例表格
+        var table_classParam = {
+            elem: '#table4'
+            , skin: 'line'
+            , limit: 20
+            , url: searchParamUrl//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'Name', title: '景点类型' }
+                , { title: '操作', toolbar: '#tableTool4', width: 150 }
+            ]],
+            where: { Classify: 3 }
+        };
+
+        $('#table4-add').click(function () {
+            layer.prompt({ title: '添加景点类型' }, function (value, index, elem) {
+                if (value.length > 0) {
+                    var key = value;
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: addParamUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Key: key, Classify: 3},
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_class.reload('table4');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                }
+                layer.close(index);
+            });
+        })
+
+        table_class.on('tool(table4)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'edit4') {
+                layer.prompt({ title: '修改景点等级', value: data.Name }, function (value, index, elem) {
+                    if (value.length > 0) {
+                        var key = value;
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: editParamUrl,
+                                type: 'Post',
+                                async: false,
+                                dataType: 'json',
+                                data: { Key: key, Id: data.Id },
+                                success: function (result) {
+                                    isSubmit = true;
+                                    if (result.IsSuccess) {
+                                        table_class.reload('table4');
+                                    }
+                                    else {
+                                        layer.msg(result.Info);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    isSubmit = true;
+                                    layer.msg("系统出现异常，请联系管理员！");
+                                }
+                            });
+                        }
+                    }
+                    layer.close(index);
+                });
+            }
+
+            if (layEvent == 'del4') {
+                layer.confirm('您确定要删除景点等级吗？', function (index) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: delParamUrl,
+                            type: 'Post',
+                            async: false,
+                            dataType: 'json',
+                            data: { Id: data.Id },
+                            success: function (result) {
+                                isSubmit = true;
+                                if (result.IsSuccess) {
+                                    table_class.reload('table4');
+                                }
+                                else {
+                                    layer.msg(result.Info);
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                isSubmit = true;
+                                layer.msg("系统出现异常，请联系管理员！");
+                            }
+                        });
+                    }
+                    layer.close(index);
+                });
+            }
+        })
+
+        /****************等级结束****************/
+
+
+        table_cate.render(table_cateParam);
+        $("#cateClassify_ul li").click(function () {
+            var ul_Index = $(this).index();
+            if (ul_Index == 0) {
+                table_cate.render(table_cateParam);
+            } else if (ul_Index == 1) {
+                table_zhuti.render(table_zhutiParam); 
+            } else if (ul_Index == 2) {
+                table_level.render(table_levelParam);
+            } else if (ul_Index == 3) {
+                table_class.render(table_classParam);
+            }
+        })
+    })
+
+</script> 

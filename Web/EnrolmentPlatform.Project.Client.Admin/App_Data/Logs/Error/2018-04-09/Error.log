@@ -1,0 +1,243 @@
+2018-04-09 12:04:55,065  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 操作超时
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 12:30:55,985  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:44:17,336  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:46:29,960  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:46:39,976  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:46:49,979  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:46:59,988  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:47:09,993  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:48:09,981  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:48:19,984  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:48:29,996  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 13:48:40,000  Wisdom.Client.Admin.Filter.AjaxExceptionFilter : System.Net.WebException: 请求被中止: 操作超时。
+   在 System.Net.HttpWebRequest.GetResponse()
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Get[T](String url, String query, String queryStr, Int32 staffId, Boolean sign) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 153
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetApiToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 233
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignToken(Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 216
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.GetSignature(String timeStamp, String nonce, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 360
+   在 WisdomScenic.Project.Infrastructure.WebApiHelper.Post[T](String url, String data, Int32 staffId) 位置 E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.Infrastructure\Net\WebApiHelper.cs:行号 80
+   在 Wisdom.Client.Admin.Controllers.LoginController.LoginOp(String account, String pwd) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Controllers\LoginController.cs:行号 47
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)
+2018-04-09 15:07:26,732  Wisdom.Client.Admin.Filter.ExceptionFilter : System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingB2CController.GetBannerInfo(Guid bannerId) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingB2CController.cs:行号 208
+   在 Wisdom.Client.Admin.Areas.Operate.Controllers.SettingB2CController.FarmMallOption(BannerDto dto) 位置 E:\Project\Wisdom.Trip\Web.Client\Wisdom.Client\Wisdom.Client.Admin\Areas\Operate\Controllers\SettingB2CController.cs:行号 172
+   在 lambda_method(Closure , ControllerBase , Object[] )
+   在 System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   在 System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   在 System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<>c__DisplayClass2b.<BeginInvokeAction>b__1c()
+   在 System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult)

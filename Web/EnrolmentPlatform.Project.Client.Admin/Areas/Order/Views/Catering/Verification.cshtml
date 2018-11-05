@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "核销管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <form id="form1" method="post">
+                <div class="layui-form">
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">核销状态</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="Status" value="-1" title="全部" checked>
+                            @foreach (var item in EnumDescriptionHelper.GetAllItemValueList<CateringVerificationStatusEnum, int>())
+                            {
+                                <input type="radio" name="Status" value="@item.Key" title="@item.Value">
+                            }
+                        </div>
+                    </div>
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">订单编号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="OrderNo" id="OrderNo" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="layui-form-label">产品编号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ProductNo" id="ProductNo" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="layui-form-label">供应商</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="SupplierName" id="SupplierName" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">产品信息</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="ProductName" id="ProductName" autocomplete="off" class="layui-input">
+                            </div>
+                        <label class="layui-form-label">消费券号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="CateringToken" id="CateringToken" autocomplete="off" class="layui-input">
+                        </div>
+                        <button class="layui-btn layui-btn-warm" type="button" id="btnSearch" data-type="reload">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" data-type="ToExcel">导出</button>
+            <table id="order-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', "form"], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var form = layui.form;
+        var tableOptions = {
+            elem: '#order-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("VerificationSearch", "Catering")'//数据
+            , method: 'post'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'OrderNo', title: '订单编号', sort: true }
+                , { field: 'CreatorAccount', title: '下单账户', }
+                , { field: 'ProductName', title: '产品信息', }
+                , { field: 'CateringToken', title: '消费券号', }
+                , { field: 'ExpiryDate', title: '有效日期' }
+                , { field: 'SupplierName', title: '供应商', sort: true }
+                , { field: 'StatusCH', title: '核销状态', }
+                , { field: 'VerificationDateCH', title: '核销时间', }
+                , { field: 'PatternCH', title: '核销方式', }
+
+            ]],
+            where: { Status: $("input[name='Status']:checked").val(), OrderNo: $("#OrderNo").val(), ProductNo: $("#ProductNo").val(), ProductName: $("#ProductName").val(), SupplierName: $("#SupplierName").val(), CateringToken: $("#CateringToken").val(), ProductName: $("#ProductName").val() }
+        };
+        table.render(tableOptions);
+        active = {
+            reload: function () {
+                //执行重载
+                table.reload('order-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    loading: true,
+                    where: { Status: $("input[name='Status']:checked").val(), OrderNo: $("#OrderNo").val(), ProductNo: $("#ProductNo").val(), ProductName: $("#ProductName").val(), SupplierName: $("#SupplierName").val(), CateringToken: $("#CateringToken").val(), ProductName: $("#ProductName").val()}
+                });
+            },
+            ToExcel: function () {
+                $("#form1").attr("action", "/Order/Catering/VerificationExportToExcel");
+                $("#form1").submit();
+            },
+        };
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //点击事件
+        form.on("radio", function (data) {
+            $("#btnSearch").click();
+        });
+
+    })
+</script>
+
+
+
+
+
+
+
+

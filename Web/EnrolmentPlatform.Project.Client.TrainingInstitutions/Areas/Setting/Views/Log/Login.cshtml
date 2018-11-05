@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "登录日志";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form margin-top-10">
+                <div class="layui-form-item flex">
+                    <label class="layui-form-label">账户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="txt_Account" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label" style="width:90px;">登录时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="date" readonly="readonly" class="layui-input" placeholder="请选择">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="LoginLog-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', 'layer', 'laydate'], function () {
+        var table = layui.table;
+        var laydate = layui.laydate;
+        //实例表格
+        var tableOptions = {
+            elem: '#LoginLog-table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("SearchLoginLog", "Log")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'Account', title: '账户名称', sort: true, minWidth: 210 }
+                , { field: 'Ip', title: 'IP地址', }
+                , { field: 'CreatorTime', title: '登录时间', }
+            ]],
+            where: { KeyWrod: $("#txt_Account").val(), DateStr: $("#date").val() }
+        }
+      table.render(tableOptions);
+      active = {
+            reload: function () {
+                table.reload('LoginLog-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: { KeyWrod: $("#txt_Account").val(), DateStr: $("#date").val() }
+                });
+            }
+        };
+
+      $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        laydate.render({
+            elem: '#date',
+            range: true
+        });
+
+    });
+</script>

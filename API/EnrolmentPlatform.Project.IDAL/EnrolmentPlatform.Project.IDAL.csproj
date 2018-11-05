@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F23F60CE-9AEA-419A-BB9D-709942BA6E3A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EnrolmentPlatform.Project.IDAL</RootNamespace>
+    <AssemblyName>EnrolmentPlatform.Project.IDAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accounts\IT_AccountVerificationRepository.cs" />
+    <Compile Include="Accounts\IT_DeliveryAddressRepository.cs" />
+    <Compile Include="Accounts\IT_EnterpriseRepository.cs" />
+    <Compile Include="Accounts\IT_AccountBasicRepository.cs" />
+    <Compile Include="Finance\IT_AccountDetailInfoRepository.cs" />
+    <Compile Include="Finance\IT_OrderSettlementInfoRepository.cs" />
+    <Compile Include="Finance\IT_OrderSettlementRepository.cs" />
+    <Compile Include="IBaseRepository.cs" />
+    <Compile Include="IDbContextFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\IT_DepartmentRepository.cs" />
+    <Compile Include="Systems\IT_PositionRepository.cs" />
+    <Compile Include="Systems\IT_RoleRepository.cs" />
+    <Compile Include="Systems\IT_AddressRepository.cs" />
+    <Compile Include="Systems\IT_FileRepository.cs" />
+    <Compile Include="Systems\IT_SystemBasicSettingRepository.cs" />
+    <Compile Include="Systems\IT_SystemLoginLogRepository.cs" />
+    <Compile Include="Systems\IT_LogSettingDetailRepository.cs" />
+    <Compile Include="Systems\IT_LogSettingRepository.cs" />
+    <Compile Include="Systems\IT_SystemMessageRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EnrolmentPlatform.Project.Domain\EnrolmentPlatform.Project.Domain.csproj">
+      <Project>{686cbad4-db7e-4fae-8256-49555acdeeff}</Project>
+      <Name>EnrolmentPlatform.Project.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnrolmentPlatform.Project.DTO\EnrolmentPlatform.Project.DTO.csproj">
+      <Project>{F15A7169-93EF-4902-A159-19802DFED563}</Project>
+      <Name>EnrolmentPlatform.Project.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnrolmentPlatform.Project.Infrastructure\EnrolmentPlatform.Project.Infrastructure.csproj">
+      <Project>{dbcadb3b-50de-4e56-82c4-9a73c157dc1d}</Project>
+      <Name>EnrolmentPlatform.Project.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Orders\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
