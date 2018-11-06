@@ -1,6 +1,0 @@
-E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\bin\WisdomScenic.Project.BLL.dll
-E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.WebApi\bin\WisdomScenic.Project.BLL.pdb
-E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\obj\Debug\WisdomScenic.Project.BLL.csprojResolveAssemblyReference.cache
-E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\obj\Debug\WisdomScenic.Project.BLL.csproj.CoreCompileInputs.cache
-E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\obj\Debug\WisdomScenic.Project.BLL.dll
-E:\Project\Wisdom.Trip\Web.Service\WisdomScenic.Project.BLL\obj\Debug\WisdomScenic.Project.BLL.pdb
