@@ -182,11 +182,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AliPay\AlipayConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\cert\证书使用说明.txt" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Website\css\common.css" />
     <Content Include="Content\Website\css\main.css" />
@@ -294,92 +292,6 @@
     <Content Include="Content\Website\framework\layui\lay\modules\tree.js" />
     <Content Include="Content\Website\framework\layui\lay\modules\upload.js" />
     <Content Include="Content\Website\framework\layui\lay\modules\util.js" />
-    <Content Include="Content\Website\html\article\article-add.html" />
-    <Content Include="Content\Website\html\article\article-detail.html" />
-    <Content Include="Content\Website\html\article\article-list.html" />
-    <Content Include="Content\Website\html\finance\finance-addcard.html" />
-    <Content Include="Content\Website\html\finance\finance-application.html" />
-    <Content Include="Content\Website\html\finance\finance-applicationdetail.html" />
-    <Content Include="Content\Website\html\finance\finance-applicationlist.html" />
-    <Content Include="Content\Website\html\finance\finance-backcard.html" />
-    <Content Include="Content\Website\html\finance\finance-carddetail.html" />
-    <Content Include="Content\Website\html\finance\finance-customerinvoicedetail.html" />
-    <Content Include="Content\Website\html\finance\finance-customerinvoicelist.html" />
-    <Content Include="Content\Website\html\finance\finance-detail.html" />
-    <Content Include="Content\Website\html\finance\finance-financesetting.html" />
-    <Content Include="Content\Website\html\finance\finance-info.html" />
-    <Content Include="Content\Website\html\finance\finance-invoicedetail.html" />
-    <Content Include="Content\Website\html\finance\finance-invoicelist.html" />
-    <Content Include="Content\Website\html\finance\finance-list.html" />
-    <Content Include="Content\Website\html\finance\finance-password.html" />
-    <Content Include="Content\Website\html\finance\finance-paymentlist.html" />
-    <Content Include="Content\Website\html\finance\finance-supplierinvoicedetaile.html" />
-    <Content Include="Content\Website\html\finance\finance-supplierinvoicelist.html" />
-    <Content Include="Content\Website\html\index.html" />
-    <Content Include="Content\Website\html\login.html" />
-    <Content Include="Content\Website\html\message.html" />
-    <Content Include="Content\Website\html\operate\banner-add.html" />
-    <Content Include="Content\Website\html\operate\farm-mall-setting.html" />
-    <Content Include="Content\Website\html\operate\index-setting.html" />
-    <Content Include="Content\Website\html\operate\website-setting.html" />
-    <Content Include="Content\Website\html\order\online-order.html" />
-    <Content Include="Content\Website\html\order\online-orderdetail.html" />
-    <Content Include="Content\Website\html\order\order-cancel.html" />
-    <Content Include="Content\Website\html\order\order-detail.html" />
-    <Content Include="Content\Website\html\order\order-detail1.html" />
-    <Content Include="Content\Website\html\order\order-list.html" />
-    <Content Include="Content\Website\html\order\order-tickets.html" />
-    <Content Include="Content\Website\html\order\order-ticketsdetail.html" />
-    <Content Include="Content\Website\html\order\refund-detail.html" />
-    <Content Include="Content\Website\html\order\refund-list.html" />
-    <Content Include="Content\Website\html\product\landmark-add.html" />
-    <Content Include="Content\Website\html\product\landmark-list.html" />
-    <Content Include="Content\Website\html\product\play-add.html" />
-    <Content Include="Content\Website\html\product\play-detail.html" />
-    <Content Include="Content\Website\html\product\play-list.html" />
-    <Content Include="Content\Website\html\product\product-add.html" />
-    <Content Include="Content\Website\html\product\product-detail.html" />
-    <Content Include="Content\Website\html\product\product-list.html" />
-    <Content Include="Content\Website\html\product\tickets-.html" />
-    <Content Include="Content\Website\html\product\tickets-add-data.html" />
-    <Content Include="Content\Website\html\product\tickets-add-info.html" />
-    <Content Include="Content\Website\html\product\tickets-add-price.html" />
-    <Content Include="Content\Website\html\product\tickets-add.html" />
-    <Content Include="Content\Website\html\product\tickets-detail.html" />
-    <Content Include="Content\Website\html\product\tickets-edit.html" />
-    <Content Include="Content\Website\html\product\tickets-list.html" />
-    <Content Include="Content\Website\html\product\varieties-add.html" />
-    <Content Include="Content\Website\html\product\varieties-list.html" />
-    <Content Include="Content\Website\html\sell\sell-tickets-imgmode.html" />
-    <Content Include="Content\Website\html\sell\sell-tickets.html" />
-    <Content Include="Content\Website\html\sell\ticket-pay.html" />
-    <Content Include="Content\Website\html\setting\account-add.html" />
-    <Content Include="Content\Website\html\setting\account-info.html" />
-    <Content Include="Content\Website\html\setting\child-account.html" />
-    <Content Include="Content\Website\html\setting\edit-logs.html" />
-    <Content Include="Content\Website\html\setting\login-logs.html" />
-    <Content Include="Content\Website\html\setting\modify-password.html" />
-    <Content Include="Content\Website\html\setting\org-setting\department-manage.html" />
-    <Content Include="Content\Website\html\setting\org-setting\position-manage.html" />
-    <Content Include="Content\Website\html\setting\org-setting\roles-add.html" />
-    <Content Include="Content\Website\html\setting\org-setting\roles-setting.html" />
-    <Content Include="Content\Website\html\setting\org-setting\shop-add.html" />
-    <Content Include="Content\Website\html\setting\org-setting\shop-manage.html" />
-    <Content Include="Content\Website\html\setting\org-setting\staff-add.html" />
-    <Content Include="Content\Website\html\setting\org-setting\staff-manage.html" />
-    <Content Include="Content\Website\html\setting\plugin-setting\payment-plugin.html" />
-    <Content Include="Content\Website\html\setting\plugin-setting\sms-plugin.html" />
-    <Content Include="Content\Website\html\setting\product-param\farm-param.html" />
-    <Content Include="Content\Website\html\setting\product-param\system-param.html" />
-    <Content Include="Content\Website\html\setting\product-param\tickets-param.html" />
-    <Content Include="Content\Website\html\setting\role-add.html" />
-    <Content Include="Content\Website\html\setting\roles-setting.html" />
-    <Content Include="Content\Website\html\setting\system-logs\edit-logs.html" />
-    <Content Include="Content\Website\html\setting\system-logs\login-logs.html" />
-    <Content Include="Content\Website\html\users\member-detail.html" />
-    <Content Include="Content\Website\html\users\members-list.html" />
-    <Content Include="Content\Website\html\users\supplier-add.html" />
-    <Content Include="Content\Website\html\users\supplier-list.html" />
     <Content Include="Content\Website\images\home_logo.png" />
     <Content Include="Content\Website\images\idcard.jpg" />
     <Content Include="Content\Website\images\idcard_.jpg" />
@@ -682,18 +594,10 @@
     <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
     <Folder Include="Areas\Setting\Models\" />
-    <Folder Include="Content\AliPayQRCode\" />
-    <Folder Include="Content\Website\js\kindeditor-4.1.10\attached\image\" />
-    <Folder Include="Content\WeChatPayQRCode\" />
-    <Folder Include="Views\RQCode\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\cert\apiclient_cert.p12" />
-    <Content Include="Content\cert\apiclient_cert.pem" />
-    <Content Include="Content\cert\apiclient_key.pem" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Setting\Views\Roles\List.cshtml" />
@@ -726,21 +630,6 @@
     <Content Include="Views\Shared\_secondMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Website\framework\layui\font\iconfont.eot" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Website\framework\layui\font\iconfont.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Website\framework\layui\font\iconfont.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Website\js\kindeditor-4.1.10\asp.net\file_manager_json.ashx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Website\js\kindeditor-4.1.10\asp.net\upload_json.ashx" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Setting\Views\AccountManage\ModifyForPwd.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -766,6 +655,11 @@
     <Content Include="Areas\Setting\Views\Log\Option.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Website\framework\layui\font\iconfont.eot" />
+    <Content Include="Content\Website\framework\layui\font\iconfont.ttf" />
+    <Content Include="Content\Website\framework\layui\font\iconfont.woff" />
+    <Content Include="Content\Website\js\kindeditor-4.1.10\asp.net\file_manager_json.ashx" />
+    <Content Include="Content\Website\js\kindeditor-4.1.10\asp.net\upload_json.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <PropertyGroup>
