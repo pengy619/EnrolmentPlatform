@@ -10,17 +10,12 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Finance.Co
 {
     public class PaymentController : BaseController
     {
-
-
-
         /// <summary>
         /// 账户资产
         /// </summary>
         /// <returns></returns>
         public ActionResult Index()
         {
-            var accountDetails = WebApiHelper.Get<HttpResponseMsg>("/api/FinanceCenter/GetTouristsAccountDetails", "", "" , ConfigurationManager.AppSettings["StaffId"].ToInt());
-            ViewBag.TouristsAccountDetails = accountDetails.Data.ToString().ToObject<TouristsAccountDetailsDto>();
             return View();
         }
         /// <summary>

@@ -165,11 +165,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Finance\Controllers\PaymentController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
-    <Compile Include="Areas\Order\Controllers\TicketController.cs" />
-    <Compile Include="Areas\Order\Controllers\VerificationTicketController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
-    <Compile Include="Areas\Sale\Controllers\ProductForTicketController.cs" />
-    <Compile Include="Areas\Sale\SaleAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AccountManageController.cs" />
     <Compile Include="Areas\Setting\Controllers\LogController.cs" />
     <Compile Include="Areas\Setting\Controllers\RolesController.cs" />
@@ -683,8 +679,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Finance\Models\" />
+    <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
-    <Folder Include="Areas\Sale\Models\" />
     <Folder Include="Areas\Setting\Models\" />
     <Folder Include="Content\AliPayQRCode\" />
     <Folder Include="Content\Website\js\kindeditor-4.1.10\attached\image\" />
@@ -757,28 +753,7 @@
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sale\Views\web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Sale\Views\ProductForTicket\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Sale\Views\ProductForTicket\OrderPay.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Order\Views\web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Ticket\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Ticket\Detail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Ticket\OnlineOrder.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\VerificationTicket\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Finance\Views\Payment\Index.cshtml" />
@@ -791,10 +766,6 @@
     <Content Include="Areas\Setting\Views\Log\Option.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Order\Views\Ticket\OnlineOrderDetail.cshtml" />
-    <Content Include="Areas\Sale\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Sale\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Sale\Views\ProductForTicket\ImageModel.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <PropertyGroup>

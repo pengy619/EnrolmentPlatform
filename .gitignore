@@ -4,3 +4,7 @@
 
 /.vs
 /packages
+/API/EnrolmentPlatform.Project.WebApi/App_Data/Logs
+/Web/EnrolmentPlatform.Project.Client.Admin/App_Data/Logs
+/Web/EnrolmentPlatform.Project.Client.LearningCenter/App_Data/Logs
+/Web/EnrolmentPlatform.Project.Client.TrainingInstitutions/App_Data/Logs

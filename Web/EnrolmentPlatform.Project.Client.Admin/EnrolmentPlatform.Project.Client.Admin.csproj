@@ -171,37 +171,14 @@
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
     <Compile Include="Areas\Account\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Account\Controllers\UsersController.cs" />
-    <Compile Include="Areas\Content\ContentAreaRegistration.cs" />
-    <Compile Include="Areas\Content\Controllers\ArticleCategoryController.cs" />
-    <Compile Include="Areas\Content\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Finance\Controllers\BasicSettingController.cs" />
     <Compile Include="Areas\Finance\Controllers\PaymentController.cs" />
-    <Compile Include="Areas\Finance\Controllers\WithdrawController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
-    <Compile Include="Areas\Operate\Controllers\SettingB2CController.cs" />
-    <Compile Include="Areas\Operate\Controllers\SettingBasicController.cs" />
-    <Compile Include="Areas\Operate\Controllers\SettingH5Controller.cs" />
-    <Compile Include="Areas\Operate\OperateAreaRegistration.cs" />
-    <Compile Include="Areas\Order\Controllers\CateringController.cs" />
-    <Compile Include="Areas\Order\Controllers\SpecialtyController.cs" />
-    <Compile Include="Areas\Order\Controllers\TicketController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
-    <Compile Include="Areas\Product\Controllers\CateringController.cs" />
-    <Compile Include="Areas\Product\Controllers\InventoryController.cs" />
-    <Compile Include="Areas\Product\Controllers\LandMngController.cs" />
-    <Compile Include="Areas\Product\Controllers\PlayMngController.cs" />
-    <Compile Include="Areas\Product\Controllers\ShopController.cs" />
-    <Compile Include="Areas\Product\Controllers\SpecialtyController.cs" />
-    <Compile Include="Areas\Product\Controllers\TicketsController.cs" />
-    <Compile Include="Areas\Product\ProductAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AddressController.cs" />
     <Compile Include="Areas\Setting\Controllers\DepartmentController.cs" />
     <Compile Include="Areas\Setting\Controllers\LogController.cs" />
-    <Compile Include="Areas\Setting\Controllers\ParamForCateringController.cs" />
-    <Compile Include="Areas\Setting\Controllers\ParamForSpecialtyController.cs" />
     <Compile Include="Areas\Setting\Controllers\ParamForSystemController.cs" />
-    <Compile Include="Areas\Setting\Controllers\ParamForTicketsController.cs" />
-    <Compile Include="Areas\Setting\Controllers\PluginForPayController.cs" />
     <Compile Include="Areas\Setting\Controllers\PositionController.cs" />
     <Compile Include="Areas\Setting\Controllers\RolesController.cs" />
     <Compile Include="Areas\Setting\Controllers\StaffController.cs" />
@@ -223,7 +200,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Content\Views\web.config" />
     <Content Include="Content\layui\css\layui.css" />
     <Content Include="Content\layui\css\layui.mobile.css" />
     <Content Include="Content\layui\css\modules\code.css" />
@@ -823,25 +799,15 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Account\Models\" />
-    <Folder Include="Areas\Account\Views\Shared\" />
-    <Folder Include="Areas\Content\Models\" />
-    <Folder Include="Areas\Content\Views\Shared\" />
     <Folder Include="Areas\Finance\Models\" />
-    <Folder Include="Areas\Operate\Models\" />
-    <Folder Include="Areas\Operate\Views\Shared\" />
+    <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
-    <Folder Include="Areas\Product\Models\" />
-    <Folder Include="Areas\Product\Views\Inventory\" />
     <Folder Include="Areas\Setting\Models\" />
-    <Folder Include="Areas\Setting\Views\Shared\" />
     <Folder Include="Content\website\js\kindeditor-4.1.10\attached\image\" />
     <Folder Include="Views\RQCode\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Product\Views\web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Order\Views\web.config" />
@@ -851,9 +817,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Account\Views\web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Operate\Views\web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Setting\Views\web.config" />
@@ -876,27 +839,6 @@
     <Content Include="Views\Home\SystemInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Product\Views\Specialty\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Product\Views\Specialty\Varieties.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Product\Views\Specialty\VarietiesOpt.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Specialty\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Specialty\RefundChange.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Product\Views\Specialty\Detail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Specialty\Detail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Finance\Views\Payment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -904,18 +846,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Finance\Views\Payment\SettlementCenterInfo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\BankCard.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\Detail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\BankDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Finance\Views\BasicSetting\Index.cshtml" />
@@ -931,29 +861,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Account\Views\Supplier\Option.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Operate\Views\SettingB2C\Website.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Operate\Views\SettingB2C\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Operate\Views\SettingB2C\IndexOption.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Operate\Views\SettingB2C\FarmMall.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Operate\Views\SettingB2C\FarmMallOption.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Content\Views\Article\Detail.cshtml" />
-    <Content Include="Areas\Content\Views\Article\Index.cshtml" />
-    <Content Include="Areas\Content\Views\Article\Option.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Setting\Views\ParamForSpecialty\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Setting\Views\ParamForSystem\Index.cshtml" />
@@ -983,53 +890,15 @@
     <Content Include="Areas\Setting\Views\Log\Option.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Setting\Views\PluginForPay\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Specialty\RefundChangeDetail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Content\Views\ArticleCategory\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_logSettingForTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Product\Views\Tickets\Index.cshtml" />
-    <Content Include="Areas\Product\Views\Tickets\Detail.cshtml" />
-    <Content Include="Areas\Product\Views\LandMng\Option.cshtml" />
-    <Content Include="Areas\Product\Views\LandMng\Index.cshtml" />
-    <Content Include="Areas\Product\Views\PlayMng\Detail.cshtml" />
-    <Content Include="Areas\Product\Views\PlayMng\Index.cshtml" />
-    <Content Include="Areas\Setting\Views\ParamForTickets\Index.cshtml" />
-    <Content Include="Areas\Order\Views\Ticket\Index.cshtml" />
-    <Content Include="Areas\Order\Views\Ticket\Detail.cshtml" />
-    <Content Include="Areas\Order\Views\Ticket\Verification.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingB2C\RecommendAmusementProject.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingB2C\RecommendAmusementProjectOption.cshtml" />
     <Content Include="Areas\Setting\Views\Address\Index.cshtml" />
     <Content Include="Areas\Setting\Views\Address\_Detail.cshtml" />
     <Content Include="Areas\Setting\Views\Address\_Add.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingH5\Website.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingH5\Index.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingH5\SpecialtyShopMall.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingH5\CategoryOpt.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingH5\RecommendAmusementProduct.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingH5\RecommendAmusementProductOpt.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingH5\IndexOption.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingBasic\UserProtocol.cshtml" />
-    <Content Include="Areas\Operate\Views\SettingBasic\Logo.cshtml" />
-    <Content Include="Areas\Product\Views\Catering\Index.cshtml" />
-    <Content Include="Areas\Order\Views\Catering\Index.cshtml" />
-    <Content Include="Areas\Order\Views\Catering\Verification.cshtml" />
-    <Content Include="Areas\Setting\Views\ParamForCatering\Index.cshtml" />
-    <Content Include="Areas\Product\Views\Shop\Index.cshtml" />
-    <Content Include="Areas\Product\Views\Catering\Detail.cshtml" />
-    <Content Include="Areas\Product\Views\Shop\Detail.cshtml" />
-    <Content Include="Areas\Order\Views\Catering\Detail.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />

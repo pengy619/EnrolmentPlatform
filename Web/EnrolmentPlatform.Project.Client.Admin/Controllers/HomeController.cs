@@ -20,15 +20,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
     
     public class HomeController : BaseController
     {
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            Tuple<string, string> parameters = WebApiHelper.GetQueryString(param);
-            var data = await WebApiHelper.GetAsync<HttpResponseMsg>(
-            "/api/SystemMessage/GetHomeInfoForAdmin", parameters.Item1, parameters.Item2,
-           ConfigurationManager.AppSettings["StaffId"].ToInt());
-            HomeInfoForSupplierDto homeInfoForSupplierDto = data.Data.ToString().ToObject<HomeInfoForSupplierDto>();
-            return View(homeInfoForSupplierDto);
+            return View();
         }
 
         #region 系统信息

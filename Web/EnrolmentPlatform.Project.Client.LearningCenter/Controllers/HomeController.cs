@@ -18,16 +18,9 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
     public class HomeController : BaseController
     {
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("supplierId", base.SupplierId.ToString());
-            Tuple<string, string> parameters = WebApiHelper.GetQueryString(param);
-            var data = await WebApiHelper.GetAsync<HttpResponseMsg>(
-            "/api/SystemMessage/GetHomeInfoForSupplierId", parameters.Item1, parameters.Item2,
-           ConfigurationManager.AppSettings["StaffId"].ToInt());
-            HomeInfoForSupplierDto homeInfoForSupplierDto = data.Data.ToString().ToObject<HomeInfoForSupplierDto>();
-            return View(homeInfoForSupplierDto);
+            return View();
         }
 
         /// <summary>

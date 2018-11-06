@@ -167,23 +167,9 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\Finance\Controllers\BankCardController.cs" />
-    <Compile Include="Areas\Finance\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Finance\Controllers\PaymentController.cs" />
-    <Compile Include="Areas\Finance\Controllers\WithdrawController.cs" />
     <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
-    <Compile Include="Areas\Order\Controllers\CateringController.cs" />
-    <Compile Include="Areas\Order\Controllers\SpecialtyController.cs" />
-    <Compile Include="Areas\Order\Controllers\TicketController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
-    <Compile Include="Areas\Product\Controllers\CateringController.cs" />
-    <Compile Include="Areas\Product\Controllers\FoodController.cs" />
-    <Compile Include="Areas\Product\Controllers\InventoryController.cs" />
-    <Compile Include="Areas\Product\Controllers\PlayMngController.cs" />
-    <Compile Include="Areas\Product\Controllers\ShopController.cs" />
-    <Compile Include="Areas\Product\Controllers\SpecialtyController.cs" />
-    <Compile Include="Areas\Product\Controllers\TicketController.cs" />
-    <Compile Include="Areas\Product\ProductAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AccountManageController.cs" />
     <Compile Include="Areas\Setting\Controllers\ChildAccountController.cs" />
     <Compile Include="Areas\Setting\Controllers\LogController.cs" />
@@ -703,13 +689,9 @@
     <Content Include="Content\website\framework\layui\font\iconfont.eot" />
     <Content Include="Content\website\framework\layui\font\iconfont.ttf" />
     <Content Include="Content\website\framework\layui\font\iconfont.woff" />
-    <Content Include="Areas\Product\Views\web.config" />
     <Content Include="Areas\Order\Views\web.config" />
     <Content Include="Areas\Finance\Views\web.config" />
     <Content Include="Areas\Setting\Views\web.config" />
-    <Content Include="Areas\Product\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Product\Views\Specialty\Index.cshtml" />
-    <Content Include="Areas\Order\Views\Specialty\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -728,17 +710,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Finance\Models\" />
-    <Folder Include="Areas\Finance\Views\Shared\" />
+    <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
-    <Folder Include="Areas\Order\Views\Shared\" />
-    <Folder Include="Areas\Product\Models\" />
-    <Folder Include="Areas\Product\Views\Shared\" />
     <Folder Include="Areas\Setting\Models\" />
     <Folder Include="Areas\Setting\Views\Shared\" />
     <Folder Include="Content\website\js\kindeditor-4.1.10\attached\image\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\RQCode\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -755,15 +732,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Login\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Product\Views\Specialty\Option.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Product\Views\Specialty\Detail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Specialty\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Setting\Views\Roles\List.cshtml" />
@@ -790,31 +758,7 @@
     <Content Include="Areas\Finance\Views\Payment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\BankCard\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\BankCard\Option.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\Option.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\Password.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Invoice\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Invoice\Detail.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Finance\Views\Payment\SettlementCenter.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Withdraw\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Finance\Views\Payment\SettlementsDetails.cshtml" />
@@ -832,42 +776,8 @@
     <Content Include="Views\Shared\_navigationMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Order\Views\Specialty\RefundChange.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Ticket\Index.cshtml" />
-    <Content Include="Areas\Order\Views\Ticket\Detail.cshtml" />
-    <Content Include="Areas\Order\Views\Ticket\Verification.cshtml" />
-    <Content Include="Areas\Product\Views\PlayMng\Index.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\Index.cshtml" />
-    <Content Include="Areas\Product\Views\PlayMng\Option.cshtml" />
-    <Content Include="Areas\Product\Views\PlayMng\Detail.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\OptionBasic.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\OptionXiang.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\Detail.cshtml" />
-    <Content Include="Areas\Product\Views\Inventory\Ticket.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\Option.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\_editForBasic.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\_editForXiang.cshtml" />
-    <Content Include="Areas\Product\Views\Ticket\_editForDate.cshtml" />
-    <Content Include="Areas\Product\Views\Food\Index.cshtml" />
-    <Content Include="Areas\Product\Views\Food\Option.cshtml" />
-    <Content Include="Areas\Product\Views\Shop\Index.cshtml" />
-    <Content Include="Areas\Product\Views\Shop\Option.cshtml" />
-    <Content Include="Areas\Product\Views\Shop\Detail.cshtml" />
-    <Content Include="Areas\Product\Views\Catering\Index.cshtml" />
-    <Content Include="Areas\Product\Views\Catering\Option.cshtml" />
-    <Content Include="Areas\Product\Views\Catering\Detail.cshtml" />
-    <Content Include="Areas\Order\Views\Catering\Index.cshtml" />
-    <Content Include="Areas\Order\Views\Catering\Detail.cshtml" />
-    <Content Include="Areas\Order\Views\Catering\Verification.cshtml" />
-    <Content Include="Areas\Product\Views\Catering\OptionDetail.cshtml" />
-    <Content Include="Areas\Product\Views\Food\Detail.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Shared\_calendar.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Order\Views\Specialty\RefundChangeDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
