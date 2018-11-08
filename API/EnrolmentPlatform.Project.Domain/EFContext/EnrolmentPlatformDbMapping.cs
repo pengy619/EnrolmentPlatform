@@ -11,7 +11,6 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
     {
         //账号
         public DbSet<T_AccountBasic> T_AccountBasic { get; set; }
-        public DbSet<T_AccountVerification> T_AccountVerification { get; set; }
         public DbSet<T_DeliveryAddress> T_DeliveryAddress { get; set; }
         public DbSet<T_Enterprise> T_Enterprise { get; set; }
         public DbSet<T_Permissions> T_Permissions { get; set; }

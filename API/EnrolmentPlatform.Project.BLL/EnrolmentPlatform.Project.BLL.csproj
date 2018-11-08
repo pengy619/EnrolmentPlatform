@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\T_AccountVerificationService.cs" />
     <Compile Include="Accounts\T_DeliveryAddressService.cs" />
     <Compile Include="Accounts\T_EnterpriseService.cs" />
     <Compile Include="BaseService.cs" />

@@ -4,8 +4,6 @@
     List<EnrolmentPlatform.Project.DTO.Systems.RoleDto> roleList = ViewBag.RoleList;
     ViewBag.Title = dto==null||!dto.UserId.HasValue ? "子账号添加" : "子账号编辑";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    List<EnrolmentPlatform.Project.DTO.Systems.AccountVerificationDto> verificationList = ViewBag.VerificationList;
 }
 <div class="main-wrap">
     <div class="panel layui-form">
@@ -63,37 +61,6 @@
                     <input type="radio" name="pos" lay-filter="pos" value="false" title="否" @((opStatus==1||(opStatus==2 && dto.IsAllowMobileLogin == false))?"checked":"")>
                 </div>
             </div>
-            <div id="divList" style="display:none;">
-                <div style="padding-bottom:10px;">请选择此账号负责核销的景点/项目</div>
-                <div class="layui-form-item" style="height:300px;overflow-y:auto;overflow-x:hidden;border:1px solid #808080;">
-                    <label class="layui-form-label"></label>
-                    <table class="layui-table">
-                        <thead>
-                            <tr></tr>
-                            <tr>
-                                <th>分类</th>
-                                <th>景点/项目名称</th>
-                                <th>地址</th>
-                                <th>选择</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (verificationList != null && verificationList.Count > 0)
-                            {
-                                foreach (var item in verificationList)
-                                {
-                                    <tr>
-                                        <td style="width:100px;">@item.ClassifyName</td>
-                                        <td style="width:400px;">@item.ResourceName</td>
-                                        <td style="width:300px;">@item.ResourceAddress</td>
-                                        <td style="width:50px;"><input type="checkbox" Classify="@((int)item.Classify)" name="ResourceId" value="@item.ResourceId" lay-skin="primary"  @(opStatus==2 && dto.AccountVerificationList.Exists(a=>a.ResourceId==item.ResourceId) ? "checked":"")></td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
         <div class="panel-title">
             备注
@@ -133,20 +100,6 @@
             dto.UserId = $("#hidUserId").val();
             dto.Comment = $("#txtComment").val();
             dto.IsAllowMobileLogin = $("input[name='pos']:checked").val();
-            //用户资源权限列表
-            dto.AccountVerificationList = [];
-            var list = $("input[name='ResourceId']:checked");
-            if (list.size() > 0) {
-                list.each(function () {
-                    var item = {};
-                    var tdList = $(this).parent().parent().find("td");
-                    item.ResourceId = $(this).val();
-                    item.ResourceName = tdList.eq(1).text().trim();
-                    item.ResourceAddress = tdList.eq(0).text().trim();
-                    item.Classify = $(this).attr("Classify");
-                    dto.AccountVerificationList.push(item);
-                });
-            }
 
             $.ajax({
                 type: "POST",
@@ -183,22 +136,5 @@
             });
             return false;
         });
-
-        //手持权限点击
-        form.on('radio(pos)', function (data) {
-            if ($("input[name='pos']:checked").val() == "true") {
-                $("#divList").show();
-            } else {
-                $("#divList").hide();
-            }
-        });  
-    });
-
-    $(function () {
-        if ($("input[name='pos']:checked").val() == "true") {
-            $("#divList").show();
-        } else {
-            $("#divList").hide();
-        }
     });
 </script> 

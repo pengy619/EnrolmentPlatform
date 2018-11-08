@@ -433,37 +433,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             //添加至EF
             dbContext.T_AccountBasic.Add(accountEntity);
 
-            //添加允许核销游乐项目信息
-            if (dto.IsAllowMobileLogin == true && dto.AccountVerificationList != null && dto.AccountVerificationList.Count > 0)
-            {
-                dto.AccountVerificationList.ForEach(o =>
-                {
-                    T_AccountVerification verificationDto = new T_AccountVerification()
-                    {
-                        AccountId = accountEntity.Id,
-                        Id = Guid.NewGuid(),
-                        Classify = (int)o.Classify,
-                        EnterpriseId = accountEntity.EnterpriseId,
-                        ResourceAddress = o.ResourceAddress,
-                        Remark = o.Remark,
-                        ResourceId = o.ResourceId,
-                        ResourceName = o.ResourceName,
-                        CreatorAccount = dto.CreateAccount,
-                        CreatorTime = DateTime.Now,
-                        CreatorUserId = dto.CreateUserId,
-                        DeleteTime = DateTime.MaxValue,
-                        DeleteUserId = Guid.Empty,
-                        IsDelete = false,
-                        LastModifyTime = DateTime.Now,
-                        LastModifyUserId = dto.CreateUserId,
-                        Unix = DateTime.Now.ConvertDateTimeInt()
-                    };
-
-                    //添加至EF
-                    dbContext.T_AccountVerification.Add(verificationDto);
-                });
-            }
-
             //保存并记录日志
             dbContext.ModuleKey = accountEntity.Id.ToString();
             dbContext.LogChangesDuringSave = true;
@@ -515,40 +484,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             }
             user.Phone = dto.Phone;
             dbContext.Entry(user).State = EntityState.Modified;
-
-            //先删除核销项目
-            dbContext.T_AccountVerification.RemoveRange(dbContext.T_AccountVerification.Where(a => a.AccountId == user.Id));
-
-            //添加允许核销游乐项目信息
-            if (dto.IsAllowMobileLogin == true && dto.AccountVerificationList != null && dto.AccountVerificationList.Count > 0)
-            {
-                dto.AccountVerificationList.ForEach(o =>
-                {
-                    T_AccountVerification verificationDto = new T_AccountVerification()
-                    {
-                        AccountId = user.Id,
-                        Id = Guid.NewGuid(),
-                        Classify = (int)o.Classify,
-                        EnterpriseId = user.EnterpriseId,
-                        ResourceAddress = o.ResourceAddress,
-                        Remark = o.Remark,
-                        ResourceId = o.ResourceId,
-                        ResourceName = o.ResourceName,
-                        CreatorAccount = dto.CreateAccount,
-                        CreatorTime = DateTime.Now,
-                        CreatorUserId = dto.CreateUserId,
-                        DeleteTime = DateTime.MaxValue,
-                        DeleteUserId = Guid.Empty,
-                        IsDelete = false,
-                        LastModifyTime = DateTime.Now,
-                        LastModifyUserId = dto.CreateUserId,
-                        Unix = DateTime.Now.ConvertDateTimeInt()
-                    };
-
-                    //添加至EF
-                    dbContext.T_AccountVerification.Add(verificationDto);
-                });
-            }
 
             //保存并记录日志
             dbContext.ModuleKey = user.Id.ToString();

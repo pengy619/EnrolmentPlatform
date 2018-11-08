@@ -133,7 +133,6 @@
     <Compile Include="Product\ShopDto.cs" />
     <Compile Include="Product\SpecialtyListForB2CDto.cs" />
     <Compile Include="Product\TicketSalesParamDto.cs" />
-    <Compile Include="Systems\AccountVerificationDto.cs" />
     <Compile Include="Systems\AddressDto.cs" />
     <Compile Include="Systems\AddressOptionDTO.cs" />
     <Compile Include="Systems\BannerDto.cs" />

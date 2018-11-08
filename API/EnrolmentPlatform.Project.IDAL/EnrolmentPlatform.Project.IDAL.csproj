@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\IT_AccountVerificationRepository.cs" />
     <Compile Include="Accounts\IT_DeliveryAddressRepository.cs" />
     <Compile Include="Accounts\IT_EnterpriseRepository.cs" />
     <Compile Include="Accounts\IT_AccountBasicRepository.cs" />

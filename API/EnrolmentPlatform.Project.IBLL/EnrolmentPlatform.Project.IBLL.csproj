@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\IT_AccountBasicService.cs" />
-    <Compile Include="Accounts\IT_AccountVerificationService.cs" />
     <Compile Include="Accounts\IT_DeliveryAddressService.cs" />
     <Compile Include="Finance\IT_AccountDetailInfoService.cs" />
     <Compile Include="Accounts\IT_EnterpriseService.cs" />

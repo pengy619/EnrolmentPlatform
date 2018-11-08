@@ -53,7 +53,6 @@
   <ItemGroup>
     <Compile Include="EFContext\EnrolmentPlatformDbContext.cs" />
     <Compile Include="EFContext\EnrolmentPlatformDbMapping.cs" />
-    <Compile Include="Entities\Accounts\T_AccountVerification.cs" />
     <Compile Include="Entities\Accounts\T_AccountBasic.cs" />
     <Compile Include="Entities\Accounts\T_DeliveryAddress.cs" />
     <Compile Include="Entities\Accounts\T_Enterprise.cs" />

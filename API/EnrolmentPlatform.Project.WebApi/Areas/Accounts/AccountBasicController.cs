@@ -23,13 +23,11 @@ namespace EnrolmentPlatform.Project.WebApi.Areas.Accounts
     {
         protected IT_AccountBasicService UserService;
         private ILifetimeScope _scope;
-        private IT_AccountVerificationService AccountVerificationService;
 
         public AccountBasicController(ILifetimeScope scope)
         {
             this._scope = scope;
             this.UserService = _scope.Resolve<IT_AccountBasicService>();
-            this.AccountVerificationService= _scope.Resolve<IT_AccountVerificationService>();
         }
 
         /// <summary>
@@ -404,10 +402,6 @@ namespace EnrolmentPlatform.Project.WebApi.Areas.Accounts
             {
                 ResultMsg _resultMsg = new ResultMsg();
                 SupplierUserDto ret = this.UserService.GetSupplierUser(userId);
-                if (ret != null)
-                {
-                    ret.AccountVerificationList = this.AccountVerificationService.GetAccountVerification(userId);
-                }
                 _resultMsg.IsSuccess = true;
                 _resultMsg.Data = ret;
                 return _resultMsg.ResponseMessage();

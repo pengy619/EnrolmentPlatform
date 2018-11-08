@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\T_AccountBasicRepository.cs" />
-    <Compile Include="Accounts\T_AccountVerificationRepository.cs" />
     <Compile Include="Accounts\T_DeliveryAddressRepository.cs" />
     <Compile Include="Accounts\T_EnterpriseRepository.cs" />
     <Compile Include="BaseRepository.cs" />

@@ -285,11 +285,6 @@ namespace EnrolmentPlatform.Project.DTO.Systems
         /// 是否允许手持终端登录
         /// </summary>
         public bool IsAllowMobileLogin { set; get; }
-
-        /// <summary>
-        /// 允许核销的资源集合
-        /// </summary>
-        public List<AccountVerificationDto> AccountVerificationList { set; get; }
     }
 
     /// <summary>

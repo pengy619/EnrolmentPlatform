@@ -50,7 +50,6 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
             var data3 = WebApiHelper.Get<HttpResponseMsg>(
             "/api/AccountBasic/GetSupplierVerificationList", parameters3.Item1, parameters3.Item2,
             ConfigurationManager.AppSettings["StaffId"].ToInt());
-            ViewBag.VerificationList = data3.Data.ToString().ToObject<List<AccountVerificationDto>>();
 
             //如果是修改
             if (userId.HasValue)
