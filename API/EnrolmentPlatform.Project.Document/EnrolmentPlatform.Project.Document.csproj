@@ -97,6 +97,7 @@
     <None Include="原型Html\resources\chrome\axure-chrome-extension.crx" />
     <None Include="第一份需求文档.docx" />
     <None Include="第二份需求文档.doc" />
+    <None Include="项目开发计划.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DLL\AopSdk.dll" />
