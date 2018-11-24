@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EnrolmentPlatform.Project.Domain.Entities.Orders;
+using EnrolmentPlatform.Project.IDAL.Orders;
 
-namespace EnrolmentPlatform.Project.IDAL.Orders
+namespace EnrolmentPlatform.Project.DAL.Orders
 {
-    public interface IT_OrderAmountRepository : IBaseRepository<T_OrderAmount>
+    public class T_OrderImageRepository: BaseRepository<T_OrderImage>, IT_OrderImageRepository
     {
+
     }
 }

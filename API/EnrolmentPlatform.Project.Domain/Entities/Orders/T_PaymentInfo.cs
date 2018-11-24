@@ -16,16 +16,19 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// <summary>
         /// 订单ID
         /// </summary>
+        [DataMember]
         public Guid OrderId { set; get; }
 
         /// <summary>
         /// 缴费金额
         /// </summary>
+        [DataMember]
         public decimal Amount { set; get; }
 
         /// <summary>
         /// 缴费登记ID
         /// </summary>
+        [DataMember]
         public Guid PaymentRecordId { set; get; }
     }
 }

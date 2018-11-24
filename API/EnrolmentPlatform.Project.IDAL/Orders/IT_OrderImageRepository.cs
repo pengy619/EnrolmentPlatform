@@ -7,7 +7,7 @@ using EnrolmentPlatform.Project.Domain.Entities.Orders;
 
 namespace EnrolmentPlatform.Project.IDAL.Orders
 {
-    public interface IT_OrderAmountRepository : IBaseRepository<T_OrderAmount>
+    public interface IT_OrderImageRepository : IBaseRepository<T_OrderImage>
     {
     }
 }

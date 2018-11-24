@@ -53,6 +53,7 @@
     <Compile Include="IBaseRepository.cs" />
     <Compile Include="IDbContextFactory.cs" />
     <Compile Include="Orders\IT_OrderAmountRepository.cs" />
+    <Compile Include="Orders\IT_OrderImageRepository.cs" />
     <Compile Include="Orders\IT_OrderRepository.cs" />
     <Compile Include="Orders\IT_PaymentInfoRepository.cs" />
     <Compile Include="Orders\IT_PaymentRecordRepository.cs" />

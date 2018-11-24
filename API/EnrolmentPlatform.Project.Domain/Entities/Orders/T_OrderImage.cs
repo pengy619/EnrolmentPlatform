@@ -8,72 +8,69 @@ using System.Threading.Tasks;
 
 namespace EnrolmentPlatform.Project.Domain.Entities.Orders
 {
-    /// <summary>
-    /// 缴费登记ID
-    /// </summary>
     [Serializable]
-    [Table("T_PaymentRecord")]
+    [Table("T_OrderImage")]
     [DataContract]
-    public class T_PaymentRecord:Entity
+    public class T_OrderImage : Entity
     {
         /// <summary>
-        /// 缴费名称
+        /// 订单ID
         /// </summary>
         [DataMember]
-        public string Name { set; get; }
+        public Guid OrderId { set; get; }
 
         /// <summary>
-        /// 缴费类型（1:普通缴费  2:尾款）
+        /// 身份证正面
         /// </summary>
         [DataMember]
-        public int Type { set; get; }
+        public string IDCard1 { set; get; }
 
         /// <summary>
-        /// 缴费金额
+        /// 身份证反面
         /// </summary>
         [DataMember]
-        public decimal TotalAmount { set; get; }
+        public string IDCard2 { set; get; }
 
         /// <summary>
-        /// 流水附件
+        /// 两寸蓝底
         /// </summary>
         [DataMember]
-        public string FilePath { set; get; }
+        public string LiangCunLanDiImg { set; get; }
 
         /// <summary>
-        /// 支付发起方（1：机构，2：渠道）
+        /// 毕业证
         /// </summary>
         [DataMember]
-        public int PaymentSource { set; get; }
+        public string BiYeZhengImg { set; get; }
 
         /// <summary>
-        /// 支付发起ID
+        /// 免考英语
         /// </summary>
         [DataMember]
-        public Guid? PaymentSourceId { set; get; }
+        public string MianKaoYingYuImg { set; get; }
 
         /// <summary>
-        /// 状态（1:待审核 2:已审核 3:审核拒绝）
+        /// 免考计算机
         /// </summary>
         [DataMember]
-        public int Status { set; get; }
+        public string MianKaoJiSuanJiImg { set; get; }
 
         /// <summary>
-        /// 审核人
+        /// 学信网截图
         /// </summary>
         [DataMember]
-        public string Auditor { set; get; }
+        public string XueXinWangImg { set; get; }
 
         /// <summary>
-        /// 审核人ID
+        /// 其他
         /// </summary>
         [DataMember]
-        public Guid AuditorId { set; get; }
+        public string QiTa { set; get; }
 
         /// <summary>
-        /// 审核时间
+        /// 头像
         /// </summary>
         [DataMember]
-        public DateTime AuditTime { set; get; }
+        public string TouXiang { set; get; }
     }
 }

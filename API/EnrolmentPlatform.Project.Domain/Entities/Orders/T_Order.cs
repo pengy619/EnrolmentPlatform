@@ -16,116 +16,139 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// <summary>
         /// 报名批次
         /// </summary>
+        [DataMember]
         public Guid BatchId { set; get; }
 
         /// <summary>
         /// 学生姓名
         /// </summary>
+        [DataMember]
         public string StudentName { set; get; }
 
         /// <summary>
         /// 身份证号码
         /// </summary>
+        [DataMember]
         public string IDCardNo { set; get; }
 
         /// <summary>
         /// 籍贯
         /// </summary>
+        [DataMember]
         public string Native { set; get; }
 
         /// <summary>
         /// 报考学校
         /// </summary>
+        [DataMember]
         public Guid SchoolId { set; get; }
 
         /// <summary>
         /// 报读层次
         /// </summary>
+        [DataMember]
         public Guid LevelId { set; get; }
 
         /// <summary>
         /// 报读专业
         /// </summary>
+        [DataMember]
         public Guid MajorId { set; get; }
 
         /// <summary>
         /// 手机号码
         /// </summary>
+        [DataMember]
         public string Phone { set; get; }
 
         /// <summary>
         /// 微信/QQ
         /// </summary>
+        [DataMember]
         public string TencentNo { set; get; }
 
         /// <summary>
         /// 邮箱
         /// </summary>
+        [DataMember]
         public string Email { set; get; }
 
         /// <summary>
         /// 联系地址
         /// </summary>
+        [DataMember]
         public string Address { set; get; }
 
         /// <summary>
         /// 备注
         /// </summary>
+        [DataMember]
         public string Remark { set; get; }
 
         /// <summary>
         /// 状态（1：草稿, 2：提交 3：已退学，4：已拒绝，5：已报名，6：录取提交，7：录取拒绝，8：已录取）
         /// </summary>
+        [DataMember]
         public int Status { set; get; }
 
         /// <summary>
         /// 来源机构（没有的话就是渠道添加的）
         /// </summary>
+        [DataMember]
         public Guid? FromChannelId { set; get; }
 
         /// <summary>
         /// 添加来源类型（机构，个人）
         /// </summary>
+        [DataMember]
         public string FromTypeName { set; get; }
 
         /// <summary>
         /// 报送学习中心
         /// </summary>
+        [DataMember]
         public Guid? ToLearningCenterId { set; get; }
 
         /// <summary>
         /// 毕业院校
         /// </summary>
+        [DataMember]
         public string GraduateSchool { set; get; }
 
         /// <summary>
         /// 最高学历
         /// </summary>
+        [DataMember]
         public string HighesDegree { set; get; }
 
         /// <summary>
         /// 工作单位
         /// </summary>
+        [DataMember]
         public string WorkUnit { set; get; }
 
         /// <summary>
         /// 报名地点
         /// </summary>
+        [DataMember]
         public string EnrollAddress { set; get; }
 
         /// <summary>
         /// 考试科目
         /// </summary>
+        [DataMember]
         public string ExamSubject { set; get; }
 
         /// <summary>
         /// 考试日期
         /// </summary>
+        [DataMember]
         public DateTime? ExamDate { set; get; }
 
         /// <summary>
         /// 学费标准
         /// </summary>
+        [DataMember]
         public decimal TuitionStandard { set; get; }
     }
 }
