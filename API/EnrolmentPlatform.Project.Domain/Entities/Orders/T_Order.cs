@@ -149,12 +149,6 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public DateTime? ExamDate { set; get; }
 
         /// <summary>
-        /// 学费标准
-        /// </summary>
-        [DataMember]
-        public decimal TuitionStandard { set; get; }
-
-        /// <summary>
         /// 所有图片是否都上传完成
         /// </summary>
         [DataMember]
