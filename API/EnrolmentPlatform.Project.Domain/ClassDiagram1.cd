@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EnrolmentPlatform.Project.Domain.EFContext.EnrolmentPlatformDbContext" Collapsed="true">
+    <Position X="48" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAgAAAAQAAAACAAQBhABACAEBAAQAAAACEgAaBECAg=</HashCode>
+      <FileName>EFContext\EnrolmentPlatformDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_AccountBasic" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAABggIEACAAlAAAACAAAAAAA0AIACAAIAAAIAAAAUA=</HashCode>
+      <FileName>Entities\Accounts\T_AccountBasic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_DeliveryAddress">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAEAQAAAAAAAAAAggAAAAAAAAAAAAACAAAAAAAEAAA=</HashCode>
+      <FileName>Entities\Accounts\T_DeliveryAddress.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_Enterprise" Collapsed="true">
+    <Position X="32" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEABCAAEoAAAAMAICAgAAEAAAEAAAAAiAAAIIAAAIRA=</HashCode>
+      <FileName>Entities\Accounts\T_Enterprise.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_Permissions" Collapsed="true">
+    <Position X="49.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAQAAAAAAAAAQAAQAAEAAAAABAgAAAQEAAAQ=</HashCode>
+      <FileName>Entities\Accounts\T_Permissions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_Role">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAkAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Entities\Accounts\T_Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_RolePermissionsRelation" Collapsed="true">
+    <Position X="48" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Accounts\T_RolePermissionsRelation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_AccountDetailInfo" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAACAAgAAABAACAAAAAAAEAI=</HashCode>
+      <FileName>Entities\Finance\T_AccountDetailInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_OrderSettlementInfo" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAACAEAABABAAAAAAkAAAAIAAAAAAAAAAQI=</HashCode>
+      <FileName>Entities\Finance\T_OrderSettlementInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_Address" Collapsed="true">
+    <Position X="34.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAACAEBEAAAEABCgAAAAIAIAA=</HashCode>
+      <FileName>Entities\Systems\T_Address.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_Department" Collapsed="true">
+    <Position X="41" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Entities\Systems\T_Department.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_File">
+    <Position X="2.75" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAQCAAAAAAAAAAACAAAAAAAAAAABAAABAAEA=</HashCode>
+      <FileName>Entities\Systems\T_File.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_Job">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Systems\T_Job.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_LogSetting" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAQAAAAAAAAAAIBAAAAAACABAASAAgAA=</HashCode>
+      <FileName>Entities\Systems\T_LogSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_LogSettingDetail" Collapsed="true">
+    <Position X="27.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAEAABAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Entities\Systems\T_LogSettingDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_SystemBasicSetting" Collapsed="true">
+    <Position X="36.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAAAQA=</HashCode>
+      <FileName>Entities\Systems\T_SystemBasicSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_SystemLoginLog" Collapsed="true">
+    <Position X="43.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIEA=</HashCode>
+      <FileName>Entities\Systems\T_SystemLoginLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_SystemMessage">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAgAAAEAAAAAAAAAAAhAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Systems\T_SystemMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Finance.T_OrderSettlement" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAIAAAABAAAAAAAAAkAAAAIAAAAAAAAAAQA=</HashCode>
+      <FileName>Entities\Finance\T_OrderSettlement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Orders.T_Order" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAABBAEACAAgAICEAAAEhAgABAAIAACAAAAIQkkAwA=</HashCode>
+      <FileName>Entities\Orders\T_Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Orders.T_OrderAmount" Collapsed="true">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAEAAQAAAAAAAAAAAAABAAAAAAQAgAAAAAAAA=</HashCode>
+      <FileName>Entities\Orders\T_OrderAmount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Orders.T_OrderImage" Collapsed="true">
+    <Position X="38.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>tAEAAAAAAAAAAAAAAAAAAAAAAgAAAAAIAAIAAIAAAAg=</HashCode>
+      <FileName>Entities\Orders\T_OrderImage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Orders.T_PaymentInfo" Collapsed="true">
+    <Position X="45.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Entities\Orders\T_PaymentInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Orders.T_PaymentRecord">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAQAAAAACAAAAQAghAAAAAAAQBAAAEAAAA=</HashCode>
+      <FileName>Entities\Orders\T_PaymentRecord.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnrolmentPlatform.Project.Domain.Entity" Collapsed="true">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAAAAAAAAAggABAAAAAAEAAABEAAAAQAAgAA=</HashCode>
+      <FileName>Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="EnrolmentPlatform.Project.Domain.EFContext.E_DbClassify" Collapsed="true">
+    <Position X="48" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>EFContext\EnrolmentPlatformDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>
