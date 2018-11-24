@@ -77,17 +77,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
         /// <returns></returns>
         public ActionResult Option(Guid? supplierId)
         {
-            //业务范围
-            ViewBag.BusinessRangs = EnumDescriptionHelper.GetItemValueList<BusinessRangEnum, int>().ToList();
-
-            //结算周期
-            ViewBag.SettlementCycles = EnumDescriptionHelper.GetItemValueList<SettlementCycleEnum, int>().ToList();
-
-            EnterpriseAddDto dto = new EnterpriseAddDto
-            {
-                SupplierType = SupplierTypeEnum.Self,
-                SettlementCycle = SettlementCycleEnum.Now
-            };
+            EnterpriseAddDto dto = new EnterpriseAddDto();
             if (supplierId.HasValue)
             {
                 Dictionary<string, string> param = new Dictionary<string, string>();
@@ -113,7 +103,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> SaveSupplier(EnterpriseAddDto dto)
         {
-            dto.Classify = EnterpriceTypeEnum.Supplier;
             dto.CurUserId = this.UserId;
             dto.CurUserAccount = this.UserAccount;
             if (dto.EnterpriseId.IsEmpty())

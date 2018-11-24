@@ -3,7 +3,6 @@ using EnrolmentPlatform.Project.Domain.Entities;
 using System.Linq;
 using System.Data.Entity.Core.Objects;
 using System.Collections.Generic;
-using EnrolmentPlatform.Project.Domain.Entities.Finance;
 
 namespace EnrolmentPlatform.Project.Domain.EFContext
 {
@@ -11,16 +10,10 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
     {
         //账号
         public DbSet<T_AccountBasic> T_AccountBasic { get; set; }
-        public DbSet<T_DeliveryAddress> T_DeliveryAddress { get; set; }
         public DbSet<T_Enterprise> T_Enterprise { get; set; }
         public DbSet<T_Permissions> T_Permissions { get; set; }
         public DbSet<T_Role> T_Role { get; set; }
         public DbSet<T_RolePermissionsRelation> T_RolePermissionsRelation { get; set; }
-
-        //财务
-        public DbSet<T_AccountDetailInfo> T_AccountDetailInfo { get; set; }
-        public DbSet<T_OrderSettlement> T_OrderSettlement { get; set; }
-        public DbSet<T_OrderSettlementInfo> T_OrderSettlementInfo { get; set; }
 
         //文件
         public DbSet<T_File> T_File { get; set; }

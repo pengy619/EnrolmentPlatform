@@ -49,10 +49,8 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                                {
                                    SupplierId = a.Id,
                                    SupplierName = a.EnterpriseName,
-                                   BusinessType = a.BusinessType,
                                    LoginAccount = b.AccountNo,
                                    Contact = a.Contact,
-                                   SettlementCycle = a.SettlementCycle,
                                    Status = a.Status
                                };
 
@@ -77,8 +75,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                 Address = dto.Address,
                 AddressId = dto.AddressId,
                 Balance = 0,
-                BusinessRang = string.Join(",", dto.BusinessRang),
-                BusinessType = dto.BusinessType.HasValue ? (int)dto.BusinessType : 0,
                 CashPassWord = "",
                 Classify = (int)dto.Classify,
                 Contact = dto.Contact,
@@ -99,13 +95,11 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                 DepositAmount = dto.DepositAmount,
                 Remark = dto.Remark,
                 RowVersion = null,
-                SettlementCycle = (int)dto.SettlementCycle,
                 Status = (int)StatusBaseEnum.Enabled,
                 TaxNo = "无",
                 Unix = DateTime.Now.ConvertDateTimeInt(),
                 LicenseNo = dto.LicenseNo,
-                BusinessEndDate = dto.BusinessEndDate,
-                SupplierType = (int)dto.SupplierType
+                BusinessEndDate = dto.BusinessEndDate
             };
 
             dbContext.T_Enterprise.Add(enterprise);
@@ -151,87 +145,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             dbContext.T_AccountBasic.Add(account);
             #endregion
 
-            #region 相关图片
-            if (!string.IsNullOrEmpty(dto.BusinessLicenseUrl))
-            {
-                //营业执照文件
-                T_File file1 = new T_File
-                {
-                    Id = Guid.NewGuid(),
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.CurUserId,
-                    CreatorAccount = dto.CurUserAccount,
-                    CreatorUserId = dto.CurUserId,
-                    CreatorTime = DateTime.Now,
-                    DeleteUserId = Guid.Empty,
-                    DeleteTime = DateTime.MaxValue,
-                    Unix = DateTime.Now.ConvertDateTimeInt(),
-                    FileBusinessType = (int)EnterpriseFileTypeEnum.BusinessLicense,
-                    FileClassify = 1,
-                    FileName = "营业执照",
-                    FilePath = dto.BusinessLicenseUrl,
-                    ForeignKeyClassify = 3,
-                    ForeignKeyId = enterprise.Id,
-                    Iscover = false,
-                    IsFocus = false
-                };
-                dbContext.T_File.Add(file1);
-            }
-            //身份证正面
-            if (!string.IsNullOrEmpty(dto.IDCardReverseUrl))
-            {
-                T_File file2 = new T_File
-                {
-                    Id = Guid.NewGuid(),
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.CurUserId,
-                    CreatorAccount = dto.CurUserAccount,
-                    CreatorUserId = dto.CurUserId,
-                    CreatorTime = DateTime.Now,
-                    DeleteUserId = Guid.Empty,
-                    DeleteTime = DateTime.MaxValue,
-                    Unix = DateTime.Now.ConvertDateTimeInt(),
-                    FileBusinessType = (int)EnterpriseFileTypeEnum.IDCardUpwards,
-                    FileClassify = 1,
-                    FileName = "身份证正面",
-                    FilePath = dto.IDCardReverseUrl,
-                    ForeignKeyClassify = 3,
-                    ForeignKeyId = enterprise.Id,
-                    Iscover = false,
-                    IsFocus = false
-                };
-                dbContext.T_File.Add(file2);
-            }
-            //身份证反面
-            if (!string.IsNullOrEmpty(dto.IDCardUpwardsUrl))
-            {
-                T_File file3 = new T_File
-                {
-                    Id = Guid.NewGuid(),
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.CurUserId,
-                    CreatorAccount = dto.CurUserAccount,
-                    CreatorUserId = dto.CurUserId,
-                    CreatorTime = DateTime.Now,
-                    DeleteUserId = Guid.Empty,
-                    DeleteTime = DateTime.MaxValue,
-                    Unix = DateTime.Now.ConvertDateTimeInt(),
-                    FileBusinessType = (int)EnterpriseFileTypeEnum.IDCardReverse,
-                    FileClassify = 1,
-                    FileName = "身份证反面",
-                    FilePath = dto.IDCardUpwardsUrl,
-                    ForeignKeyClassify = 3,
-                    ForeignKeyId = enterprise.Id,
-                    Iscover = false,
-                    IsFocus = false
-                };
-                dbContext.T_File.Add(file3);
-            }
-            #endregion
-
             dbContext.ModuleKey = enterprise.Id.ToString();
             dbContext.LogChangesDuringSave = true;
             dbContext.BusinessName = "企业添加";
@@ -246,63 +159,13 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
         {
             T_Enterprise enterprise = this.FindEntityById(supplierId);
             SupplierEnterpriseGetDto dto = new SupplierEnterpriseGetDto();
-
-            //企业基础信息
-            string[] rangIds = enterprise.BusinessRang.Split(',');
-            dto.BusinessRang = "";
-            if (rangIds != null && rangIds.Length > 0)
-            {
-                foreach (var item in rangIds)
-                {
-                    BusinessRangEnum curEnum = (BusinessRangEnum)Convert.ToInt32(item);
-                    dto.BusinessRang += EnumDescriptionHelper.GetDescription(curEnum) + ",";
-                }
-                dto.BusinessRang = dto.BusinessRang.TrimEnd(',');
-            }
-            dto.BusinessType = EnumDescriptionHelper.GetDescription((BusinessRangEnum)enterprise.BusinessType);
+            
             dto.Contact = enterprise.Contact;
             dto.DepositAmount = enterprise.DepositAmount;
             dto.EnterpriseName = enterprise.EnterpriseName;
-            dto.SupplierType = EnumDescriptionHelper.GetDescription((SupplierTypeEnum)enterprise.SupplierType);
-            //企业图片信息
-            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            List<T_File> fileList = dbContext.T_File.Where(a => a.ForeignKeyClassify == 3 &&
-                    a.ForeignKeyId == supplierId && a.IsDelete == false).ToList();
-            if (fileList != null && fileList.Count > 0)
-            {
-                foreach (var item in fileList)
-                {
-                    if (item.FileBusinessType == (int)EnterpriseFileTypeEnum.BusinessLicense)
-                    {
-                        dto.BusinessLicenseUrl = item.FilePath;
-                    }
-                    else if (item.FileBusinessType == (int)EnterpriseFileTypeEnum.IDCardUpwards)
-                    {
-                        dto.IDCardUpwardsUrl = item.FilePath;
-                    }
-                    else if (item.FileBusinessType == (int)EnterpriseFileTypeEnum.IDCardReverse)
-                    {
-                        dto.IDCardReverseUrl = item.FilePath;
-                    }
-                }
-            }
 
             dto.UserAccount = "";
             dto.Phone = enterprise.Phone;
-            dto.Rate = enterprise.Rate;
-            dto.SettlementCycle = EnumDescriptionHelper.GetDescription((SettlementCycleEnum)enterprise.SettlementCycle);
-
-            //地址
-            T_Address address = dbContext.T_Address.FirstOrDefault(a => a.Id == enterprise.AddressId);
-            dto.FullAddress = "";
-            if (address != null)
-            {
-                dto.FullAddress = address.ChinaRoute + enterprise.Address;
-            }
-            else
-            {
-                dto.FullAddress = enterprise.Address;
-            }
 
             return dto;
         }
@@ -318,23 +181,16 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             {
                 EnterpriseId = enterprise.Id,
                 EnterpriseName = enterprise.EnterpriseName,
-                SupplierType = (SupplierTypeEnum)enterprise.SupplierType,
-                BusinessRang = enterprise.BusinessRang.Split(',').ToList(),
                 Contact = enterprise.Contact,
                 Phone = enterprise.Phone,
                 AddressId = enterprise.AddressId,
                 Address = enterprise.Address,
-                SettlementCycle = (SettlementCycleEnum)enterprise.SettlementCycle,
                 Rate = enterprise.Rate,
                 DepositAmount = enterprise.DepositAmount,
                 LicenseNo = enterprise.LicenseNo,
                 BusinessEndDate = enterprise.BusinessEndDate,
                 Remark = enterprise.Remark
             };
-            if (enterprise.BusinessType != 0)
-            {
-                dto.BusinessType = (EnterpriseBusinessTypeEnum)enterprise.BusinessType;
-            }
 
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             //企业账号信息
@@ -344,51 +200,7 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                 dto.UserAccount = account.AccountNo;
             }
 
-            //企业图片信息
-            List<T_File> fileList = dbContext.T_File.Where(a => a.ForeignKeyClassify == (int)ForeignKeyClassifyEnum.Enterprise &&
-                    a.ForeignKeyId == enterpriseId && a.IsDelete == false).ToList();
-            if (fileList != null && fileList.Count > 0)
-            {
-                foreach (var item in fileList)
-                {
-                    if (item.FileBusinessType == (int)EnterpriseFileTypeEnum.BusinessLicense)
-                    {
-                        dto.BusinessLicenseUrl = item.FilePath;
-                    }
-                    else if (item.FileBusinessType == (int)EnterpriseFileTypeEnum.IDCardUpwards)
-                    {
-                        dto.IDCardUpwardsUrl = item.FilePath;
-                    }
-                    else if (item.FileBusinessType == (int)EnterpriseFileTypeEnum.IDCardReverse)
-                    {
-                        dto.IDCardReverseUrl = item.FilePath;
-                    }
-                }
-            }
-
             return dto;
         }
-
-        /// <summary>
-        /// 根据供应商id得到是否自营，获取发布产品是否需要审核
-        /// </summary>
-        /// <param name="SupplierId"></param>
-        /// <returns>true:不需要审核  false 需要审核</returns>
-        public bool GetSupplierIsNeedAdult(Guid SupplierId)
-        {
-            bool result = false;
-            if (!SupplierId.Equals(Guid.Empty))
-            {
-                T_Enterprise t_Enterprise = this.FindEntityById(SupplierId);
-                if (t_Enterprise != null && t_Enterprise.SupplierType.Equals((int)SupplierTypeEnum.Self))
-                {
-                    int isNeedAdultBySelfSupplier = (int)SystemBasicSettingEnum.IsNeedAdultBySelfSupplier;
-                    T_SystemBasicSetting t_SystemBasicSetting = IT_SystemBasicSettingRepository.LoadEntities(a => a.Key == isNeedAdultBySelfSupplier).FirstOrDefault();
-                    result = (t_SystemBasicSetting != null && t_SystemBasicSetting.Value.Equals("0"));
-                }
-            }
-            return result;
-        }
-
     }
 }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Accounts;
-using EnrolmentPlatform.Project.DTO.Finance;
 using EnrolmentPlatform.Project.Infrastructure;
 
 namespace EnrolmentPlatform.Project.IBLL.Accounts
@@ -50,20 +49,6 @@ namespace EnrolmentPlatform.Project.IBLL.Accounts
         /// <param name="newPwd">新密码</param>
         /// <returns></returns>
         bool ChangeSupplierPwd(Guid accountId, string oldPwd, string newPwd);
-
-        /// <summary>
-        /// 获取某个企业账户余额
-        /// </summary>
-        /// <param name="supplierId"></param>
-        /// <returns></returns>
-        SupplierBalanceDto GetSupplierBalance(Guid supplierId);
-
-        /// <summary>
-        /// 设置 提现密码
-        /// </summary>
-        /// <param name="setCashPasswordDto"></param>
-        /// <returns></returns>
-        ResultMsg SetCashPassword(SetCashPasswordDto setCashPasswordDto);
 
         /// <summary>
         /// 更新企业状态

@@ -44,12 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\IT_DeliveryAddressRepository.cs" />
     <Compile Include="Accounts\IT_EnterpriseRepository.cs" />
     <Compile Include="Accounts\IT_AccountBasicRepository.cs" />
-    <Compile Include="Finance\IT_AccountDetailInfoRepository.cs" />
-    <Compile Include="Finance\IT_OrderSettlementInfoRepository.cs" />
-    <Compile Include="Finance\IT_OrderSettlementRepository.cs" />
     <Compile Include="IBaseRepository.cs" />
     <Compile Include="IDbContextFactory.cs" />
     <Compile Include="Orders\IT_OrderAmountRepository.cs" />

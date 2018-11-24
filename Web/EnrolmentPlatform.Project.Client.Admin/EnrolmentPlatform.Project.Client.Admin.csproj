@@ -171,9 +171,6 @@
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
     <Compile Include="Areas\Account\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Account\Controllers\UsersController.cs" />
-    <Compile Include="Areas\Finance\Controllers\BasicSettingController.cs" />
-    <Compile Include="Areas\Finance\Controllers\PaymentController.cs" />
-    <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AddressController.cs" />
     <Compile Include="Areas\Setting\Controllers\DepartmentController.cs" />
@@ -602,7 +599,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Account\Models\" />
-    <Folder Include="Areas\Finance\Models\" />
     <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
     <Folder Include="Areas\Setting\Models\" />
@@ -613,9 +609,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Order\Views\web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Account\Views\web.config" />
@@ -639,18 +632,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\SystemInfo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Payment\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Payment\SettlementCenter.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Payment\SettlementCenterInfo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\BasicSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Account\Views\Users\Index.cshtml" />

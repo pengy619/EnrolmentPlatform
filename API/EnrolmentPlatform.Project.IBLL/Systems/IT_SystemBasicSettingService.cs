@@ -25,19 +25,6 @@ namespace EnrolmentPlatform.Project.IBLL.Systems
         ResultMsg SystemParameterSet(SystemParameterDTO dto);
 
         /// <summary>
-        /// 获取提现范围
-        /// </summary>
-        /// <returns></returns>
-        List<string> GetWithdrawRange();
-
-        /// <summary>
-        /// 设置提现范围
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        ResultMsg SetWithdrawRange(WithdrawRangeDTO dto);
-
-        /// <summary>
         /// 获取全站设置
         /// </summary>
         /// <returns></returns>
@@ -49,31 +36,5 @@ namespace EnrolmentPlatform.Project.IBLL.Systems
         /// <param name="dto"></param>
         /// <returns></returns>
         ResultMsg TotalStationSet(TotalStationSetDTO dto);
-
-        /// <summary>
-        /// 获取H5标题设置
-        /// </summary>
-        /// <returns></returns>
-        ResultMsg GetH5TitleSet();
-
-        /// <summary>
-        /// H5标题设置
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        ResultMsg H5TitleSet(H5TitleSetDTO dto);
-
-        /// <summary>
-        /// 获取用户注册协议
-        /// </summary>
-        /// <returns></returns>
-        ResultMsg GetUserProtocolSet();
-
-        /// <summary>
-        /// 用户注册协议设置
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        ResultMsg UserProtocolSet(UserProtocolSetDTO dto);
     }
 }

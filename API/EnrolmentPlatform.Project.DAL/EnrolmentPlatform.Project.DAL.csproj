@@ -69,13 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\T_AccountBasicRepository.cs" />
-    <Compile Include="Accounts\T_DeliveryAddressRepository.cs" />
     <Compile Include="Accounts\T_EnterpriseRepository.cs" />
     <Compile Include="BaseRepository.cs" />
     <Compile Include="DbContextFactory.cs" />
-    <Compile Include="Finance\T_AccountDetailInfoRepository.cs" />
-    <Compile Include="Finance\T_OrderSettlementInfoRepository.cs" />
-    <Compile Include="Finance\T_OrderSettlementRepository.cs" />
     <Compile Include="Orders\T_OrderAmountRepository.cs" />
     <Compile Include="Orders\T_OrderImageRepository.cs" />
     <Compile Include="Orders\T_OrderRepository.cs" />

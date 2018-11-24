@@ -25,7 +25,6 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
     {
         private IT_EnterpriseRepository repository = null;
         private IT_AccountBasicRepository accountRepository = null;
-        private IT_FileRepository _fileRepository;
         protected IDbContextFactory _dbContextFactory;
 
         public T_EnterpriseService()
@@ -38,8 +37,6 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
         {
             this.CurrentRepository = repository;
             base.AddDisposableObject(base.CurrentRepository);
-            _fileRepository = DIContainer.Resolve<IT_FileRepository>();
-            base.AddDisposableObject(_fileRepository);
 
             _dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
             base.AddDisposableObject(_dbContextFactory);
@@ -98,52 +95,6 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
             string realOldPwd = Md5.Md5Hash(oldPwd + accountId.ToString());
             string realNewPwd = Md5.Md5Hash(newPwd + accountId.ToString());
             return this.accountRepository.ChangePwd(accountId, realOldPwd, realNewPwd);
-        }
-
-        /// <summary>
-        ///  获取某个企业账户余额
-        /// </summary>
-        /// <param name="supplierId"></param>
-        /// <returns></returns>
-        public SupplierBalanceDto GetSupplierBalance(Guid supplierId)
-        {
-            SupplierBalanceDto result = new SupplierBalanceDto();
-            var model = repository.FindEntityById(supplierId);
-            result.Balance = model.Balance;
-            result.Id = model.Id;
-            result.Name = model.EnterpriseName;
-            result.IsSetPassword = !string.IsNullOrEmpty(model.CashPassWord);
-            return result;
-        }
-
-
-        /// <summary>
-        /// 设置 提现密码
-        /// </summary>
-        /// <param name="setCashPasswordDto"></param>
-        /// <returns></returns>
-        public ResultMsg SetCashPassword(SetCashPasswordDto setCashPasswordDto)
-        {
-            try
-            {
-                ResultMsg result = new ResultMsg() { IsSuccess = false };
-                var model = repository.FindEntityById(setCashPasswordDto.EnterpriseId);
-                if (model == null)
-                {
-                    result.Info = "非法操作！";
-                    return result;
-                }
-                model.CashPassWord = Md5.Md5Hash(setCashPasswordDto.Password + model.Id.ToString());
-                model.LastModifyTime = DateTime.Now;
-                model.LastModifyUserId = setCashPasswordDto.OperatorId;
-                // repository.UpdateEntity(model);
-                repository.UpdateEntity(model, Domain.EFContext.E_DbClassify.Write, "设置提现密码");
-                return result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
 
         /// <summary>
@@ -222,92 +173,15 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
             }
             model.Address = dto.Address;
             model.AddressId = dto.AddressId;
-            model.BusinessRang = string.Join(",", dto.BusinessRang);
-            model.BusinessType = dto.BusinessType.HasValue ? (int)dto.BusinessType : 0;
             model.Contact = dto.Contact;
             model.EnterpriseName = dto.EnterpriseName;
             model.Phone = dto.Phone;
             model.Rate = dto.Rate;
             model.DepositAmount = dto.DepositAmount;
             model.Remark = dto.Remark;
-            model.SettlementCycle = (int)dto.SettlementCycle;
             model.LicenseNo = dto.LicenseNo;
             model.BusinessEndDate = dto.BusinessEndDate;
-            model.SupplierType = (int)dto.SupplierType;
             model.LastModifyUserId = dto.CurUserId;
-            #region   图片处理 
-            var list = _fileRepository.LoadEntities(o => o.ForeignKeyId == model.Id && o.FileClassify == (int)FileClassifyEnum.Picture && o.ForeignKeyClassify == (int)ForeignKeyClassifyEnum.Enterprise).ToList();
-
-            #region  身份证反面照片
-            var iDCardReverse = list.FirstOrDefault(t => t.FileBusinessType == (int)FileBusinessTypeEnum.IDCardNegative);
-            if (iDCardReverse != null && !string.IsNullOrEmpty(dto.IDCardReverseUrl))
-            {
-                iDCardReverse.FilePath = dto.IDCardReverseUrl;
-                iDCardReverse.LastModifyTime = DateTime.Now;
-                iDCardReverse.LastModifyUserId = dto.CurUserId;
-            }
-            #endregion
-
-            #region  身份证正面照片
-
-            var IDCardUpwardsUrl = list.FirstOrDefault(t => t.FileBusinessType == (int)FileBusinessTypeEnum.IDCardPositive);
-            if (IDCardUpwardsUrl != null && !string.IsNullOrEmpty(dto.IDCardUpwardsUrl))
-            {
-                IDCardUpwardsUrl.FilePath = dto.IDCardUpwardsUrl;
-                IDCardUpwardsUrl.LastModifyTime = DateTime.Now;
-                IDCardUpwardsUrl.LastModifyUserId = dto.CurUserId;
-            }
-            #endregion
-
-            #region  营业执照照片
-            var BusinessLicenseUrl = list.FirstOrDefault(t => t.FileBusinessType == (int)FileBusinessTypeEnum.License);
-            T_File file3 = null;
-            if (BusinessLicenseUrl == null && !string.IsNullOrEmpty(dto.BusinessLicenseUrl))
-            {
-                file3 = new T_File
-                {
-                    Id = Guid.NewGuid(),
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.CurUserId,
-                    CreatorAccount = dto.CurUserAccount,
-                    CreatorUserId = dto.CurUserId,
-                    CreatorTime = DateTime.Now,
-                    DeleteUserId = Guid.Empty,
-                    DeleteTime = DateTime.MaxValue,
-                    Unix = DateTime.Now.ConvertDateTimeInt(),
-                    FileBusinessType = (int)EnterpriseFileTypeEnum.BusinessLicense,
-                    FileClassify = 1,
-                    FileName = "营业执照",
-                    FilePath = dto.BusinessLicenseUrl,
-                    ForeignKeyClassify = 3,
-                    ForeignKeyId = model.Id,
-                    Iscover = false,
-                    IsFocus = false
-                };
-
-            }
-            else
-            {
-                if (BusinessLicenseUrl != null)
-                {
-                    if (!string.IsNullOrEmpty(dto.BusinessLicenseUrl))
-                    {
-                        BusinessLicenseUrl.FilePath = dto.BusinessLicenseUrl;
-                        BusinessLicenseUrl.LastModifyTime = DateTime.Now;
-                        BusinessLicenseUrl.LastModifyUserId = dto.CurUserId;
-                    }
-                    else
-                    {
-                        BusinessLicenseUrl.IsDelete = true;
-                        BusinessLicenseUrl.DeleteTime = DateTime.Now;
-                        BusinessLicenseUrl.DeleteUserId = dto.CurUserId;
-                    }
-                }
-            }
-            #endregion
-
-            #endregion
 
             #region 更新数据库
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
@@ -316,12 +190,7 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
                 var tran = conn.BeginTransaction();
                 try
                 {
-                    this.repository.UpdateEntity(model, Domain.EFContext.E_DbClassify.Write, "修改企业资料", true, model.Id.ToString());
-                    this._fileRepository.UpdateEntities(list);
-                    if (file3 != null)
-                    {
-                        this._fileRepository.AddEntity(file3);
-                    }
+                    this.repository.UpdateEntity(model, Domain.EFContext.E_DbClassify.Write, "修改企业资料", true, model.Id.ToString());                    
                     tran.Commit();
                     result.IsSuccess = true;
                     result.Info = string.Empty;

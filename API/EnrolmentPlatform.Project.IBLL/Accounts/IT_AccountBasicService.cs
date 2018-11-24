@@ -89,31 +89,6 @@ namespace EnrolmentPlatform.Project.IBLL.Accounts
         /// <returns></returns>
         UserLoginDto UserLoginByPhone(string phone, SystemTypeEnum systemType);
 
-        #region B2C会员
-
-        /// <summary>
-        /// 获得B2C会员信息
-        /// </summary>
-        /// <param name="memberId"></param>
-        /// <returns></returns>
-        B2CMemberDto FindB2CMemberInfo(Guid memberId);
-
-        /// <summary>
-        /// 修改B2C会员信息
-        /// </summary>
-        /// <param name="dto">会员信息</param>
-        /// <returns></returns>
-        bool UpdateB2CMemberInfo(B2CMemberDto dto);
-
-        /// <summary>
-        /// 修改B2C会员头像
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        bool UpdateB2CMemberInfoPic(B2CMemberDto dto);
-
-        #endregion
-
         /// <summary>
         /// 修改密码
         /// </summary>

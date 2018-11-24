@@ -13,7 +13,6 @@ using EnrolmentPlatform.Project.IBLL.Systems;
 using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
-using EnrolmentPlatform.Project.DTO.Enums.Product;
 
 namespace EnrolmentPlatform.Project.BLL.Systems
 {
@@ -178,62 +177,6 @@ namespace EnrolmentPlatform.Project.BLL.Systems
                 UserName = userInfo.RealName
             };
         }
-
-        #region B2C会员
-
-        /// <summary>
-        /// 获得B2C会员信息
-        /// </summary>
-        /// <param name="memberId"></param>
-        /// <returns></returns>
-        public B2CMemberDto FindB2CMemberInfo(Guid memberId)
-        {
-            var entity = this.AccountRepository.FindEntityById(memberId, Domain.EFContext.E_DbClassify.Write, false);
-            if (entity == null) { return null; }
-            return new B2CMemberDto()
-            {
-                AccountNo = entity.AccountNo,
-                AddressId = entity.AddressId,
-                Birthday = entity.Birthday,
-                Id = entity.Id,
-                Nickname = entity.Nickname,
-                Phone = entity.Phone,
-                Picture = entity.Picture,
-                Pwd = entity.PassWord,
-                Remark = entity.Remark,
-                Sex = entity.Sex
-            };
-        }
-
-        /// <summary>
-        /// 修改B2C会员信息
-        /// </summary>
-        /// <param name="dto">会员信息</param>
-        /// <returns></returns>
-        public bool UpdateB2CMemberInfo(B2CMemberDto dto)
-        {
-            var entity = this.AccountRepository.FindEntityById(dto.Id, Domain.EFContext.E_DbClassify.Write, false);
-            entity.Nickname = dto.Nickname;
-            entity.Remark = dto.Remark;
-            entity.Sex = dto.Sex;
-            entity.Birthday = dto.Birthday;
-            entity.AddressId = dto.AddressId;
-            return this.AccountRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "", false) > 0;
-        }
-
-        /// <summary>
-        /// 修改B2C会员头像
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        public bool UpdateB2CMemberInfoPic(B2CMemberDto dto)
-        {
-            var entity = this.AccountRepository.FindEntityById(dto.Id, Domain.EFContext.E_DbClassify.Write, false);
-            entity.Picture = dto.Picture;
-            return this.AccountRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "", false) > 0;
-        }
-
-        #endregion
 
         /// <summary>
         /// 修改密码  

@@ -225,59 +225,6 @@ namespace EnrolmentPlatform.Project.WebApi.Areas.Accounts
             });
         }
 
-        #region B2C会员
-
-        /// <summary>
-        /// 获得B2C会员信息
-        /// </summary>
-        /// <param name="memberId">会员ID</param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<HttpResponseMessage> FindB2CMemberInfo(Guid memberId)
-        {
-            return await Task.Run(() =>
-            {
-                ResultMsg _resultMsg = new ResultMsg();
-                _resultMsg.IsSuccess = true;
-                _resultMsg.Data = this.UserService.FindB2CMemberInfo(memberId);
-                return _resultMsg.ResponseMessage();
-            });
-        }
-
-        /// <summary>
-        /// 修改B2C会员信息
-        /// </summary>
-        /// <param name="dto">会员信息</param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<HttpResponseMessage> UpdateB2CMemberInfo(B2CMemberDto dto)
-        {
-            return await Task.Run(() =>
-            {
-                ResultMsg _resultMsg = new ResultMsg();
-                _resultMsg.IsSuccess = this.UserService.UpdateB2CMemberInfo(dto);
-                return _resultMsg.ResponseMessage();
-            });
-        }
-
-        /// <summary>
-        /// 修改B2C会员头像
-        /// </summary>
-        /// <param name="dto">会员信息</param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<HttpResponseMessage> UpdateB2CMemberInfoPic(B2CMemberDto dto)
-        {
-            return await Task.Run(() =>
-            {
-                ResultMsg _resultMsg = new ResultMsg();
-                _resultMsg.IsSuccess = this.UserService.UpdateB2CMemberInfoPic(dto);
-                return _resultMsg.ResponseMessage();
-            });
-        }
-
-        #endregion
-
         /// <summary>
         ///   手机号登录 
         /// </summary>

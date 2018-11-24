@@ -39,12 +39,5 @@ namespace EnrolmentPlatform.Project.IDAL.Accounts
         /// </summary>
         /// <returns></returns>
         EnterpriseAddDto GetEnterpriseById(Guid enterpriseId);
-
-        /// <summary>
-        /// 根据供应商id得到是否自营，获取发布产品是否需要审核
-        /// </summary>
-        /// <param name="SupplierId"></param>
-        /// <returns>true:不需要审核  false 需要审核</returns>
-        bool GetSupplierIsNeedAdult(Guid SupplierId);
     }
 }

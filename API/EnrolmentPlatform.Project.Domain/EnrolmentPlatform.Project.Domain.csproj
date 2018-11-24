@@ -54,13 +54,9 @@
     <Compile Include="EFContext\EnrolmentPlatformDbContext.cs" />
     <Compile Include="EFContext\EnrolmentPlatformDbMapping.cs" />
     <Compile Include="Entities\Accounts\T_AccountBasic.cs" />
-    <Compile Include="Entities\Accounts\T_DeliveryAddress.cs" />
     <Compile Include="Entities\Accounts\T_Enterprise.cs" />
     <Compile Include="Entities\Accounts\T_Role.cs" />
     <Compile Include="Entities\Accounts\T_RolePermissionsRelation.cs" />
-    <Compile Include="Entities\Finance\T_OrderSettlement.cs" />
-    <Compile Include="Entities\Finance\T_AccountDetailInfo.cs" />
-    <Compile Include="Entities\Finance\T_OrderSettlementInfo.cs" />
     <Compile Include="Entities\Orders\T_Order.cs" />
     <Compile Include="Entities\Orders\T_OrderAmount.cs" />
     <Compile Include="Entities\Orders\T_OrderImage.cs" />

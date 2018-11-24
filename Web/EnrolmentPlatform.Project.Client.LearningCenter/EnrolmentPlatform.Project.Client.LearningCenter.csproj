@@ -167,8 +167,6 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\Finance\Controllers\PaymentController.cs" />
-    <Compile Include="Areas\Finance\FinanceAreaRegistration.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AccountManageController.cs" />
     <Compile Include="Areas\Setting\Controllers\ChildAccountController.cs" />
@@ -591,7 +589,6 @@
     <Content Include="Content\website\framework\layui\font\iconfont.ttf" />
     <Content Include="Content\website\framework\layui\font\iconfont.woff" />
     <Content Include="Areas\Order\Views\web.config" />
-    <Content Include="Areas\Finance\Views\web.config" />
     <Content Include="Areas\Setting\Views\web.config" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -610,7 +607,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Finance\Models\" />
     <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
     <Folder Include="Areas\Setting\Models\" />
@@ -654,15 +650,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Setting\Views\AccountManage\ModifyForPwd.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Payment\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Payment\SettlementCenter.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Finance\Views\Payment\SettlementsDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_logSettingForTable.cshtml" />
