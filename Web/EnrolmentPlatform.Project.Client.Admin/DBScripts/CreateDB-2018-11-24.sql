@@ -689,3 +689,150 @@ END
 set nocount off
 
 GO
+
+
+/****** Object:  Table [dbo].[T_Metadata]    Script Date: 2018-11-24 22:54:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[T_Metadata](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](200) NOT NULL,
+	[Type] [int] NOT NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_T_METADATA] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[T_SchoolLevelMajor]    Script Date: 2018-11-24 22:54:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[T_SchoolLevelMajor](
+	[Id] [uniqueidentifier] NOT NULL,
+	[ItemId] [uniqueidentifier] NOT NULL,
+	[Type] [int] NOT NULL,
+	[ParentId] [uniqueidentifier] NULL,
+	[IsEnabled] [bit] NOT NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_T_SCHOOLLEVELMAJOR] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[T_ChargeStrategy]    Script Date: 2018-11-24 22:54:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[T_ChargeStrategy](
+	[Id] [uniqueidentifier] NOT NULL,
+	[SchoolMajorId] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](200) NULL,
+	[StartDate] [datetime] NOT NULL,
+	[EndDate] [datetime] NOT NULL,
+	[InstitutionCharge] [decimal](18, 2) NOT NULL,
+	[CenterCharge] [decimal](18, 2) NOT NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_T_CHARGESTRATEGY] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[T_Exam]    Script Date: 2018-11-24 22:54:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[T_Exam](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](200) NOT NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_T_EXAM] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[T_ExamInfo]    Script Date: 2018-11-24 22:54:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[T_ExamInfo](
+	[Id] [uniqueidentifier] NOT NULL,
+	[StudentId] [uniqueidentifier] NOT NULL,
+	[ExamId] [uniqueidentifier] NOT NULL,
+	[StudentNo] [varchar](50) NULL,
+	[UserName] [nvarchar](200) NULL,
+	[ExamPlace] [nvarchar](200) NULL,
+	[MailAddress] [nvarchar](200) NULL,
+	[ReturnAddress] [nvarchar](200) NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_T_EXAMINFO] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
