@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\EnterpriseDto.cs" />
+    <Compile Include="Basics\MetadataDto.cs" />
+    <Compile Include="Enums\Basics\MetadataTypeEnum.cs" />
     <Compile Include="Enums\Enterprise\EnterpriceTypeEnum.cs" />
     <Compile Include="Enums\Enterprise\StatusEnum.cs" />
     <Compile Include="Enums\File\FileClassifyEnum.cs" />

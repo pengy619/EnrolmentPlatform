@@ -47,7 +47,11 @@
   <ItemGroup>
     <Compile Include="Accounts\IT_AccountBasicService.cs" />
     <Compile Include="Accounts\IT_EnterpriseService.cs" />
+    <Compile Include="Basics\IT_ChargeStrategyService.cs" />
+    <Compile Include="Basics\IT_SchoolLevelMajorService.cs" />
+    <Compile Include="Basics\IT_MetadataService.cs" />
     <Compile Include="IBaseService.cs" />
+    <Compile Include="Orders\IT_ExamService.cs" />
     <Compile Include="Orders\IT_OrderService.cs" />
     <Compile Include="Orders\IT_PaymentInfoService.cs" />
     <Compile Include="Orders\IT_PaymentRecordService.cs" />
@@ -81,8 +85,6 @@
       <Name>EnrolmentPlatform.Project.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Basics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
