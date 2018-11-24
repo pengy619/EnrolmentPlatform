@@ -68,12 +68,12 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// 审核人ID
         /// </summary>
         [DataMember]
-        public Guid AuditorId { set; get; }
+        public Guid? AuditorId { set; get; }
 
         /// <summary>
         /// 审核时间
         /// </summary>
         [DataMember]
-        public DateTime AuditTime { set; get; }
+        public DateTime? AuditTime { set; get; }
     }
 }
