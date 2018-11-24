@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EnrolmentPlatform.Project.Domain.Entities.Orders
 {
+    /// <summary>
+    /// 订单表
+    /// </summary>
     [Serializable]
     [Table("T_Order")]
     [DataContract]
@@ -150,5 +153,11 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public decimal TuitionStandard { set; get; }
+
+        /// <summary>
+        /// 所有图片是否都上传完成
+        /// </summary>
+        [DataMember]
+        public bool AllOrderImageUpload { set; get; }
     }
 }

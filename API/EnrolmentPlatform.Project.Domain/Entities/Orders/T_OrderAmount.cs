@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EnrolmentPlatform.Project.Domain.Entities.Orders
 {
+    /// <summary>
+    /// 订单金额
+    /// </summary>
     [Serializable]
     [Table("T_Order")]
     [DataContract]

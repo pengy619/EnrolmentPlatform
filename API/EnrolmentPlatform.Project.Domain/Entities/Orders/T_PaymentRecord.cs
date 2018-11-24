@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EnrolmentPlatform.Project.Domain.Entities.Orders
 {
     /// <summary>
-    /// 缴费登记ID
+    /// 缴费登记信息
     /// </summary>
     [Serializable]
     [Table("T_PaymentRecord")]
