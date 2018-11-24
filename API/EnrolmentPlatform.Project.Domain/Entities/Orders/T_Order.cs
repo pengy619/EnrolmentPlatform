@@ -74,24 +74,24 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string Remark { set; get; }
 
         /// <summary>
-        /// 状态（1:暂存(草稿) 2:保存(待审核) 3:通过 4:确认）
+        /// 状态（1：草稿, 2：提交 3：已退学，4：已拒绝，5：已报名，6：录取提交，7：录取拒绝，8：已录取）
         /// </summary>
         public int Status { set; get; }
 
         /// <summary>
-        /// 来源渠道
+        /// 来源机构（没有的话就是渠道添加的）
         /// </summary>
-        public Guid FromChannelId { set; get; }
+        public Guid? FromChannelId { set; get; }
 
         /// <summary>
-        /// 来源机构
+        /// 添加来源类型（机构，个人）
         /// </summary>
-        public Guid FromInstitutionId { set; get; }
+        public string FromTypeName { set; get; }
 
         /// <summary>
         /// 报送学习中心
         /// </summary>
-        public Guid ToLearningCenterId { set; get; }
+        public Guid? ToLearningCenterId { set; get; }
 
         /// <summary>
         /// 毕业院校
@@ -121,16 +121,11 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// <summary>
         /// 考试日期
         /// </summary>
-        public DateTime ExamDate { set; get; }
+        public DateTime? ExamDate { set; get; }
 
         /// <summary>
         /// 学费标准
         /// </summary>
         public decimal TuitionStandard { set; get; }
-
-        /// <summary>
-        /// 是否录取
-        /// </summary>
-        public bool IsEnroll { set; get; }
     }
 }

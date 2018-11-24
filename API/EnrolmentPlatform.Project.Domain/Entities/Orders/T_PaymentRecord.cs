@@ -37,9 +37,14 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string FilePath { set; get; }
 
         /// <summary>
-        /// 登记机构ID
+        /// 支付发起方（1：机构，2：渠道）
         /// </summary>
-        public Guid InstitutionId { set; get; }
+        public int PaymentSource { set; get; }
+
+        /// <summary>
+        /// 支付发起ID
+        /// </summary>
+        public Guid? PaymentSourceId { set; get; }
 
         /// <summary>
         /// 状态（1:待审核 2:已审核 3:审核拒绝）

@@ -76,6 +76,7 @@
     <Compile Include="Finance\T_AccountDetailInfoRepository.cs" />
     <Compile Include="Finance\T_OrderSettlementInfoRepository.cs" />
     <Compile Include="Finance\T_OrderSettlementRepository.cs" />
+    <Compile Include="Orders\T_OrderAmountRepository.cs" />
     <Compile Include="Orders\T_OrderRepository.cs" />
     <Compile Include="Orders\T_PaymentInfoRepository.cs" />
     <Compile Include="Orders\T_PaymentRecordRepository.cs" />
