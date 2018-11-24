@@ -105,7 +105,7 @@
       <FileName>Entities\Systems\T_LogSettingDetail.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_SystemBasicSetting" Collapsed="true">
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.T_SystemBasicSetting">
     <Position X="36.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAAAQA=</HashCode>
@@ -154,7 +154,7 @@
       <FileName>Entities\Orders\T_OrderImage.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Orders.T_PaymentInfo" Collapsed="true">
+  <Class Name="EnrolmentPlatform.Project.Domain.Entities.Orders.T_PaymentInfo">
     <Position X="45.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAABAAAAAAAAA=</HashCode>
