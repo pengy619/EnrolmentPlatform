@@ -65,6 +65,9 @@
     <Compile Include="BaseService.cs" />
     <Compile Include="Finance\T_AccountDetailInfoService.cs" />
     <Compile Include="Finance\T_OrderSettlementService.cs" />
+    <Compile Include="Orders\T_OrderService.cs" />
+    <Compile Include="Orders\T_PaymentInfoService.cs" />
+    <Compile Include="Orders\T_PaymentRecordService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\T_DepartmentService.cs" />
     <Compile Include="Systems\T_PositionService.cs" />
@@ -104,8 +107,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Orders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

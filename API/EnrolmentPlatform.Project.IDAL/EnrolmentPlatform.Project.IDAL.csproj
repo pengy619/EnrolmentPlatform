@@ -52,6 +52,9 @@
     <Compile Include="Finance\IT_OrderSettlementRepository.cs" />
     <Compile Include="IBaseRepository.cs" />
     <Compile Include="IDbContextFactory.cs" />
+    <Compile Include="Orders\IT_OrderRepository.cs" />
+    <Compile Include="Orders\IT_PaymentInfoRepository.cs" />
+    <Compile Include="Orders\IT_PaymentRecordRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\IT_DepartmentRepository.cs" />
     <Compile Include="Systems\IT_PositionRepository.cs" />
@@ -78,8 +81,6 @@
       <Name>EnrolmentPlatform.Project.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Orders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

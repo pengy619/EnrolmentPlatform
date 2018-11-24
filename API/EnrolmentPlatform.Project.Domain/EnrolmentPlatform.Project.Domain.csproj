@@ -61,6 +61,9 @@
     <Compile Include="Entities\Finance\T_OrderSettlement.cs" />
     <Compile Include="Entities\Finance\T_AccountDetailInfo.cs" />
     <Compile Include="Entities\Finance\T_OrderSettlementInfo.cs" />
+    <Compile Include="Entities\Orders\T_Order.cs" />
+    <Compile Include="Entities\Orders\T_PaymentInfo.cs" />
+    <Compile Include="Entities\Orders\T_PaymentRecord.cs" />
     <Compile Include="Entities\Systems\T_File.cs" />
     <Compile Include="Entities\Systems\T_Department.cs" />
     <Compile Include="Entities\Systems\T_Job.cs" />
@@ -84,8 +87,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\Orders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

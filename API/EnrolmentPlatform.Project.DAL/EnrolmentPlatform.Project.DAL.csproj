@@ -76,6 +76,9 @@
     <Compile Include="Finance\T_AccountDetailInfoRepository.cs" />
     <Compile Include="Finance\T_OrderSettlementInfoRepository.cs" />
     <Compile Include="Finance\T_OrderSettlementRepository.cs" />
+    <Compile Include="Orders\T_OrderRepository.cs" />
+    <Compile Include="Orders\T_PaymentInfoRepository.cs" />
+    <Compile Include="Orders\T_PaymentRecordRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\T_DepartmentRepository.cs" />
     <Compile Include="Systems\T_PositionRepository.cs" />
@@ -110,8 +113,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Orders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
