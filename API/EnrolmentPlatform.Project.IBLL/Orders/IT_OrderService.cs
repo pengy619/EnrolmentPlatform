@@ -15,5 +15,11 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="dto"></param>
         /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败</returns>
         int AddOrder(OrderDto dto);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        int GetOrder();
     }
 }

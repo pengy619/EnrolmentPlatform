@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac;
 using EnrolmentPlatform.Project.Infrastructure;
 using log4net.Config;
 
@@ -14,6 +16,7 @@ namespace EnrolmentPlatform.Project.Client.Admin
     {
         protected void Application_Start()
         {
+            this.BuildContainer();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -21,6 +24,23 @@ namespace EnrolmentPlatform.Project.Client.Admin
             XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("~/Configs/Log4net.config")));
             //WebApiHelper api = new WebApiHelper();
             //api.HttpClientPreheat();
+        }
+
+        public void BuildContainer()
+        {
+            var builder = new ContainerBuilder();
+            #region DAL程序集注入
+            var dalAssembly = Assembly.Load("EnrolmentPlatform.Project.DAL");
+            builder.RegisterAssemblyTypes(dalAssembly).AsImplementedInterfaces();
+            #endregion
+
+            #region BLL程序集注入
+            var bllAssembly = Assembly.Load("EnrolmentPlatform.Project.BLL");
+            builder.RegisterAssemblyTypes(bllAssembly).AsImplementedInterfaces();
+            #endregion
+
+            var container = builder.Build();
+            DIContainer.RegisterContainer(container);
         }
     }
 }

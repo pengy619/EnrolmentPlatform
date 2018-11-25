@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.LearningCenter.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
+using EnrolmentPlatform.Project.IBLL.Orders;
+using EnrolmentPlatform.Project.Infrastructure;
 
 namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
 {
@@ -101,5 +103,11 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
                 return this.LoginInfo.IsMaster;
             }
         }
+
+        #region Service
+
+        public static IT_OrderService orderService = DIContainer.Resolve<IT_OrderService>();
+
+        #endregion
     }
 }

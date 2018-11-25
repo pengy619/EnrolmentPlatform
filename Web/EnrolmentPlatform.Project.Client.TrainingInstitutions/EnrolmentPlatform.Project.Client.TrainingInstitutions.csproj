@@ -50,6 +50,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extras.DynamicProxy">
+      <HintPath>..\..\packages\Autofac.Extras.DynamicProxy.4.4.0\lib\net45\Autofac.Extras.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -651,7 +663,22 @@
     <Content Include="Content\Website\framework\layui\font\iconfont.woff" />
     <Content Include="Content\Website\js\kindeditor-4.1.10\asp.net\file_manager_json.ashx" />
     <Content Include="Content\Website\js\kindeditor-4.1.10\asp.net\upload_json.ashx" />
+    <Content Include="app.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">
+      <Project>{45f8f2ac-ad7c-4ba2-8636-79a1d826d111}</Project>
+      <Name>EnrolmentPlatform.Project.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.DAL\EnrolmentPlatform.Project.DAL.csproj">
+      <Project>{f8fd30b5-23f5-445a-af11-f94b9170ade5}</Project>
+      <Name>EnrolmentPlatform.Project.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.IBLL\EnrolmentPlatform.Project.IBLL.csproj">
+      <Project>{240e802d-14f3-45fc-8168-51080dc8fe64}</Project>
+      <Name>EnrolmentPlatform.Project.IBLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

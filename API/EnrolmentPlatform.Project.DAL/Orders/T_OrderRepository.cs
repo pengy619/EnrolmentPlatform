@@ -131,5 +131,15 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             #endregion
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetOrder()
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            return dbContext.T_Enterprise.Count();
+        }
     }
 }

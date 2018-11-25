@@ -12,7 +12,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
     /// 订单金额
     /// </summary>
     [Serializable]
-    [Table("T_Order")]
+    [Table("T_OrderAmount")]
     [DataContract]
     public class T_OrderAmount:Entity
     {
