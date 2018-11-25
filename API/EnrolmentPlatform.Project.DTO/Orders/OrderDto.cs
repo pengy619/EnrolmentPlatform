@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EnrolmentPlatform.Project.DTO.Enums.Orders;
 
 namespace EnrolmentPlatform.Project.DTO.Orders
 {
@@ -140,5 +141,178 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户Id
         /// </summary>
         public Guid UserId { set; get; }
+    }
+
+    /// <summary>
+    /// 订单列表基础DTO
+    /// </summary>
+    public class OrderListBasicInfoDto
+    {
+        /// <summary>
+        /// 订单ID
+        /// </summary>
+        public Guid OrderId { set; get; }
+
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        public string StudentName { set; get; }
+
+        /// <summary>
+        /// 报名批次
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
+        /// 报考学校
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 报读层次
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 报读专业
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public int Status { set; get; }
+
+        /// <summary>
+        /// 报名时间
+        /// </summary>
+        public DateTime CreateTime { set; get; }
+
+        /// <summary>
+        /// 招生老师
+        /// </summary>
+        public string CreateUserName { set; get; }
+    }
+
+    /// <summary>
+    /// 订单列表DTO
+    /// </summary>
+    public class OrderListDto: OrderListBasicInfoDto
+    {
+        /// <summary>
+        /// 所有图片是否都上传完成
+        /// </summary>
+        public bool AllOrderImageUpload { set; get; }
+
+        /// <summary>
+        /// 报名审核时间
+        /// </summary>
+        public DateTime? EnrollTime { set; get; }
+
+        /// <summary>
+        /// 报送学习中心时间
+        /// </summary>
+        public DateTime? ToLearningCenterTime { set; get; }
+
+        /// <summary>
+        /// 退学时间
+        /// </summary>
+        public DateTime? LeaveTime { set; get; }
+
+        /// <summary>
+        /// 录取时间
+        /// </summary>
+        public DateTime? JoinTime { set; get; }
+
+        /// <summary>
+        /// 是否报名提交
+        /// </summary>
+        public bool IsSubmit
+        {
+            get
+            {
+                return this.EnrollTime.HasValue == true;
+            }
+        }
+
+        /// <summary>
+        /// 是否报送学习中心
+        /// </summary>
+        public bool IsToLearningCenter
+        {
+            get
+            {
+                return this.ToLearningCenterTime.HasValue == true;
+            }
+        }
+
+        /// <summary>
+        /// 是否录取
+        /// </summary>
+        public bool IsJoin
+        {
+            get
+            {
+                return this.JoinTime.HasValue == true;
+            }
+        }
+
+        /// <summary>
+        /// 是否退学
+        /// </summary>
+        public bool IsLeave
+        {
+            get
+            {
+                return this.LeaveTime
+.HasValue == true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 订单列表请求DTO
+    /// </summary>
+    public class OrderListReqDto : GridDataRequest
+    {
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        public string StudentName { set; get; }
+
+        /// <summary>
+        /// 学生电话
+        /// </summary>
+        public string Phone { set; get; }
+
+        /// <summary>
+        /// 身份证号
+        /// </summary>
+        public string IDCard { set; get; }
+
+        /// <summary>
+        /// 创建老师
+        /// </summary>
+        public string CreateUserName { set; get; }
+
+        /// <summary>
+        /// 报考学校
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 报读层次
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime? DateFrom { set; get; }
+
+        /// <summary>
+        /// 结束时间
+        /// </summary>
+        public DateTime? DateTo { set; get; }
     }
 }

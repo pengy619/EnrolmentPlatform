@@ -246,13 +246,13 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
-        /// 报送中心（直接是录取）
+        /// 报送中心
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
         /// <param name="toLearningCenterId">报送的学习中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        public bool JoinSubmit(List<Guid> orderIdList, Guid toLearningCenterId,Guid userId)
+        public bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId,Guid userId)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -268,9 +268,10 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             break;
                         }
 
-                        entity.Status = (int)OrderStatusEnum.Join;
+                        //已报送中心
+                        entity.Status = (int)OrderStatusEnum.ToLearningCenter;
                         entity.ToLearningCenterId = toLearningCenterId;
-                        entity.JoinTime = DateTime.Now;
+                        entity.ToLearningCenterTime = DateTime.Now;
                         entity.LastModifyTime = DateTime.Now;
                         entity.LastModifyUserId = userId;
                         this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学习中心", true, entity.Id.ToString());

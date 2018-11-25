@@ -101,6 +101,12 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public DateTime? EnrollTime { set; get; }
 
         /// <summary>
+        /// 报送学习中心时间
+        /// </summary>
+        [DataMember]
+        public DateTime? ToLearningCenterTime { set; get; }
+
+        /// <summary>
         /// 退学时间
         /// </summary>
         [DataMember]

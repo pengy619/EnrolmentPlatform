@@ -53,13 +53,13 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         bool SubmitOrder(List<Guid> orderIdList, Guid userId);
 
         /// <summary>
-        /// 报送中心（直接是录取）
+        /// 报送中心
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
         /// <param name="toLearningCenterId">报送的学习中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        bool JoinSubmit(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId);
+        bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId);
 
         /// <summary>
         /// 退学

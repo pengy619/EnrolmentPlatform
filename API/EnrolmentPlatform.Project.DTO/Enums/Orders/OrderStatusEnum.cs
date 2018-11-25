@@ -43,10 +43,10 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         Enroll = 4,
 
         /// <summary>
-        /// 录取提交
+        /// 已报送中心
         /// </summary>
-        [Description("录取提交")]
-        JoinSubmit = 5,
+        [Description("已报送中心")]
+        ToLearningCenter = 5,
 
         /// <summary>
         /// 录取拒绝
