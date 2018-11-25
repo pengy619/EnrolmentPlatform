@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "学校管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap white-bg">
+    <div id="btnBar">
+        <button data-type="add" id="add" class="layui-btn layui-btn-normal layui-btn-small add">+添加</button>
+        <button data-type="delete" id="delete" class="layui-btn layui-btn-danger layui-btn-small a4">删除</button>
+        <button data-type="config" id="config" class="layui-btn layui-btn-small a4">配置层次及专业</button>
+    </div>
+    <div>
+        <table id="schooltable" lay-filter="school"></table>
+    </div>
+</div>
+<script type="text/html" id="operat">
+    <i class="layui-icon" lay-event="update" style="font-size: 20px;color: #009688;">&#xe642;</i>
+</script>
+
+<script>
+    var isSubmit = true;
+    layui.use(['table', 'form'], function () {
+        var table = layui.table, form = layui.form;
+        //第一个实例
+        table.render({
+            id: 'sid'
+            , elem: '#schooltable'
+            , url: '@Url.Action("MetadataList", "Metadata", new { Type= MetadataTypeEnum.School })'
+            , page: true //开启分页
+            , cols: [[ //标题栏
+                { title: '学校信息', colspan: 4 } //rowspan即纵向跨越的单元格数
+            ], [ //标题栏
+                { type: 'checkbox' }
+                , { type: 'numbers', title: '序号' }
+                , { field: 'Name', title: '学校名称' }
+                , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
+            ]]
+        });
+
+        //监听工具条
+        table.on('tool(school)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'update') {
+                layer.prompt({
+                    value: data.Name,
+                    title: '修改学校',
+                }, function (value, index, elem) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: "@Url.Action("UpdateMetadata", "Metadata")",
+                            type: "post",
+                            data: { Id: data.Id, Name: value },
+                            dataType: "json",
+                            success: function (res) {
+                                if (res.IsSuccess) {
+                                    layer.msg("保存成功", {
+                                        icon: 1
+                                        , time: 1000
+                                    }, function () {
+                                        table.reload('sid');
+                                        layer.close(index);
+                                    });
+                                } else {
+                                    layer.msg(res.Info, {
+                                        icon: 2
+                                        , time: 2000
+                                    });
+                                }
+                            },
+                            complete: function () {
+                                isSubmit = true;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        var active = {
+            delete: function () { //获取选中数据
+                var checkStatus = table.checkStatus('sid')
+                    , data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg("请选择要删除的数据");
+                } else {
+                    var idArr = new Array();
+                    $.each(data, function (k, v) {
+                        idArr.push(v.Id);
+                    })
+                    layer.open({
+                        title: "删除操作"
+                        , content: '您确认要删除吗？'
+                        , btn: ['确认', '取消']
+                        , yes: function (index, layero) {
+                            $.ajax({
+                                url: '@Url.Action("DeleteMetadata", "Metadata")',
+                                data: { idList: idArr },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function (data) {
+                                    layer.msg(data.Info);
+                                    if (data.IsSuccess) {
+                                        setTimeout(function () {
+                                            document.location.reload();
+                                        }, 800);
+                                    }
+                                }
+                            })
+                        }
+                        , btn2: function (index, layero) {
+                            layer.closeAll();
+                        }
+                    });
+                }
+            },
+            config: function () { //获取选中数据
+                var checkStatus = table.checkStatus('sid')
+                    , data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg("请选择要配置的数据");
+                } else if (data.length > 1) {
+                    layer.msg("请选择单行数据");
+                } else {
+                    var jsonArr = JSON.stringify(data);
+                    var json = JSON.parse(jsonArr);
+                    layer.open({
+                        type: 2
+                        , area: ['40%', '60%']
+                        , title: "配置层次及专业"
+                        , content: 'http://39.105.69.173:8088/edu-sys/school/configPage.html?id=' + json[0].id
+                    });
+                }
+            },
+            add: function () {
+                layer.prompt({ title: '添加学校' }, function (value, index, elem) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: "@Url.Action("AddMetadata", "Metadata")",
+                            type: "post",
+                            data: { Name: value, Type: "@MetadataTypeEnum.School" },
+                            dataType: "json",
+                            success: function (res) {
+                                if (res.IsSuccess) {
+                                    layer.msg("保存成功", {
+                                        icon: 1
+                                        , time: 1000
+                                    }, function () {
+                                        table.reload('sid');
+                                        layer.close(index);
+                                    });
+                                } else {
+                                    layer.msg(res.Info, {
+                                        icon: 2
+                                        , time: 2000
+                                    });
+                                }
+                            },
+                            complete: function () {
+                                isSubmit = true;
+                            }
+                        });
+                    }
+                });
+            }
+        };
+        $('#delete,#add,#config').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+    });
+</script>
+

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EnrolmentPlatform.Project.DTO.Enums.Basics
 {
     /// <summary>
-    /// 基础数据类型
+    /// 元数据类型
     /// </summary>
     public enum MetadataTypeEnum
     {
@@ -34,6 +34,6 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Basics
         /// 批次
         /// </summary>
         [Description("批次")]
-        Batch = 3
+        Batch = 4
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
+using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 namespace EnrolmentPlatform.Project.Client.Admin.Controllers
@@ -98,6 +99,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         #region Service
 
         public static IT_OrderService orderService = DIContainer.Resolve<IT_OrderService>();
+
+        public static IT_MetadataService metadataService = DIContainer.Resolve<IT_MetadataService>();
 
         #endregion
     }

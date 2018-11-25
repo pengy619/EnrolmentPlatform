@@ -9,6 +9,7 @@ using EnrolmentPlatform.Project.DTO.Basics;
 using EnrolmentPlatform.Project.DTO.Enums.Basics;
 using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IDAL.Basics;
+using EnrolmentPlatform.Project.IDAL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
 using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
@@ -18,14 +19,16 @@ namespace EnrolmentPlatform.Project.BLL.Basics
     public class T_MetadataService : IT_MetadataService, IInterceptorLogic
     {
         private IT_MetadataRepository metadataRepository;
+        private IT_OrderRepository orderRepository;
 
         public T_MetadataService()
         {
             this.metadataRepository = DIContainer.Resolve<IT_MetadataRepository>();
+            this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
         }
 
         /// <summary>
-        /// 添加基础数据
+        /// 添加元数据
         /// </summary>
         /// <returns></returns>
         public ResultMsg Add(MetadataDto dto)
@@ -52,7 +55,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 修改基础数据
+        /// 修改元数据
         /// </summary>
         /// <returns></returns>
         public ResultMsg Update(MetadataDto dto)
@@ -78,14 +81,34 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 删除基础数据
+        /// 删除元数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public ResultMsg Delete(List<Guid> idList)
         {
             ResultMsg _resultMsg = new ResultMsg { IsSuccess = false };
-            _resultMsg.IsSuccess = this.metadataRepository.LogicDeleteBy(t => idList.Contains(t.Id)) > 0;
+            if (orderRepository.Count(t => idList.Contains(t.SchoolId)) > 0)
+            {
+                _resultMsg.Info = "该学校已被使用，不能删除";
+            }
+            else if (orderRepository.Count(t => idList.Contains(t.LevelId)) > 0)
+            {
+                _resultMsg.Info = "该层次已被使用，不能删除";
+            }
+            else if (orderRepository.Count(t => idList.Contains(t.MajorId)) > 0)
+            {
+                _resultMsg.Info = "该专业已被使用，不能删除";
+            }
+            else if (orderRepository.Count(t => idList.Contains(t.BatchId)) > 0)
+            {
+                _resultMsg.Info = "该批次已被使用，不能删除";
+            }
+            else
+            {
+                _resultMsg.IsSuccess = this.metadataRepository.PhysicsDeleteBy(t => idList.Contains(t.Id)) > 0;
+                _resultMsg.Info = "删除成功";
+            }
             return _resultMsg;
         }
 
