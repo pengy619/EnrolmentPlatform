@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.IBLL.Orders;
+using EnrolmentPlatform.Project.IDAL;
 using EnrolmentPlatform.Project.IDAL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 
@@ -14,11 +18,13 @@ namespace EnrolmentPlatform.Project.BLL.Orders
     {
         private IT_OrderRepository orderRepository;
         private IT_OrderImageRepository orderImageRepository;
+        protected IDbContextFactory _dbContextFactory;
 
         public T_OrderService()
         {
             this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
             this.orderImageRepository = DIContainer.Resolve<IT_OrderImageRepository>();
+            this._dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
         }
 
         /// <summary>
@@ -104,19 +110,54 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns></returns>
         public bool UpdateImage(OrderImageDto dto)
         {
-            //获得图片
-            var entity = this.orderImageRepository.LoadEntities(a => a.OrderId == dto.OrderId).FirstOrDefault();
-            entity.BiYeZhengImg = dto.BiYeZhengImg;
-            entity.IDCard1 = dto.IDCard1;
-            entity.IDCard2 = dto.IDCard2;
-            entity.LiangCunLanDiImg = dto.LiangCunLanDiImg;
-            entity.MianKaoJiSuanJiImg = dto.MianKaoJiSuanJiImg;
-            entity.MianKaoYingYuImg = dto.MianKaoYingYuImg;
-            entity.QiTa = dto.QiTa;
-            entity.TouXiang = dto.TouXiang;
-            entity.XueXinWangImg = dto.XueXinWangImg;
-            return this.orderImageRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改报名单", true, entity.Id.ToString())
-                > 0 ? true : false;
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    //获得图片
+                    var entity = this.orderImageRepository.LoadEntities(a => a.OrderId == dto.OrderId).FirstOrDefault();
+                    entity.BiYeZhengImg = dto.BiYeZhengImg;
+                    entity.IDCard1 = dto.IDCard1;
+                    entity.IDCard2 = dto.IDCard2;
+                    entity.LiangCunLanDiImg = dto.LiangCunLanDiImg;
+                    entity.MianKaoJiSuanJiImg = dto.MianKaoJiSuanJiImg;
+                    entity.MianKaoYingYuImg = dto.MianKaoYingYuImg;
+                    entity.QiTa = dto.QiTa;
+                    entity.TouXiang = dto.TouXiang;
+                    entity.XueXinWangImg = dto.XueXinWangImg;
+                    bool ret= this.orderImageRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改报名单照片", true, entity.Id.ToString())
+                        > 0 ? true : false;
+                    if (ret)
+                    {
+                        //如果所有图片都上传了
+                        if (!string.IsNullOrWhiteSpace(dto.BiYeZhengImg) || !string.IsNullOrWhiteSpace(dto.LiangCunLanDiImg)
+                            || !string.IsNullOrWhiteSpace(dto.IDCard1) || !string.IsNullOrWhiteSpace(dto.IDCard2)
+                            || !string.IsNullOrWhiteSpace(dto.MianKaoJiSuanJiImg) || !string.IsNullOrWhiteSpace(dto.MianKaoYingYuImg)
+                            || !string.IsNullOrWhiteSpace(dto.QiTa) || !string.IsNullOrWhiteSpace(dto.TouXiang)
+                            || !string.IsNullOrWhiteSpace(dto.XueXinWangImg))
+                        {
+                            //修改所有图片上传状态
+                            var order = this.orderRepository.FindEntityById(dto.OrderId);
+                            order.AllOrderImageUpload = true;
+                            ret = this.orderRepository.UpdateEntity(order, Domain.EFContext.E_DbClassify.Write, "", false, "") > 0;
+                        }
+                    }
+                    if (ret == true)
+                    {
+                        tran.Commit();
+                        return ret;
+                    }
+
+                    return ret;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
         }
 
         /// <summary>
@@ -162,6 +203,87 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 WorkUnit = entity.WorkUnit
 
             };
+        }
+
+        /// <summary>
+        /// 报名提交（直接为已报名）
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <param name="userId">修改人</param>
+        /// <returns>1：成功，2：失败，3：请将照片完善</returns>
+        public int SubmitOrder(Guid orderId, Guid userId)
+        {
+            var entity = this.orderRepository.FindEntityById(orderId);
+            if (entity == null || entity.Status != (int)OrderStatusEnum.Init)
+            {
+                return 2;
+            }
+
+            //检查照片是否完善
+            if (entity.AllOrderImageUpload == false)
+            {
+                return 3;
+            }
+
+            entity.Status = (int)OrderStatusEnum.Enroll;
+            entity.EnrollTime = DateTime.Now;
+            entity.LastModifyTime = DateTime.Now;
+            entity.LastModifyUserId = userId;
+            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "报名提交", true, entity.Id.ToString())
+               > 0 ? 1 : 2;
+        }
+
+        /// <summary>
+        /// 报送中心（直接是录取）
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <param name="toLearningCenterId">报送的学习中心</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        public bool JoinSubmit(Guid orderId,Guid toLearningCenterId,Guid userId)
+        {
+            var entity = this.orderRepository.FindEntityById(orderId);
+            if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
+            {
+                return false;
+            }
+            entity.Status = (int)OrderStatusEnum.Join;
+            entity.ToLearningCenterId = toLearningCenterId;
+            entity.JoinTime = DateTime.Now;
+            entity.LastModifyTime = DateTime.Now;
+            entity.LastModifyUserId = userId;
+            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学习中心", true, entity.Id.ToString())
+               > 0;
+        }
+
+        /// <summary>
+        /// 退学
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        public bool Leave(Guid orderId, Guid userId)
+        {
+            var entity = this.orderRepository.FindEntityById(orderId);
+            if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
+            {
+                return false;
+            }
+            entity.Status = (int)OrderStatusEnum.LeaveSchool;
+            entity.LeaveTime = DateTime.Now;
+            entity.LastModifyTime = DateTime.Now;
+            entity.LastModifyUserId = userId;
+            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "退学", true, entity.Id.ToString()) > 0;
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <returns></returns>
+        public bool Delete(Guid orderId)
+        {
+            return this.orderRepository.LogicDeleteBy(a => a.Id == orderId) > 0;
         }
     }
 }
