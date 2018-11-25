@@ -54,10 +54,16 @@
     <Compile Include="Enums\Enterprise\EnterpriceTypeEnum.cs" />
     <Compile Include="Enums\Enterprise\StatusEnum.cs" />
     <Compile Include="Enums\File\FileClassifyEnum.cs" />
+    <Compile Include="Enums\Orders\OrderStatusEnum.cs" />
     <Compile Include="Enums\Systems\AddressClassifyEnum.cs" />
     <Compile Include="Enums\Systems\SMSTemplateEnum.cs" />
     <Compile Include="Enums\Systems\SystemBasicSettingEnum.cs" />
     <Compile Include="Enums\Systems\SystemMessageEnum.cs" />
+    <Compile Include="Orders\OrderAmountDto.cs" />
+    <Compile Include="Orders\OrderDto.cs" />
+    <Compile Include="Orders\OrderImageDto.cs" />
+    <Compile Include="Orders\PaymentInfoDto.cs" />
+    <Compile Include="Orders\PaymentRecordDto.cs" />
     <Compile Include="Systems\AddressDto.cs" />
     <Compile Include="Systems\AddressOptionDTO.cs" />
     <Compile Include="Systems\DepartmentDto.cs" />
@@ -91,9 +97,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\Orders\" />
-    <Folder Include="Orders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
