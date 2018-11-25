@@ -41,12 +41,6 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public decimal PayedAmount { set; get; }
 
         /// <summary>
-        /// 未缴金额
-        /// </summary>
-        [DataMember]
-        public decimal UnPayedAmount { set; get; }
-
-        /// <summary>
         /// 待审核金额
         /// </summary>
         [DataMember]

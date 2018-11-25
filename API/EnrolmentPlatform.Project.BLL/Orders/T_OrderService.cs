@@ -317,5 +317,39 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             return this.orderRepository.LogicDeleteBy(a => a.Id == orderId) > 0;
         }
+
+        /// <summary>
+        /// 获得报名列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        public List<OrderListDto> GetStudentList(OrderListReqDto req, ref int reCount)
+        {
+            return this.orderRepository.GetStudentList(req, ref reCount);
+        }
+
+        /// <summary>
+        /// 获得报名照片列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        public List<OrderImageListDto> GetStudentImageList(OrderListReqDto req, ref int reCount)
+        {
+            return this.orderRepository.GetStudentImageList(req, ref reCount);
+        }
+
+        /// <summary>
+        /// 获得报名缴费列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="paymentSource">支付发起方（1：招生机构，2：学习中心）</param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        public List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, int paymentSource, ref int reCount)
+        {
+            return this.orderRepository.GetStudentPaymentList(req, paymentSource, ref reCount);
+        }
     }
 }

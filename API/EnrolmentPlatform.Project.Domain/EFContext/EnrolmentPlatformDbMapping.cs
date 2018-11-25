@@ -31,6 +31,7 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
 
         //配置
         public DbSet<T_ChargeStrategy> T_ChargeStrategy { set; get; }
+        public DbSet<T_Metadata> T_Metadata { set; get; }
 
         //订单
         public DbSet<T_Order> T_Order { get; set; }

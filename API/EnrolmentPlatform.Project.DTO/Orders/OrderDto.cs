@@ -197,7 +197,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
     /// <summary>
     /// 订单列表DTO
     /// </summary>
-    public class OrderListDto: OrderListBasicInfoDto
+    public class OrderListDto : OrderListBasicInfoDto
     {
         /// <summary>
         /// 所有图片是否都上传完成
@@ -271,6 +271,89 @@ namespace EnrolmentPlatform.Project.DTO.Orders
     }
 
     /// <summary>
+    /// 订单图片列表DTO
+    /// </summary>
+    public class OrderImageListDto : OrderListBasicInfoDto
+    {
+        /// <summary>
+        /// 身份证正面
+        /// </summary>
+        public string IDCard1 { set; get; }
+
+        /// <summary>
+        /// 身份证反面
+        /// </summary>
+        public string IDCard2 { set; get; }
+
+        /// <summary>
+        /// 两寸蓝底
+        /// </summary>
+        public string LiangCunLanDiImg { set; get; }
+
+        /// <summary>
+        /// 毕业证
+        /// </summary>
+        public string BiYeZhengImg { set; get; }
+
+        /// <summary>
+        /// 免考英语
+        /// </summary>
+        public string MianKaoYingYuImg { set; get; }
+
+        /// <summary>
+        /// 免考计算机
+        /// </summary>
+        public string MianKaoJiSuanJiImg { set; get; }
+
+        /// <summary>
+        /// 学信网截图
+        /// </summary>
+        public string XueXinWangImg { set; get; }
+
+        /// <summary>
+        /// 其他
+        /// </summary>
+        public string QiTa { set; get; }
+
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string TouXiang { set; get; }
+    }
+
+    /// <summary>
+    /// 订单付款列表DTO
+    /// </summary>
+    public class OrderPaymentListDto : OrderListBasicInfoDto
+    {
+        /// <summary>
+        /// 总金额
+        /// </summary>
+        public decimal TotalAmount { set; get; }
+
+        /// <summary>
+        /// 已缴金额
+        /// </summary>
+        public decimal PayedAmount { set; get; }
+
+        /// <summary>
+        /// 未缴金额
+        /// </summary>
+        public decimal UnPayedAmount
+        {
+            get
+            {
+                return this.TotalAmount - this.PayedAmount - this.ApprovalAmount;
+            }
+        }
+
+        /// <summary>
+        /// 待审核金额
+        /// </summary>
+        public decimal ApprovalAmount { set; get; }
+    }
+
+    /// <summary>
     /// 订单列表请求DTO
     /// </summary>
     public class OrderListReqDto : GridDataRequest
@@ -314,5 +397,25 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 结束时间
         /// </summary>
         public DateTime? DateTo { set; get; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public OrderStatusEnum? Status { set; get; }
+
+        /// <summary>
+        /// 电子照是否上传完成
+        /// </summary>
+        public bool? AllOrderImageUpload { set; get; }
+
+        /// <summary>
+        /// 招生中心学费是否缴完
+        /// </summary>
+        public bool? ZhaoShengXueFei { set; get; }
+
+        /// <summary>
+        /// 渠道中心学费情况
+        /// </summary>
+        public bool? QuDaoXueFei { set; get; }
     }
 }

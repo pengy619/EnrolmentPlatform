@@ -15,14 +15,14 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         /// <summary>
         /// 草稿
         /// </summary>
-        [Description("学校")]
+        [Description("草稿")]
         Init =0,
 
-        /// <summary>
-        /// 提交
-        /// </summary>
-        [Description("提交")]
-        Submit = 1,
+        ///// <summary>
+        ///// 提交
+        ///// </summary>
+        //[Description("提交")]
+        //Submit = 1,
 
         /// <summary>
         /// 已退学
@@ -30,11 +30,11 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         [Description("已退学")]
         LeaveSchool = 2,
 
-        /// <summary>
-        /// 已拒绝
-        /// </summary>
-        [Description("已拒绝")]
-        Reject = 3,
+        ///// <summary>
+        ///// 已拒绝
+        ///// </summary>
+        //[Description("已拒绝")]
+        //Reject = 3,
 
         /// <summary>
         /// 已报名
@@ -48,11 +48,11 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         [Description("已报送中心")]
         ToLearningCenter = 5,
 
-        /// <summary>
-        /// 录取拒绝
-        /// </summary>
-        [Description("录取拒绝")]
-        JoinReject = 6,
+        ///// <summary>
+        ///// 录取拒绝
+        ///// </summary>
+        //[Description("录取拒绝")]
+        //JoinReject = 6,
 
         /// <summary>
         /// 已录取
