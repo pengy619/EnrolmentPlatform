@@ -88,7 +88,7 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                 Unix = DateTime.Now.ConvertDateTimeInt()
             };
             //添加至EF
-            return this.AddEntity(accountEntity, Domain.EFContext.E_DbClassify.Write, "新增用户【" + accountEntity.AccountNo + "】", true, accountEntity.Id.ToString()) > 0 ? 1 : 3; ;
+            return this.AddEntity(accountEntity, Domain.EFContext.E_DbClassify.Write, "新增用户【" + accountEntity.AccountNo + "】", true, accountEntity.Id.ToString()) > 0 ? 1 : 3;
         }
 
         /// <summary>

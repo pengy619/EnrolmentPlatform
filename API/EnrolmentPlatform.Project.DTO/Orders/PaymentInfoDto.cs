@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EnrolmentPlatform.Project.DTO.Orders
 {
-    class PaymentInfoDto
+    public class PaymentInfoDto
     {
+
     }
 }

@@ -95,6 +95,24 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public int Status { set; get; }
 
         /// <summary>
+        /// 报名审核时间
+        /// </summary>
+        [DataMember]
+        public DateTime? EnrollTime { set; get; }
+
+        /// <summary>
+        /// 退学时间
+        /// </summary>
+        [DataMember]
+        public DateTime? LeaveTime { set; get; }
+
+        /// <summary>
+        /// 录取时间
+        /// </summary>
+        [DataMember]
+        public DateTime? JoinTime { set; get; }
+
+        /// <summary>
         /// 来源机构（没有的话就是渠道添加的）
         /// </summary>
         [DataMember]

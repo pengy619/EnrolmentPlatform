@@ -23,7 +23,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public Guid OrderId { set; get; }
 
         /// <summary>
-        /// 支付发起方（1：机构，2：渠道）
+        /// 支付发起方（1：招生机构，2：学习中心）
         /// </summary>
         [DataMember]
         public int PaymentSource { set; get; }

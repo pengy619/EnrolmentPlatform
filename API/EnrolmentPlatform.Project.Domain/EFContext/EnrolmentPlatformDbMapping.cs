@@ -3,6 +3,7 @@ using EnrolmentPlatform.Project.Domain.Entities;
 using System.Linq;
 using System.Data.Entity.Core.Objects;
 using System.Collections.Generic;
+using EnrolmentPlatform.Project.Domain.Entities.Orders;
 
 namespace EnrolmentPlatform.Project.Domain.EFContext
 {
@@ -28,6 +29,15 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
         public DbSet<T_SystemLoginLog> T_SystemLoginLog { get; set; }
         public DbSet<T_SystemMessage> T_SystemMessage { get; set; }
 
+        //配置
+        public DbSet<T_ChargeStrategy> T_ChargeStrategy { set; get; }
+
+        //订单
+        public DbSet<T_Order> T_Order { get; set; }
+        public DbSet<T_OrderAmount> T_OrderAmount { get; set; }
+        public DbSet<T_OrderImage> T_OrderImage { get; set; }
+        public DbSet<T_PaymentInfo> T_PaymentInfo { get; set; }
+        public DbSet<T_PaymentRecord> T_PaymentRecord { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
