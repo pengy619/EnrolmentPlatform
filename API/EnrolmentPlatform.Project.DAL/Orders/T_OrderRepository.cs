@@ -163,7 +163,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
                         (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
                         (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
-                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value)
+                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
                         select new OrderListDto()
                         {
                             AllOrderImageUpload = a.AllOrderImageUpload,
@@ -236,7 +238,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
                         (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
                         (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
-                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value)
+                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
                         select new OrderImageListDto()
                         {
                             BatchName = bbtemp.Name,
@@ -314,7 +318,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
                         (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
                         (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
-                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value)
+                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
                         select new OrderPaymentListDto()
                         {
                             BatchName = bbtemp.Name,

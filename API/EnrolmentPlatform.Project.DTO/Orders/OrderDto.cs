@@ -417,5 +417,15 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 渠道中心学费情况
         /// </summary>
         public bool? QuDaoXueFei { set; get; }
+
+        /// <summary>
+        /// 来源机构（没有的话就是渠道添加的）
+        /// </summary>
+        public Guid? FromChannelId { set; get; }
+
+        /// <summary>
+        /// 报送学习中心
+        /// </summary>
+        public Guid? ToLearningCenterId { set; get; }
     }
 }
