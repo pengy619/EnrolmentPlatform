@@ -18,9 +18,28 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         int AddOrder(OrderDto dto);
 
         /// <summary>
-        /// 
+        /// 获得报名列表
         /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
         /// <returns></returns>
-        int GetOrder();
+        List<OrderListDto> GetStudentList(OrderListReqDto req, ref int reCount);
+
+        /// <summary>
+        /// 获得报名照片列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        List<OrderImageListDto> GetStudentImageList(OrderListReqDto req, ref int reCount);
+
+        /// <summary>
+        /// 获得报名缴费列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="paymentSource">支付发起方（1：招生机构，2：学习中心）</param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, int paymentSource, ref int reCount);
     }
 }

@@ -40,6 +40,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 Id = Guid.NewGuid(),
                 BatchId = dto.BatchId,
                 AllOrderImageUpload = false,
+                AllQuDaoAmountPayed = false,
+                AllZSZhongXinAmountPayed = false,
                 Email = dto.Email,
                 StudentName = dto.StudentName,
                 IDCardNo = dto.IDCardNo,
@@ -90,7 +92,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 TotalAmount = chargeStrategy.InstitutionCharge,
                 ApprovalAmount = 0,
                 PayedAmount = 0,
-                UnPayedAmount = 0,
                 PaymentSource = 1,
                 CreatorAccount = dto.UserName,
                 CreatorTime = DateTime.Now,
@@ -111,7 +112,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 TotalAmount = chargeStrategy.CenterCharge,
                 ApprovalAmount = 0,
                 PayedAmount = 0,
-                UnPayedAmount = 0,
                 PaymentSource = 2,
                 CreatorAccount = dto.UserName,
                 CreatorTime = DateTime.Now,
@@ -133,13 +133,229 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         }
 
         /// <summary>
-        /// 
+        /// 获得报名列表
         /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
         /// <returns></returns>
-        public int GetOrder()
+        public List<OrderListDto> GetStudentList(OrderListReqDto req,ref int reCount)
         {
+            if (req.DateTo.HasValue)
+            {
+                req.DateTo = req.DateTo.Value.AddDays(1);
+            }
+
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            return dbContext.T_Enterprise.Count();
+            var query = from a in dbContext.T_Order
+                        join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
+                        from bbtemp in btemp.DefaultIfEmpty()
+                        join c in dbContext.T_Metadata on a.SchoolId equals c.Id into ctemp
+                        from cctemp in ctemp.DefaultIfEmpty()
+                        join d in dbContext.T_Metadata on a.LevelId equals d.Id into dtemp
+                        from ddtemp in dtemp.DefaultIfEmpty()
+                        join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
+                        from eetemp in etemp.DefaultIfEmpty()
+                        where (string.IsNullOrWhiteSpace(req.StudentName) || a.StudentName.Contains(req.StudentName)) &&
+                        (string.IsNullOrWhiteSpace(req.Phone) || a.Phone.Contains(req.Phone)) &&
+                        (string.IsNullOrWhiteSpace(req.IDCard) || a.IDCardNo.Contains(req.IDCard)) &&
+                        (string.IsNullOrWhiteSpace(req.CreateUserName) || a.CreatorAccount.Contains(req.CreateUserName)) &&
+                        (req.DateFrom.HasValue == false || a.CreatorTime >= req.DateFrom.Value) &&
+                        (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
+                        (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
+                        (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
+                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
+                        select new OrderListDto()
+                        {
+                            AllOrderImageUpload = a.AllOrderImageUpload,
+                            BatchName = bbtemp.Name,
+                            CreateTime = a.CreatorTime,
+                            CreateUserName = a.CreatorAccount,
+                            EnrollTime = a.EnrollTime,
+                            JoinTime = a.JoinTime,
+                            LeaveTime = a.LeaveTime,
+                            LevelName = ddtemp.Name,
+                            MajorName = eetemp.Name,
+                            OrderId = a.Id,
+                            SchoolName = cctemp.Name,
+                            Status = a.Status,
+                            StudentName = a.StudentName,
+                            ToLearningCenterTime = a.ToLearningCenterTime
+                        };
+
+            //学校
+            if (!string.IsNullOrWhiteSpace(req.SchoolName))
+            {
+                query = query.Where(a => a.SchoolName.Contains(req.SchoolName));
+            }
+
+            //层级
+            if (!string.IsNullOrWhiteSpace(req.LevelName))
+            {
+                query = query.Where(a => a.LevelName.Contains(req.LevelName));
+            }
+
+            reCount = query.Count();
+            if (reCount == 0)
+            {
+                return null;
+            }
+
+            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+        }
+
+        /// <summary>
+        /// 获得报名照片列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        public List<OrderImageListDto> GetStudentImageList(OrderListReqDto req, ref int reCount)
+        {
+            if (req.DateTo.HasValue)
+            {
+                req.DateTo = req.DateTo.Value.AddDays(1);
+            }
+
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var query = from a in dbContext.T_Order
+                        join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
+                        from bbtemp in btemp.DefaultIfEmpty()
+                        join c in dbContext.T_Metadata on a.SchoolId equals c.Id into ctemp
+                        from cctemp in ctemp.DefaultIfEmpty()
+                        join d in dbContext.T_Metadata on a.LevelId equals d.Id into dtemp
+                        from ddtemp in dtemp.DefaultIfEmpty()
+                        join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
+                        from eetemp in etemp.DefaultIfEmpty()
+                        join f in dbContext.T_OrderImage on a.Id equals f.OrderId into ftemp
+                        from fftemp in ftemp.DefaultIfEmpty()
+                        where (string.IsNullOrWhiteSpace(req.StudentName) || a.StudentName.Contains(req.StudentName)) &&
+                        (string.IsNullOrWhiteSpace(req.Phone) || a.Phone.Contains(req.Phone)) &&
+                        (string.IsNullOrWhiteSpace(req.IDCard) || a.IDCardNo.Contains(req.IDCard)) &&
+                        (string.IsNullOrWhiteSpace(req.CreateUserName) || a.CreatorAccount.Contains(req.CreateUserName)) &&
+                        (req.DateFrom.HasValue == false || a.CreatorTime >= req.DateFrom.Value) &&
+                        (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
+                        (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
+                        (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
+                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
+                        select new OrderImageListDto()
+                        {
+                            BatchName = bbtemp.Name,
+                            CreateTime = a.CreatorTime,
+                            CreateUserName = a.CreatorAccount,
+                            LevelName = ddtemp.Name,
+                            MajorName = eetemp.Name,
+                            OrderId = a.Id,
+                            SchoolName = cctemp.Name,
+                            Status = a.Status,
+                            StudentName = a.StudentName,
+                            BiYeZhengImg = fftemp.BiYeZhengImg,
+                            IDCard1 = fftemp.IDCard1,
+                            IDCard2 = fftemp.IDCard2,
+                            LiangCunLanDiImg = fftemp.LiangCunLanDiImg,
+                            MianKaoJiSuanJiImg = fftemp.MianKaoJiSuanJiImg,
+                            MianKaoYingYuImg = fftemp.MianKaoYingYuImg,
+                            QiTa = fftemp.QiTa,
+                            TouXiang = fftemp.TouXiang,
+                            XueXinWangImg = fftemp.XueXinWangImg
+                        };
+
+            //学校
+            if (!string.IsNullOrWhiteSpace(req.SchoolName))
+            {
+                query = query.Where(a => a.SchoolName.Contains(req.SchoolName));
+            }
+
+            //层级
+            if (!string.IsNullOrWhiteSpace(req.LevelName))
+            {
+                query = query.Where(a => a.LevelName.Contains(req.LevelName));
+            }
+
+            reCount = query.Count();
+            if (reCount == 0)
+            {
+                return null;
+            }
+
+            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+        }
+
+        /// <summary>
+        /// 获得报名缴费列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="paymentSource">支付发起方（1：招生机构，2：学习中心）</param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        public List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, int paymentSource, ref int reCount)
+        {
+            if (req.DateTo.HasValue)
+            {
+                req.DateTo = req.DateTo.Value.AddDays(1);
+            }
+
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var query = from a in dbContext.T_Order
+                        join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
+                        from bbtemp in btemp.DefaultIfEmpty()
+                        join c in dbContext.T_Metadata on a.SchoolId equals c.Id into ctemp
+                        from cctemp in ctemp.DefaultIfEmpty()
+                        join d in dbContext.T_Metadata on a.LevelId equals d.Id into dtemp
+                        from ddtemp in dtemp.DefaultIfEmpty()
+                        join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
+                        from eetemp in etemp.DefaultIfEmpty()
+                        join f in dbContext.T_OrderAmount on a.Id equals f.OrderId into ftemp
+                        from fftemp in ftemp.DefaultIfEmpty()
+                        where (string.IsNullOrWhiteSpace(req.StudentName) || a.StudentName.Contains(req.StudentName)) &&
+                        (string.IsNullOrWhiteSpace(req.Phone) || a.Phone.Contains(req.Phone)) &&
+                        (string.IsNullOrWhiteSpace(req.IDCard) || a.IDCardNo.Contains(req.IDCard)) &&
+                        (string.IsNullOrWhiteSpace(req.CreateUserName) || a.CreatorAccount.Contains(req.CreateUserName)) &&
+                        (req.DateFrom.HasValue == false || a.CreatorTime >= req.DateFrom.Value) &&
+                        (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
+                        (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
+                        (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
+                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
+                        select new OrderPaymentListDto()
+                        {
+                            BatchName = bbtemp.Name,
+                            CreateTime = a.CreatorTime,
+                            CreateUserName = a.CreatorAccount,
+                            LevelName = ddtemp.Name,
+                            MajorName = eetemp.Name,
+                            OrderId = a.Id,
+                            SchoolName = cctemp.Name,
+                            Status = a.Status,
+                            StudentName = a.StudentName,
+                            ApprovalAmount = fftemp.ApprovalAmount,
+                            PayedAmount = fftemp.PayedAmount,
+                            TotalAmount = fftemp.TotalAmount
+                        };
+
+            //学校
+            if (!string.IsNullOrWhiteSpace(req.SchoolName))
+            {
+                query = query.Where(a => a.SchoolName.Contains(req.SchoolName));
+            }
+
+            //层级
+            if (!string.IsNullOrWhiteSpace(req.LevelName))
+            {
+                query = query.Where(a => a.LevelName.Contains(req.LevelName));
+            }
+
+            reCount = query.Count();
+            if (reCount == 0)
+            {
+                return null;
+            }
+
+            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
     }
 }

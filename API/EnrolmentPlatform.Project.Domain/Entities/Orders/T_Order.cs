@@ -101,6 +101,12 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public DateTime? EnrollTime { set; get; }
 
         /// <summary>
+        /// 报送学习中心时间
+        /// </summary>
+        [DataMember]
+        public DateTime? ToLearningCenterTime { set; get; }
+
+        /// <summary>
         /// 退学时间
         /// </summary>
         [DataMember]
@@ -171,5 +177,17 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public bool AllOrderImageUpload { set; get; }
+
+        /// <summary>
+        /// 招生中心所有费用是否缴完
+        /// </summary>
+        [DataMember]
+        public bool AllZSZhongXinAmountPayed { set; get; }
+
+        /// <summary>
+        /// 渠道中心所有费用是否缴完
+        /// </summary>
+        [DataMember]
+        public bool AllQuDaoAmountPayed { set; get; }
     }
 }
