@@ -208,52 +208,83 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <summary>
         /// 报名提交（直接为已报名）
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIdList">orderIdList</param>
         /// <param name="userId">修改人</param>
-        /// <returns>1：成功，2：失败，3：请将照片完善</returns>
-        public int SubmitOrder(Guid orderId, Guid userId)
+        /// <returns></returns>
+        public bool SubmitOrder(List<Guid> orderIdList, Guid userId)
         {
-            var entity = this.orderRepository.FindEntityById(orderId);
-            if (entity == null || entity.Status != (int)OrderStatusEnum.Init)
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
-                return 2;
-            }
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.Status != (int)OrderStatusEnum.Init)
+                        {
+                            break;
+                        }
 
-            //检查照片是否完善
-            if (entity.AllOrderImageUpload == false)
-            {
-                return 3;
-            }
+                        entity.Status = (int)OrderStatusEnum.Enroll;
+                        entity.EnrollTime = DateTime.Now;
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "报名提交", true, entity.Id.ToString());
+                    }
 
-            entity.Status = (int)OrderStatusEnum.Enroll;
-            entity.EnrollTime = DateTime.Now;
-            entity.LastModifyTime = DateTime.Now;
-            entity.LastModifyUserId = userId;
-            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "报名提交", true, entity.Id.ToString())
-               > 0 ? 1 : 2;
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
         }
 
         /// <summary>
         /// 报送中心（直接是录取）
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIdList">orderIdList</param>
         /// <param name="toLearningCenterId">报送的学习中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        public bool JoinSubmit(Guid orderId,Guid toLearningCenterId,Guid userId)
+        public bool JoinSubmit(List<Guid> orderIdList, Guid toLearningCenterId,Guid userId)
         {
-            var entity = this.orderRepository.FindEntityById(orderId);
-            if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
-                return false;
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.Status != (int)OrderStatusEnum.Init)
+                        {
+                            break;
+                        }
+
+                        entity.Status = (int)OrderStatusEnum.Join;
+                        entity.ToLearningCenterId = toLearningCenterId;
+                        entity.JoinTime = DateTime.Now;
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学习中心", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
             }
-            entity.Status = (int)OrderStatusEnum.Join;
-            entity.ToLearningCenterId = toLearningCenterId;
-            entity.JoinTime = DateTime.Now;
-            entity.LastModifyTime = DateTime.Now;
-            entity.LastModifyUserId = userId;
-            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学习中心", true, entity.Id.ToString())
-               > 0;
         }
 
         /// <summary>

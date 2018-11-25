@@ -47,19 +47,19 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <summary>
         /// 报名提交（直接为已报名）
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIdList">orderIdList</param>
         /// <param name="userId">修改人</param>
-        /// <returns>1：成功，2：失败，3：请将照片完善</returns>
-        int SubmitOrder(Guid orderId, Guid userId);
+        /// <returns></returns>
+        bool SubmitOrder(List<Guid> orderIdList, Guid userId);
 
         /// <summary>
         /// 报送中心（直接是录取）
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIdList">orderIdList</param>
         /// <param name="toLearningCenterId">报送的学习中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        bool JoinSubmit(Guid orderId, Guid toLearningCenterId, Guid userId);
+        bool JoinSubmit(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId);
 
         /// <summary>
         /// 退学
