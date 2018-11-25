@@ -17,8 +17,6 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            IBLL.Orders.IT_OrderService service = DIContainer.Resolve<IBLL.Orders.IT_OrderService>();
-            var list = service.GetOrder();
             return View();
         }
      
