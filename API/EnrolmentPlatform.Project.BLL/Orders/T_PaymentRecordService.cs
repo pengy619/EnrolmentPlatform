@@ -133,6 +133,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             return this.paymentRecordRepository.LogicDeleteBy(a => a.Id == paymentId) > 0;
         }
 
-        //查看个人缴费记录
+        /// <summary>
+        /// 查看个人缴费记录
+        /// </summary>
+        /// <param name="orderId">报名单ID</param>
+        /// <param name="paymentSource">支付发起方（1：机构，2：渠道）</param>
+        /// <returns></returns>
+        public PaymentUserDetailDto GetUserDetail(Guid orderId, int paymentSource)
+        {
+            return this.paymentRecordRepository.GetUserDetail(orderId, paymentSource);
+        }
     }
 }

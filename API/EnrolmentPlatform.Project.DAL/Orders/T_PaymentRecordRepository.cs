@@ -218,5 +218,65 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             payment.OrderList = orderListQuery.ToList();
             return payment;
         }
+
+        /// <summary>
+        /// 查看个人缴费记录
+        /// </summary>
+        /// <param name="orderId">报名单ID</param>
+        /// <param name="paymentSource">支付发起方（1：机构，2：渠道）</param>
+        /// <returns></returns>
+        public PaymentUserDetailDto GetUserDetail(Guid orderId, int paymentSource)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var query = from a in dbContext.T_Order
+                        join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
+                        from bbtemp in btemp.DefaultIfEmpty()
+                        join c in dbContext.T_Metadata on a.SchoolId equals c.Id into ctemp
+                        from cctemp in ctemp.DefaultIfEmpty()
+                        join d in dbContext.T_Metadata on a.LevelId equals d.Id into dtemp
+                        from ddtemp in dtemp.DefaultIfEmpty()
+                        join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
+                        from eetemp in etemp.DefaultIfEmpty()
+                        join f in dbContext.T_OrderAmount on a.Id equals f.OrderId into ftemp
+                        from fftemp in ftemp.DefaultIfEmpty()
+                        where a.Id == orderId && fftemp.PaymentSource == paymentSource
+                        select new PaymentUserDetailDto()
+                        {
+                            BatchName = bbtemp.Name,
+                            LevelName = ddtemp.Name,
+                            MajorName = eetemp.Name,
+                            OrderId = a.Id,
+                            SchoolName = cctemp.Name,
+                            StudentName = a.StudentName,
+                            ApprovalAmount = fftemp.ApprovalAmount,
+                            PayedAmount = fftemp.PayedAmount,
+                            TotalAmount = fftemp.TotalAmount
+                        };
+            var detail = query.FirstOrDefault();
+            //如果有数据
+            if (detail != null)
+            {
+                var listQuery = from a in dbContext.T_PaymentInfo
+                                join b in dbContext.T_PaymentRecord on a.PaymentRecordId equals b.Id into btemp
+                                from bbtemp in btemp.DefaultIfEmpty()
+                                where a.OrderId == orderId
+                                orderby a.CreatorTime
+                                select new PaymentRecordListDto()
+                                {
+                                    Auditor = bbtemp.Auditor,
+                                    AuditorId = bbtemp.AuditorId,
+                                    AuditTime = bbtemp.AuditTime,
+                                    Id = bbtemp.Id,
+                                    Name = bbtemp.Name,
+                                    Status = bbtemp.Status,
+                                    TotalAmount = bbtemp.TotalAmount,
+                                    Type = bbtemp.Type,
+                                    UserId = bbtemp.CreatorUserId,
+                                    UserName = bbtemp.CreatorAccount
+                                };
+                detail.PaymentRecordList = listQuery.ToList();
+            }
+            return detail;
+        }
     }
 }
