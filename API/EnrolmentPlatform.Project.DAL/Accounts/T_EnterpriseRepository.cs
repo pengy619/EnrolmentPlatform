@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EnrolmentPlatform.Project.Domain.EFContext;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.DTO.Enums;
-using EnrolmentPlatform.Project.DTO.Enums.Enterprise;
-using EnrolmentPlatform.Project.DTO.Enums.File;
 using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
-using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.DAL.Accounts
 {
@@ -72,10 +66,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             #region  基础信息
             T_Enterprise enterprise = new T_Enterprise
             {
-                Address = dto.Address,
-                AddressId = dto.AddressId,
-                Balance = 0,
-                CashPassWord = "",
                 Classify = (int)dto.Classify,
                 Contact = dto.Contact,
                 CreatorAccount = dto.CurUserAccount,
@@ -84,22 +74,15 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                 DeleteTime = DateTime.MaxValue,
                 DeleteUserId = Guid.Empty,
                 EnterpriseName = dto.EnterpriseName,
-                Fax = "无",
                 Id = Guid.NewGuid(),
                 IsDelete = false,
                 LastModifyTime = DateTime.Now,
                 LastModifyUserId = dto.CurUserId,
-                LegalPerson = "无",
                 Phone = dto.Phone,
-                Rate = dto.Rate,
-                DepositAmount = dto.DepositAmount,
                 Remark = dto.Remark,
                 RowVersion = null,
                 Status = (int)StatusBaseEnum.Enabled,
-                TaxNo = "无",
-                Unix = DateTime.Now.ConvertDateTimeInt(),
-                LicenseNo = dto.LicenseNo,
-                BusinessEndDate = dto.BusinessEndDate
+                Unix = DateTime.Now.ConvertDateTimeInt()
             };
 
             dbContext.T_Enterprise.Add(enterprise);
@@ -161,7 +144,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             SupplierEnterpriseGetDto dto = new SupplierEnterpriseGetDto();
             
             dto.Contact = enterprise.Contact;
-            dto.DepositAmount = enterprise.DepositAmount;
             dto.EnterpriseName = enterprise.EnterpriseName;
 
             dto.UserAccount = "";
@@ -183,12 +165,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                 EnterpriseName = enterprise.EnterpriseName,
                 Contact = enterprise.Contact,
                 Phone = enterprise.Phone,
-                AddressId = enterprise.AddressId,
-                Address = enterprise.Address,
-                Rate = enterprise.Rate,
-                DepositAmount = enterprise.DepositAmount,
-                LicenseNo = enterprise.LicenseNo,
-                BusinessEndDate = enterprise.BusinessEndDate,
                 Remark = enterprise.Remark
             };
 

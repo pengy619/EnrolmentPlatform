@@ -5,16 +5,12 @@ using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.IBLL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.Infrastructure;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using EnrolmentPlatform.Project.IDAL.Systems;
-using EnrolmentPlatform.Project.DTO.Enums.File;
-using EnrolmentPlatform.Project.DTO.Enums.Enterprise;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using EnrolmentPlatform.Project.IDAL;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 
 namespace EnrolmentPlatform.Project.BLL.Accounts
 {
@@ -171,16 +167,10 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
                 result.Info = "参数有误！";
                 return result;
             }
-            model.Address = dto.Address;
-            model.AddressId = dto.AddressId;
             model.Contact = dto.Contact;
             model.EnterpriseName = dto.EnterpriseName;
             model.Phone = dto.Phone;
-            model.Rate = dto.Rate;
-            model.DepositAmount = dto.DepositAmount;
             model.Remark = dto.Remark;
-            model.LicenseNo = dto.LicenseNo;
-            model.BusinessEndDate = dto.BusinessEndDate;
             model.LastModifyUserId = dto.CurUserId;
 
             #region 更新数据库
@@ -216,7 +206,7 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
         public ResultMsg ResetSupplierAccountPassword(Guid supplierId)
         {
             ResultMsg _resultMsg = new ResultMsg() { IsSuccess = false };
-            var account = accountRepository.LoadEntities(t => t.Classify == (int)EnterpriceTypeEnum.Supplier && t.EnterpriseId == supplierId && t.IsMaster == true).FirstOrDefault();
+            var account = accountRepository.LoadEntities(t => t.Classify == (int)SystemTypeEnum.LearningCenter && t.EnterpriseId == supplierId && t.IsMaster == true).FirstOrDefault();
             if (account == null)
             {
                 _resultMsg.Info = "参数有误！";

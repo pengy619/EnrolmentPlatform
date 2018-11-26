@@ -8,9 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO.Accounts;
-using EnrolmentPlatform.Project.DTO.Enums.Enterprise;
 using EnrolmentPlatform.Project.Infrastructure;
-using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
 {

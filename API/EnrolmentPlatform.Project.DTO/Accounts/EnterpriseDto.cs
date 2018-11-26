@@ -39,16 +39,6 @@ namespace EnrolmentPlatform.Project.DTO.Accounts
         public string Phone { get; set; }
 
         /// <summary>
-        /// 地址ID
-        /// </summary> 
-        public Guid AddressId { get; set; }
-
-        /// <summary>
-        /// 详细地址
-        /// </summary> 
-        public string Address { get; set; }
-
-        /// <summary>
         /// 登陆账号
         /// </summary> 
         public string UserAccount { get; set; }
@@ -59,44 +49,9 @@ namespace EnrolmentPlatform.Project.DTO.Accounts
         public string UserPwd { get; set; }
 
         /// <summary>
-        /// 费率
-        /// </summary>
-        public decimal Rate { get; set; }
-
-        /// <summary>
-        /// 保证金
-        /// </summary>
-        public decimal DepositAmount { set; get; }
-
-        /// <summary>
-        /// 营业执照编号
-        /// </summary>
-        public string LicenseNo { set; get; }
-
-        /// <summary>
-        ///  营业执照 到期时间
-        /// </summary>·
-        public DateTime? BusinessEndDate { set; get; }
-
-        /// <summary>
         /// 备注
         /// </summary> 
         public string Remark { get; set; }
-
-        /// <summary>
-        /// 营业执照照片
-        /// </summary>
-        public string BusinessLicenseUrl { set; get; }
-
-        /// <summary>
-        /// 身份证正面照片
-        /// </summary>
-        public string IDCardUpwardsUrl { set; get; }
-
-        /// <summary>
-        /// 身份证正面照片
-        /// </summary>
-        public string IDCardReverseUrl { set; get; }
 
         /// <summary>
         /// 用户ID
@@ -120,19 +75,6 @@ namespace EnrolmentPlatform.Project.DTO.Accounts
         public string EnterpriseName { get; set; }
 
         /// <summary>
-        /// 业务类型【1：农户】【2：商户】
-        /// </summary> 
-        public string BusinessType { get; set; }
-        /// <summary>
-        /// 供应商类型
-        /// </summary>
-        public string SupplierType { get; set; }
-        /// <summary>
-        /// 业务范围【1：游乐项目】【2：酒店/民宿】【3：农场品】【4：土特产】
-        /// </summary> 
-        public string BusinessRang { get; set; }
-
-        /// <summary>
         /// 联系人
         /// </summary> 
         public string Contact { get; set; }
@@ -143,69 +85,9 @@ namespace EnrolmentPlatform.Project.DTO.Accounts
         public string Phone { get; set; }
 
         /// <summary>
-        /// 完整地址
-        /// </summary> 
-        public string FullAddress { get; set; }
-
-        /// <summary>
         /// 登陆账号
         /// </summary> 
         public string UserAccount { get; set; }
-
-        /// <summary>
-        /// 结算周期【1：及时】【2：周结】【3：月结】
-        /// </summary>
-        public string SettlementCycle { get; set; }
-
-        /// <summary>
-        /// 费率
-        /// </summary>
-        public decimal Rate { get; set; }
-
-        /// <summary>
-        /// 保证金
-        /// </summary>
-        public decimal DepositAmount { set; get; }
-
-        /// <summary>
-        /// 营业执照照片
-        /// </summary>
-        public string BusinessLicenseUrl { set; get; }
-
-        /// <summary>
-        /// 身份证正面照片
-        /// </summary>
-        public string IDCardUpwardsUrl { set; get; }
-
-        /// <summary>
-        /// 身份证正面照片
-        /// </summary>
-        public string IDCardReverseUrl { set; get; }
-        /// <summary>
-        /// 企业Id
-        /// </summary>
-        public Guid Id { get; set; }
-    }
-
-
-    /// <summary>
-    /// 设置提现密码DTO 
-    /// </summary>
-    public class SetCashPasswordDto
-    {
-        /// <summary>
-        /// 企业ID
-        /// </summary>
-        public Guid EnterpriseId { get; set; }
-        /// <summary>
-        /// 密码
-        /// </summary>
-        public string Password { get; set; }
-
-        /// <summary>
-        /// 操作人Id
-        /// </summary>
-        public Guid OperatorId { get; set; }
     }
 
     /// <summary>
