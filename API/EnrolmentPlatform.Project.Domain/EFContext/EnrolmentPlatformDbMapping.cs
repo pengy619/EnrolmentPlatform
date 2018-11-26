@@ -30,8 +30,9 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
         public DbSet<T_SystemMessage> T_SystemMessage { get; set; }
 
         //配置
+        public DbSet<T_Metadata> T_Metadata { get; set; }
+        public DbSet<T_SchoolLevelMajor> T_SchoolLevelMajor { get; set; }
         public DbSet<T_ChargeStrategy> T_ChargeStrategy { set; get; }
-        public DbSet<T_Metadata> T_Metadata { set; get; }
 
         //订单
         public DbSet<T_Order> T_Order { get; set; }
@@ -39,6 +40,8 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
         public DbSet<T_OrderImage> T_OrderImage { get; set; }
         public DbSet<T_PaymentInfo> T_PaymentInfo { get; set; }
         public DbSet<T_PaymentRecord> T_PaymentRecord { get; set; }
+        public DbSet<T_Exam> T_Exam { get; set; }
+        public DbSet<T_ExamInfo> T_ExamInfo { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

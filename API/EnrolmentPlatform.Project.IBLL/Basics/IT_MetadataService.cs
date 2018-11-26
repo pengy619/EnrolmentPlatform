@@ -13,19 +13,19 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
     public interface IT_MetadataService
     {
         /// <summary>
-        /// 添加基础数据
+        /// 添加元数据
         /// </summary>
         /// <returns></returns>
         ResultMsg Add(MetadataDto dto);
 
         /// <summary>
-        /// 修改基础数据
+        /// 修改元数据
         /// </summary>
         /// <returns></returns>
         ResultMsg Update(MetadataDto dto);
 
         /// <summary>
-        /// 删除基础数据
+        /// 删除元数据
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>

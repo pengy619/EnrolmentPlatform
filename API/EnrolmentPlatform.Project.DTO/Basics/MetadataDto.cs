@@ -4,7 +4,7 @@ using EnrolmentPlatform.Project.DTO.Enums.Basics;
 namespace EnrolmentPlatform.Project.DTO.Basics
 {
     /// <summary>
-    /// 基础数据Dto
+    /// 元数据Dto
     /// </summary>
     public class MetadataDto
     {
@@ -35,7 +35,7 @@ namespace EnrolmentPlatform.Project.DTO.Basics
     }
 
     /// <summary>
-    /// 基础数据查询Dto
+    /// 元数据查询Dto
     /// </summary>
     public class MetadataSearchDto : GridDataRequest
     {
