@@ -8,6 +8,9 @@ using EnrolmentPlatform.Project.DTO.Orders;
 
 namespace EnrolmentPlatform.Project.IDAL.Orders
 {
+    /// <summary>
+    /// 付款单记录
+    /// </summary>
     public interface IT_PaymentRecordRepository : IBaseRepository<T_PaymentRecord>
     {
         /// <summary>
@@ -33,5 +36,13 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// <param name="comment">审核备注</param>
         /// <returns></returns>
         bool Approval(Guid paymentId, bool approved, Guid userId, string userName, string comment);
+
+        /// <summary>
+        /// 查看个人缴费记录
+        /// </summary>
+        /// <param name="orderId">报名单ID</param>
+        /// <param name="paymentSource">支付发起方（1：机构，2：渠道）</param>
+        /// <returns></returns>
+        PaymentUserDetailDto GetUserDetail(Guid orderId, int paymentSource);
     }
 }

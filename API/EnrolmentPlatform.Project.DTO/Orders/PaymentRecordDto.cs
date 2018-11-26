@@ -100,7 +100,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
     public class PaymentOrderInfo
     {
         /// <summary>
-        /// 订单金额
+        /// 订单Id
         /// </summary>
         public Guid OrderId { set; get; }
 
@@ -242,5 +242,72 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 结束时间
         /// </summary>
         public DateTime? DateTo { set; get; }
+    }
+
+    /// <summary>
+    /// 付款单用户明细
+    /// </summary>
+    public class PaymentUserDetailDto
+    {
+        /// <summary>
+        /// 订单Id
+        /// </summary>
+        public Guid OrderId { set; get; }
+
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        public string StudentName { set; get; }
+
+        /// <summary>
+        /// 报名批次
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
+        /// 报考学校
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 报读层次
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 报读专业
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
+        /// 总金额
+        /// </summary>
+        public decimal TotalAmount { set; get; }
+
+        /// <summary>
+        /// 已缴金额
+        /// </summary>
+        public decimal PayedAmount { set; get; }
+
+        /// <summary>
+        /// 待审核金额
+        /// </summary>
+        public decimal ApprovalAmount { set; get; }
+
+        /// <summary>
+        /// 待支付金额
+        /// </summary>
+        public decimal UnPayedAmount
+        {
+            get
+            {
+                return this.TotalAmount - this.PayedAmount - this.ApprovalAmount;
+            }
+        }
+
+        /// <summary>
+        /// 付款单列表
+        /// </summary>
+        public List<PaymentRecordListDto> PaymentRecordList { set; get; }
     }
 }
