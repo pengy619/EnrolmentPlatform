@@ -15,5 +15,21 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// </summary>
         /// <returns></returns>
         string AddPaymentRecord(PaymentRecordDto dto);
+
+        /// <summary>
+        /// 获得缴费登记明细
+        /// </summary>
+        /// <param name="paymentId">付款单ID</param>
+        /// <returns></returns>
+        PaymentRecordDto GetInfo(Guid paymentId);
+
+        /// <summary>
+        /// 缴费登记审核
+        /// </summary>
+        /// <param name="paymentId">paymentId</param>
+        /// <param name="approved">（拒绝和通过）</param>
+        /// <param name="comment">审核备注</param>
+        /// <returns></returns>
+        bool Approval(Guid paymentId, bool approved, string comment);
     }
 }

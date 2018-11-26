@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EnrolmentPlatform.Project.DTO.Enums.Orders;
+using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.DTO.Orders
 {
@@ -86,6 +87,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户Id
         /// </summary>
         public Guid UserId { set; get; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreateTime { set; get; }
     }
 
     /// <summary>
@@ -127,5 +133,114 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 金额
         /// </summary>
         public decimal Amount { set; get; }
+    }
+
+    /// <summary>
+    /// 付款单列表DTO
+    /// </summary>
+    public class PaymentRecordListDto
+    {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public Guid Id { set; get; }
+
+        /// <summary>
+        /// 缴费名称
+        /// </summary>
+        public string Name { set; get; }
+
+        /// <summary>
+        /// 缴费类型（1:普通缴费  2:尾款）
+        /// </summary>
+        public int Type { set; get; }
+
+        /// <summary>
+        /// 缴费类型名称
+        /// </summary>
+        public string TypeName
+        {
+            get
+            {
+                return EnumDescriptionHelper.GetDescription((PaymentTypeEnum)this.Type);
+            }
+        }
+
+        /// <summary>
+        /// 缴费金额
+        /// </summary>
+        public decimal TotalAmount { set; get; }
+
+        /// <summary>
+        /// 状态（1:待审核 2:已审核 3:审核拒绝）
+        /// </summary>
+        public int Status { set; get; }
+
+        /// <summary>
+        /// 缴费类型名称
+        /// </summary>
+        public string StatusName
+        {
+            get
+            {
+                return EnumDescriptionHelper.GetDescription((PaymentStatusEnum)this.Status);
+            }
+        }
+
+        /// <summary>
+        /// 审核人
+        /// </summary>
+        public string Auditor { set; get; }
+
+        /// <summary>
+        /// 审核人ID
+        /// </summary>
+        public Guid? AuditorId { set; get; }
+
+        /// <summary>
+        /// 审核时间
+        /// </summary>
+        public DateTime? AuditTime { set; get; }
+
+        /// <summary>
+        /// 用户名称
+        /// </summary>
+        public string UserName { set; get; }
+
+        /// <summary>
+        /// 创建用户Id
+        /// </summary>
+        public Guid UserId { set; get; }
+    }
+
+    /// <summary>
+    /// 付款单列表请求DTO
+    /// </summary>
+    public class PaymentRecordListReqDto : GridDataRequest
+    {
+        /// <summary>
+        /// 缴费名称
+        /// </summary>
+        public string Name { set; get; }
+
+        /// <summary>
+        /// 支付发起方（1：机构，2：渠道）
+        /// </summary>
+        public int? PaymentSource { set; get; }
+
+        /// <summary>
+        /// 支付发起ID
+        /// </summary>
+        public Guid? PaymentSourceId { set; get; }
+
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime? DateFrom { set; get; }
+
+        /// <summary>
+        /// 结束时间
+        /// </summary>
+        public DateTime? DateTo { set; get; }
     }
 }
