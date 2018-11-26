@@ -104,12 +104,19 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         /// </summary>
         /// <param name="paymentId">paymentId</param>
         /// <param name="approved">（拒绝和通过）</param>
+        /// <param name="userId">userId</param>
+        /// <param name="userName">userName</param>
         /// <param name="comment">审核备注</param>
         /// <returns></returns>
-        public bool Approval(Guid paymentId, bool approved, string comment)
+        public bool Approval(Guid paymentId, bool approved, Guid userId, string userName, string comment)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var payment = dbContext.T_PaymentRecord.Find(paymentId);
+            payment.Auditor = userName;
+            payment.AuditorId = userId;
+            payment.AuditTime = DateTime.Now;
+            payment.LastModifyTime = DateTime.Now;
+            payment.LastModifyUserId = userId;
             //审核通过
             if (approved == true)
             {

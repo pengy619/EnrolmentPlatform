@@ -107,13 +107,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// </summary>
         /// <param name="paymentId">paymentId</param>
         /// <param name="approved">（拒绝和通过）</param>
+        /// <param name="userId">userId</param>
+        /// <param name="userName">userName</param>
         /// <param name="comment">审核备注</param>
         /// <returns></returns>
-        public bool Approval(Guid paymentId, bool approved, string comment)
+        public bool Approval(Guid paymentId, bool approved,Guid userId,string userName, string comment)
         {
             try
             {
-                return this.paymentRecordRepository.Approval(paymentId, approved, comment);
+                return this.paymentRecordRepository.Approval(paymentId, approved, userId, userName, comment);
             }
             catch
             {
@@ -121,7 +123,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             }
         }
 
-        //缴费登记删除
+        /// <summary>
+        /// 缴费登记删除
+        /// </summary>
+        /// <param name="paymentId">paymentId</param>
+        /// <returns></returns>
+        public bool Delete(Guid paymentId)
+        {
+            return this.paymentRecordRepository.LogicDeleteBy(a => a.Id == paymentId) > 0;
+        }
 
         //查看个人缴费记录
     }
