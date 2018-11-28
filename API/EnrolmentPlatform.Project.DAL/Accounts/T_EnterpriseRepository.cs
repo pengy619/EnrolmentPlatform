@@ -31,9 +31,8 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
         public GridDataResponse GetSupplierPageList(SupplierSearchDto param)
         {
             var res = new GridDataResponse();
-            int _classfiy = (int)SystemTypeEnum.LearningCenter; //供应商类型企业
             var _dbcontext = base.GetDbContext();
-            var _tIQueryable = from a in _dbcontext.T_Enterprise.Where(t => t.IsDelete == false && t.Classify == _classfiy)
+            var _tIQueryable = from a in _dbcontext.T_Enterprise.Where(t => t.IsDelete == false && t.Classify == (int)param.Classify)
                                join b in _dbcontext.T_AccountBasic.Where(t => t.IsMaster == true)
                                on a.Id equals b.EnterpriseId
                                where (param.Status.HasValue ? a.Status == param.Status.Value : true)
@@ -45,6 +44,7 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                                    SupplierName = a.EnterpriseName,
                                    LoginAccount = b.AccountNo,
                                    Contact = a.Contact,
+                                   Phone = a.Phone,
                                    Status = a.Status
                                };
 

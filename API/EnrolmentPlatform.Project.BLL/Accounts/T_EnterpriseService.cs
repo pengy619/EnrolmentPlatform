@@ -206,7 +206,7 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
         public ResultMsg ResetSupplierAccountPassword(Guid supplierId)
         {
             ResultMsg _resultMsg = new ResultMsg() { IsSuccess = false };
-            var account = accountRepository.LoadEntities(t => t.Classify == (int)SystemTypeEnum.LearningCenter && t.EnterpriseId == supplierId && t.IsMaster == true).FirstOrDefault();
+            var account = accountRepository.LoadEntities(t => t.EnterpriseId == supplierId && t.IsMaster == true).FirstOrDefault();
             if (account == null)
             {
                 _resultMsg.Info = "参数有误！";

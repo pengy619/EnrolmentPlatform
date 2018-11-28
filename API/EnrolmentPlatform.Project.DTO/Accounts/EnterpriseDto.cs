@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EnrolmentPlatform.Project.DTO.Enums;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.DTO.Accounts
@@ -116,6 +117,11 @@ namespace EnrolmentPlatform.Project.DTO.Accounts
         public string Contact { get; set; }
 
         /// <summary>
+        /// 联系电话
+        /// </summary>
+        public string Phone { get; set; }
+
+        /// <summary>
         /// 状态【1：未启用】【2：启用】
         /// </summary>
         public int Status { get; set; }
@@ -134,6 +140,11 @@ namespace EnrolmentPlatform.Project.DTO.Accounts
     /// </summary>
     public class SupplierSearchDto : GridDataRequest
     {
+        /// <summary>
+        /// 类型
+        /// </summary> 
+        public SystemTypeEnum Classify { get; set; }
+
         /// <summary>
         /// 启用状态
         /// </summary>
