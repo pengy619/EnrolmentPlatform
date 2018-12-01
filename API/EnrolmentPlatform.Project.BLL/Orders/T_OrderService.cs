@@ -311,11 +311,11 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIds">orderIds</param>
         /// <returns></returns>
-        public bool Delete(Guid orderId)
+        public bool Delete(Guid[] orderIds)
         {
-            return this.orderRepository.LogicDeleteBy(a => a.Id == orderId) > 0;
+            return this.orderRepository.LogicDeleteBy(a => orderIds.Contains(a.Id)) > 0;
         }
 
         /// <summary>

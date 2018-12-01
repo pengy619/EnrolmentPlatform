@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EnrolmentPlatform.Project.DTO.Enums.Orders;
+using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.DTO.Orders
 {
@@ -184,9 +185,31 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public int Status { set; get; }
 
         /// <summary>
+        /// 状态名称
+        /// </summary>
+        public string StatusName
+        {
+            get
+            {
+                return EnumDescriptionHelper.GetDescription((OrderStatusEnum)this.Status);
+            }
+        }
+
+        /// <summary>
         /// 报名时间
         /// </summary>
         public DateTime CreateTime { set; get; }
+
+        /// <summary>
+        /// 报名时间
+        /// </summary>
+        public string CreateTimeStr
+        {
+            get
+            {
+                return this.CreateTime.ToString("yyyy-MM-dd");
+            }
+        }
 
         /// <summary>
         /// 招生老师

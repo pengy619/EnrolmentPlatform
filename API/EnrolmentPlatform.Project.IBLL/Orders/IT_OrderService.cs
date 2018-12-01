@@ -72,9 +72,9 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIds">orderIds</param>
         /// <returns></returns>
-        bool Delete(Guid orderId);
+        bool Delete(Guid [] orderIds);
 
         /// <summary>
         /// 获得报名列表
