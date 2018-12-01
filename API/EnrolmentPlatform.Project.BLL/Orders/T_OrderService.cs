@@ -291,21 +291,40 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <summary>
         /// 退学
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIdList">orderIdList</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        public bool Leave(Guid orderId, Guid userId)
+        public bool Leave(List<Guid> orderIdList, Guid userId)
         {
-            var entity = this.orderRepository.FindEntityById(orderId);
-            if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
-                return false;
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
+                        {
+                            return false;
+                        }
+                        entity.Status = (int)OrderStatusEnum.LeaveSchool;
+                        entity.LeaveTime = DateTime.Now;
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "退学", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
             }
-            entity.Status = (int)OrderStatusEnum.LeaveSchool;
-            entity.LeaveTime = DateTime.Now;
-            entity.LastModifyTime = DateTime.Now;
-            entity.LastModifyUserId = userId;
-            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "退学", true, entity.Id.ToString()) > 0;
         }
 
         /// <summary>

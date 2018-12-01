@@ -64,10 +64,10 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <summary>
         /// 退学
         /// </summary>
-        /// <param name="orderId">orderId</param>
+        /// <param name="orderIdList">orderIdList</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        bool Leave(Guid orderId, Guid userId);
+        bool Leave(List<Guid> orderIdList, Guid userId);
 
         /// <summary>
         /// 删除
