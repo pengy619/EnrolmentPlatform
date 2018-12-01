@@ -21,8 +21,9 @@
     {
         if (item.Level == 3)
         {
+            string url = Url.Action(item.Action, item.Controller, new { area = item.Area });
             <li class='layui-nav-item @(curMenuId==item.Id?"active":"")'>
-                <a href="@Url.Action(item.Action, item.Controller, new { area = item.Area })">
+                <a href="@url">
                     <i class="iconfont @item.Icon"></i><span>@item.Name</span>
                 </a>
             </li>

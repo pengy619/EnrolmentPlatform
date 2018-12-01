@@ -177,7 +177,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
-    <Compile Include="Areas\Payment\Controllers\PaymentController.cs" />
+    <Compile Include="Areas\Payment\Controllers\ManagerController.cs" />
+    <Compile Include="Areas\Payment\PaymentAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AccountManageController.cs" />
     <Compile Include="Areas\Setting\Controllers\LogController.cs" />
     <Compile Include="Areas\Setting\Controllers\RolesController.cs" />
@@ -666,7 +667,7 @@
     <Content Include="Content\Website\js\kindeditor-4.1.10\asp.net\upload_json.ashx" />
     <Content Include="app.config" />
     <Content Include="Areas\Order\Views\Manager\Index.cshtml" />
-    <Content Include="Areas\Payment\Views\Payment\Index.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
