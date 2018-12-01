@@ -2,6 +2,53 @@
     ViewBag.Title = "付款单列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" id="RoleStatus" name="RoleStatus" value="" title="全部" checked=""><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>全部</div></div>
+                        <input type="radio" name="RoleStatus" value="1" title="已禁用"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>已禁用</div></div>
+                        <input type="radio" name="RoleStatus" value="2" title="已启用"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>已启用</div></div>
+                    </div>
+                </div>
+                <div class="layui-form-item ">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">角色</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="txtRoleName" id="txtRoleName" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <button class="layui-btn layui-btn-warm" type="button" data-type="reload" lay-submit="" lay-filter="s">查询</button>
+                </div>
+                <a href="/Setting/Roles/Option?parentId=6" class="layui-btn ">新建</a>
+                <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="d">删除</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="roles-table" lay-filter="table"></table><div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-1" style=" ">
+                <div class="layui-table-box"><div class="layui-table-header"><table cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-skin="line"><thead><tr><th data-field="RoleId" data-unresize="true"><div class="layui-table-cell laytable-cell-1-RoleId laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div></div></th><th data-field="RoleName"><div class="layui-table-cell laytable-cell-1-RoleName"><span>角色</span></div></th><th data-field="StatusName"><div class="layui-table-cell laytable-cell-1-StatusName"><span>是否启用</span></div></th><th data-field="3"><div class="layui-table-cell laytable-cell-1-3"><span>操作</span></div></th></tr></thead></table></div><div class="layui-table-body layui-table-main"><table cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-skin="line"><tbody><tr data-index="0" class=""><td data-field="RoleId"><div class="layui-table-cell laytable-cell-1-RoleId laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div></div></td><td data-field="RoleName"><div class="layui-table-cell laytable-cell-1-RoleName">超级管理员</div></td><td data-field="StatusName"><div class="layui-table-cell laytable-cell-1-StatusName">已启用</div></td><td data-field="3" data-off="true"><div class="layui-table-cell laytable-cell-1-3"> <a class="layui-btn layui-btn-primary layui-btn-xs" href="/Setting/Roles/Option?roleId=e08275ed-0572-451b-b718-a7233a02e4f6" lay-event="edit">编辑</a> </div></td></tr><tr data-index="1" class=""><td data-field="RoleId"><div class="layui-table-cell laytable-cell-1-RoleId laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div></div></td><td data-field="RoleName"><div class="layui-table-cell laytable-cell-1-RoleName">窗口售票员</div></td><td data-field="StatusName"><div class="layui-table-cell laytable-cell-1-StatusName">已启用</div></td><td data-field="3" data-off="true"><div class="layui-table-cell laytable-cell-1-3"> <a class="layui-btn layui-btn-primary layui-btn-xs" href="/Setting/Roles/Option?roleId=5e282058-e8fe-4113-9969-b3338dad95fe" lay-event="edit">编辑</a> </div></td></tr><tr data-index="2" class=""><td data-field="RoleId"><div class="layui-table-cell laytable-cell-1-RoleId laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div></div></td><td data-field="RoleName"><div class="layui-table-cell laytable-cell-1-RoleName">游客中心主管</div></td><td data-field="StatusName"><div class="layui-table-cell laytable-cell-1-StatusName">已启用</div></td><td data-field="3" data-off="true"><div class="layui-table-cell laytable-cell-1-3"> <a class="layui-btn layui-btn-primary layui-btn-xs" href="/Setting/Roles/Option?roleId=0945cef5-0709-4a2b-a2e2-da194db197ad" lay-event="edit">编辑</a> </div></td></tr></tbody></table></div></div><div class="layui-table-page"><div id="layui-table-page1"><div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-1"><a href="javascript:;" class="layui-laypage-prev layui-disabled" data-page="0"><i class="layui-icon"></i></a><span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span><a href="javascript:;" class="layui-laypage-next layui-disabled" data-page="2"><i class="layui-icon"></i></a><span class="layui-laypage-skip">到第<input type="text" min="1" value="1" class="layui-input">页<button type="button" class="layui-laypage-btn">确定</button></span><span class="layui-laypage-count">共 3 条</span><span class="layui-laypage-limits"><select lay-ignore=""><option value="10">10 条/页</option><option value="20" selected="">20 条/页</option><option value="30">30 条/页</option><option value="40">40 条/页</option><option value="50">50 条/页</option><option value="60">60 条/页</option><option value="70">70 条/页</option><option value="80">80 条/页</option><option value="90">90 条/页</option></select></span></div></div></div>
+                <style>
+                    .laytable-cell-1-RoleId {
+                        width: 62px;
+                    }
 
-<h2>报名单列表</h2>
+                    .laytable-cell-1-RoleName {
+                        width: 376px;
+                    }
+
+                    .laytable-cell-1-StatusName {
+                        width: 689px;
+                    }
+
+                    .laytable-cell-1-3 {
+                        width: 125px;
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+</div>
 
