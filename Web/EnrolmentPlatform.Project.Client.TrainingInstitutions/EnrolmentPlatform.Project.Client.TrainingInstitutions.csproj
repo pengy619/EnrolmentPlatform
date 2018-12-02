@@ -674,6 +674,7 @@
     <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <Content Include="Areas\Setting\Views\AccountManage\Info.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Temp\OrderTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">
