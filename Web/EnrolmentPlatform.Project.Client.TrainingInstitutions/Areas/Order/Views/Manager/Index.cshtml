@@ -62,12 +62,12 @@
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item flex searchMore">
+                <div class="layui-form-item searchMore">
                     <label class="layui-form-label">照片全上传</label>
-                    <div class="layui-input-inline">
+                    <div>
                         <input type="radio" name="AllOrderImageUpload" value="" title="全部" checked>
-                        <input type="radio" name="AllOrderImageUpload" value="true" title="是" checked>
-                        <input type="radio" name="AllOrderImageUpload" value="false" title="否" checked>
+                        <input type="radio" name="AllOrderImageUpload" value="true" title="是">
+                        <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
                 <a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新建</a>
@@ -333,7 +333,7 @@
             , url: '@Url.Action("LogSettingForTable","Home",new { area=""})'
             , cellMinWidth: 180 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-                { field: 'BusinessName', width: 500, title: '日志内容' }
+                { field: 'BusinessName', width: 480, title: '日志内容' }
                 , { field: 'CreatorTime', width: 170, title: '操作时间' }
                 , { field: 'CreatorAccount', width: 120, title: '操作人' }
             ]],

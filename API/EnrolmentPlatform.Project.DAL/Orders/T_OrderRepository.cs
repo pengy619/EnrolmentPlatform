@@ -169,6 +169,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
                         select new OrderListDto()
                         {
@@ -248,6 +249,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
                         select new OrderImageListDto()
                         {
@@ -332,6 +334,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
+                        (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
                         select new OrderPaymentListDto()
                         {
