@@ -89,20 +89,20 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
         [HttpPost]
         public int ModifyForPwdOp(string oldPwd, string newPwd, string code)
         {
-            //如果验证码存在
-            string codeStr = CookieHelper.GetCookieValue("PwdUpdateVeriyCode");
-            if (string.IsNullOrEmpty(codeStr))
-            {
-                //验证码错误
-                return 2;
-            }
+            ////如果验证码存在
+            //string codeStr = CookieHelper.GetCookieValue("PwdUpdateVeriyCode");
+            //if (string.IsNullOrEmpty(codeStr))
+            //{
+            //    //验证码错误
+            //    return 2;
+            //}
 
-            string[] arr = DESEncrypt.Decrypt(codeStr).Split('|');
-            if (arr.Length != 3 || arr[2] != code)
-            {
-                //验证码错误
-                return 2;
-            }
+            //string[] arr = DESEncrypt.Decrypt(codeStr).Split('|');
+            //if (arr.Length != 3 || arr[2] != code)
+            //{
+            //    //验证码错误
+            //    return 2;
+            //}
 
             Dictionary<string, string> parames = new Dictionary<string, string>();
             parames.Add("accountId", base.UserId.ToString());
@@ -116,7 +116,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
             //修改成功
             if (ret.IsSuccess == true)
             {
-                CookieHelper.ClearCookie("PwdUpdateVeriyCode");
+                //CookieHelper.ClearCookie("PwdUpdateVeriyCode");
                 return 1;
             }
             return 3;

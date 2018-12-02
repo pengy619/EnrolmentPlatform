@@ -17,6 +17,23 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Setting.Co
     public class AccountManageController : BaseController
     {
         /// <summary>
+        /// 账户信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Info()
+        {
+            //信息获取
+            var ret = WebApiHelper.Get<HttpResponseMsg>(
+                "/api/Enterprise/GetSupplierInfo", ""
+                , "supplierId=" + this.EnterpriseId.ToString(),
+               ConfigurationManager.AppSettings["StaffId"].ToInt());
+            SupplierEnterpriseGetDto dto = ret.Data.ToString().ToObject<SupplierEnterpriseGetDto>();
+            dto.UserAccount = this.UserAccount;
+            ViewBag.EntityData = dto;
+            return View();
+        }
+
+        /// <summary>
         /// 修改密码
         /// </summary>
         /// <returns></returns>
@@ -71,20 +88,20 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Setting.Co
         [HttpPost]
         public int ModifyForPwdOp(string oldPwd, string newPwd, string code)
         {
-            //如果验证码存在
-            string codeStr = CookieHelper.GetCookieValue("TouristCenterPwdUpdateVeriyCode");
-            if (string.IsNullOrEmpty(codeStr))
-            {
-                //验证码错误
-                return 2;
-            }
+            ////如果验证码存在
+            //string codeStr = CookieHelper.GetCookieValue("TouristCenterPwdUpdateVeriyCode");
+            //if (string.IsNullOrEmpty(codeStr))
+            //{
+            //    //验证码错误
+            //    return 2;
+            //}
 
-            string[] arr = DESEncrypt.Decrypt(codeStr).Split('|');
-            if (arr.Length != 3 || arr[2]!=code)
-            {
-                //验证码错误
-                return 2;
-            }
+            //string[] arr = DESEncrypt.Decrypt(codeStr).Split('|');
+            //if (arr.Length != 3 || arr[2]!=code)
+            //{
+            //    //验证码错误
+            //    return 2;
+            //}
 
             Dictionary<string, string> parames = new Dictionary<string, string>();
             parames.Add("accountId", base.UserId.ToString());
@@ -98,7 +115,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Setting.Co
             //修改成功
             if (ret.IsSuccess == true)
             {
-                CookieHelper.ClearCookie("TouristCenterPwdUpdateVeriyCode");
+                //CookieHelper.ClearCookie("TouristCenterPwdUpdateVeriyCode");
                 return 1;
             }
             return 3;

@@ -1,6 +1,6 @@
 ﻿@model EnterpriseAddDto
 @{
-    ViewBag.Title = "基础信息";
+    ViewBag.Title = Model.EnterpriseId.IsEmpty() ? "添加招生机构" : "编辑招生机构";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
