@@ -62,6 +62,14 @@
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">照片全上传</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="AllOrderImageUpload" value="" title="全部" checked>
+                        <input type="radio" name="AllOrderImageUpload" value="true" title="是" checked>
+                        <input type="radio" name="AllOrderImageUpload" value="false" title="否" checked>
+                    </div>
+                </div>
                 <a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新建</a>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>
@@ -381,6 +389,9 @@
             if (searchData.DateTo != "") {
                 url += "&DateTo" + searchData.DateTo;
             }
+            if (searchData.AllOrderImageUpload != "") {
+                url += "&AllOrderImageUpload" + searchData.AllOrderImageUpload;
+            }
             $("#export").attr("target", "_blank");
             $("#export").attr("href", url);
         }
@@ -409,7 +420,8 @@
             SchoolName: $("#SchoolName").val(),
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
-            DateTo: dateTo
+            DateTo: dateTo,
+            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
         };
     }
 </script>
