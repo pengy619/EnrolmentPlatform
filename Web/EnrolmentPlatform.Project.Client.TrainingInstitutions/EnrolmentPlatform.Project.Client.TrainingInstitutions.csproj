@@ -669,6 +669,7 @@
     <Content Include="Areas\Order\Views\Manager\Index.cshtml" />
     <Content Include="Areas\Payment\Views\Manager\Index.cshtml" />
     <Content Include="Areas\Payment\Views\web.config" />
+    <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>

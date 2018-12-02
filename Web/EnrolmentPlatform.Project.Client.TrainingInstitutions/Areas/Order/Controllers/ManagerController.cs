@@ -22,6 +22,26 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         }
 
         /// <summary>
+        /// 操作界面
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <returns></returns>
+        public ActionResult Option(Guid? orderId)
+        {
+            if (orderId.HasValue)
+            {
+                ViewBag.OrderOnfo = OrderService.GetOrder(orderId.Value);
+            }
+
+            //批次
+            var batchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            //学校
+            var schoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
+
+            return View();
+        }
+
+        /// <summary>
         /// 查询列表
         /// </summary>
         /// <param name="param"></param>
@@ -29,7 +49,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         public string Search(OrderListReqDto param)
         {
             int reCount = 0;
-            List<OrderListDto> list = orderService.GetStudentList(param, ref reCount);
+            List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null)
             {
                 list = new List<OrderListDto>();
@@ -50,7 +70,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         [HttpPost]
         public JsonResult Delete(Guid[] ids)
         {
-            var ret = orderService.Delete(ids);
+            var ret = OrderService.Delete(ids);
             if (ret == true)
             {
                 return Json(new { ret = 1 });
@@ -69,7 +89,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         [HttpPost]
         public JsonResult SubmitOrder(Guid[] ids)
         {
-            var ret = orderService.SubmitOrder(ids.ToList(),this.UserId);
+            var ret = OrderService.SubmitOrder(ids.ToList(),this.UserId);
             if (ret == true)
             {
                 return Json(new { ret = 1 });
@@ -88,7 +108,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         [HttpPost]
         public JsonResult Leave(Guid[] ids)
         {
-            var ret = orderService.Leave(ids.ToList(), this.UserId);
+            var ret = OrderService.Leave(ids.ToList(), this.UserId);
             if (ret == true)
             {
                 return Json(new { ret = 1 });
@@ -97,6 +117,49 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             {
                 return Json(new { ret = 0, msg = "退学失败。" });
             }
+        }
+
+        /// <summary>
+        /// 获得层级数据
+        /// </summary>
+        /// <param name="parentId">父类ID</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetLevelData(Guid parentId)
+        {
+            var list = LevelService.FindSubItemById(parentId);
+            return Json(list);
+        }
+
+        /// <summary>
+        /// 新增订单
+        /// </summary>
+        /// <param name="order">order</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult AddOrder(OrderDto order)
+        {
+            //当前订单信息
+            order.FromTypeName = "机构";
+            order.FromChannelId = this.EnterpriseId;
+            order.UserName = this.UserName;
+            order.UserId = this.UserId;
+
+            //1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入
+            var ret = OrderService.AddOrder(order);
+            if (ret == 2)
+            {
+                return Json(new { ret = false, msg = "找不到当前时间段的价格策略。" });
+            }
+            else if (ret == 3)
+            {
+                return Json(new { ret = false, msg = "添加失败。" });
+            }
+            else if (ret == 4)
+            {
+                return Json(new { ret = false, msg = "同一批次重复录入。" });
+            }
+            return Json(new { ret = true });
         }
     }
 }
