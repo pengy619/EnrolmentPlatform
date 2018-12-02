@@ -1,14 +1,11 @@
 ﻿using System;
+using System.Linq;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.IBLL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.Infrastructure;
-using System.Linq;
-using System.Data.Common;
-using System.Data.Entity.Infrastructure;
-using EnrolmentPlatform.Project.IDAL;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
 
 namespace EnrolmentPlatform.Project.BLL.Accounts

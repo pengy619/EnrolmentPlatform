@@ -5,9 +5,7 @@ using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.DTO.Enums;
-using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.IDAL.Accounts;
-using EnrolmentPlatform.Project.IDAL.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
 
 namespace EnrolmentPlatform.Project.DAL.Accounts
