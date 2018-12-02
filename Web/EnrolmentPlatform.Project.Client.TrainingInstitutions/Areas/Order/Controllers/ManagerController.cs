@@ -22,6 +22,26 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         }
 
         /// <summary>
+        /// 操作界面
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <returns></returns>
+        public ActionResult Option(Guid? orderId)
+        {
+            if (orderId.HasValue)
+            {
+                ViewBag.OrderOnfo = OrderService.GetOrder(orderId.Value);
+            }
+
+            //批次
+            var batchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            //学校
+            var schoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
+
+            return View();
+        }
+
+        /// <summary>
         /// 查询列表
         /// </summary>
         /// <param name="param"></param>
@@ -29,7 +49,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         public string Search(OrderListReqDto param)
         {
             int reCount = 0;
-            List<OrderListDto> list = orderService.GetStudentList(param, ref reCount);
+            List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null)
             {
                 list = new List<OrderListDto>();
@@ -50,7 +70,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         [HttpPost]
         public JsonResult Delete(Guid[] ids)
         {
-            var ret = orderService.Delete(ids);
+            var ret = OrderService.Delete(ids);
             if (ret == true)
             {
                 return Json(new { ret = 1 });
@@ -69,7 +89,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         [HttpPost]
         public JsonResult SubmitOrder(Guid[] ids)
         {
-            var ret = orderService.SubmitOrder(ids.ToList(),this.UserId);
+            var ret = OrderService.SubmitOrder(ids.ToList(),this.UserId);
             if (ret == true)
             {
                 return Json(new { ret = 1 });
@@ -88,7 +108,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         [HttpPost]
         public JsonResult Leave(Guid[] ids)
         {
-            var ret = orderService.Leave(ids.ToList(), this.UserId);
+            var ret = OrderService.Leave(ids.ToList(), this.UserId);
             if (ret == true)
             {
                 return Json(new { ret = 1 });

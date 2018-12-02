@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
+using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 
@@ -107,7 +108,20 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
 
         #region Service
 
-        public static IT_OrderService orderService = DIContainer.Resolve<IT_OrderService>();
+        /// <summary>
+        /// 订单接口
+        /// </summary>
+        public static IT_OrderService OrderService = DIContainer.Resolve<IT_OrderService>();
+
+        /// <summary>
+        /// 基础数据接口
+        /// </summary>
+        public static IT_MetadataService MetadataService= DIContainer.Resolve<IT_MetadataService>();
+
+        /// <summary>
+        /// 层级接口
+        /// </summary>
+        public static IT_SchoolLevelMajorService LevelService= DIContainer.Resolve<IT_SchoolLevelMajorService>();
 
         #endregion
     }
