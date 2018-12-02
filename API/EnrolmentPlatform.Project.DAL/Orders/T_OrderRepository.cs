@@ -159,7 +159,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ddtemp in dtemp.DefaultIfEmpty()
                         join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
                         from eetemp in etemp.DefaultIfEmpty()
-                        where (noStudentName || a.StudentName.Contains(req.StudentName)) &&
+                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
                         (noCreateName || a.CreatorAccount.Contains(req.CreateUserName)) &&
@@ -206,7 +206,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            return query.OrderByDescending(a=>a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
 
         /// <summary>
@@ -222,6 +222,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 req.DateTo = req.DateTo.Value.AddDays(1);
             }
 
+            var noStudentName = string.IsNullOrWhiteSpace(req.StudentName);
+            var noPhone = string.IsNullOrWhiteSpace(req.Phone);
+            var noIdCard = string.IsNullOrWhiteSpace(req.IDCard);
+            var noCreateName = string.IsNullOrWhiteSpace(req.CreateUserName);
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var query = from a in dbContext.T_Order
                         join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
@@ -234,10 +238,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from eetemp in etemp.DefaultIfEmpty()
                         join f in dbContext.T_OrderImage on a.Id equals f.OrderId into ftemp
                         from fftemp in ftemp.DefaultIfEmpty()
-                        where (string.IsNullOrWhiteSpace(req.StudentName) || a.StudentName.Contains(req.StudentName)) &&
-                        (string.IsNullOrWhiteSpace(req.Phone) || a.Phone.Contains(req.Phone)) &&
-                        (string.IsNullOrWhiteSpace(req.IDCard) || a.IDCardNo.Contains(req.IDCard)) &&
-                        (string.IsNullOrWhiteSpace(req.CreateUserName) || a.CreatorAccount.Contains(req.CreateUserName)) &&
+                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
+                        (noPhone || a.Phone.Contains(req.Phone)) &&
+                        (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
+                        (noCreateName || a.CreatorAccount.Contains(req.CreateUserName)) &&
                         (req.DateFrom.HasValue == false || a.CreatorTime >= req.DateFrom.Value) &&
                         (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
                         (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
@@ -302,6 +306,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 req.DateTo = req.DateTo.Value.AddDays(1);
             }
 
+            var noStudentName = string.IsNullOrWhiteSpace(req.StudentName);
+            var noPhone = string.IsNullOrWhiteSpace(req.Phone);
+            var noIdCard = string.IsNullOrWhiteSpace(req.IDCard);
+            var noCreateName = string.IsNullOrWhiteSpace(req.CreateUserName);
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var query = from a in dbContext.T_Order
                         join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
@@ -314,10 +322,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from eetemp in etemp.DefaultIfEmpty()
                         join f in dbContext.T_OrderAmount on a.Id equals f.OrderId into ftemp
                         from fftemp in ftemp.DefaultIfEmpty()
-                        where (string.IsNullOrWhiteSpace(req.StudentName) || a.StudentName.Contains(req.StudentName)) &&
-                        (string.IsNullOrWhiteSpace(req.Phone) || a.Phone.Contains(req.Phone)) &&
-                        (string.IsNullOrWhiteSpace(req.IDCard) || a.IDCardNo.Contains(req.IDCard)) &&
-                        (string.IsNullOrWhiteSpace(req.CreateUserName) || a.CreatorAccount.Contains(req.CreateUserName)) &&
+                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
+                        (noPhone || a.Phone.Contains(req.Phone)) &&
+                        (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
+                        (noCreateName || a.CreatorAccount.Contains(req.CreateUserName)) &&
                         (req.DateFrom.HasValue == false || a.CreatorTime >= req.DateFrom.Value) &&
                         (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
                         (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&

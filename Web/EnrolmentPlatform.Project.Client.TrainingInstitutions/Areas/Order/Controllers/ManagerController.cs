@@ -145,8 +145,17 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             order.UserName = this.UserName;
             order.UserId = this.UserId;
 
+            var ret = 1;
+            if (order.OrderId.HasValue == false)
+            {
+                ret = OrderService.AddOrder(order);
+            }
+            else
+            {
+                ret= OrderService.UpdateOrder(order);
+            }
+
             //1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入
-            var ret = OrderService.AddOrder(order);
             if (ret == 2)
             {
                 return Json(new { ret = false, msg = "找不到当前时间段的价格策略。" });

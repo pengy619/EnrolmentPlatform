@@ -14,7 +14,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">学生姓名</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="StudentName" value='@((dto!=null) ? dto.UserName : "")'>
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="StudentName" value='@((dto!=null) ? dto.StudentName : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
@@ -33,6 +33,12 @@
                 <label class="layui-form-label">微信/QQ</label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="TencentNo" value='@((dto!=null) ? dto.TencentNo : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">邮箱地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="Email" value='@((dto!=null) ? dto.Email : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
@@ -78,8 +84,11 @@
         <div class="panel-body">
             <textarea name="Remark" placeholder="请输入内容" id="Remark" class="layui-textarea">@((dto != null) ? dto.Remark : "")</textarea>
             <div class="margin-top-10">
+                @if (dto == null || Request.QueryString["action"] == "1")
+                {
                 <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
-                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">取消</button>
+                }
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
             </div>
         </div>
     </div>
@@ -98,6 +107,7 @@
             dto.IDCardNo = $("#IDCardNo").val();
             dto.Phone = $("#Phone").val();
             dto.TencentNo = $("#TencentNo").val();
+            dto.Email = $("#Email").val();
             dto.SchoolId = $("#SchoolId").val();
             dto.LevelId = $("#LevelId").val();
             dto.MajorId = $("#MajorId").val();
@@ -131,20 +141,34 @@
             return false;
         });
 
+        //初始加载
+        if ("@(dto!=null?"true":"")" != "") {
+            loadLevel();
+            $("#MajorId").val("@(dto!=null?dto.MajorId.ToString():"")");
+            form.render('select');
+        }
+
         //院校切换
         form.on('select(SchoolId)', function (data) {
+            loadLevel();
+        });
+
+        function loadLevel() {
             $("#LevelId").find("option").remove();
             $("#MajorId").find("option").remove();
-            ChangeSelectData($(data.elem).val(),1);
-        });
+            ChangeSelectData($("#SchoolId").val(), 1);
+            form.render('select');
+        }
 
         //层次切换
         form.on('select(LevelId)', function (data) {
             $("#MajorId").find("option").remove();
-            ChangeSelectData($(data.elem).val(), 2);
+            ChangeSelectData($(data.elem).find("option:selected").attr("childId"), 2);
+            form.render('select');
         });
 
         //修改院校层级专业下拉框数据
+        var levelId = "@(dto!=null?dto.LevelId.ToString():"")";
         function ChangeSelectData(id, type) {
             if (id == "" || id == null || id == undefined) return;
             var data = { parentId: id };
@@ -159,12 +183,15 @@
                     if (result && result.length > 0) {
                         if (type == 1) {
                             //绑定层次
+                            var childId = result[0].Id;
                             for (var i = 0; i < result.length; i++) {
-                                $("#LevelId").append("<option value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
+                                $("#LevelId").append("<option childId='" + result[i].Id + "' value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
+                                if (levelId == result[i].ItemId) {
+                                    $("#LevelId").val(levelId);
+                                    childId = result[i].Id;
+                                }
                             }
-
-                            //绑定专业
-                            ChangeSelectData(result[0].Id, 2);
+                            ChangeSelectData(childId, 2);
                         }
                         else {
                             //绑定专业
@@ -172,6 +199,12 @@
                                 $("#MajorId").append("<option value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
                             }
                         }
+                    }
+                    else {
+                        if (type == 1) {
+                            $("#LevelId").append("<option value=''></option>");
+                        }
+                        $("#MajorId").append("<option value=''></option>");
                     }
                     form.render('select');
                 }
