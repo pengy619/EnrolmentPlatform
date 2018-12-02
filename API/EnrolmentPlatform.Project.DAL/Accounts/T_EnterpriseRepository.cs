@@ -17,12 +17,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
     /// </summary>
     public class T_EnterpriseRepository : BaseRepository<T_Enterprise>, IT_EnterpriseRepository
     {
-        private IT_SystemBasicSettingRepository IT_SystemBasicSettingRepository;
-        public T_EnterpriseRepository()
-        {
-            this.IT_SystemBasicSettingRepository = DIContainer.Resolve<IT_SystemBasicSettingRepository>();
-        }
-
         /// <summary>
         /// 获取供应商列表
         /// </summary>
@@ -80,7 +74,6 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
                 LastModifyUserId = dto.CurUserId,
                 Phone = dto.Phone,
                 Remark = dto.Remark,
-                RowVersion = null,
                 Status = (int)StatusBaseEnum.Enabled,
                 Unix = DateTime.Now.ConvertDateTimeInt()
             };
