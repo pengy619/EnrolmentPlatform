@@ -95,9 +95,9 @@
 </script>
 <script type="text/html" id="tableToolImage">
     {{# if(d.AllOrderImageUpload==true){ }}
-    <img src="~/Content/Website/images/right.png" />" />
+    <img src="/Content/Website/images/right.png" width="24" />" />
     {{# }else{ }}
-    <img src="~/Content/Website/images/delete.png" />
+    <img src="/Content/Website/images/delete.png" width="24" />
     {{# } }}
 </script>
 <script>
@@ -129,7 +129,7 @@
                 , { field: 'SchoolName', title: '院校', width: 150 }
                 , { field: 'LevelName', title: '层次', width: 100 }
                 , { field: 'MajorName', title: '专业', width: 180 }
-                , { field: 'AllOrderImageUpload', title: '电子照', width: 100 }
+                , { title: '电子照', toolbar: '#tableToolImage', width: 100 }
                 , { field: 'StatusName', title: '状态', width: 80 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }
