@@ -74,7 +74,7 @@
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
-                <a href="javascript:alert('没有任何数据可以导出！');" id="export"><button class="layui-btn layui-btn-primary">导出</button></a>
+                <a href="javascript:exportOpreation();" id="export"><button class="layui-btn layui-btn-primary">导出</button></a>
             </div>
         </div>
         <div class="panel-body">
@@ -123,7 +123,7 @@
             , url: '@Url.Action("Search", "Manager")'
             , page: true //开启分页
             , cols: [[ //表头
-                { type: 'checkbox', field: 'RoleId' }
+                { type: 'checkbox' }
                 , { field: 'StudentName', title: '学生姓名', width: 100 }
                 , { field: 'BatchName', title: '批次', width: 130 }
                 , { field: 'SchoolName', title: '院校', width: 150 }
@@ -137,7 +137,6 @@
             ]]
         }
         table.render(tableOptions);
-        exportOpreation();
 
         //删除
         form.on('submit(d)', function (data) {
@@ -364,48 +363,40 @@
 
     //导出按钮处理
     function exportOpreation() {
-        //修改导出按钮数据
-        if ($(".layui-table-main table tr").size() > 0) {
-            //获得查询条件
-            var searchData = getSearchData();
-            var url = "@Url.Action("Export","Manager",new { area="Order"})" + "?1=1";
-            if (searchData.Status != "") {
-                url += "&Status" + searchData.Status;
-            }
-            if (searchData.StudentName != "") {
-                url += "&StudentName" + searchData.StudentName;
-            }
-            if (searchData.Phone != "") {
-                url += "&Phone" + searchData.Phone;
-            }
-            if (searchData.IDCard != "") {
-                url += "&IDCard" + searchData.IDCard;
-            }
-            if (searchData.CreateUserName != "") {
-                url += "&CreateUserName" + searchData.CreateUserName;
-            }
-            if (searchData.SchoolName != "") {
-                url += "&SchoolName" + searchData.SchoolName;
-            }
-            if (searchData.LevelName != "") {
-                url += "&LevelName" + searchData.LevelName;
-            }
-            if (searchData.DateFrom != "") {
-                url += "&DateFrom" + searchData.DateFrom;
-            }
-            if (searchData.DateTo != "") {
-                url += "&DateTo" + searchData.DateTo;
-            }
-            if (searchData.AllOrderImageUpload != "") {
-                url += "&AllOrderImageUpload" + searchData.AllOrderImageUpload;
-            }
-            $("#export").attr("target", "_blank");
-            $("#export").attr("href", url);
+        //获得查询条件
+        var searchData = getSearchData();
+        var url = "@Url.Action("Export","Manager",new { area="Order"})" + "?1=1";
+        if (searchData.Status != "") {
+            url += "&Status=" + searchData.Status;
         }
-        else {
-            $("#export").attr("href", "javascript:alert('没有任何数据可以导出！');");
-            $("#export").removeAttr("target");
+        if (searchData.StudentName != "") {
+            url += "&StudentName=" + searchData.StudentName;
         }
+        if (searchData.Phone != "") {
+            url += "&Phone=" + searchData.Phone;
+        }
+        if (searchData.IDCard != "") {
+            url += "&IDCard=" + searchData.IDCard;
+        }
+        if (searchData.CreateUserName != "") {
+            url += "&CreateUserName=" + searchData.CreateUserName;
+        }
+        if (searchData.SchoolName != "") {
+            url += "&SchoolName=" + searchData.SchoolName;
+        }
+        if (searchData.LevelName != "") {
+            url += "&LevelName=" + searchData.LevelName;
+        }
+        if (searchData.DateFrom != "") {
+            url += "&DateFrom=" + searchData.DateFrom;
+        }
+        if (searchData.DateTo != "") {
+            url += "&DateTo=" + searchData.DateTo;
+        }
+        if (searchData.AllOrderImageUpload != "") {
+            url += "&AllOrderImageUpload=" + searchData.AllOrderImageUpload;
+        }
+        window.open(url);
     }
 
     //获得查询条件
