@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.Infrastructure;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 
 namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
 {
@@ -101,6 +102,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> SaveSupplier(EnterpriseAddDto dto)
         {
+            dto.Classify = SystemTypeEnum.TrainingInstitutions;
             dto.CurUserId = this.UserId;
             dto.CurUserAccount = this.UserAccount;
             if (dto.EnterpriseId.IsEmpty())

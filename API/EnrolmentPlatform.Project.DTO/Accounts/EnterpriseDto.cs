@@ -27,7 +27,7 @@ namespace EnrolmentPlatform.Project.DTO.Accounts
         /// <summary>
         /// 类型
         /// </summary> 
-        public int Classify { get; set; }
+        public SystemTypeEnum Classify { get; set; }
 
         /// <summary>
         /// 联系人

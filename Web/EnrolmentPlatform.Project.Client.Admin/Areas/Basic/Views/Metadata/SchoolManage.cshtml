@@ -4,16 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="main-wrap white-bg">
-    <div id="btnBar">
-        <button data-type="add" id="add" class="layui-btn layui-btn-normal layui-btn-small add">+添加</button>
-        <button data-type="delete" id="delete" class="layui-btn layui-btn-danger layui-btn-small a4">删除</button>
-        <button data-type="config" id="config" class="layui-btn layui-btn-small a4">配置层次及专业</button>
-    </div>
-    <div>
-        <table id="schooltable" lay-filter="school"></table>
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-body">
+            <button data-type="add" id="add" class="layui-btn layui-btn-normal layui-btn-small add">+添加</button>
+            <button data-type="delete" id="delete" class="layui-btn layui-btn-danger layui-btn-small a4">删除</button>
+            <button data-type="config" id="config" class="layui-btn layui-btn-small a4">配置层次及专业</button>
+            <table id="schooltable" lay-filter="school"></table>
+        </div>
     </div>
 </div>
+
 <script type="text/html" id="operat">
     <i class="layui-icon" lay-event="update" style="font-size: 20px;color: #009688;">&#xe642;</i>
 </script>

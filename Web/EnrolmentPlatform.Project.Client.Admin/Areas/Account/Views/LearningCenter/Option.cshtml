@@ -15,7 +15,7 @@
             <div class="panel-body">
                 <div class="layui-form">
                     <div class="layui-form-item required">
-                        <label class="layui-form-label">招生机构</label>
+                        <label class="layui-form-label">学习中心</label>
                         <div class="layui-input-inline">
                             <input type="text" name="EnterpriseName" autocomplete="off" class="layui-input" lay-verify="required" value="@Model.EnterpriseName">
                         </div>
@@ -73,7 +73,7 @@
         </div>
         <div class="layui-form-item">
             <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
-            <a href="@Url.Action("Index", "Supplier")" class="layui-btn layui-btn-primary">取消</a>
+            <a href="@Url.Action("Index", "LearningCenter")" class="layui-btn layui-btn-primary">取消</a>
         </div>
     </div>
 </div>
@@ -97,7 +97,7 @@
                 if (isSubmit) {
                     isSubmit = false;
                     $.ajax({
-                        url: "@Url.Action("SaveSupplier", "Supplier")",
+                        url: "@Url.Action("SaveSupplier", "LearningCenter")",
                         type: "post",
                         data: data.field,
                         dataType: "json",
@@ -107,7 +107,7 @@
                                     icon: 1
                                     , time: 1000
                                 }, function () {
-                                    location.href = "@Url.Action("Index", "Supplier")";
+                                    location.href = "@Url.Action("Index", "LearningCenter")";
                                 });
                             } else {
                                 layer.msg(res.Info, {

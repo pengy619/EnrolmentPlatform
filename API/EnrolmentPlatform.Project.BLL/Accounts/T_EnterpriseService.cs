@@ -10,7 +10,6 @@ using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using EnrolmentPlatform.Project.IDAL;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
-using EnrolmentPlatform.Project.DTO.Enums.Systems;
 
 namespace EnrolmentPlatform.Project.BLL.Accounts
 {
@@ -21,7 +20,6 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
     {
         private IT_EnterpriseRepository repository = null;
         private IT_AccountBasicRepository accountRepository = null;
-        protected IDbContextFactory _dbContextFactory;
 
         public T_EnterpriseService()
         {
@@ -33,9 +31,6 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
         {
             this.CurrentRepository = repository;
             base.AddDisposableObject(base.CurrentRepository);
-
-            _dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
-            base.AddDisposableObject(_dbContextFactory);
             return true;
         }
 
@@ -167,34 +162,12 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
                 result.Info = "参数有误！";
                 return result;
             }
-            model.Contact = dto.Contact;
             model.EnterpriseName = dto.EnterpriseName;
+            model.Contact = dto.Contact;
             model.Phone = dto.Phone;
             model.Remark = dto.Remark;
             model.LastModifyUserId = dto.CurUserId;
-
-            #region 更新数据库
-            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
-            {
-                conn.Open();
-                var tran = conn.BeginTransaction();
-                try
-                {
-                    this.repository.UpdateEntity(model, Domain.EFContext.E_DbClassify.Write, "修改企业资料", true, model.Id.ToString());                    
-                    tran.Commit();
-                    result.IsSuccess = true;
-                    result.Info = string.Empty;
-                }
-                catch (Exception ex)
-                {
-                    result.Info = ex.Message;
-                    tran.Rollback();
-                }
-            }
-
-            #endregion
-
-
+            result.IsSuccess = this.repository.UpdateEntity(model, Domain.EFContext.E_DbClassify.Write, "修改企业资料", true, model.Id.ToString()) > 0;
             return result;
         }
 
