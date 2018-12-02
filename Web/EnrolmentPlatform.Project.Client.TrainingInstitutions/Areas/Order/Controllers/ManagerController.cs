@@ -32,6 +32,8 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         public ActionResult Export(OrderListReqDto param)
         {
             int reCount = 0;
+            param.Page = 1;
+            param.Limit = int.MaxValue;
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null || list.Count == 0)
             {
