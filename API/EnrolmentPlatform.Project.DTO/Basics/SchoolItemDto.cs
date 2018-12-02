@@ -12,6 +12,11 @@ namespace EnrolmentPlatform.Project.DTO.Basics
     public class SchoolItemDto
     {
         /// <summary>
+        /// Id
+        /// </summary>		
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// 项目Id
         /// </summary>		
         public Guid ItemId { get; set; }

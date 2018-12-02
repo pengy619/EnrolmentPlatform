@@ -30,13 +30,13 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             if (orderId.HasValue)
             {
-                ViewBag.OrderOnfo = OrderService.GetOrder(orderId.Value);
+                ViewBag.OrderInfo = OrderService.GetOrder(orderId.Value);
             }
 
             //批次
-            var batchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
             //学校
-            var schoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
+            ViewBag.SchoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
 
             return View();
         }
@@ -137,7 +137,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// <param name="order">order</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult AddOrder(OrderDto order)
+        public JsonResult SaveOrder(OrderDto order)
         {
             //当前订单信息
             order.FromTypeName = "机构";

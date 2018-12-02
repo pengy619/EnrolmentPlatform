@@ -34,6 +34,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                         where a.ParentId == id
                         select new SchoolItemDto
                         {
+                            Id= a.Id,
                             ItemId = b.Id,
                             ItemName = b.Name
                         };
