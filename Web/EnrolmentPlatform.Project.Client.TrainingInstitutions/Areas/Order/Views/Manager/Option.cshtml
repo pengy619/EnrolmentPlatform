@@ -21,12 +21,6 @@
                     <input type="text" class="layui-input" readonly="readonly" onfocus="this.removeAttribute('readonly');" maxlength="20" @Html.Raw(opStatus == 1 ? "lay-verify='required'" : "") id="txtUserAccount" @(opStatus == 2 ? "readonly='readonly'" : "") value='@((opStatus == 2) ? dto.UserAccount : "")'>
                 </div>
             </div>
-            <div class='layui-form-item @(opStatus == 1 ? "required" : "") '>
-                <label class="layui-form-label">登录密码</label>
-                <div class="layui-input-inline">
-                    <input type="password" id="txtPassword" readonly="readonly" onfocus="this.removeAttribute('readonly');" maxlength="20" @Html.Raw(opStatus == 1 ? "lay-verify='password'" : "") class="layui-input">
-                </div>
-            </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">所属角色</label>
                 <div class="layui-input-inline">

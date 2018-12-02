@@ -31,7 +31,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
         }
 
         /// <summary>
-        /// 企业类型 为游客服务中心
+        /// 当前为招生机构ID
         /// </summary>
         public Guid EnterpriseId
         {

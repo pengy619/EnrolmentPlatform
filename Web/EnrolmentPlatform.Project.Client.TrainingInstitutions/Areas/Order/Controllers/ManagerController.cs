@@ -118,5 +118,48 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 return Json(new { ret = 0, msg = "退学失败。" });
             }
         }
+
+        /// <summary>
+        /// 获得层级数据
+        /// </summary>
+        /// <param name="parentId">父类ID</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetLevelData(Guid parentId)
+        {
+            var list = LevelService.FindSubItemById(parentId);
+            return Json(list);
+        }
+
+        /// <summary>
+        /// 新增订单
+        /// </summary>
+        /// <param name="order">order</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult AddOrder(OrderDto order)
+        {
+            //当前订单信息
+            order.FromTypeName = "机构";
+            order.FromChannelId = this.EnterpriseId;
+            order.UserName = this.UserName;
+            order.UserId = this.UserId;
+
+            //1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入
+            var ret = OrderService.AddOrder(order);
+            if (ret == 2)
+            {
+                return Json(new { ret = false, msg = "找不到当前时间段的价格策略。" });
+            }
+            else if (ret == 3)
+            {
+                return Json(new { ret = false, msg = "添加失败。" });
+            }
+            else if (ret == 4)
+            {
+                return Json(new { ret = false, msg = "同一批次重复录入。" });
+            }
+            return Json(new { ret = true });
+        }
     }
 }
