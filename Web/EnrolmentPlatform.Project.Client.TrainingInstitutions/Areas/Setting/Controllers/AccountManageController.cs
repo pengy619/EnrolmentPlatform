@@ -179,7 +179,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Setting.Co
         {
             param.IsMaster = false;
             param.EnterpriseId = this.EnterpriseId;
-            param.SystemType = EnrolmentPlatform.Project.DTO.Enums.Systems.SystemTypeEnum.TrainingInstitutions;
+            param.SystemType = SystemTypeEnum.TrainingInstitutions;
             var data = await WebApiHelper.PostAsync<HttpResponseMsg>(
                 "/api/AccountBasic/GetUserList",
                 JsonConvert.SerializeObject(param),
@@ -195,7 +195,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Setting.Co
         public JsonResult SaveUser(UserDto dto)
         {
             dto.EnterpriseId = this.EnterpriseId;
-            dto.SystemType = EnrolmentPlatform.Project.DTO.Enums.Systems.SystemTypeEnum.TrainingInstitutions;
+            dto.SystemType = SystemTypeEnum.TrainingInstitutions;
             dto.CreateUserId = this.UserId;
             dto.CreateAccount = this.UserAccount;
             var data = WebApiHelper.Post<HttpResponseMsg>(

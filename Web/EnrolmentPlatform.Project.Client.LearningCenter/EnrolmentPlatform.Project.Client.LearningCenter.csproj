@@ -193,6 +193,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RQCodeController.cs" />
+    <Compile Include="Controllers\ValidateCodeController.cs" />
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Filter\AjaxExceptionFilter.cs" />
     <Compile Include="Filter\AuthorityAttribute.cs" />

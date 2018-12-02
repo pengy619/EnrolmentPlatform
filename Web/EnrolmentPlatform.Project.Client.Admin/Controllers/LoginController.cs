@@ -33,8 +33,15 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         /// <param name="pwd">密码</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult LoginOp(string account, string pwd)
+        public JsonResult LoginOp(string account, string pwd, string code)
         {
+            if (!string.IsNullOrWhiteSpace(code))
+            {
+                if (DESEncrypt.Encrypt(code.ToLower()) != CookieHelper.GetCookieValue("CurrentValidateCode"))
+                {
+                    return Json(new { ret = false, msg = "验证码错误" });
+                }
+            }
             //登陆请求DTO
             UserLoginRequestDto loginReq = new UserLoginRequestDto()
             {

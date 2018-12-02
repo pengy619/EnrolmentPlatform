@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Infrastructure;
 
-namespace EnrolmentPlatform.Project.Client.Admin.Controllers
+namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
 {
     public class ValidateCodeController : Controller
     {

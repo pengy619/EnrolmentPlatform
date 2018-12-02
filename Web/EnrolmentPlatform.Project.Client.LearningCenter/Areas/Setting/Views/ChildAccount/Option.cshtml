@@ -54,13 +54,6 @@
                     <input type="radio" name="status" value="1" title="禁用" @((opStatus==2 && dto.Status== EnrolmentPlatform.Project.DTO.Enums.StatusBaseEnum.Disabled) ? "checked" : "")>
                 </div>
             </div>
-            <div class="layui-form-item ">
-                <label class="layui-form-label">登录手持终端机权限</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="pos" lay-filter="pos" value="true" title="是" @((opStatus==2 && dto.IsAllowMobileLogin== true) ? "checked" : "")>
-                    <input type="radio" name="pos" lay-filter="pos" value="false" title="否" @((opStatus==1||(opStatus==2 && dto.IsAllowMobileLogin == false))?"checked":"")>
-                </div>
-            </div>
         </div>
         <div class="panel-title">
             备注

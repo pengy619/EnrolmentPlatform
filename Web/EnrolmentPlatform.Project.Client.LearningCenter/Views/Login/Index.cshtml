@@ -32,6 +32,12 @@
                 <div class="layui-form-item">
                     <input type="password" class="layui-input" id="txtPwd" value="a123456" lay-verify="password" placeholder="密码">
                 </div>
+                <div class="layui-form-item colum" id="validateCode">
+                    <input type="text" id="txtCode" class="layui-input" lay-verify="required" placeholder="验证码">
+                    <div class="verification">
+                        <img id="imgCode" src="@(Url.Action("Index","ValidateCode",new { }))" onclick="this.src='/ValidateCode/Index?timespan='+Math.random()" alt="验证码" />
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn-fluid" lay-filter="login" lay-submit="">登录</button>
                 </div>
@@ -53,6 +59,7 @@
                 var dto = {};
                 dto.account = $("#txtAccount").val();
                 dto.pwd = $("#txtPwd").val();
+                dto.code = $("#txtCode").val();
                 $.ajax({
                     type: "POST",
                     contentType: "application/json;utf-8",
@@ -70,6 +77,7 @@
                             });
                         }
                         else {
+                            $("#imgCode").trigger("click");
                             layer.msg(result.msg, {
                                 icon: 2,
                                 time: 2000

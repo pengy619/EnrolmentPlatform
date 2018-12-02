@@ -43,14 +43,6 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
             ViewBag.OPStatus = 1;
             ViewBag.RoleList = data.Data.ToString().ToObject<List<RoleDto>>();
 
-            //获得供应商资源列表
-            Dictionary<string, string> parames3 = new Dictionary<string, string>();
-            parames3.Add("supplierId", this.SupplierId.ToString());
-            Tuple<string, string> parameters3 = WebApiHelper.GetQueryString(parames3);
-            var data3 = WebApiHelper.Get<HttpResponseMsg>(
-            "/api/AccountBasic/GetSupplierVerificationList", parameters3.Item1, parameters3.Item2,
-            ConfigurationManager.AppSettings["StaffId"].ToInt());
-
             //如果是修改
             if (userId.HasValue)
             {
@@ -72,7 +64,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
         {
             param.IsMaster = false;
             param.EnterpriseId = this.SupplierId;
-            param.SystemType = EnrolmentPlatform.Project.DTO.Enums.Systems.SystemTypeEnum.LearningCenter;
+            param.SystemType = SystemTypeEnum.LearningCenter;
             var data = await WebApiHelper.PostAsync<HttpResponseMsg>(
                 "/api/AccountBasic/GetUserList",
                 JsonConvert.SerializeObject(param),
@@ -88,7 +80,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
         public JsonResult SaveUser(SupplierUserDto dto)
         {
             dto.EnterpriseId = this.SupplierId;
-            dto.SystemType = EnrolmentPlatform.Project.DTO.Enums.Systems.SystemTypeEnum.LearningCenter;
+            dto.SystemType = SystemTypeEnum.LearningCenter;
             dto.CreateUserId = this.UserId;
             dto.CreateAccount = this.UserAccount;
             var data = WebApiHelper.Post<HttpResponseMsg>(

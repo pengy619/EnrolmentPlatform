@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Infrastructure;
 
-namespace ECardPass.ClientForTouristServiceCenter.Controllers
+namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
 {
     public class ValidateCodeController : Controller
     {
@@ -34,7 +34,7 @@ namespace ECardPass.ClientForTouristServiceCenter.Controllers
                 checkCode += code.ToString();
             }
             //过期时间15分钟
-            CookieHelper.SetCookieValue("CurrentValidateCode", DESEncrypt.Encrypt(checkCode), 15);
+            CookieHelper.SetCookieValue("CurrentValidateCode", DESEncrypt.Encrypt(checkCode.ToLower()), 15);
             return checkCode;
         }
 
