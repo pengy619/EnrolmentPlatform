@@ -181,8 +181,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
+    <Compile Include="Areas\Account\Controllers\LearningCenterController.cs" />
     <Compile Include="Areas\Account\Controllers\SupplierController.cs" />
-    <Compile Include="Areas\Account\Controllers\UsersController.cs" />
     <Compile Include="Areas\Basic\BasicAreaRegistration.cs" />
     <Compile Include="Areas\Basic\Controllers\MetadataController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
@@ -649,12 +649,6 @@
     <Content Include="Views\Home\SystemInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Account\Views\Users\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Account\Views\Users\Info.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Account\Views\Supplier\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -703,6 +697,8 @@
     <Content Include="Areas\Basic\Views\Metadata\LevelManage.cshtml" />
     <Content Include="Areas\Basic\Views\Metadata\MajorManage.cshtml" />
     <Content Include="Areas\Basic\Views\Metadata\BatchManage.cshtml" />
+    <Content Include="Areas\Account\Views\LearningCenter\Index.cshtml" />
+    <Content Include="Areas\Account\Views\LearningCenter\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />

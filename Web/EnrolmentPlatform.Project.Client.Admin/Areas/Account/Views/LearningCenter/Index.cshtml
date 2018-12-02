@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "招生机构管理";
+    ViewBag.Title = "学习中心管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="main-wrap">
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item ">
-                        <label class="layui-form-label">招生机构</label>
+                        <label class="layui-form-label">学习中心</label>
                         <div class="layui-input-inline">
                             <input type="text" id="supplierName" autocomplete="off" class="layui-input">
                         </div>
@@ -29,7 +29,7 @@
                 </div>
             </div>*@
         <div class="panel-body">
-            <a href="@Url.Action("Option","Supplier",new { area="Account" })" class="layui-btn layui-btn-normal layui-btn-small">+添加</a>
+            <a href="@Url.Action("Option","LearningCenter",new { area="Account" })" class="layui-btn layui-btn-normal layui-btn-small">+添加</a>
             <button class="layui-btn layui-btn-danger layui-btn-small" data-type="delete">删除</button>
             <table id="supplier-table" lay-filter="table"></table>
         </div>
@@ -51,12 +51,12 @@
         //实例表格
         var tableOptions = {
             elem: '#supplier-table'
-            , url: '@Url.Action("SupplierList", "Supplier", new { Classify = SystemTypeEnum.TrainingInstitutions })'//数据
+            , url: '@Url.Action("SupplierList", "Supplier", new { Classify = SystemTypeEnum.LearningCenter })'//数据
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'checkbox', fixed: 'left' }
                 , { type: 'numbers', title: '序号' }
-                , { field: 'SupplierName', title: '招生机构', }
+                , { field: 'SupplierName', title: '学习中心', }
                 , { field: 'LoginAccount', title: '账号' }
                 , { field: 'Contact', title: '联系人' }
                 , { field: 'Phone', title: '联系电话' }
@@ -84,7 +84,7 @@
                 var checkStatus = table.checkStatus('supplier-table')
                     , data = checkStatus.data;
                 if (data.length == 0) return false;
-                layer.confirm('您确定要删除选中的招生机构吗？', function (index) {
+                layer.confirm('您确定要删除选中的学习中心吗？', function (index) {
                     var ckb_value = [];
                     for (var i = 0; i < data.length; i++) {
                         ckb_value.push(data[i].SupplierId);
@@ -126,9 +126,9 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
             if (layEvent === 'edit') {
-                location.href = "@Url.Action("Option", "Supplier")?supplierId=" + data.SupplierId;
+                location.href = "@Url.Action("Option", "LearningCenter")?supplierId=" + data.SupplierId;
             } else if (layEvent === 'resetPwd') {
-                layer.confirm('您确定要为该招生机构账号重置密码吗？', function (index) {
+                layer.confirm('您确定要为该学习中心账号重置密码吗？', function (index) {
                     var ajaxOption = {
                         url: "@Url.Action("ResetPassword", "Supplier")",
                         type: 'Post',
