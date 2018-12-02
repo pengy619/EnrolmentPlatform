@@ -93,6 +93,13 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=1&orderId={{d.OrderId}}'>编辑</a>
 </script>
+<script type="text/html" id="tableToolImage">
+    {{# if(d.AllOrderImageUpload==true){ }}
+    <img src="~/Content/Website/images/right.png" />" />
+    {{# }else{ }}
+    <img src="~/Content/Website/images/delete.png" />
+    {{# } }}
+</script>
 <script>
     var table, layer, laydate, form;
     layui.use(['jquery', 'table', 'laydate', 'layer'], function () {

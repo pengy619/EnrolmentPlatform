@@ -305,11 +305,13 @@
     <Content Include="Content\Website\framework\layui\lay\modules\tree.js" />
     <Content Include="Content\Website\framework\layui\lay\modules\upload.js" />
     <Content Include="Content\Website\framework\layui\lay\modules\util.js" />
+    <Content Include="Content\Website\images\delete.png" />
     <Content Include="Content\Website\images\home_logo.png" />
     <Content Include="Content\Website\images\idcard.jpg" />
     <Content Include="Content\Website\images\idcard_.jpg" />
     <Content Include="Content\Website\images\login_logo.png" />
     <Content Include="Content\Website\images\product_img01.jpg" />
+    <Content Include="Content\Website\images\right.png" />
     <Content Include="Content\Website\images\timg.jpg" />
     <Content Include="Content\Website\images\verification.png" />
     <Content Include="Content\Website\images\yingyezhizhao.jpg" />
