@@ -1,10 +1,11 @@
 ﻿using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO.Basics;
+using EnrolmentPlatform.Project.DTO.Enums.Basics;
+using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
@@ -95,6 +96,49 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         {
             var ret = metadataService.Delete(idList);
             return Json(ret);
+        }
+
+        /// <summary>
+        /// 配置层次及专业
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SchoolConfig(Guid schoolId)
+        {
+            return View();
+        }
+
+        public ActionResult GetList()
+        {
+            List<JSTree> listtree = new List<JSTree>();
+            var levelList = metadataService.GetList(MetadataTypeEnum.Level);
+            var majorList = metadataService.GetList(MetadataTypeEnum.Major);
+            if (levelList != null && levelList.Any())
+            {
+                foreach (var level in levelList)
+                {
+                    JSTree jstree = new JSTree();
+                    jstree.id = level.Id;
+                    jstree.text = level.Name;
+                    jstree.li_attr = new LiAttr() { level = 0 };
+                    jstree.state = new State() { opened = true };
+                    if (majorList != null && majorList.Any())
+                    {
+                        List<JSTree> listchild = new List<JSTree>();
+                        foreach (var major in majorList)
+                        {
+                            JSTree jstreeitem = new JSTree();
+                            jstreeitem.id = Guid.NewGuid();
+                            jstreeitem.text = major.Name;
+                            jstreeitem.state = new State() { opened = false };
+                            jstreeitem.li_attr = new LiAttr() { parentId = level.Id, level = 1 };
+                            listchild.Add(jstreeitem);
+                        }
+                        jstree.children = listchild;
+                    }
+                    listtree.Add(jstree);
+                }
+            }
+            return Json(listtree, JsonRequestBehavior.AllowGet);
         }
     }
 }

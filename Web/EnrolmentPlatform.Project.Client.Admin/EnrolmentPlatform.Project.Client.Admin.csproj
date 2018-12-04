@@ -318,6 +318,8 @@
     <Content Include="Content\website\framework\layui\lay\modules\tree.js" />
     <Content Include="Content\website\framework\layui\lay\modules\upload.js" />
     <Content Include="Content\website\framework\layui\lay\modules\util.js" />
+    <Content Include="Content\website\images\bg1.jpg" />
+    <Content Include="Content\website\images\bg2.jpg" />
     <Content Include="Content\website\images\home_logo.png" />
     <Content Include="Content\website\images\idcard.jpg" />
     <Content Include="Content\website\images\idcard_.jpg" />
@@ -699,13 +701,12 @@
     <Content Include="Areas\Basic\Views\Metadata\BatchManage.cshtml" />
     <Content Include="Areas\Account\Views\LearningCenter\Index.cshtml" />
     <Content Include="Areas\Account\Views\LearningCenter\Option.cshtml" />
+    <Content Include="Areas\Basic\Views\Metadata\SchoolConfig.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />
     <Content Include="Views\Address\Index.cshtml" />
-    <Content Include="Views\Shared\_calendar.cshtml" />
     <Content Include="Views\Home\Permissions.cshtml" />
-    <Content Include="Views\Login\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\NoPermission.cshtml" />

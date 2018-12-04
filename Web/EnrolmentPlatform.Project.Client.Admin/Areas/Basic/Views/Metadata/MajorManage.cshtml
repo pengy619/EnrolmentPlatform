@@ -104,7 +104,7 @@
                                     layer.msg(data.Info);
                                     if (data.IsSuccess) {
                                         setTimeout(function () {
-                                            document.location.reload();
+                                            table.reload('sid');
                                         }, 800);
                                     }
                                 }

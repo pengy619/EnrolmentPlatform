@@ -10,6 +10,12 @@ html {
   position: absolute;
   height: 100%;
   width: 100%;
+  background: url("../images/bg1.jpg") no-repeat;
+  background-size: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -19,11 +25,29 @@ html {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center; }
+  .login-wrap .form-box {
+    margin-top: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 70%;
+    background: #fff;
+    border-radius: 10px;
+    -ms-flex-pack: distribute;
+        justify-content: space-around; }
   .login-wrap .login-form {
-    width: 280px;
-    min-height: 300px; }
+    min-height: 300px;
+    margin-right: 10%; }
     .login-wrap .login-form .layui-form {
-      margin-top: 20px; }
+      width: 280px;
+      margin-top: 25%;
+      border-left: 1px solid #eee;
+      padding-left: 100px; }
+      .login-wrap .login-form .layui-form .layui-form-item.title {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+        color: #3b74b9; }
       .login-wrap .login-form .layui-form .layui-input {
         background: #fff; }
       .login-wrap .login-form .layui-form .layui-btn {

@@ -21,27 +21,32 @@
 </head>
 <body>
     <div class="login-wrap">
-        <div class="login-form">
-            <div class="login-logo">
-                <img src="~/Content/website/images/login_logo.png" alt="">
+        <div class="form-box">
+            <div class="img-box">
+                <img src="~/Content/website/images/bg2.jpg" alt="">
             </div>
-            <form action="" class="layui-form">
-                <div class="layui-form-item">
-                    <input type="text" class="layui-input" id="txtAccount" value="admin" lay-verify="required" placeholder="用户名">
-                </div>
-                <div class="layui-form-item">
-                    <input type="password" class="layui-input" id="txtPwd" value="a123456" lay-verify="password" placeholder="密码">
-                </div>
-                <div class="layui-form-item colum" id="validateCode">
-                    <input type="text" id="txtCode" class="layui-input" lay-verify="required" placeholder="验证码">
-                    <div class="verification">
-                        <img id="imgCode" src="@(Url.Action("Index","ValidateCode",new { }))" onclick="this.src='/ValidateCode/Index?timespan='+Math.random()" alt="验证码" />
+            <div class="login-form">
+                <form action="" class="layui-form">
+                    <div class="layui-form-item title">
+                        招生平台——学习中心后台
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-filter="login" lay-submit="">登录</button>
-                </div>
-            </form>
+                    <div class="layui-form-item">
+                        <input type="text" class="layui-input" id="txtAccount" value="admin" lay-verify="required" placeholder="用户名">
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="password" class="layui-input" id="txtPwd" value="a123456" lay-verify="password" placeholder="密码">
+                    </div>
+                    <div class="layui-form-item colum" id="validateCode">
+                        <input type="text" id="txtCode" class="layui-input" lay-verify="required" placeholder="验证码">
+                        <div class="verification">
+                            <img id="imgCode" src="@(Url.Action("Index","ValidateCode",new { }))" onclick="this.src='/ValidateCode/Index?timespan='+Math.random()" alt="验证码" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn-fluid" lay-filter="login" lay-submit="">登录</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script>

@@ -306,6 +306,8 @@
     <Content Include="Content\Website\framework\layui\lay\modules\tree.js" />
     <Content Include="Content\Website\framework\layui\lay\modules\upload.js" />
     <Content Include="Content\Website\framework\layui\lay\modules\util.js" />
+    <Content Include="Content\Website\images\bg1.jpg" />
+    <Content Include="Content\Website\images\bg2.jpg" />
     <Content Include="Content\Website\images\delete.png" />
     <Content Include="Content\Website\images\home_logo.png" />
     <Content Include="Content\Website\images\idcard.jpg" />

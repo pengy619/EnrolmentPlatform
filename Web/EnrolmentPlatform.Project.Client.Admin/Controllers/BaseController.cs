@@ -102,6 +102,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
 
         public static IT_MetadataService metadataService = DIContainer.Resolve<IT_MetadataService>();
 
+        public static IT_SchoolLevelMajorService schoolLevelMajorService = DIContainer.Resolve<IT_SchoolLevelMajorService>();
+
         #endregion
     }
 }

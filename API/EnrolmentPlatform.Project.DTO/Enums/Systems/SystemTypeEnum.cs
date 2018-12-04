@@ -25,9 +25,9 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Systems
         LearningCenter = 3,
 
         /// <summary>
-        /// 培训机构
+        /// 招生机构
         /// </summary>
-        [Description("培训机构")]
+        [Description("招生机构")]
         TrainingInstitutions = 5
     }
 }

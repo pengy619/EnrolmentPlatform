@@ -21,10 +21,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         {
             return View();
         }
-        public ActionResult Test()
-        {
-            return View();
-        }
 
         /// <summary>
         /// 登陆处理

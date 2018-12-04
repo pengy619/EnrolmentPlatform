@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "配置层次及专业";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/website/js/jsTree/style.min.css" rel="stylesheet" />
+<script src="~/Content/website/js/jsTree/jstree.min.js"></script>
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            配置层次及专业
+        </div>
+        <div class="panel-body" style="display:flex">
+            <div class="layui-form margin-top-10" style="flex:1">
+                <div class="layui-form-item  input-inline-400">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <div id="using_json0"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form margin-top-10" style="flex:1;" id="div_Content">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#using_json0").jstree({
+            "plugins": ["checkbox", "contextmenu"],
+            "contextmenu": {
+                "items":
+                    {
+                        "create": null,
+                        "rename": null,
+                        "remove": null,
+                        "ccp": null,
+                        "Add": {
+                            "label": "费用设置", "action": function (data) {
+                                var inst = $.jstree.reference(data.reference);
+                                var obj = inst.get_node(data.reference);
+                                ShowAdd(obj);
+                            }
+                            , _disabled: function (data) {
+                                @*var inst = $.jstree.reference(data.reference);
+                                var obj = inst.get_node(data.reference);
+                                if (obj.li_attr.level == "@((int)E_AddressClassify.Street)") {
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }*@
+                            }
+                        }
+                    }
+            },
+            "core": {
+                "multiple": true,
+                "data": {
+                    url: "/Basic/Metadata/GetList",
+                    'data': function (node) {
+                        return { 'id': node.id };
+                    },
+                    "cache": false
+                }
+
+            }
+        });
+        $("#using_json0").on("changed.jstree", function (e, data) {
+            if (data.selected[0] != undefined) {
+                if (data.instance.get_node(data.selected[0]).li_attr.level != "0") {
+                    ShowUpdate(data.instance.get_node(data.selected[0]));
+                }
+                else {
+                    $("#div_Content").html('');
+                }
+            }
+
+
+        }).jstree();
+
+    });
+    function ShowUpdate(obj) {
+        $.ajax({
+            url: '/Setting/Address/Detail',
+            type: 'get',
+            data: { id: obj.id },
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data.IsSuccess == undefined) {
+                    $("#div_Content").html(data);
+                }
+
+            }
+
+
+        });
+    }
+    function ShowAdd(obj) {
+
+        $.ajax({
+            url: '/Setting/Address/Add',
+            type: 'get',
+            data: { parentId: obj.id, classify: parseInt(obj.li_attr.level + 1) },
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data.IsSuccess == undefined) {
+                    $("#div_Content").html(data);
+                }
+
+
+            }
+        });
+    }
+
+    var _IsSubmit = false;
+    function Delete(obj) {
+        layer.open({
+            title: '删除节点会删除节点下面所有节点',
+            btn: ['确定', '取消'],
+            yes: function () {
+                if (!_IsSubmit) {
+                    $.ajax({
+                        url: '/Setting/Address/Delete',
+                        type: 'get',
+                        async: false,
+                        data: { id: obj.id },
+                        beforeSend: function () {
+                            _IsSubmit = true;
+                        },
+                        success: function (data) {
+                            if (data.IsSuccess) {
+                                layer.msg("删除成功", {
+                                    icon: 1
+                                    , time: 2000
+                                }, function () {
+                                    $("#using_json0").jstree('refresh');
+                                });
+                            }
+                            else {
+                                layer.msg(data.Info, {
+                                    icon: 2,
+                                    time: 2000
+                                });
+                            }
+                            _IsSubmit = false;
+                        }
+                    });
+                }
+            },
+            btn2: function () {
+
+            }
+        });
+    }
+</script>

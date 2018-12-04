@@ -18,24 +18,11 @@
     //当前模块ID
     Guid curMoudleId = EnrolmentPlatform.Project.Client.Admin.Filter.LoginInfoHandle.GetMoudleId(this.ViewContext.RouteData);
     var moduleList = allRoleList.Where(a => a.Level == 1).OrderBy(a => a.Sort).ToList();
-
-    //LOGO
-    Dictionary<string, string> parames = new Dictionary<string, string>();
-    Tuple<string, string> parameters = WebApiHelper.GetQueryString(parames);
-    var msg = WebApiHelper.Get<HttpResponseMsg>("/api/SystemBasicSetting/GetTotalStationSet", parameters.Item1, parameters.Item2, System.Configuration.ConfigurationManager.AppSettings["StaffId"].ToInt());
-    string logo = "~/Content/website/images/home_logo.png";
-    if (msg.IsSuccess)
-    {
-        var dto = msg.Data.ToString().ToObject<TotalStationSetDTO>();
-        if (dto != null && !string.IsNullOrWhiteSpace(dto.WebsiteLogo))
-        {
-            logo = dto.WebsiteLogo;
-        }
-    }
 }
 <div class="top-wrap">
     <div class="logo" style="cursor:pointer; margin-left:18px;">
-        <img src="@logo" onclick="window.location.href='@Url.Action("Index","Home",new { area=""})'" style="max-height:43px;" />
+        @*<img src="~/Content/website/images/home_logo.png" onclick="window.location.href='@Url.Action("Index","Home",new { area=""})'" style="max-height:43px;" />*@
+        渠道中心后台管理
     </div>
     <div class="nav">
         @foreach (var item in moduleList)
