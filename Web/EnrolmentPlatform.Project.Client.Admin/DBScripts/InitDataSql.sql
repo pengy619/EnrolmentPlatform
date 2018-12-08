@@ -83,7 +83,7 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'e7317d2b-dfea-4db2-88b9-47bc853d6d65', N'修改密码', 4, N'Setting', N'AccountManage', N'ModifyForPwdOp', N'', 3, N'14a92d3b-f425-4e6b-bd91-f4ab5777eed9', 2, N'')
 GO
-INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'e369d208-6df2-4da8-bbe1-485c4a99ab44', N'角色管理', 3, N'Setting', N'Roles', N'List', N'', 5, N'2bf5f993-b952-4dd8-bdcf-8f69449f666a', 2, NULL)
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'e369d208-6df2-4da8-bbe1-485c4a99ab44', N'角色设置', 3, N'Setting', N'Roles', N'List', N'', 5, N'2bf5f993-b952-4dd8-bdcf-8f69449f666a', 2, NULL)
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'd93101c4-81c2-480e-89ca-4a20d539af23', N'删除员工信息', 4, N'Setting', N'Staff', N'DeleteUser', N'', 1, N'7af9ee4b-6faf-4625-9a10-7d8d233561a2', 3, N'')
 GO
@@ -125,7 +125,7 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'e9169724-3955-4980-ba53-7a11f68c77c1', N'删除角色', 4, N'Setting', N'Roles', N'DeleteRole', N'', 3, N'0e638319-6a63-45e4-8592-3e9704c8bb78', 4, N'')
 GO
-INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'2bbc2de1-304e-46f3-a21d-7bc382a75948', N'角色管理查询', 4, N'Setting', N'Roles', N'Search', N'', 1, N'ef4f2018-33b7-4c19-8170-7226260799e7', 1, N'')
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'2bbc2de1-304e-46f3-a21d-7bc382a75948', N'角色查询', 4, N'Setting', N'Roles', N'Search', N'', 1, N'ef4f2018-33b7-4c19-8170-7226260799e7', 1, N'')
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'c05fcbb7-4071-481d-8511-7c846627327f', N'操作日志管理', 3, N'Setting', N'Log', N'Option', N'', 5, N'c6509ddd-02e7-47d7-b8f9-1bbe2d37fadf', 2, NULL)
 GO
@@ -181,7 +181,7 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'e31a678c-80df-49bd-a196-c3abcaa5b210', N'员工管理查询', 4, N'Setting', N'Staff', N'Search', N'', 1, N'7af9ee4b-6faf-4625-9a10-7d8d233561a2', 1, N'')
 GO
-INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'65b6b8bb-3917-4fa5-9c93-c5957ff591cc', N'删除角色管理', 4, N'Setting', N'Roles', N'DeleteRole', N'', 1, N'ef4f2018-33b7-4c19-8170-7226260799e7', 3, N'')
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'65b6b8bb-3917-4fa5-9c93-c5957ff591cc', N'删除角色', 4, N'Setting', N'Roles', N'DeleteRole', N'', 1, N'ef4f2018-33b7-4c19-8170-7226260799e7', 3, N'')
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'7f3adae1-87a1-4a0f-8ac7-c6120f35832c', N'订单管理', 1, N'', N'', N'', N'', 3, N'00000000-0000-0000-0000-000000000000', 2, N'icon-dingdan')
 GO
