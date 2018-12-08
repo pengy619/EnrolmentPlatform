@@ -34,6 +34,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             int reCount = 0;
             param.Page = 1;
             param.Limit = int.MaxValue;
+            param.ToLearningCenterId = this.SupplierId;
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null || list.Count == 0)
             {

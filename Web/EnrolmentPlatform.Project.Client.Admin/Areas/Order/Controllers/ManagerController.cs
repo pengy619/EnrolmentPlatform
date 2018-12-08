@@ -54,6 +54,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             int reCount = 0;
             param.Page = 1;
             param.Limit = int.MaxValue;
+            param.IsChannel = true;
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null || list.Count == 0)
             {
