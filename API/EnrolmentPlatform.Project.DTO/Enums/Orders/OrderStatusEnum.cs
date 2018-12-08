@@ -45,7 +45,7 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         /// <summary>
         /// 已报送中心
         /// </summary>
-        [Description("已报送中心")]
+        [Description("已报送")]
         ToLearningCenter = 5,
 
         ///// <summary>
