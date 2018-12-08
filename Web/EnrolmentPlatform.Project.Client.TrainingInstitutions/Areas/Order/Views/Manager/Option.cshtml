@@ -168,7 +168,6 @@
         });
 
         //修改院校层级专业下拉框数据
-        var levelId = "@(dto!=null?dto.LevelId.ToString():"")";
         function ChangeSelectData(id, type) {
             if (id == "" || id == null || id == undefined) return;
             var data = { parentId: id };
@@ -183,6 +182,7 @@
                     if (result && result.length > 0) {
                         if (type == 1) {
                             //绑定层次
+                            var levelId = "@(dto!=null?dto.LevelId.ToString():"")";
                             var childId = result[0].Id;
                             for (var i = 0; i < result.length; i++) {
                                 $("#LevelId").append("<option childId='" + result[i].Id + "' value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
