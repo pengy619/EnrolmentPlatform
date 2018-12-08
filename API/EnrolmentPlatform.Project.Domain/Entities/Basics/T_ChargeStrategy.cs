@@ -10,10 +10,22 @@ namespace EnrolmentPlatform.Project.Domain.Entities
     public class T_ChargeStrategy : Entity
     {
         /// <summary>
-        /// 学校专业Id
+        /// 学校Id
         /// </summary>		
         [DataMember]
-        public Guid SchoolMajorId { get; set; }
+        public Guid SchoolId { get; set; }
+
+        /// <summary>
+        /// 层次ID
+        /// </summary>
+        [DataMember]
+        public Guid LevelId { set; get; }
+
+        /// <summary>
+        /// 专业ID
+        /// </summary>
+        [DataMember]
+        public Guid MajorId { set; get; }
 
         /// <summary>
         /// 策略名称

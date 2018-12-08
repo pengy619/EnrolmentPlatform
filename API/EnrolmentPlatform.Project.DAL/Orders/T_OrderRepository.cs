@@ -25,7 +25,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             //价格策略检查
             var nowDate = DateTime.Now.Date;
-            var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolMajorId == dto.MajorId
+            var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId==dto.LevelId
+            && a.MajorId == dto.MajorId
             && nowDate >= a.StartDate && nowDate <= a.EndDate);
             if (chargeStrategy == null)
             {
