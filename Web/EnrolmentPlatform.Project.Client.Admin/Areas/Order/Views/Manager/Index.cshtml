@@ -1,0 +1,425 @@
+﻿@{
+    ViewBag.Title = "报名单列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .searchMore {
+        display: none;
+    }
+    .layui-table-body {
+        overflow-x:auto;
+    }
+</style>
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item flex">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-inline">
+                        <select id="Status" name="Status" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderStatusEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">学生姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="StudentName" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" type="button" lay-submit="" lay-filter="s">查询</button>
+                    <button class="layui-btn layui-btn-warm" type="button" id="MoreSearch">更多查询</button>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">学生电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Phone" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">身份证号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="IDCard" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">创建老师</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="CreateUserName" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">报考学校</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="SchoolName" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">报读层次</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="LevelName" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">报名时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Date" readonly="readonly" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item searchMore">
+                    <label class="layui-form-label">照片全上传</label>
+                    <div>
+                        <input type="radio" name="AllOrderImageUpload" value="" title="全部" checked>
+                        <input type="radio" name="AllOrderImageUpload" value="true" title="是">
+                        <input type="radio" name="AllOrderImageUpload" value="false" title="否">
+                    </div>
+                </div>
+                <a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新建</a>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
+                <a href="javascript:exportOpreation();" id="export"><button class="layui-btn layui-btn-primary">导出</button></a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<!-- 弹出层 -->
+<div id="audit-btn-modal" style="display:none;">
+    <div class="layui-form big-label" style="width:795px; height:250px;overflow-y:auto;overflow-x:hidden;">
+        <table class="layui-hide" id="Tb_LogSettingForTable"></table>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=1&orderId={{d.OrderId}}'>编辑</a>
+</script>
+<script type="text/html" id="tableToolImage">
+    {{# if(d.AllOrderImageUpload==true){ }}
+    <img src="/Content/Website/images/right.png" width="24" />" />
+    {{# }else{ }}
+    <img src="/Content/Website/images/delete.png" width="24" />
+    {{# } }}
+</script>
+<script>
+    var table, layer, laydate, form;
+    layui.use(['jquery', 'table', 'laydate', 'layer'], function () {
+        table = layui.table;
+        layer = layui.layer;
+        laydate = layui.laydate;
+        form = layui.form;
+
+        //日期
+        laydate.render({
+            elem: '#Date'
+            , range: true
+        });
+
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            , limit: 20
+            //, data: [{ OrderId: '@Guid.NewGuid()', StudentName: 'test', BatchName:'批次'}]
+            , url: '@Url.Action("Search", "Manager")'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox' }
+                , { field: 'StudentName', title: '学生姓名', width: 100 }
+                , { field: 'BatchName', title: '批次', width: 130 }
+                , { field: 'SchoolName', title: '院校', width: 150 }
+                , { field: 'LevelName', title: '层次', width: 100 }
+                , { field: 'MajorName', title: '专业', width: 180 }
+                , { title: '电子照', toolbar: '#tableToolImage', width: 100 }
+                , { field: 'StatusName', title: '状态', width: 80 }
+                , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
+                , { field: 'CreateUserName', title: '招生老师', width: 90 }
+                , { title: '操作', toolbar: '#tableTool', width: 155 }
+            ]]
+        }
+        table.render(tableOptions);
+
+        //删除
+        form.on('submit(d)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要删除的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //删除处理
+            var canDelete = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                if (parseInt(checkdata[i].Status) != 0) {
+                    canDelete = false;
+                }
+            }
+
+            if (canDelete == false) {
+                layer.msg('只有草稿状态的才可以删除。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //删除确认
+            layer.confirm('确认删除？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("Delete", "Manager")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('删除成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+
+                layer.close(index);
+            });
+        });
+
+        //提交
+        form.on('submit(sb)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要提交的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                if (parseInt(checkdata[i].Status) != 0) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有草稿状态的才可以提交。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //提交确认
+            layer.confirm('确认提交？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("SubmitOrder", "Manager")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('报名成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        });
+
+        //退学
+        form.on('submit(re)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要退学的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //退学确认
+            layer.confirm('确认退学？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                //退学处理
+                var arr = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    arr[i] = checkdata[i].OrderId;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("Leave", "Manager")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('退学成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        });
+
+        //查询
+        form.on('submit(s)', function (data) {
+            //执行重载
+            table.reload('table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: getSearchData()
+            });
+        });
+    });
+
+    //加载日志
+    function reloadLog(orderId) {
+        table.render({
+            elem: '#Tb_LogSettingForTable'
+            , url: '@Url.Action("LogSettingForTable","Home",new { area=""})'
+            , cellMinWidth: 180 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                { field: 'BusinessName', width: 480, title: '日志内容' }
+                , { field: 'CreatorTime', width: 170, title: '操作时间' }
+                , { field: 'CreatorAccount', width: 120, title: '操作人' }
+            ]],
+            where: { Key: orderId }
+        });
+        layer.open({
+            type: 1,
+            title:"操作日志",
+            area: ["800px", "300px"],
+            content: $('#audit-btn-modal')
+        });
+    }
+
+    //更多查询
+    var dis = true;
+    $("#MoreSearch").click(function () {
+        if (dis == true) {
+            $(".searchMore").show();
+            $("#MoreSearch").text("收起查询");
+            dis = false;
+        }
+        else {
+            $(".searchMore").hide();
+            $("#MoreSearch").text("更多查询");
+            dis = true;
+        }
+    });
+
+    //导出按钮处理
+    function exportOpreation() {
+        //获得查询条件
+        var searchData = getSearchData();
+        var url = "@Url.Action("Export","Manager",new { area="Order"})" + "?1=1";
+        if (searchData.Status != "") {
+            url += "&Status=" + searchData.Status;
+        }
+        if (searchData.StudentName != "") {
+            url += "&StudentName=" + searchData.StudentName;
+        }
+        if (searchData.Phone != "") {
+            url += "&Phone=" + searchData.Phone;
+        }
+        if (searchData.IDCard != "") {
+            url += "&IDCard=" + searchData.IDCard;
+        }
+        if (searchData.CreateUserName != "") {
+            url += "&CreateUserName=" + searchData.CreateUserName;
+        }
+        if (searchData.SchoolName != "") {
+            url += "&SchoolName=" + searchData.SchoolName;
+        }
+        if (searchData.LevelName != "") {
+            url += "&LevelName=" + searchData.LevelName;
+        }
+        if (searchData.DateFrom != "") {
+            url += "&DateFrom=" + searchData.DateFrom;
+        }
+        if (searchData.DateTo != "") {
+            url += "&DateTo=" + searchData.DateTo;
+        }
+        if (searchData.AllOrderImageUpload != "") {
+            url += "&AllOrderImageUpload=" + searchData.AllOrderImageUpload;
+        }
+        window.open(url);
+    }
+
+    //获得查询条件
+    function getSearchData() {
+        var dateArr = $("#time").val();
+        var dateFrom = "";
+        var dateTo = "";
+        if ($.trim(dateArr) != "") {
+            dateFrom = dateArr.split(' - ')[0];
+            dateTo = dateArr.split(' - ')[1];
+        }
+
+        return {
+            Status: $("#Status").val(),
+            StudentName: $("#StudentName").val(),
+            Phone: $("#Phone").val(),
+            IDCard: $("#IDCard").val(),
+            CreateUserName: $("#CreateUserName").val(),
+            SchoolName: $("#SchoolName").val(),
+            LevelName: $("#LevelName").val(),
+            DateFrom: dateFrom,
+            DateTo: dateTo,
+            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
+        };
+    }
+</script>

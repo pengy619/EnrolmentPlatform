@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers;
+using EnrolmentPlatform.Project.Client.LearningCenter.Controllers;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 
-namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Controllers
+namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controllers
 {
     public class ManagerController : BaseController
     {
@@ -129,7 +129,6 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         public string Search(OrderListReqDto param)
         {
             int reCount = 0;
-            param.FromChannelId = this.EnterpriseId;
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null)
             {
@@ -170,7 +169,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         [HttpPost]
         public JsonResult SubmitOrder(Guid[] ids)
         {
-            var ret = OrderService.SubmitOrder(ids.ToList(),this.UserId);
+            var ret = OrderService.SubmitOrder(ids.ToList(), this.UserId);
             if (ret == true)
             {
                 return Json(new { ret = 1 });
@@ -210,46 +209,6 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             var list = LevelService.FindSubItemById(parentId);
             return Json(list);
-        }
-
-        /// <summary>
-        /// 新增订单
-        /// </summary>
-        /// <param name="order">order</param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult SaveOrder(OrderDto order)
-        {
-            //当前订单信息
-            order.FromTypeName = "机构";
-            order.FromChannelId = this.EnterpriseId;
-            order.UserName = this.UserName;
-            order.UserId = this.UserId;
-
-            var ret = 1;
-            if (order.OrderId.HasValue == false)
-            {
-                ret = OrderService.AddOrder(order);
-            }
-            else
-            {
-                ret= OrderService.UpdateOrder(order);
-            }
-
-            //1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入
-            if (ret == 2)
-            {
-                return Json(new { ret = false, msg = "找不到当前时间段的价格策略。" });
-            }
-            else if (ret == 3)
-            {
-                return Json(new { ret = false, msg = "添加失败。" });
-            }
-            else if (ret == 4)
-            {
-                return Json(new { ret = false, msg = "同一批次重复录入。" });
-            }
-            return Json(new { ret = true });
         }
     }
 }

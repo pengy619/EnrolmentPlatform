@@ -54,7 +54,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         /// <returns></returns>
         public string MetadataList(MetadataSearchDto req)
         {
-            var data = metadataService.GetPagedList(req);
+            var data = MetadataService.GetPagedList(req);
             return data.ToJson();
         }
 
@@ -69,7 +69,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         {
             dto.CreatorUserId = this.UserId;
             dto.CreatorAccount = this.UserAccount;
-            var ret = metadataService.Add(dto);
+            var ret = MetadataService.Add(dto);
             return Json(ret);
         }
 
@@ -82,7 +82,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         [ValidateInput(false)]
         public ActionResult UpdateMetadata(MetadataDto dto)
         {
-            var ret = metadataService.Update(dto);
+            var ret = MetadataService.Update(dto);
             return Json(ret);
         }
 
@@ -94,7 +94,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         [HttpPost]
         public ActionResult DeleteMetadata(List<Guid> idList)
         {
-            var ret = metadataService.Delete(idList);
+            var ret = MetadataService.Delete(idList);
             return Json(ret);
         }
 
@@ -110,8 +110,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         public ActionResult GetList()
         {
             List<JSTree> listtree = new List<JSTree>();
-            var levelList = metadataService.GetList(MetadataTypeEnum.Level);
-            var majorList = metadataService.GetList(MetadataTypeEnum.Major);
+            var levelList = MetadataService.GetList(MetadataTypeEnum.Level);
+            var majorList = MetadataService.GetList(MetadataTypeEnum.Major);
             if (levelList != null && levelList.Any())
             {
                 foreach (var level in levelList)
