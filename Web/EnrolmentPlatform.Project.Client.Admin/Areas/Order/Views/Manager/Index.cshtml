@@ -1,13 +1,15 @@
 ﻿@{
     ViewBag.Title = "报名单列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> learningList = ViewBag.LearningList;
 }
 <style type="text/css">
     .searchMore {
         display: none;
     }
+
     .layui-table-body {
-        overflow-x:auto;
+        overflow-x: auto;
     }
 </style>
 <div class="main-wrap">
@@ -72,6 +74,7 @@
                 </div>
                 <a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新建</a>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
+                <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
                 <a href="javascript:exportOpreation();" id="export"><button class="layui-btn layui-btn-primary">导出</button></a>
@@ -82,10 +85,30 @@
         </div>
     </div>
 </div>
-<!-- 弹出层 -->
+<!-- 弹出层（操作日志） -->
 <div id="audit-btn-modal" style="display:none;">
     <div class="layui-form big-label" style="width:795px; height:250px;overflow-y:auto;overflow-x:hidden;">
         <table class="layui-hide" id="Tb_LogSettingForTable"></table>
+    </div>
+</div>
+<!-- 弹出层（报送学习中心） -->
+<div id="audit-btn-modal2" style="display:none;">
+    <div class="layui-form">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">学习中心</label>
+            <div class="layui-input-inline">
+                <select id="LearningCenter" name="LearningCenter">
+                    @if (learningList != null && learningList.Count > 0)
+                    {
+                        foreach (var item in learningList)
+                        {
+                            <option value="@item.SupplierId">@item.SupplierName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="bsc">确定</button>
+        </div>
     </div>
 </div>
 <script type="text/html" id="tableTool">
@@ -321,6 +344,110 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: getSearchData()
+            });
+        });
+
+        //选择学习中心
+        form.on('submit(bs)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要报送的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                if (parseInt(checkdata[i].Status) != 4) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有已报名的才可以报送学习中心。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            layerIndex = layer.open({
+                type: 1,
+                title: "选择学习中心",
+                area: ["450px", "150px"],
+                content: $('#audit-btn-modal2')
+            });
+        });
+        var layerIndex = 1;
+        //报送学习中心
+        form.on('submit(bs)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要报送的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                if (parseInt(checkdata[i].Status) != 4) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有已报名的才可以报送学习中心。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var dto = {};
+            dto.ids = arr;
+            dto.learningCenterId = $("#LearningCenter").val();
+            if (dto.learningCenterId == false) {
+                layer.msg('请选择学习中心！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("ToLearningCenter", "Manager")',
+                success: function (result) {
+                    if (result.ret == 1) {
+                        layer.msg('报送成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            layer.close(layerIndex);
+                            table.reload("table");
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
             });
         });
     });

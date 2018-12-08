@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO;
+using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
+using Newtonsoft.Json;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 
@@ -21,6 +24,23 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            SupplierSearchDto req = new SupplierSearchDto();
+            req.Classify = DTO.Enums.Systems.SystemTypeEnum.LearningCenter;
+            req.Limit = int.MaxValue;
+            req.Page = 1;
+            req.Status = 2;
+            var data = WebApiHelper.Post<HttpResponseMsg>(
+                "/api/Enterprise/GetSupplierPageList",
+                JsonConvert.SerializeObject(req),
+               ConfigurationManager.AppSettings["StaffId"].ToInt());
+            if (data.Data != null)
+            {
+                var res= data.Data.ToString().ToObject<GridDataResponse>();
+                if (res != null)
+                {
+                    ViewBag.LearningList = res.Data.ToString().ToObject<List<SupplierListDto>>();
+                }
+            }
             return View();
         }
 
@@ -197,6 +217,26 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             else
             {
                 return Json(new { ret = 0, msg = "退学失败。" });
+            }
+        }
+
+        /// <summary>
+        /// 报名单报送
+        /// </summary>
+        /// <param name="ids">ID集合</param>
+        /// <param name="learningCenterId">学习中心ID</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult ToLearningCenter(Guid[] ids,Guid learningCenterId)
+        {
+            var ret = OrderService.ToLearningCenter(ids.ToList(), learningCenterId, this.UserId);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "报送学习中心失败。" });
             }
         }
 
