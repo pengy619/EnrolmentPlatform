@@ -44,7 +44,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
                 <div class="layui-input-inline">
-                    <select id="SchoolId" name="SchoolId" @(dto!=null?"disabled":"") lay-filter="SchoolId" lay-verify="required">
+                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required">
                         <option value=""></option>
                         @foreach (var item in schoolList)
                         {
@@ -54,13 +54,13 @@
                 </div>
                 <label class="layui-form-label">层次</label>
                 <div class="layui-input-inline">
-                    <select id="LevelId" name="LevelId" @(dto!=null?"disabled":"") lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required">
+                    <select id="LevelId" name="LevelId" lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required">
                         <option value=""></option>
                     </select>
                 </div>
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-inline">
-                    <select id="MajorId" name="MajorId" @(dto!=null?"disabled":"") MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required">
+                    <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required">
                         <option value=""></option>
                     </select>
                 </div>
@@ -84,7 +84,7 @@
         <div class="panel-body">
             <textarea name="Remark" placeholder="请输入内容" id="Remark" class="layui-textarea">@((dto != null) ? dto.Remark : "")</textarea>
             <div class="margin-top-10">
-                @if (dto == null || Request.QueryString["action"] == "1")
+                @if (dto == null || (Request.QueryString["action"] == "1" && (dto.Status==(int)OrderStatusEnum.Init|| dto.Status == (int)OrderStatusEnum.Reject)))
                 {
                 <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
                 }

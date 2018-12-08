@@ -18,6 +18,13 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         int AddOrder(OrderDto dto);
 
         /// <summary>
+        /// 修改报名单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
+        int UpdateOrder(OrderDto dto);
+
+        /// <summary>
         /// 获得报名列表
         /// </summary>
         /// <param name="req"></param>

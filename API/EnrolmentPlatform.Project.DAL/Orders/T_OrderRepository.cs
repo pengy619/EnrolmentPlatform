@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -131,6 +132,96 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             return dbContext.SaveChanges() > 0 ? 1 : 3;
 
             #endregion
+        }
+
+        /// <summary>
+        /// 修改报名单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
+        public int UpdateOrder(OrderDto dto)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            //价格策略检查
+            var nowDate = DateTime.Now.Date;
+            var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+            && a.MajorId == dto.MajorId
+            && nowDate >= a.StartDate && nowDate <= a.EndDate);
+            if (chargeStrategy == null)
+            {
+                //找不到当前时间段的价格策略
+                return 2;
+            }
+
+            //修改订单
+            var entity = dbContext.T_Order.FirstOrDefault(a => a.Id == dto.OrderId.Value);
+            entity.StudentName = dto.StudentName;
+            entity.IDCardNo = dto.IDCardNo;
+            entity.Phone = dto.Phone;
+            entity.TencentNo = dto.TencentNo;
+            entity.SchoolId = dto.SchoolId;
+            entity.LevelId = dto.LevelId;
+            entity.MajorId = dto.MajorId;
+            entity.BatchId = dto.BatchId;
+            entity.Remark = dto.Remark;
+            entity.LastModifyUserId = dto.UserId;
+            entity.LastModifyTime = DateTime.Now;
+            dbContext.Entry(entity).State = EntityState.Modified;
+
+            //删除价格
+            var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == dto.OrderId.Value).ToList();
+            if (priceList != null && priceList.Count > 0)
+            {
+                foreach (var item in priceList)
+                {
+                    dbContext.T_OrderAmount.Remove(item);
+                }
+            }
+
+            //添加订单（招生机构）金额数据
+            dbContext.T_OrderAmount.Add(new T_OrderAmount()
+            {
+                Id = Guid.NewGuid(),
+                OrderId = dto.OrderId.Value,
+                TotalAmount = chargeStrategy.InstitutionCharge,
+                ApprovalAmount = 0,
+                PayedAmount = 0,
+                PaymentSource = 1,
+                CreatorAccount = dto.UserName,
+                CreatorTime = DateTime.Now,
+                CreatorUserId = dto.UserId,
+                DeleteTime = DateTime.MaxValue,
+                DeleteUserId = Guid.Empty,
+                IsDelete = false,
+                LastModifyTime = DateTime.Now,
+                LastModifyUserId = dto.UserId,
+                Unix = DateTime.Now.ConvertDateTimeInt()
+            });
+
+            //添加订单（学习中心）金额数据
+            dbContext.T_OrderAmount.Add(new T_OrderAmount()
+            {
+                Id = Guid.NewGuid(),
+                OrderId = dto.OrderId.Value,
+                TotalAmount = chargeStrategy.CenterCharge,
+                ApprovalAmount = 0,
+                PayedAmount = 0,
+                PaymentSource = 2,
+                CreatorAccount = dto.UserName,
+                CreatorTime = DateTime.Now,
+                CreatorUserId = dto.UserId,
+                DeleteTime = DateTime.MaxValue,
+                DeleteUserId = Guid.Empty,
+                IsDelete = false,
+                LastModifyTime = DateTime.Now,
+                LastModifyUserId = dto.UserId,
+                Unix = DateTime.Now.ConvertDateTimeInt()
+            });
+
+            dbContext.ModuleKey = dto.OrderId.Value.ToString();
+            dbContext.LogChangesDuringSave = true;
+            dbContext.BusinessName = "修改报名单";
+            return dbContext.SaveChanges() > 0 ? 1 : 3;
         }
 
         /// <summary>
