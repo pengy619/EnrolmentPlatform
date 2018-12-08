@@ -289,6 +289,46 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 录取
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        public bool Luqu(List<Guid> orderIdList, Guid userId)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter)
+                        {
+                            break;
+                        }
+
+                        entity.Status = (int)OrderStatusEnum.Join;
+                        entity.JoinTime = DateTime.Now;
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "录取成功", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
         /// 退学
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>

@@ -129,6 +129,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
         public string Search(OrderListReqDto param)
         {
             int reCount = 0;
+            param.ToLearningCenterId = this.SupplierId;
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null)
             {
@@ -140,44 +141,6 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
                 Data = list
             };
             return grid.ToJson();
-        }
-
-        /// <summary>
-        /// 删除报名单
-        /// </summary>
-        /// <param name="ids">ID集合</param>
-        /// <returns>1：成功，2：错误</returns>
-        [HttpPost]
-        public JsonResult Delete(Guid[] ids)
-        {
-            var ret = OrderService.Delete(ids);
-            if (ret == true)
-            {
-                return Json(new { ret = 1 });
-            }
-            else
-            {
-                return Json(new { ret = 0, msg = "删除失败。" });
-            }
-        }
-
-        /// <summary>
-        /// 报名单报名
-        /// </summary>
-        /// <param name="ids">ID集合</param>
-        /// <returns>1：成功，2：错误</returns>
-        [HttpPost]
-        public JsonResult SubmitOrder(Guid[] ids)
-        {
-            var ret = OrderService.SubmitOrder(ids.ToList(), this.UserId);
-            if (ret == true)
-            {
-                return Json(new { ret = 1 });
-            }
-            else
-            {
-                return Json(new { ret = 0, msg = "报名失败。" });
-            }
         }
 
         /// <summary>
@@ -196,6 +159,25 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             else
             {
                 return Json(new { ret = 0, msg = "退学失败。" });
+            }
+        }
+
+        /// <summary>
+        /// 报名单录取
+        /// </summary>
+        /// <param name="ids">ID集合</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult LuQu(Guid[] ids)
+        {
+            var ret = OrderService.Luqu(ids.ToList(), this.UserId);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "录取失败。" });
             }
         }
 

@@ -62,6 +62,14 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId);
 
         /// <summary>
+        /// 录取
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        bool Luqu(List<Guid> orderIdList, Guid userId);
+
+        /// <summary>
         /// 退学
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
