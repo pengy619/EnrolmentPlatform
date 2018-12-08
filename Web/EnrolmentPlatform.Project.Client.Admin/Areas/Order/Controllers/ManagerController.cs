@@ -204,6 +204,26 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
+        /// 报名单拒绝
+        /// </summary>
+        /// <param name="ids">ID集合</param>
+        /// <param name="reason">拒绝理由</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult Reject(Guid[] ids, string reason)
+        {
+            var ret = OrderService.Reject(ids.ToList(), this.UserId, reason);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "拒绝失败。" });
+            }
+        }
+
+        /// <summary>
         /// 获得层级数据
         /// </summary>
         /// <param name="parentId">父类ID</param>

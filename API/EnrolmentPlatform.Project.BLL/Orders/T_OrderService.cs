@@ -270,6 +270,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         }
 
                         entity.Status = (int)OrderStatusEnum.Reject;
+                        entity.ToLearningCenterId = null;
                         entity.LastModifyTime = DateTime.Now;
                         entity.LastModifyUserId = userId;
                         this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已被拒绝，拒绝理由【" + comment + "】", true, entity.Id.ToString());
@@ -306,7 +307,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         var entity = this.orderRepository.LoadEntities(a => a.Id == item).FirstOrDefault();
                         if (entity == null || 
                             (entity.FromChannelId.HasValue == true && entity.Status != (int)OrderStatusEnum.Enroll)||
-                            (entity.FromChannelId.HasValue == false && entity.Status != (int)OrderStatusEnum.Init))
+                            (entity.FromChannelId.HasValue == false && entity.Status != (int)OrderStatusEnum.Init && entity.Status != (int)OrderStatusEnum.Reject))
                         {
                             break;
                         }

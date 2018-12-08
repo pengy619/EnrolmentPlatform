@@ -7,7 +7,7 @@
     .searchMore {
         display: none;
     }
-    .layui-form-select dl {
+    #audit-btn-modal2 .layui-form-select dl {
         max-height: 84px;
     }
     .layui-table-body {
@@ -76,6 +76,7 @@
                 </div>
                 <a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新建</a>
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
             </div>
@@ -109,6 +110,18 @@
             </div>
             <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="bsc">确定</button>
         </div>
+    </div>
+</div>
+<!-- 弹出层（拒绝确认） -->
+<div id="audit-btn-modal3" style="display:none;">
+    <div class="layui-form" style="text-align: center;">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">拒绝理由</label>
+            <div class="layui-input-inline">
+                <textarea name="rejectReason" placeholder="请输入拒绝理由" style="width:250px;" id="rejectReason" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="rejectc">确定</button>
     </div>
 </div>
 <script type="text/html" id="tableTool">
@@ -237,31 +250,8 @@
 
         //选择学习中心
         form.on('submit(bs)', function (data) {
-            //选中行
-            var checkdata = table.checkStatus('table').data;
-            if (checkdata.length == 0) {
-                layer.msg('请选择需要报送的报名单。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //选中的ID
-            var canSubmit = true;
-            var arr = new Array(checkdata.length);
-            for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 4 && parseInt(checkdata[i].Status) != 0) {
-                    canSubmit = false;
-                }
-            }
-
-            if (canSubmit == false) {
-                layer.msg('存在不能进行报送的数据。', {
-                    icon: 2,
-                    time: 2000
-                });
+            var ret = checkBaosong();
+            if (ret.result == false) {
                 return false;
             }
 
@@ -276,9 +266,10 @@
                 }
             });
         });
-        var layerIndex = 1;
-        //报送学习中心
-        form.on('submit(bsc)', function (data) {
+
+        //报送校验
+        function checkBaosong() {
+            var ret = {};
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
@@ -286,7 +277,8 @@
                     icon: 2,
                     time: 2000
                 });
-                return false;
+                ret.result = false;
+                return ret;
             }
 
             //选中的ID
@@ -294,20 +286,36 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 4) {
+                //已报名，草稿，被拒绝可以进行报送
+                if (parseInt(checkdata[i].Status) != 4 && parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
                     canSubmit = false;
                 }
             }
 
             if (canSubmit == false) {
-                layer.msg('只有已报名的才可以报送学习中心。', {
+                layer.msg('存在不能进行报送的数据。', {
                     icon: 2,
                     time: 2000
                 });
+                ret.result = false;
+                return ret;
+            }
+
+            ret.result = true;
+            ret.arr = arr;
+            return ret;
+        }
+
+        var layerIndex = 1;
+        //报送学习中心
+        form.on('submit(bsc)', function (data) {
+            var ret = checkBaosong();
+            if (ret.result == false) {
                 return false;
             }
+
             var dto = {};
-            dto.ids = arr;
+            dto.ids = ret.arr;
             dto.learningCenterId = $("#LearningCenter").val();
             if (dto.learningCenterId == false) {
                 layer.msg('请选择学习中心！', {
@@ -330,6 +338,110 @@
                             time: 2000
                         }, function () {
                             layer.close(layerIndex);
+                            table.reload("table");
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+        });
+
+        //拒绝弹窗
+        form.on('submit(reject)', function (data) {
+            var ret = checkReject();
+            if (ret.result == false) {
+                return false;
+            }
+
+            layerIndex2 = layer.open({
+                type: 1,
+                title: "拒绝确认",
+                area: ["420px", "250px"],
+                content: $('#audit-btn-modal3'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+
+        //拒绝校验
+        function checkReject() {
+            var ret = {};
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要拒绝的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                ret.result = false;
+                return ret;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                //已报名可以进行拒绝
+                if (parseInt(checkdata[i].Status) != 4) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有已报名的能进行拒绝。', {
+                    icon: 2,
+                    time: 2000
+                });
+                ret.result = false;
+                return ret;
+            }
+
+            ret.result = true;
+            ret.arr = arr;
+            return ret;
+        }
+
+        var layerIndex2 = 2;
+        //拒绝确认
+        form.on('submit(rejectc)', function (data) {
+            var ret = checkReject();
+            if (ret.result == false) {
+                return false;
+            }
+
+            var dto = {};
+            dto.ids = ret.arr;
+            dto.reason = $.trim($("#rejectReason").val());
+            if (dto.reason == "") {
+                layer.msg('请输入拒绝理由！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("Reject", "Manager")',
+                success: function (result) {
+                    if (result.ret == 1) {
+                        layer.msg('拒绝成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            layer.close(layerIndex2);
                             table.reload("table");
                         });
                     }
