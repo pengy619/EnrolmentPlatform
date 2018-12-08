@@ -40,7 +40,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 //同一批次重复录入
                 return 4;
             }
-            return this.orderRepository.AddOrder(dto);
+
+            try
+            {
+                return this.orderRepository.AddOrder(dto);
+            }
+            catch
+            {
+                return 3;
+            }
         }
 
         /// <summary>
@@ -57,21 +65,14 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 return 4;
             }
 
-            //实体
-            var entity = this.orderRepository.FindEntityById(dto.OrderId.Value);
-            entity.StudentName = dto.StudentName;
-            entity.IDCardNo = dto.IDCardNo;
-            entity.Phone = dto.Phone;
-            entity.TencentNo = dto.TencentNo;
-            //entity.SchoolId = dto.SchoolId;
-            //entity.LevelId = dto.LevelId;
-            //entity.MajorId = dto.MajorId;
-            entity.BatchId = dto.BatchId;
-            entity.Remark = dto.Remark;
-            entity.LastModifyUserId = dto.UserId;
-            entity.LastModifyTime = DateTime.Now;
-            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改报名单", true, entity.Id.ToString())
-                > 0 ? 1 : 3;
+            try
+            {
+                return this.orderRepository.UpdateOrder(dto);
+            }
+            catch
+            {
+                return 3;
+            }
         }
 
         /// <summary>
