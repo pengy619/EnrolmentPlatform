@@ -222,7 +222,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     foreach (var item in orderIdList)
                     {
                         var entity = this.orderRepository.FindEntityById(item);
-                        if (entity == null || entity.Status != (int)OrderStatusEnum.Init)
+                        if (entity == null || 
+                            (entity.Status != (int)OrderStatusEnum.Init && entity.Status!= (int)OrderStatusEnum.Reject))
                         {
                             break;
                         }
