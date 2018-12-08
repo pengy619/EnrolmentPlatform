@@ -34,7 +34,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
         public int AddOrder(OrderDto dto)
         {
-            var exisit = this.orderRepository.Count(a => a.BatchId == dto.BatchId && a.IDCardNo == dto.IDCardNo) > 0;
+            var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.BatchId == dto.BatchId && a.IDCardNo == dto.IDCardNo) > 0;
             if (exisit == true)
             {
                 //同一批次重复录入
@@ -50,7 +50,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
         public int UpdateOrder(OrderDto dto)
         {
-            var exisit = this.orderRepository.Count(a => a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.IDCardNo == dto.IDCardNo) > 0;
+            var exisit = this.orderRepository.Count(a => a.IsDelete==false && a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.IDCardNo == dto.IDCardNo) > 0;
             if (exisit == true)
             {
                 //同一批次重复录入
@@ -63,9 +63,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             entity.IDCardNo = dto.IDCardNo;
             entity.Phone = dto.Phone;
             entity.TencentNo = dto.TencentNo;
-            entity.SchoolId = dto.SchoolId;
-            entity.LevelId = dto.LevelId;
-            entity.MajorId = dto.MajorId;
+            //entity.SchoolId = dto.SchoolId;
+            //entity.LevelId = dto.LevelId;
+            //entity.MajorId = dto.MajorId;
             entity.BatchId = dto.BatchId;
             entity.Remark = dto.Remark;
             entity.LastModifyUserId = dto.UserId;
