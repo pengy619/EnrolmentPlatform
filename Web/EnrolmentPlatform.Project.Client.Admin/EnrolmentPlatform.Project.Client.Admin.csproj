@@ -595,7 +595,6 @@
     <Content Include="Content\website\js\kindeditor-4.1.10\themes\simple\simple.css" />
     <Content Include="DBScripts\InitDataSql.sql" />
     <Content Include="DBScripts\CreateDB-2018-11-24.sql" />
-    <Content Include="DBScripts\DB.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
