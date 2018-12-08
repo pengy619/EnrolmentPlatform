@@ -217,7 +217,7 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 0) {
+                if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
                     canSubmit = false;
                 }
             }
