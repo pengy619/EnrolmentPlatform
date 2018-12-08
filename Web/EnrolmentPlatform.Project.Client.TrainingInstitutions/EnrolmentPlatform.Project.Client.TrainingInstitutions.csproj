@@ -586,7 +586,6 @@
     <Content Include="Content\Website\js\My97DatePicker\skin\twoer\img.png" />
     <Content Include="Content\Website\js\My97DatePicker\skin\WdatePicker.css" />
     <Content Include="Content\Website\js\My97DatePicker\WdatePicker.js" />
-    <Content Include="DBScripts\DB.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
