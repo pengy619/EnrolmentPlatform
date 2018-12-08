@@ -450,5 +450,10 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 报送学习中心
         /// </summary>
         public Guid? ToLearningCenterId { set; get; }
+
+        /// <summary>
+        /// 是否是渠道查询
+        /// </summary>
+        public bool? IsChannel { set; get; }
     }
 }

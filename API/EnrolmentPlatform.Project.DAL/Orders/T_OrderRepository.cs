@@ -171,7 +171,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
-                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
+                        (req.IsChannel.HasValue==false||(req.IsChannel.Value==true && a.FromChannelId.HasValue==true && a.Status!=0)||(req.IsChannel.Value == true && a.FromChannelId.HasValue == true))
                         select new OrderListDto()
                         {
                             AllOrderImageUpload = a.AllOrderImageUpload,

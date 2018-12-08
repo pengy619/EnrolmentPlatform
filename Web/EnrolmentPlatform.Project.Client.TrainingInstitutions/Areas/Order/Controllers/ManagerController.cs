@@ -213,7 +213,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         }
 
         /// <summary>
-        /// 新增订单
+        /// 保存订单
         /// </summary>
         /// <param name="order">order</param>
         /// <returns></returns>
