@@ -185,6 +185,8 @@
     <Compile Include="Areas\Account\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Basic\BasicAreaRegistration.cs" />
     <Compile Include="Areas\Basic\Controllers\MetadataController.cs" />
+    <Compile Include="Areas\Order\Controllers\ImageController.cs" />
+    <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AddressController.cs" />
     <Compile Include="Areas\Setting\Controllers\DepartmentController.cs" />
@@ -616,7 +618,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Account\Models\" />
     <Folder Include="Areas\Basic\Models\" />
-    <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
     <Folder Include="Areas\Setting\Models\" />
     <Folder Include="Content\website\js\kindeditor-4.1.10\attached\image\" />
@@ -702,11 +703,15 @@
     <Content Include="Areas\Account\Views\LearningCenter\Index.cshtml" />
     <Content Include="Areas\Account\Views\LearningCenter\Option.cshtml" />
     <Content Include="Areas\Basic\Views\Metadata\SchoolConfig.cshtml" />
+    <Content Include="Areas\Order\Views\Image\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Manager\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />
     <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Home\Permissions.cshtml" />
+    <Content Include="Temp\OrderTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\NoPermission.cshtml" />

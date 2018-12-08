@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "报名单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    OrderDto dto = ViewBag.OrderInfo;
+    List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> batchList = ViewBag.BatchList;
+    List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> schoolList = ViewBag.SchoolList;
+}
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            @(ViewBag.Title)
+        </div>
+        <div class="panel-body">
+            <div class="layui-form-item required">
+                <label class="layui-form-label">学生姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="StudentName" value='@((dto!=null) ? dto.StudentName : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">身份证号</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="IDCardNo" value='@((dto!=null) ? dto.IDCardNo : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="Phone" value='@((dto!=null) ? dto.Phone : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">微信/QQ</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="TencentNo" value='@((dto!=null) ? dto.TencentNo : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">邮箱地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="Email" value='@((dto!=null) ? dto.Email : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">报考院校</label>
+                <div class="layui-input-inline">
+                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required">
+                        <option value=""></option>
+                        @foreach (var item in schoolList)
+                        {
+                            <option @Html.Raw((dto != null && item.Id == dto.SchoolId) ? "selected" : "") value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <label class="layui-form-label">层次</label>
+                <div class="layui-input-inline">
+                    <select id="LevelId" name="LevelId" lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <label class="layui-form-label">专业</label>
+                <div class="layui-input-inline">
+                    <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">批次</label>
+                <div class="layui-input-inline">
+                    <select id="BatchId" name="BatchId" lay-verify="required">
+                        <option value=""></option>
+                        @foreach (var item in batchList)
+                        {
+                            <option @Html.Raw((dto != null && item.Id == dto.BatchId) ? "selected" : "") value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="panel-title">
+            备注
+        </div>
+        <div class="panel-body">
+            <textarea name="Remark" placeholder="请输入内容" id="Remark" class="layui-textarea">@((dto != null) ? dto.Remark : "")</textarea>
+            <div class="margin-top-10">
+                @if (dto == null || Request.QueryString["action"] == "1")
+                {
+                <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
+                }
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
+<script>
+    layui.use(['jquery', 'form', 'layer'], function () {
+        var form = layui.form, layer = layui.layer;
+
+        //提交
+        form.on('submit(s)', function (data) {
+            //提交
+            var dto = {};
+            dto.OrderId = $("#hidOrderId").val();
+            dto.StudentName = $("#StudentName").val();
+            dto.IDCardNo = $("#IDCardNo").val();
+            dto.Phone = $("#Phone").val();
+            dto.TencentNo = $("#TencentNo").val();
+            dto.Email = $("#Email").val();
+            dto.SchoolId = $("#SchoolId").val();
+            dto.LevelId = $("#LevelId").val();
+            dto.MajorId = $("#MajorId").val();
+            dto.BatchId = $("#BatchId").val();
+            dto.Remark = $("#Remark").val();
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("SaveOrder", "Manager")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg('保存成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Manager")';
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+        //初始加载
+        if ("@(dto!=null?"true":"")" != "") {
+            loadLevel();
+            $("#MajorId").val("@(dto!=null?dto.MajorId.ToString():"")");
+            form.render('select');
+        }
+
+        //院校切换
+        form.on('select(SchoolId)', function (data) {
+            loadLevel();
+        });
+
+        function loadLevel() {
+            $("#LevelId").find("option").remove();
+            $("#MajorId").find("option").remove();
+            ChangeSelectData($("#SchoolId").val(), 1);
+            form.render('select');
+        }
+
+        //层次切换
+        form.on('select(LevelId)', function (data) {
+            $("#MajorId").find("option").remove();
+            ChangeSelectData($(data.elem).find("option:selected").attr("childId"), 2);
+            form.render('select');
+        });
+
+        //修改院校层级专业下拉框数据
+        var levelId = "@(dto!=null?dto.LevelId.ToString():"")";
+        function ChangeSelectData(id, type) {
+            if (id == "" || id == null || id == undefined) return;
+            var data = { parentId: id };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(data),
+                url: '@Url.Action("GetLevelData", "Manager")',
+                success: function (result) {
+                    if (result && result.length > 0) {
+                        if (type == 1) {
+                            //绑定层次
+                            var childId = result[0].Id;
+                            for (var i = 0; i < result.length; i++) {
+                                $("#LevelId").append("<option childId='" + result[i].Id + "' value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
+                                if (levelId == result[i].ItemId) {
+                                    $("#LevelId").val(levelId);
+                                    childId = result[i].Id;
+                                }
+                            }
+                            ChangeSelectData(childId, 2);
+                        }
+                        else {
+                            //绑定专业
+                            for (var i = 0; i < result.length; i++) {
+                                $("#MajorId").append("<option value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
+                            }
+                        }
+                    }
+                    else {
+                        if (type == 1) {
+                            $("#LevelId").append("<option value=''></option>");
+                        }
+                        $("#MajorId").append("<option value=''></option>");
+                    }
+                    form.render('select');
+                }
+            });
+            return false;
+        }
+    });
+</script> 

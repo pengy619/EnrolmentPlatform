@@ -182,6 +182,8 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Order\Controllers\ImageController.cs" />
+    <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AccountManageController.cs" />
     <Compile Include="Areas\Setting\Controllers\ChildAccountController.cs" />
@@ -625,7 +627,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Order\Controllers\" />
     <Folder Include="Areas\Order\Models\" />
     <Folder Include="Areas\Setting\Models\" />
     <Folder Include="Areas\Setting\Views\Shared\" />
@@ -683,8 +684,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.config" />
+    <Content Include="Areas\Order\Views\Image\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Manager\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Shared\_calendar.cshtml" />
+    <Content Include="Temp\OrderTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">
