@@ -7,7 +7,9 @@
     .searchMore {
         display: none;
     }
-
+    .layui-form-select dl {
+        max-height: 84px;
+    }
     .layui-table-body {
         overflow-x: auto;
     }
@@ -380,13 +382,17 @@
             layerIndex = layer.open({
                 type: 1,
                 title: "选择学习中心",
-                area: ["450px", "150px"],
-                content: $('#audit-btn-modal2')
+                area: ["450px", "200px"],
+                content: $('#audit-btn-modal2'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
             });
         });
         var layerIndex = 1;
         //报送学习中心
-        form.on('submit(bs)', function (data) {
+        form.on('submit(bsc)', function (data) {
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
