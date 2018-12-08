@@ -53,6 +53,15 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         bool SubmitOrder(List<Guid> orderIdList, Guid userId);
 
         /// <summary>
+        /// 拒绝
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <param name="comment">拒绝理由</param>
+        /// <returns></returns>
+        bool Reject(List<Guid> orderIdList, Guid userId, string comment);
+
+        /// <summary>
         /// 报送中心
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>

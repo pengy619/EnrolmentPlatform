@@ -184,44 +184,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
-        /// 报名单报名
-        /// </summary>
-        /// <param name="ids">ID集合</param>
-        /// <returns>1：成功，2：错误</returns>
-        [HttpPost]
-        public JsonResult SubmitOrder(Guid[] ids)
-        {
-            var ret = OrderService.SubmitOrder(ids.ToList(), this.UserId);
-            if (ret == true)
-            {
-                return Json(new { ret = 1 });
-            }
-            else
-            {
-                return Json(new { ret = 0, msg = "报名失败。" });
-            }
-        }
-
-        /// <summary>
-        /// 报名单退学
-        /// </summary>
-        /// <param name="ids">ID集合</param>
-        /// <returns>1：成功，2：错误</returns>
-        [HttpPost]
-        public JsonResult Leave(Guid[] ids)
-        {
-            var ret = OrderService.Leave(ids.ToList(), this.UserId);
-            if (ret == true)
-            {
-                return Json(new { ret = 1 });
-            }
-            else
-            {
-                return Json(new { ret = 0, msg = "退学失败。" });
-            }
-        }
-
-        /// <summary>
         /// 报名单报送
         /// </summary>
         /// <param name="ids">ID集合</param>

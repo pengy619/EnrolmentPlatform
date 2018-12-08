@@ -246,6 +246,47 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 拒绝
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <param name="comment">拒绝理由</param>
+        /// <returns></returns>
+        public bool Reject(List<Guid> orderIdList, Guid userId,string comment)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || 
+                            (entity.Status != (int)OrderStatusEnum.Enroll && entity.Status != (int)OrderStatusEnum.ToLearningCenter))
+                        {
+                            break;
+                        }
+
+                        entity.Status = (int)OrderStatusEnum.Reject;
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已被拒绝，拒绝理由【" + comment + "】", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
         /// 报送中心
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
@@ -263,7 +304,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     foreach (var item in orderIdList)
                     {
                         var entity = this.orderRepository.LoadEntities(a => a.Id == item).FirstOrDefault();
-                        if (entity == null)
+                        if (entity == null || 
+                            (entity.FromChannelId.HasValue == true && entity.Status != (int)OrderStatusEnum.Enroll)||
+                            (entity.FromChannelId.HasValue == false && entity.Status != (int)OrderStatusEnum.Init))
                         {
                             break;
                         }

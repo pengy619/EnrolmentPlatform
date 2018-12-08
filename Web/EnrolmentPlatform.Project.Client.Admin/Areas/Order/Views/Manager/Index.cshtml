@@ -75,11 +75,9 @@
                     </div>
                 </div>
                 <a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新建</a>
-                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
-                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
-                <a href="javascript:exportOpreation();" id="export"><button class="layui-btn layui-btn-primary">导出</button></a>
+                <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
             </div>
         </div>
         <div class="panel-body">
@@ -226,118 +224,6 @@
             });
         });
 
-        //提交
-        form.on('submit(sb)', function (data) {
-            //选中行
-            var checkdata = table.checkStatus('table').data;
-            if (checkdata.length == 0) {
-                layer.msg('请选择需要提交的报名单。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //选中的ID
-            var canSubmit = true;
-            var arr = new Array(checkdata.length);
-            for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 0) {
-                    canSubmit = false;
-                }
-            }
-
-            if (canSubmit == false) {
-                layer.msg('只有草稿状态的才可以提交。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //提交确认
-            layer.confirm('确认提交？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(arr),
-                    url: '@Url.Action("SubmitOrder", "Manager")',
-                    success: function (result) {
-                        if (result.ret == 1) {
-                            layer.msg('报名成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                table.reload("table");
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
-                });
-                layer.close(index);
-            });
-        });
-
-        //退学
-        form.on('submit(re)', function (data) {
-            //选中行
-            var checkdata = table.checkStatus('table').data;
-            if (checkdata.length == 0) {
-                layer.msg('请选择需要退学的报名单。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //退学确认
-            layer.confirm('确认退学？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                //退学处理
-                var arr = new Array(checkdata.length);
-                for (var i = 0; i < checkdata.length; i++) {
-                    arr[i] = checkdata[i].OrderId;
-                }
-
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(arr),
-                    url: '@Url.Action("Leave", "Manager")',
-                    success: function (result) {
-                        if (result.ret == 1) {
-                            layer.msg('退学成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                table.reload("table");
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
-                });
-                layer.close(index);
-            });
-        });
-
         //查询
         form.on('submit(s)', function (data) {
             //执行重载
@@ -366,13 +252,13 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 4) {
+                if (parseInt(checkdata[i].Status) != 4 && parseInt(checkdata[i].Status) != 0) {
                     canSubmit = false;
                 }
             }
 
             if (canSubmit == false) {
-                layer.msg('只有已报名的才可以报送学习中心。', {
+                layer.msg('存在不能进行报送的数据。', {
                     icon: 2,
                     time: 2000
                 });
