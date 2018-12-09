@@ -19,30 +19,19 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// <summary>
         /// 层次集合
         /// </summary>
-        public List<LevelDto> LevelList { get; set; }
+        public List<LevelMajorDto> LevelMajorList { get; set; }
     }
 
     /// <summary>
     /// 层次Dto
     /// </summary>
-    public class LevelDto
+    public class LevelMajorDto
     {
         /// <summary>
         /// 层次Id
         /// </summary>
         public Guid LevelId { get; set; }
 
-        /// <summary>
-        /// 专业集合
-        /// </summary>
-        public List<MajorDto> MajorList { get; set; }
-    }
-
-    /// <summary>
-    /// 专业Id
-    /// </summary>
-    public class MajorDto
-    {
         /// <summary>
         /// 专业Id
         /// </summary>

@@ -18,9 +18,9 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         IList<SchoolItemDto> FindSubItemById(Guid id);
 
         /// <summary>
-        /// 添加配置
+        /// 保存配置
         /// </summary>
         /// <returns></returns>
-        ResultMsg AddConfig(SchoolConfigDto dto);
+        ResultMsg SaveConfig(SchoolConfigDto dto);
     }
 }

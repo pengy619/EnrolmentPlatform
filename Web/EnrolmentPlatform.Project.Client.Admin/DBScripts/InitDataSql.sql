@@ -233,3 +233,35 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'b1062c38-81cd-40f6-ac3e-ffbbfb285930', N'子账号详情', 4, N'Setting', N'ChildAccount', N'Option', N'', 3, N'562e78d9-7fd1-4169-9594-23b8902412bc', 1, N'')
 GO
+
+
+--删除学校配置脚本
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:  <Author,,pengy>
+-- Create date: <2018年12月09日>
+-- Description: <删除学校配置的层次及专业>
+-- =============================================
+create PROCEDURE [dbo].[SP_DeleteSchoolLevelMajors]
+ @SchoolId  uniqueidentifier 
+AS
+BEGIN
+ with  tab_del as (
+  select Id from [dbo].[T_SchoolLevelMajor] with(nolock)
+  where ParentId=@SchoolId
+  union all 
+  select T2.Id from [dbo].[T_SchoolLevelMajor] as T2 with(nolock)
+  inner join tab_del on tab_del.Id=T2.ParentId
+  
+ )
+ delete T_SchoolLevelMajor where Id in (select Id from tab_del);
+END
+
+set nocount off
+
+GO

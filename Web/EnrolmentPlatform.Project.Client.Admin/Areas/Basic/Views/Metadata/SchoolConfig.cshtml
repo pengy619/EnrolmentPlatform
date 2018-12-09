@@ -1,162 +1,112 @@
-﻿
+﻿@model Guid
 @{
     ViewBag.Title = "配置层次及专业";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="~/Content/website/js/jsTree/style.min.css" rel="stylesheet" />
-<script src="~/Content/website/js/jsTree/jstree.min.js"></script>
 <div class="main-wrap">
     <div class="panel">
         <div class="panel-title">
             配置层次及专业
         </div>
-        <div class="panel-body" style="display:flex">
-            <div class="layui-form margin-top-10" style="flex:1">
-                <div class="layui-form-item  input-inline-400">
-                    <label class="layui-form-label"></label>
-                    <div class="layui-input-block">
-                        <div id="using_json0"></div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="layui-form margin-top-10" style="flex:1;" id="div_Content">
-
-            </div>
+        <div class="panel-body">
+            <form class="layui-form">
+                <div id="layui-xtree-demo1" style="width:400px;padding: 10px 0 25px 5px;"></div>
+            </form>
+            <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
+            <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>
         </div>
     </div>
 </div>
+<script src="/Content/website/framework/layui/layui-xtree.js"></script>
+<script>
+    layui.use(['jquery', 'form'], function () {
+        var form = layui.form,layer = layui.layer;
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#using_json0").jstree({
-            "plugins": ["checkbox", "contextmenu"],
-            "contextmenu": {
-                "items":
-                    {
-                        "create": null,
-                        "rename": null,
-                        "remove": null,
-                        "ccp": null,
-                        "Add": {
-                            "label": "费用设置", "action": function (data) {
-                                var inst = $.jstree.reference(data.reference);
-                                var obj = inst.get_node(data.reference);
-                                ShowAdd(obj);
-                            }
-                            , _disabled: function (data) {
-                                @*var inst = $.jstree.reference(data.reference);
-                                var obj = inst.get_node(data.reference);
-                                if (obj.li_attr.level == "@((int)E_AddressClassify.Street)") {
-                                    return true;
-                                }
-                                else {
-                                    return false;
-                                }*@
-                            }
-                        }
+        //绑定权限树
+        var json = @Html.Raw(ViewBag.DataList);
+        var xtree = new layuiXtree({
+            elem: 'layui-xtree-demo1'
+            , form: form
+            , data: json
+            , ckallback: function () { } //全选框状态改变后执行的回调函数
+            , click: function (data) {  //节点选中状态改变事件监听，全选框有自己的监听事件
+                //console.log(data.elem); //得到checkbox原始DOM对象
+                //console.log(data.elem.checked); //开关是否开启，true或者false
+                //console.log(data.value); //开关value值，也可以通过data.elem.value得到
+                //console.log(data.othis); //得到美化后的DOM对象
+            }
+        });
+
+        //默认初始权限
+        @*var curPermission = "@permissionList";
+        $("#layui-xtree-demo1 input[type='checkbox']").each(function () {
+            var curTitle = $(this).attr("title");
+            if (curTitle == "首页") {
+                $(this).prop("checked", true);
+            }
+            else {
+                //查找是否有权限
+                var curId = $(this).val();
+                var permissionArr = curPermission.split(',');
+                var hasPermission = false;
+                for (var a = 0; a < permissionArr.length; a++) {
+                    if (permissionArr[a] == curId) {
+                        hasPermission = true;
+                        //break;
                     }
-            },
-            "core": {
-                "multiple": true,
-                "data": {
-                    url: "/Basic/Metadata/GetList",
-                    'data': function (node) {
-                        return { 'id': node.id };
-                    },
-                    "cache": false
                 }
 
+                //如果有权限
+                if (hasPermission == true) {
+                    //勾选
+                    $(this).prop("checked", true);
+                }
             }
+            form.render();
+        });*@
+
+        //提交
+        form.on('submit(s)', function (data) {
+            if (xtree.GetChecked().length == 0) {
+                layer.msg('请选择层次及专业', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var dto = {};
+            dto.SchoolId = "@Model";
+            dto.LevelMajorList = [];
+            $(xtree.GetChecked()).each(function () {
+                var val = $(this).val().split("_");
+                dto.LevelMajorList.push({ LevelId: val[0], MajorId: val[1] });
+            });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("SaveConfig", "Metadata")',
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        layer.msg('保存成功', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            window.location.href = '@Url.Action("SchoolManage", "Metadata")';
+                        });
+                    }
+                    else {
+                        layer.msg("保存失败", {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+            return false;
         });
-        $("#using_json0").on("changed.jstree", function (e, data) {
-            if (data.selected[0] != undefined) {
-                if (data.instance.get_node(data.selected[0]).li_attr.level != "0") {
-                    ShowUpdate(data.instance.get_node(data.selected[0]));
-                }
-                else {
-                    $("#div_Content").html('');
-                }
-            }
-
-
-        }).jstree();
-
-    });
-    function ShowUpdate(obj) {
-        $.ajax({
-            url: '/Setting/Address/Detail',
-            type: 'get',
-            data: { id: obj.id },
-            beforeSend: function () {
-            },
-            success: function (data) {
-                if (data.IsSuccess == undefined) {
-                    $("#div_Content").html(data);
-                }
-
-            }
-
-
-        });
-    }
-    function ShowAdd(obj) {
-
-        $.ajax({
-            url: '/Setting/Address/Add',
-            type: 'get',
-            data: { parentId: obj.id, classify: parseInt(obj.li_attr.level + 1) },
-            beforeSend: function () {
-            },
-            success: function (data) {
-                if (data.IsSuccess == undefined) {
-                    $("#div_Content").html(data);
-                }
-
-
-            }
-        });
-    }
-
-    var _IsSubmit = false;
-    function Delete(obj) {
-        layer.open({
-            title: '删除节点会删除节点下面所有节点',
-            btn: ['确定', '取消'],
-            yes: function () {
-                if (!_IsSubmit) {
-                    $.ajax({
-                        url: '/Setting/Address/Delete',
-                        type: 'get',
-                        async: false,
-                        data: { id: obj.id },
-                        beforeSend: function () {
-                            _IsSubmit = true;
-                        },
-                        success: function (data) {
-                            if (data.IsSuccess) {
-                                layer.msg("删除成功", {
-                                    icon: 1
-                                    , time: 2000
-                                }, function () {
-                                    $("#using_json0").jstree('refresh');
-                                });
-                            }
-                            else {
-                                layer.msg(data.Info, {
-                                    icon: 2,
-                                    time: 2000
-                                });
-                            }
-                            _IsSubmit = false;
-                        }
-                    });
-                }
-            },
-            btn2: function () {
-
-            }
-        });
-    }
+    })
 </script>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using EnrolmentPlatform.Project.Domain.EFContext;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO.Basics;
 using EnrolmentPlatform.Project.DTO.Enums.Basics;
@@ -42,40 +44,49 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 添加配置
+        /// 保存配置
         /// </summary>
         /// <returns></returns>
-        public ResultMsg AddConfig(SchoolConfigDto dto)
+        public ResultMsg SaveConfig(SchoolConfigDto dto)
         {
             ResultMsg resultMsg = new ResultMsg();
-            var configs = new List<T_SchoolLevelMajor>();
-            if (dto.LevelList != null && dto.LevelList.Any())
+            //先删除原来的配置
+            string strSql = "EXEC SP_DeleteSchoolLevelMajors @SchoolId";
+            SqlParameter[] Paras = new SqlParameter[]
             {
-                foreach (var level in dto.LevelList)
+                new SqlParameter("@SchoolId",dto.SchoolId)
+            };
+            int n = schoolLevelMajorRepository.ExecSql(strSql, E_DbClassify.Write, Paras);
+            //再添加新的配置
+            var configs = new List<T_SchoolLevelMajor>();
+            if (dto.LevelMajorList != null && dto.LevelMajorList.Any())
+            {
+                var levelList = dto.LevelMajorList.Select(t => t.LevelId).Distinct().ToList();
+                foreach (var levelId in levelList)
                 {
-                    var parentId = Guid.NewGuid();
-                    var config = new T_SchoolLevelMajor
+                    var level = new T_SchoolLevelMajor
                     {
-                        Id = parentId,
-                        ItemId = level.LevelId,
+                        Id = Guid.NewGuid(),
+                        ItemId = levelId,
                         Type = (int)MetadataTypeEnum.Level,
                         ParentId = dto.SchoolId,
                         IsEnabled = true
                     };
-                    configs.Add(config);
-                    if (level.MajorList != null && level.MajorList.Any())
+                    configs.Add(level);
+                    var majorList = dto.LevelMajorList.Where(t => t.LevelId == levelId).Select(t => t.MajorId).ToList();
+                    if (majorList != null && majorList.Any())
                     {
-                        foreach (var major in level.MajorList)
+                        foreach (var majorId in majorList)
                         {
-                            config = new T_SchoolLevelMajor
+                            var major = new T_SchoolLevelMajor
                             {
                                 Id = Guid.NewGuid(),
-                                ItemId = major.MajorId,
+                                ItemId = majorId,
                                 Type = (int)MetadataTypeEnum.Major,
-                                ParentId = parentId,
+                                ParentId = level.Id,
                                 IsEnabled = true
                             };
-                            configs.Add(config);
+                            configs.Add(major);
                         }
                     }
                 }

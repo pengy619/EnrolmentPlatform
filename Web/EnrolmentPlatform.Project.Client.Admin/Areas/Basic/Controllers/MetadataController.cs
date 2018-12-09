@@ -6,6 +6,7 @@ using EnrolmentPlatform.Project.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 
 namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
@@ -104,7 +105,51 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         /// <returns></returns>
         public ActionResult SchoolConfig(Guid schoolId)
         {
-            return View();
+            //第一级为层次
+            StringBuilder sb = new StringBuilder("[");
+            var levelList = MetadataService.GetList(MetadataTypeEnum.Level);
+            var majorList = MetadataService.GetList(MetadataTypeEnum.Major);
+            for (int i = 0; i < levelList.Count; i++)
+            {
+                //一级模块组装
+                var item = levelList[i];
+                sb.Append("{ title: \"" + item.Name + "\", value: \"" + item.Id + "\", data: [");
+
+                //第二级为专业
+                for (int j = 0; j < majorList.Count; j++)
+                {
+                    //二级菜单组装
+                    var item2 = majorList[j];
+                    sb.Append("{ title: \"" + item2.Name + "\", value: \"" + item.Id + "_" + item2.Id + "\", data: [");
+
+                    sb.Append("]}");
+                    if (j != majorList.Count - 1)
+                    {
+                        sb.Append(",");
+                    }
+                }
+
+                sb.Append("]}");
+                if (i != levelList.Count - 1)
+                {
+                    sb.Append(",");
+                }
+            }
+            sb.Append("]");
+            ViewBag.DataList = sb.ToString();
+
+            return View(schoolId);
+        }
+
+        /// <summary>
+        /// 保存配置
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult SaveConfig(SchoolConfigDto dto)
+        {
+            var ret = LevelService.SaveConfig(dto);
+            return Json(ret);
         }
 
         public ActionResult GetList()
