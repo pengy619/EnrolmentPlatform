@@ -40,7 +40,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                             ItemId = b.Id,
                             ItemName = b.Name
                         };
-            return query.ToList();
+            return query.OrderBy(t => t.ItemName).ToList();
         }
 
         /// <summary>
