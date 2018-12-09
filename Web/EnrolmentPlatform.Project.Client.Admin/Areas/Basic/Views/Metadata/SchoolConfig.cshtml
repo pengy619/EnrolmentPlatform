@@ -38,33 +38,25 @@
             }
         });
 
-        //默认初始权限
-        @*var curPermission = "@permissionList";
+        //初始选中状态
+        var selectedIds = "@ViewBag.SelectedIds";
         $("#layui-xtree-demo1 input[type='checkbox']").each(function () {
-            var curTitle = $(this).attr("title");
-            if (curTitle == "首页") {
+            //查找是否存在
+            var curId = $(this).val();
+            var selectedArr = selectedIds.split(',');
+            var isExist = false;
+            for (var i = 0; i < selectedArr.length; i++) {
+                if (selectedArr[i].indexOf(curId) > -1) {
+                    isExist = true;
+                    break;
+                }
+            }
+            //如果存在
+            if (isExist) {
                 $(this).prop("checked", true);
             }
-            else {
-                //查找是否有权限
-                var curId = $(this).val();
-                var permissionArr = curPermission.split(',');
-                var hasPermission = false;
-                for (var a = 0; a < permissionArr.length; a++) {
-                    if (permissionArr[a] == curId) {
-                        hasPermission = true;
-                        //break;
-                    }
-                }
-
-                //如果有权限
-                if (hasPermission == true) {
-                    //勾选
-                    $(this).prop("checked", true);
-                }
-            }
             form.render();
-        });*@
+        });
 
         //提交
         form.on('submit(s)', function (data) {

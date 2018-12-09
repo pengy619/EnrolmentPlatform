@@ -44,6 +44,15 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
+        /// 获取所有集合
+        /// </summary>
+        /// <returns></returns>
+        public IList<SchoolItemDto> GetAllList()
+        {
+            return schoolLevelMajorRepository.LoadEntities(t => !t.IsDelete).Select(t => new SchoolItemDto { Id = t.Id, ItemId = t.ItemId, ParentId = t.ParentId }).ToList();
+        }
+
+        /// <summary>
         /// 保存配置
         /// </summary>
         /// <returns></returns>

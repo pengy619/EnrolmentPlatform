@@ -138,6 +138,21 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             sb.Append("]");
             ViewBag.DataList = sb.ToString();
 
+            //已选集合
+            var selectedList = new List<string>();
+            var allItem = SchoolConfigService.GetAllList().ToList();
+            var levelIds = allItem.Where(t => t.ParentId == schoolId).Select(t => new { t.Id, t.ItemId }).ToList();
+            if (levelIds != null && levelIds.Any())
+            {
+                foreach (var item in levelIds)
+                {
+                    var majorIds = allItem.Where(t => t.ParentId == item.Id).Select(t => item.ItemId + "_" + t.ItemId).ToList();
+                    selectedList.Add(item.ItemId.ToString());
+                    selectedList.AddRange(majorIds);
+                }
+            }
+            ViewBag.SelectedIds = string.Join(",", selectedList);
+
             return View(schoolId);
         }
 
@@ -148,7 +163,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         [HttpPost]
         public JsonResult SaveConfig(SchoolConfigDto dto)
         {
-            var ret = LevelService.SaveConfig(dto);
+            var ret = SchoolConfigService.SaveConfig(dto);
             return Json(ret);
         }
 

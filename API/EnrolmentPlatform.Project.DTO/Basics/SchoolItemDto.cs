@@ -25,5 +25,10 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 项目名称
         /// </summary>
         public string ItemName { get; set; }
+
+        /// <summary>
+        /// 父级Id
+        /// </summary>		
+        public Guid ParentId { get; set; }
     }
 }

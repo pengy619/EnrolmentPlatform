@@ -231,7 +231,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         [HttpPost]
         public JsonResult GetLevelData(Guid parentId)
         {
-            var list = LevelService.FindSubItemById(parentId);
+            var list = SchoolConfigService.FindSubItemById(parentId);
             return Json(list);
         }
 

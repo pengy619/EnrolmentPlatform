@@ -18,6 +18,12 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         IList<SchoolItemDto> FindSubItemById(Guid id);
 
         /// <summary>
+        /// 获取所有集合
+        /// </summary>
+        /// <returns></returns>
+        IList<SchoolItemDto> GetAllList();
+
+        /// <summary>
         /// 保存配置
         /// </summary>
         /// <returns></returns>

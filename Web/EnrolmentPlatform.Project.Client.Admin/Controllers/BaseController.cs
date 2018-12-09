@@ -114,7 +114,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         /// <summary>
         /// 层级接口
         /// </summary>
-        public static IT_SchoolLevelMajorService LevelService = DIContainer.Resolve<IT_SchoolLevelMajorService>();
+        public static IT_SchoolLevelMajorService SchoolConfigService = DIContainer.Resolve<IT_SchoolLevelMajorService>();
 
         #endregion
 
