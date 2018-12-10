@@ -40,23 +40,15 @@
 
         //初始选中状态
         var selectedIds = "@ViewBag.SelectedIds";
-        $("#layui-xtree-demo1 input[type='checkbox']").each(function () {
-            //查找是否存在
-            var curId = $(this).val();
-            var selectedArr = selectedIds.split(',');
-            var isExist = false;
-            for (var i = 0; i < selectedArr.length; i++) {
-                if (selectedArr[i].indexOf(curId) > -1) {
-                    isExist = true;
-                    break;
+        if (selectedIds != "") {
+            $("#layui-xtree-demo1 input[type='checkbox']").each(function () {
+                var curId = $(this).val();
+                if (selectedIds.indexOf(curId) > -1) {
+                    $(this).prop("checked", true);
                 }
-            }
-            //如果存在
-            if (isExist) {
-                $(this).prop("checked", true);
-            }
-            form.render();
-        });
+                form.render();
+            });
+        }        
 
         //提交
         form.on('submit(s)', function (data) {
