@@ -82,7 +82,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns></returns>
         public OrderImageDto FindOrderImage(Guid orderId)
         {
-            var entity = this.orderImageRepository.FindEntityById(orderId);
+            var entity = this.orderImageRepository.LoadEntities(a => a.OrderId == orderId).FirstOrDefault();
             if (entity == null)
             {
                 return null;

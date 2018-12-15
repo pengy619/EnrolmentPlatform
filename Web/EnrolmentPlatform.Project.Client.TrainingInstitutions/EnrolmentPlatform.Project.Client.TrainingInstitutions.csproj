@@ -313,6 +313,7 @@
     <Content Include="Content\Website\images\idcard.jpg" />
     <Content Include="Content\Website\images\idcard_.jpg" />
     <Content Include="Content\Website\images\login_logo.png" />
+    <Content Include="Content\Website\images\nopic.png" />
     <Content Include="Content\Website\images\product_img01.jpg" />
     <Content Include="Content\Website\images\right.png" />
     <Content Include="Content\Website\images\timg.jpg" />
