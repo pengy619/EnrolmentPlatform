@@ -515,9 +515,10 @@ namespace EnrolmentPlatform.Project.Infrastructure
         /// </summary>
         /// <param name="url">URL</param>        
         /// <param name="param">POST的数据</param>
+        /// <param name="path">文件名称</param>
         /// <param name="fileByte">图片</param>
         /// <returns></returns>
-        public static string HttpPost(string url, IDictionary<object, object> param, byte[] fileByte)
+        public static string HttpPost(string url, IDictionary<object, object> param,string path, byte[] fileByte)
         {
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
@@ -542,7 +543,7 @@ namespace EnrolmentPlatform.Project.Infrastructure
             rs.Write(boundarybytes, 0, boundarybytes.Length);
 
             string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-            string header = string.Format(headerTemplate, "pic", fileByte, "text/plain");//image/jpeg
+            string header = string.Format(headerTemplate, "pic", path, "image/jpeg");//image/jpeg
             byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
             rs.Write(headerbytes, 0, headerbytes.Length);
 
