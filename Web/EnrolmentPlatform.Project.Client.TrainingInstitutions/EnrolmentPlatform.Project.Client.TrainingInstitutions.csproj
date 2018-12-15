@@ -676,6 +676,7 @@
     <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <Content Include="Areas\Setting\Views\AccountManage\Info.cshtml" />
     <Content Include="Areas\Order\Views\Image\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Image\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
   </ItemGroup>
