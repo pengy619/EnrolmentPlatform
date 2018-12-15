@@ -94,9 +94,9 @@
 </script>
 <script type="text/html" id="tableToolImage">
     {{# if(d.AllOrderImageUpload==true){ }}
-    <img src="/Content/Website/images/right.png" width="24" />" />
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
     {{# }else{ }}
-    <img src="/Content/Website/images/delete.png" width="24" />
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
     {{# } }}
 </script>
 <script>
