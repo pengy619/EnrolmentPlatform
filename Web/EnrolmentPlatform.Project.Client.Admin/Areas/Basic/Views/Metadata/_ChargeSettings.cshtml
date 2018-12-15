@@ -1,0 +1,84 @@
+﻿@using EnrolmentPlatform.Project.DTO.Basics
+@model ChargeStrategyDto
+@{
+    Layout = null;
+}
+
+<form id="from_Add">
+    @Html.HiddenFor(t => t.SchoolId)
+    @Html.HiddenFor(t => t.LevelId)
+    @Html.HiddenFor(t => t.MajorId)
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">策略名称：</label>
+        <div class="layui-input-inline">
+            @Html.TextBoxFor(t => t.Name, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">开始时间：</label>
+        <div class="layui-input-inline">
+            @Html.TextBoxFor(t => t.StartDate, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">截至时间：</label>
+        <div class="layui-input-inline">
+            @Html.TextBoxFor(t => t.EndDate, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">机构费用：</label>
+        <div class="layui-input-inline">
+            @Html.TextBoxFor(t => t.InstitutionCharge, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label">中心费用：</label>
+        <div class="layui-input-inline">
+            @Html.TextBoxFor(t => t.CenterCharge, new { @class = "layui-input" })
+        </div>
+    </div>
+    <div class="layui-form-item input-inline-400">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use(['jquery', "form"], function () {
+        var form = layui.form;
+        form.render();
+        var $ = layui.$;
+         //提交
+        form.on('submit(save)', function (data) {
+                $.ajax({
+                    url: '@Url.Action("AddCharge", "Metadata")',
+                    type: 'post',
+                    data: $("#from_Add").serialize(),
+                    success: function (data) {
+                        if (data.IsSuccess) {
+                            layer.msg("保存成功", {
+                                icon: 1,
+                                time: 1200
+                            }, function () {
+
+                                //$("#using_json0").jstree('refresh');
+                            });
+                        }
+                        else {
+                            layer.msg("保存失败", {
+                                icon: 2,
+                                time: 1200
+                            });
+                        }
+
+                    }
+
+                });
+            return false;
+
+        });
+    });
+
+</script>

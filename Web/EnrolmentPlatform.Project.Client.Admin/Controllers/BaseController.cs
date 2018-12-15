@@ -116,6 +116,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         /// </summary>
         public static IT_SchoolLevelMajorService SchoolConfigService = DIContainer.Resolve<IT_SchoolLevelMajorService>();
 
+        /// <summary>
+        /// 收费策略接口
+        /// </summary>
+        public static IT_ChargeStrategyService ChargeStrategyService = DIContainer.Resolve<IT_ChargeStrategyService>();
+
         #endregion
 
         #region NPOI模板导出

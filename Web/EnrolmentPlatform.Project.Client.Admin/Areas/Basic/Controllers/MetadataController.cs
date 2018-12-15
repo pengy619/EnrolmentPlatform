@@ -167,38 +167,89 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             return Json(ret);
         }
 
-        public ActionResult GetList()
+        /// <summary>
+        /// 设置费用策略
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ChargeStrategy(Guid schoolId)
         {
-            List<JSTree> listtree = new List<JSTree>();
-            var levelList = MetadataService.GetList(MetadataTypeEnum.Level);
-            var majorList = MetadataService.GetList(MetadataTypeEnum.Major);
-            if (levelList != null && levelList.Any())
-            {
-                foreach (var level in levelList)
+            return View(schoolId);
+        }
+
+        /// <summary>
+        /// 费用设置
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ChargeSettings(Guid schoolId, Guid levelId, Guid majorId)
+        {
+            return View("_ChargeSettings",
+                new ChargeStrategyDto
                 {
-                    JSTree jstree = new JSTree();
-                    jstree.id = level.Id;
-                    jstree.text = level.Name;
-                    jstree.li_attr = new LiAttr() { level = 0 };
-                    jstree.state = new State() { opened = true };
-                    if (majorList != null && majorList.Any())
-                    {
-                        List<JSTree> listchild = new List<JSTree>();
-                        foreach (var major in majorList)
-                        {
-                            JSTree jstreeitem = new JSTree();
-                            jstreeitem.id = Guid.NewGuid();
-                            jstreeitem.text = major.Name;
-                            jstreeitem.state = new State() { opened = false };
-                            jstreeitem.li_attr = new LiAttr() { parentId = level.Id, level = 1 };
-                            listchild.Add(jstreeitem);
-                        }
-                        jstree.children = listchild;
-                    }
-                    listtree.Add(jstree);
-                }
-            }
+                    SchoolId = schoolId,
+                    LevelId = levelId,
+                    MajorId = majorId
+                });
+        }
+
+        public JsonResult GetTreeData(Guid schoolId)
+        {
+            var allItem = SchoolConfigService.GetAllList().ToList();
+            var listtree = (from a in allItem
+                            where a.ParentId == schoolId
+                            select new JSTree
+                            {
+                                id = a.Id,
+                                text = a.ItemName,
+                                li_attr = new LiAttr() { level = 0 },
+                                state = new State() { opened = true },
+                                children = (from b in allItem
+                                            where b.ParentId == a.Id
+                                            select new JSTree
+                                            {
+                                                id = b.Id,
+                                                text = b.ItemName,
+                                                li_attr = new LiAttr() { parentId = a.ItemId, level = 1, itemId = b.ItemId },
+                                                state = new State() { opened = false }
+                                            }).ToList()
+                            }).ToList();
             return Json(listtree, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 收费策略列表
+        /// </summary>
+        /// <returns></returns>
+        public string ChargeList(ChargeStrategySearchDto req)
+        {
+            var data = ChargeStrategyService.GetPagedList(req);
+            return data.ToJson();
+        }
+
+        /// <summary>
+        /// 添加收费策略
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult AddCharge(ChargeStrategyDto dto)
+        {
+            dto.CreatorUserId = this.UserId;
+            dto.CreatorAccount = this.UserAccount;
+            var ret = ChargeStrategyService.Add(dto);
+            return Json(ret);
+        }
+
+        /// <summary>
+        /// 删除收费策略
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteCharge(Guid id)
+        {
+            var ret = ChargeStrategyService.Delete(id);
+            return Json(ret);
         }
     }
 }

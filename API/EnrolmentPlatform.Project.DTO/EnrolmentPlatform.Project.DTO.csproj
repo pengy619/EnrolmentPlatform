@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\EnterpriseDto.cs" />
+    <Compile Include="Basics\ChargeStrategyDto.cs" />
     <Compile Include="Basics\MetadataDto.cs" />
     <Compile Include="Basics\SchoolConfigDto.cs" />
     <Compile Include="Basics\SchoolItemDto.cs" />
