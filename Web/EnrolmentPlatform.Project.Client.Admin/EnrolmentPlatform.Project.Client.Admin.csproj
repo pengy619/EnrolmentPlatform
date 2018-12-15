@@ -709,7 +709,6 @@
     <Content Include="Areas\Order\Views\Manager\Index.cshtml" />
     <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <Content Include="Areas\Basic\Views\Metadata\ChargeStrategy.cshtml" />
-    <Content Include="Areas\Basic\Views\Metadata\_ChargeSettings.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />

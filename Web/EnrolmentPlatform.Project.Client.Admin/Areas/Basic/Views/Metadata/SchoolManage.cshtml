@@ -136,7 +136,15 @@
                 } else if (data.length > 1) {
                     layer.msg("请选择单行数据");
                 } else {
-                    location.href = "@Url.Action("ChargeStrategy", "Metadata")?schoolId=" + data[0].Id;
+                    $.get("@Url.Action("ConfigIsExist", "Metadata")", { schoolId: data[0].Id },
+                        function (result) {
+                            if (result == true) {
+                                location.href = "@Url.Action("ChargeStrategy", "Metadata")?schoolId=" + data[0].Id;
+                            }
+                            else {
+                                layer.msg("请先配置层次及专业");
+                            }
+                        });
                 }
             },
             add: function () {

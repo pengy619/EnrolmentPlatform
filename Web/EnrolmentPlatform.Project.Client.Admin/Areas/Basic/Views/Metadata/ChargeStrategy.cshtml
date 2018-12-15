@@ -12,48 +12,199 @@
         </div>
         <div class="panel-body" style="display:flex">
             <div class="layui-form margin-top-10" style="flex:1">
-                <div class="layui-form-item  input-inline-400">
+                <div class="layui-form-item">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block">
                         <div id="using_json0"></div>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>
+                    </div>
+                </div>
             </div>
             <div class="layui-form margin-top-10" style="flex:1;" id="div_Content">
-
+                <table id="chargetable" lay-filter="charge"></table>
             </div>
         </div>
     </div>
 </div>
-
+<form class="layui-form margin-top-20" id="from_Add" style="display:none;">
+    <input type="hidden" id="SchoolId" name="SchoolId" value="@Model">
+    <input type="hidden" id="LevelId" name="LevelId">
+    <input type="hidden" id="MajorId" name="MajorId">
+    <div class="layui-form-item">
+        <label class="layui-form-label">策略名称：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="Name" name="Name" lay-verify="required" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开始时间：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="StartDate" name="StartDate" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">截至时间：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="EndDate" name="EndDate" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">机构费用：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="InstitutionCharge" name="InstitutionCharge" lay-verify="required|number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">中心费用：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="CenterCharge" name="CenterCharge" lay-verify="required|number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+        </div>
+    </div>
+</form>
+<script type="text/html" id="operat">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="delete">删除</a>
+</script>
 <script type="text/javascript">
-    $(document).ready(function () {
+    layui.use(['table', 'jquery', 'laydate', "form"], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#StartDate' //指定元素
+        });
+        laydate.render({
+            elem: '#EndDate' //指定元素
+        });
+
+        //实例表格
+        function RenderTable(levelId, majorId) {
+            table.render({
+                id: 'sid'
+                , elem: '#chargetable'
+                , url: '@Url.Action("ChargeList", "Metadata", new { schoolId = Model })&levelId=' + levelId + '&majorId=' + majorId
+                , page: true //开启分页
+                , cols: [[ //标题栏
+                    { title: '费用策略', colspan: 6 } //rowspan即纵向跨越的单元格数
+                ], [ //标题栏
+                    { field: 'Name', title: '策略名称' }
+                    , { field: 'StartDateStr', title: '开始时间' }
+                    , { field: 'EndDateStr', title: '截至时间' }
+                    , { field: 'InstitutionCharge', title: '机构费用' }
+                    , { field: 'CenterCharge', title: '中心费用' }
+                    , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
+                ]]
+            });
+        }
+
+        //监听工具条
+        table.on('tool(charge)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('您确认要删除吗？', function (index) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteCharge", "Metadata")",
+                        type: 'post',
+                        async: false,
+                        dataType: 'json',
+                        data: { id: data.Id },
+                        success: function (result) {
+                            if (result == true) {
+                                table.reload('sid');
+                            }
+                            else {
+                                layer.msg("删除失败！");
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+        })
+
+        //提交表单
+        form.on('submit(save)', function (data) {
+            if (Date.parse(data.field.StartDate) > Date.parse(data.field.EndDate)) {
+                layer.msg("开始时间不能大于截至时间", {
+                    icon: 2,
+                    time: 1200
+                });
+                return false;
+            }
+            $.ajax({
+                url: '@Url.Action("AddCharge", "Metadata")',
+                type: 'post',
+                data: data.field,
+                dataType: "json",
+                success: function (data) {
+                    if (data.IsSuccess) {
+                        layer.msg("保存成功", {
+                            icon: 1,
+                            time: 1200
+                        }, function () {
+                            table.reload('sid');
+                            layer.closeAll();
+                        });
+                    }
+                    else {
+                        layer.msg(data.Info, {
+                            icon: 2,
+                            time: 1200
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
         $("#using_json0").jstree({
             "plugins": ["themes", "html_data", "contextmenu"],
             "contextmenu": {
                 "items":
-                    {
-                        "create": null,
-                        "rename": null,
-                        "remove": null,
-                        "ccp": null,
-                        "Add": {
-                            "label": "费用设置", "action": function (data) {
-                                var inst = $.jstree.reference(data.reference);
-                                var obj = inst.get_node(data.reference);
-                                ShowAdd(obj);
-                            }, _disabled: function (data) {
-                                var inst = $.jstree.reference(data.reference);
-                                var obj = inst.get_node(data.reference);
-                                if (obj.li_attr.level == 0) {
-                                    return true;
-                                }
-                                else {
-                                    return false;
-                                }
+                {
+                    "create": null,
+                    "rename": null,
+                    "remove": null,
+                    "ccp": null,
+                    "Add": {
+                        "label": "费用设置", "action": function (data) {
+                            var inst = $.jstree.reference(data.reference);
+                            var obj = inst.get_node(data.reference);
+                            $("#LevelId").val(obj.li_attr.parentId);
+                            $("#MajorId").val(obj.li_attr.itemId);
+                            layer.open({
+                                type: 1
+                                , area: ['380px','400px']
+                                , title: "费用设置"
+                                , content: $("#from_Add")
+                            });
+                        }, _disabled: function (data) {
+                            var inst = $.jstree.reference(data.reference);
+                            var obj = inst.get_node(data.reference);
+                            if (obj.li_attr.level == 0) {
+                                return true;
+                            }
+                            else {
+                                return false;
                             }
                         }
                     }
+                }
             },
             "core": {
                 "multiple": false,//设置为单选
@@ -69,44 +220,11 @@
 
         $("#using_json0").on("changed.jstree", function (e, data) {
             if (data.selected[0] != undefined) {
-                if (data.instance.get_node(data.selected[0]).li_attr.level != "0") {
-                    ShowUpdate(data.instance.get_node(data.selected[0]));
-                }
-                else {
-                    $("#div_Content").html('');
+                var obj = data.instance.get_node(data.selected[0]);
+                if (obj.li_attr.level != "0") {
+                    RenderTable(obj.li_attr.parentId, obj.li_attr.itemId);
                 }
             }
         }).jstree();
     });
-    function ShowUpdate(obj) {
-        $.ajax({
-            url: '/Setting/Address/Detail',
-            type: 'get',
-            data: { id: obj.id },
-            beforeSend: function () {
-            },
-            success: function (data) {
-                if (data.IsSuccess == undefined) {
-                    $("#div_Content").html(data);
-                }
-
-            }
-
-
-        });
-    }
-    function ShowAdd(obj) {
-        $.ajax({
-            url: '@Url.Action("ChargeSettings", "Metadata")',
-            type: 'get',
-            data: { schoolId: "@Model", levelId: obj.li_attr.parentId, majorId: obj.li_attr.itemId },
-            beforeSend: function () {
-            },
-            success: function (data) {
-                if (data.IsSuccess == undefined) {
-                    $("#div_Content").html(data);
-                }
-            }
-        });
-    }
 </script>
