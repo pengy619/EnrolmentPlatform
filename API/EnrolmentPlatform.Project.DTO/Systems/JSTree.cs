@@ -27,10 +27,10 @@ namespace EnrolmentPlatform.Project.DTO.Systems
     }
     public class LiAttr
     {
-
         public Guid parentId { get; set; }
         public int level { get; set; }
         public int classify { get; set; }
         public string ShortPinyin { get; set; }
+        public Guid itemId { get; set; }
     }
 }

@@ -49,7 +49,16 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <returns></returns>
         public IList<SchoolItemDto> GetAllList()
         {
-            return schoolLevelMajorRepository.LoadEntities(t => !t.IsDelete).Select(t => new SchoolItemDto { Id = t.Id, ItemId = t.ItemId, ParentId = t.ParentId }).ToList();
+            var query = from a in schoolLevelMajorRepository.LoadEntities(t => !t.IsDelete)
+                        join b in metadataRepository.LoadEntities(t => !t.IsDelete) on a.ItemId equals b.Id
+                        select new SchoolItemDto
+                        {
+                            Id = a.Id,
+                            ItemId = b.Id,
+                            ItemName = b.Name,
+                            ParentId = a.ParentId
+                        };
+            return query.OrderBy(t => t.ItemName).ToList();
         }
 
         /// <summary>

@@ -1,0 +1,112 @@
+﻿@model Guid
+@{
+    ViewBag.Title = "设置费用策略";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/website/js/jsTree/style.min.css" rel="stylesheet" />
+<script src="~/Content/website/js/jsTree/jstree.min.js"></script>
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            设置费用策略
+        </div>
+        <div class="panel-body" style="display:flex">
+            <div class="layui-form margin-top-10" style="flex:1">
+                <div class="layui-form-item  input-inline-400">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <div id="using_json0"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form margin-top-10" style="flex:1;" id="div_Content">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#using_json0").jstree({
+            "plugins": ["themes", "html_data", "contextmenu"],
+            "contextmenu": {
+                "items":
+                    {
+                        "create": null,
+                        "rename": null,
+                        "remove": null,
+                        "ccp": null,
+                        "Add": {
+                            "label": "费用设置", "action": function (data) {
+                                var inst = $.jstree.reference(data.reference);
+                                var obj = inst.get_node(data.reference);
+                                ShowAdd(obj);
+                            }, _disabled: function (data) {
+                                var inst = $.jstree.reference(data.reference);
+                                var obj = inst.get_node(data.reference);
+                                if (obj.li_attr.level == 0) {
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+            },
+            "core": {
+                "multiple": false,//设置为单选
+                "data": {
+                    url: "@Url.Action("GetTreeData", "Metadata", new { schoolId=Model })",
+                    'data': function (node) {
+                        return { 'id': node.id };
+                    },
+                    "cache": false
+                }
+            }
+        });
+
+        $("#using_json0").on("changed.jstree", function (e, data) {
+            if (data.selected[0] != undefined) {
+                if (data.instance.get_node(data.selected[0]).li_attr.level != "0") {
+                    ShowUpdate(data.instance.get_node(data.selected[0]));
+                }
+                else {
+                    $("#div_Content").html('');
+                }
+            }
+        }).jstree();
+    });
+    function ShowUpdate(obj) {
+        $.ajax({
+            url: '/Setting/Address/Detail',
+            type: 'get',
+            data: { id: obj.id },
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data.IsSuccess == undefined) {
+                    $("#div_Content").html(data);
+                }
+
+            }
+
+
+        });
+    }
+    function ShowAdd(obj) {
+        $.ajax({
+            url: '@Url.Action("ChargeSettings", "Metadata")',
+            type: 'get',
+            data: { schoolId: "@Model", levelId: obj.li_attr.parentId, majorId: obj.li_attr.itemId },
+            beforeSend: function () {
+            },
+            success: function (data) {
+                if (data.IsSuccess == undefined) {
+                    $("#div_Content").html(data);
+                }
+            }
+        });
+    }
+</script>

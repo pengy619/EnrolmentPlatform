@@ -233,6 +233,8 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'b1062c38-81cd-40f6-ac3e-ffbbfb285930', N'子账号详情', 4, N'Setting', N'ChildAccount', N'Option', N'', 3, N'562e78d9-7fd1-4169-9594-23b8902412bc', 1, N'')
 GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'110d9afe-043d-4aee-b6a9-d245ad994fac', N'设置费用策略', 4, N'Basic', N'Metadata', N'ChargeStrategy', NULL, 1, N'e22b5fb6-3e76-40c6-826a-bcfd48317dd7', 2, NULL)
+GO
 
 
 --删除学校配置脚本

@@ -10,6 +10,7 @@
             <button data-type="add" id="add" class="layui-btn layui-btn-normal layui-btn-small add">+添加</button>
             <button data-type="delete" id="delete" class="layui-btn layui-btn-danger layui-btn-small a4">删除</button>
             <button data-type="config" id="config" class="layui-btn layui-btn-small a4">配置层次及专业</button>
+            <button data-type="charge" id="charge" class="layui-btn layui-btn-small a4">设置费用策略</button>
             <table id="schooltable" lay-filter="school"></table>
         </div>
     </div>
@@ -127,6 +128,17 @@
                     location.href = "@Url.Action("SchoolConfig", "Metadata")?schoolId=" + data[0].Id;
                 }
             },
+            charge: function () { //获取选中数据
+                var checkStatus = table.checkStatus('sid')
+                    , data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg("请选择要配置的数据");
+                } else if (data.length > 1) {
+                    layer.msg("请选择单行数据");
+                } else {
+                    location.href = "@Url.Action("ChargeStrategy", "Metadata")?schoolId=" + data[0].Id;
+                }
+            },
             add: function () {
                 layer.prompt({ title: '添加学校' }, function (value, index, elem) {
                     if (isSubmit) {
@@ -160,7 +172,7 @@
                 });
             }
         };
-        $('#delete,#add,#config').on('click', function () {
+        $('.panel .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
