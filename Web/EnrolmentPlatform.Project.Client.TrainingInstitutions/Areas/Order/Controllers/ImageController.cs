@@ -80,10 +80,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             int reCount = 0;
             param.FromChannelId = this.EnterpriseId;
-            List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
+            List<OrderImageListDto> list = OrderService.GetStudentImageList(param, ref reCount);
             if (list == null)
             {
-                list = new List<OrderListDto>();
+                list = new List<OrderImageListDto>();
             }
             GridDataResponse grid = new GridDataResponse
             {

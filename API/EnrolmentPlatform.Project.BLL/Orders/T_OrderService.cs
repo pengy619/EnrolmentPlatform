@@ -133,11 +133,11 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     if (ret)
                     {
                         //如果所有图片都上传了
-                        if (!string.IsNullOrWhiteSpace(dto.BiYeZhengImg) || !string.IsNullOrWhiteSpace(dto.LiangCunLanDiImg)
-                            || !string.IsNullOrWhiteSpace(dto.IDCard1) || !string.IsNullOrWhiteSpace(dto.IDCard2)
-                            || !string.IsNullOrWhiteSpace(dto.MianKaoJiSuanJiImg) || !string.IsNullOrWhiteSpace(dto.MianKaoYingYuImg)
-                            || !string.IsNullOrWhiteSpace(dto.QiTa) || !string.IsNullOrWhiteSpace(dto.TouXiang)
-                            || !string.IsNullOrWhiteSpace(dto.XueXinWangImg))
+                        if (!string.IsNullOrWhiteSpace(dto.BiYeZhengImg) && !string.IsNullOrWhiteSpace(dto.LiangCunLanDiImg)
+                            && !string.IsNullOrWhiteSpace(dto.IDCard1) && !string.IsNullOrWhiteSpace(dto.IDCard2)
+                            && !string.IsNullOrWhiteSpace(dto.MianKaoJiSuanJiImg) && !string.IsNullOrWhiteSpace(dto.MianKaoYingYuImg)
+                            && !string.IsNullOrWhiteSpace(dto.QiTa) && !string.IsNullOrWhiteSpace(dto.TouXiang)
+                            && !string.IsNullOrWhiteSpace(dto.XueXinWangImg))
                         {
                             //修改所有图片上传状态
                             var order = this.orderRepository.FindEntityById(dto.OrderId);

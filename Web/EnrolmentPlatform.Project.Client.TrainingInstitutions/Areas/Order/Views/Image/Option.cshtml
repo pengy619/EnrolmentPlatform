@@ -12,16 +12,19 @@
         margin-left: 25px;
     }
     .info-cell .row .item .orderImg {
-        width:250px;
+        width:150px;
         border:1px solid #808080;
         cursor:pointer;
     }
+    .info-cell .row .item .imgDiv {
+        width:250px;
+        height:175px;
+    }
     .info-cell .orderrow .label {
-        height:288px;
-        margin-top:20px;
+        height:170px;
     }
     .info-cell .orderrow .orderFile {
-        width: 200px;
+        width: 100px;
         height: 30px;
     }
     .info-cell .orderrow .orderFileBtn {
@@ -62,10 +65,12 @@
                     </div>
                 </div>
                 <div class="row orderrow">
-                    <div class="item">
+                    <div class="item" style="margin-left: 0px;">
                         <span class="label">身份证正面：</span>
                         <span class="text">
-                            <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1)?imageDto.IDCard1:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1)?imageDto.IDCard1:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File1" class="orderFile" type="file" />
                                 <input id="Button1" class="orderFileBtn" type="button" onclick="postFile(1)" value="上传" />
@@ -75,7 +80,9 @@
                     <div class="item">
                         <span class="label">身份证反面：</span>
                         <span class="text">
-                            <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2)?imageDto.IDCard2:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2)?imageDto.IDCard2:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File2" class="orderFile" type="file" />
                                 <input id="Button2" class="orderFileBtn" type="button" onclick="postFile(2)" value="上传" />
@@ -85,7 +92,9 @@
                     <div class="item">
                         <span class="label">两寸蓝底：</span>
                         <span class="text">
-                            <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File3" class="orderFile" type="file" />
                                 <input id="Button3" class="orderFileBtn" type="button" onclick="postFile(3)" value="上传" />
@@ -94,10 +103,12 @@
                     </div>
                 </div>
                 <div class="row orderrow">
-                    <div class="item">
+                    <div class="item" style="margin-left: 0px;">
                         <span class="label">毕业证：</span>
                         <span class="text">
-                            <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg)?imageDto.BiYeZhengImg:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg)?imageDto.BiYeZhengImg:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File4" class="orderFile" type="file" />
                                 <input id="Button4" class="orderFileBtn" type="button" onclick="postFile(4)" value="上传" />
@@ -107,7 +118,9 @@
                     <div class="item">
                         <span class="label">免考英语：</span>
                         <span class="text">
-                            <img id="image5" class="orderImg"  src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image5" class="orderImg"  src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File5" class="orderFile" type="file" />
                                 <input id="Button5" class="orderFileBtn" type="button" onclick="postFile(5)" value="上传" />
@@ -117,7 +130,9 @@
                     <div class="item">
                         <span class="label">免考计算机：</span>
                         <span class="text">
-                            <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg)?imageDto.MianKaoJiSuanJiImg:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg)?imageDto.MianKaoJiSuanJiImg:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File6" class="orderFile" type="file" />
                                 <input id="Button6" class="orderFileBtn" type="button" onclick="postFile(6)" value="上传" />
@@ -126,10 +141,12 @@
                     </div>
                 </div>
                 <div class="row orderrow">
-                    <div class="item">
+                    <div class="item" style="margin-left: 0px;">
                         <span class="label">学信网截图：</span>
                         <span class="text">
-                            <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg)?imageDto.XueXinWangImg:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg)?imageDto.XueXinWangImg:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File7" class="orderFile" type="file" />
                                 <input id="Button7" class="orderFileBtn" type="button" onclick="postFile(7)" value="上传" />
@@ -139,7 +156,9 @@
                     <div class="item">
                         <span class="label">头像：</span>
                         <span class="text">
-                            <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang)?imageDto.TouXiang:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang)?imageDto.TouXiang:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File8" class="orderFile" type="file" />
                                 <input id="Button8" class="orderFileBtn" type="button" onclick="postFile(8)" value="上传" />
@@ -149,7 +168,9 @@
                     <div class="item">
                         <span class="label">其他：</span>
                         <span class="text">
-                            <img id="image9" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.QiTa)?imageDto.QiTa:"/Content/Website/images/nopic.png")" />
+                            <div class="imgDiv">
+                                <img id="image9" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.QiTa)?imageDto.QiTa:"/Content/Website/images/nopic.png")" />
+                            </div>
                             <div class="uploadDiv">
                                 <input id="File9" class="orderFile" type="file" />
                                 <input id="Button9" class="orderFileBtn" type="button" onclick="postFile(9)" value="上传" />
