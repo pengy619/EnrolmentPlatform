@@ -66,4 +66,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// </summary>
         public string TouXiang { set; get; }
     }
+
+    public class PicIndex
+    {
+        public Guid OrderId { set; get; }
+        public string ImageType { set; get; }
+        public int PictureIndex { set; get; }
+    }
 }

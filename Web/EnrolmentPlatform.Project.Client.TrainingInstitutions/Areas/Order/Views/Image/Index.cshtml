@@ -85,7 +85,7 @@
 </script>
 <script type="text/html" id="tableToolImage2">
     {{# if(d.IDCard1){ }}
-    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" />" /></a>
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
     {{# }else{ }}
     <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
     {{# } }}
@@ -159,7 +159,7 @@
             , skin: 'line'
             , limit: 20
             //, data: [{ OrderId: '@Guid.NewGuid()', StudentName: 'test', BatchName:'批次'}]
-            , url: '@Url.Action("Search", "Manager")'
+            , url: '@Url.Action("Search", "Image")'
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'checkbox' }

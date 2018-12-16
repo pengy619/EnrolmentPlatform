@@ -263,7 +263,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
-                        (req.IsChannel.HasValue==false||(req.IsChannel.Value==true && a.FromChannelId.HasValue==true && a.Status!=0 && a.Status != 3) ||(req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
+                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
+                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderListDto()
                         {
                             AllOrderImageUpload = a.AllOrderImageUpload,
@@ -343,7 +344,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
-                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)&&
+                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
+                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderImageListDto()
                         {
                             BatchName = bbtemp.Name,
@@ -378,13 +381,19 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 query = query.Where(a => a.LevelName.Contains(req.LevelName));
             }
 
+            //查找订单id集合
+            if (req.OrderIds != null && req.OrderIds.Count > 0)
+            {
+                query = query.Where(a => req.OrderIds.Contains(a.OrderId));
+            }
+
             reCount = query.Count();
             if (reCount == 0)
             {
                 return null;
             }
 
-            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
 
         /// <summary>
@@ -428,7 +437,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
-                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)&&
+                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
+                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderPaymentListDto()
                         {
                             BatchName = bbtemp.Name,
@@ -463,7 +474,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
     }
 }

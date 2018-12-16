@@ -31,6 +31,13 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         OrderImageDto FindOrderImage(Guid orderId);
 
         /// <summary>
+        /// 获得报名单图片
+        /// </summary>
+        /// <param name="orderIds"></param>
+        /// <returns></returns>
+        List<OrderImageDto> FindOrderImage(List<Guid> orderIds);
+
+        /// <summary>
         /// 修改报名单图片
         /// </summary>
         /// <param name="dto">dto</param>
@@ -43,6 +50,13 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="id">Id</param>
         /// <returns></returns>
         OrderDto GetOrder(Guid id);
+
+        /// <summary>
+        /// 获得订单
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <returns></returns>
+        List<OrderDto> GetOrder(List<Guid> ids);
 
         /// <summary>
         /// 报名提交（直接为已报名）

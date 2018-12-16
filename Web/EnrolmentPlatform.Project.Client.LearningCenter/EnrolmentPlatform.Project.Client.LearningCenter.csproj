@@ -324,6 +324,7 @@
     <Content Include="Content\website\images\login_logo.png" />
     <Content Include="Content\website\images\nodata.jpg" />
     <Content Include="Content\website\images\noimg.jpg" />
+    <Content Include="Content\website\images\nopic.png" />
     <Content Include="Content\website\images\product_img01.jpg" />
     <Content Include="Content\website\images\right.png" />
     <Content Include="Content\website\images\timg.jpg" />
@@ -688,9 +689,11 @@
     <Content Include="Areas\Order\Views\Image\Index.cshtml" />
     <Content Include="Areas\Order\Views\Manager\Index.cshtml" />
     <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
+    <Content Include="Areas\Order\Views\Image\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Shared\_calendar.cshtml" />
     <Content Include="Temp\OrderTemp.xls" />
+    <Content Include="Temp\OrderImageTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">
