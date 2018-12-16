@@ -1,6 +1,270 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "证件管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>照片管理</h2>
+<style type="text/css">
+    .searchMore {
+        display: none;
+    }
+    .layui-table-view .layui-table-box td .laytable-cell-1-9{width:100px!important;}
+</style>
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item flex">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-inline">
+                        <select id="Status" name="Status" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderStatusEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">学生姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="StudentName" class="layui-input">
+                    </div>
+                    <button class="layui-btn layui-btn-warm" type="button" lay-submit="" lay-filter="s">查询</button>
+                    <button class="layui-btn layui-btn-warm" type="button" id="MoreSearch">更多查询</button>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">学生电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Phone" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">身份证号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="IDCard" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">创建老师</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="CreateUserName" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">报考学校</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="SchoolName" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">报读层次</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="LevelName" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">报名时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Date" readonly="readonly" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item searchMore">
+                    <label class="layui-form-label">照片全上传</label>
+                    <div>
+                        <input type="radio" name="AllOrderImageUpload" value="" title="全部" checked>
+                        <input type="radio" name="AllOrderImageUpload" value="true" title="是">
+                        <input type="radio" name="AllOrderImageUpload" value="false" title="否">
+                    </div>
+                </div>
+                <div class="layui-form-item searchMore">
+                    <label class="layui-form-label">渠道添加</label>
+                    <div>
+                        <input type="radio" name="IsChannelAdd" value="" title="全部" checked>
+                        <input type="radio" name="IsChannelAdd" value="true" title="是">
+                        <input type="radio" name="IsChannelAdd" value="false" title="否">
+                    </div>
+                </div>
+                <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出照片包</button></a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableToolImage1">
+    {{# if(d.LiangCunLanDiImg){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage2">
+    {{# if(d.IDCard1){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage3">
+    {{# if(d.IDCard2){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage4">
+    {{# if(d.TouXiang){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage5">
+    {{# if(d.BiYeZhengImg){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage6">
+    {{# if(d.MianKaoYingYuImg){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage7">
+    {{# if(d.MianKaoJiSuanJiImg){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage8">
+    {{# if(d.XueXinWangImg){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script type="text/html" id="tableToolImage9">
+    {{# if(d.QiTa){ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/right.png" width="24" /></a>
+    {{# }else{ }}
+    <a href="@Url.Action("Option","Image")?orderId={{d.OrderId}}"><img src="/Content/Website/images/delete.png" width="24" /></a>
+    {{# } }}
+</script>
+<script>
+    var table, layer, laydate, form;
+    layui.use(['jquery', 'table', 'laydate', 'layer'], function () {
+        table = layui.table;
+        layer = layui.layer;
+        laydate = layui.laydate;
+        form = layui.form;
 
+        //日期
+        laydate.render({
+            elem: '#Date'
+            , range: true
+        });
+
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            , limit: 20
+            //, data: [{ OrderId: '@Guid.NewGuid()', StudentName: 'test', BatchName:'批次'}]
+            , url: '@Url.Action("Search", "Image")'
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'checkbox' }
+                , { field: 'StudentName', title: '学生姓名', width: 100 }
+                , { field: 'BatchName', title: '批次', width: 130 }
+                , { field: 'SchoolName', title: '院校', width: 150 }
+                , { field: 'LevelName', title: '层次', width: 100 }
+                , { field: 'MajorName', title: '专业', width: 180 }
+                , { title: '两寸蓝底', toolbar: '#tableToolImage1', width: 90 }
+                , { title: '身份证正面', toolbar: '#tableToolImage2', width: 100 }
+                , { title: '身份证反面', toolbar: '#tableToolImage3', width: 100 }
+                , { title: '头像', toolbar: '#tableToolImage4', width: 80 }
+                , { title: '毕业证', toolbar: '#tableToolImage5', width: 90 }
+                , { title: '免试英语', toolbar: '#tableToolImage6', width: 90 }
+                , { title: '计算机', toolbar: '#tableToolImage7', width: 90 }
+                , { title: '学信网截图', toolbar: '#tableToolImage8', width: 100 }
+                , { title: '其他', toolbar: '#tableToolImage9', width: 80 }
+                , { field: 'StatusName', title: '状态', width: 80 }
+                , { field: 'CreateTimeStr', title: '报名时间', width: 110 }
+                , { field: 'CreateUserName', title: '招生老师', width: 90 }
+            ]]
+        }
+        table.render(tableOptions);
+
+        //查询
+        form.on('submit(s)', function (data) {
+            //执行重载
+            table.reload('table', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: getSearchData()
+            });
+        });
+    });
+
+    //更多查询
+    var dis = true;
+    $("#MoreSearch").click(function () {
+        if (dis == true) {
+            $(".searchMore").show();
+            $("#MoreSearch").text("收起查询");
+            dis = false;
+        }
+        else {
+            $(".searchMore").hide();
+            $("#MoreSearch").text("更多查询");
+            dis = true;
+        }
+    });
+
+    //导出按钮处理
+    function exportOpreation() {
+        //选中行
+        var checkdata = table.checkStatus('table').data;
+        if (checkdata.length == 0) {
+            layer.msg('请选择需要提交的报名单。', {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
+
+        //选中的ID
+        var orderIds = "";
+        for (var i = 0; i < checkdata.length; i++) {
+            orderIds += checkdata[i].OrderId;
+            if (i != checkdata.length - 1) {
+                orderIds += "|";
+            }
+        }
+        var url = "@Url.Action("Export","Image",new { area="Order"})" + "?ids=" + orderIds;
+        window.open(url);
+    }
+
+    //获得查询条件
+    function getSearchData() {
+        var dateArr = $("#time").val();
+        var dateFrom = "";
+        var dateTo = "";
+        if ($.trim(dateArr) != "") {
+            dateFrom = dateArr.split(' - ')[0];
+            dateTo = dateArr.split(' - ')[1];
+        }
+
+        return {
+            Status: $("#Status").val(),
+            StudentName: $("#StudentName").val(),
+            Phone: $("#Phone").val(),
+            IDCard: $("#IDCard").val(),
+            CreateUserName: $("#CreateUserName").val(),
+            SchoolName: $("#SchoolName").val(),
+            LevelName: $("#LevelName").val(),
+            DateFrom: dateFrom,
+            DateTo: dateTo,
+            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val(),
+            IsChannelAdd: $("input[name='IsChannelAdd']:checked").val()
+        };
+    }
+</script>

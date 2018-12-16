@@ -324,6 +324,7 @@
     <Content Include="Content\website\images\login_logo.png" />
     <Content Include="Content\website\images\nodata.jpg" />
     <Content Include="Content\website\images\noimg.jpg" />
+    <Content Include="Content\website\images\nopic.png" />
     <Content Include="Content\website\images\product_img01.jpg" />
     <Content Include="Content\website\images\right.png" />
     <Content Include="Content\website\images\timg.jpg" />
