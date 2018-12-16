@@ -384,7 +384,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-            return query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
     }
 }
