@@ -35,16 +35,10 @@ namespace EnrolmentPlatform.Project.Client.FileStorage.Controllers
                             _dir = "Admin";
                             break;
                         case 2:
-                            _dir = "Supplier";
-                            break;
-                        case 3:
-                            _dir = "B2C";
+                            _dir = "Center";
                             break;
                         case 4:
-                            _dir = "TouristServiceCenter";
-                            break;
-                        case 5:
-                            _dir = "H5";
+                            _dir = "Institutions";
                             break;
                         default:
                             break;

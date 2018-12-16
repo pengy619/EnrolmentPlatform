@@ -235,6 +235,12 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'110d9afe-043d-4aee-b6a9-d245ad994fac', N'设置费用策略', 4, N'Basic', N'Metadata', N'ChargeStrategy', NULL, 1, N'e22b5fb6-3e76-40c6-826a-bcfd48317dd7', 2, NULL)
 GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'cf99e7c6-7682-4cba-b1e5-2e28b1854027', N'证件明细', 4, N'Order', N'Image', N'Option', NULL, 1, N'b2cd2436-eec0-4d14-92b4-d78a69f5c646', 1, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'6e66c394-9ab5-4ac2-b2a5-4bf0b0c998c8', N'证件明细', 4, N'Order', N'Image', N'Option', NULL, 5, N'8da26f2c-2dce-43a3-b312-abea3052d7d7', 1, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'f52d08bb-1b6d-4be9-aeac-56181c67d516', N'证件明细', 4, N'Order', N'Image', N'Option', NULL, 3, N'44285b28-bee0-495b-8d67-ad1ad269d93b', 1, NULL)
+GO
 
 
 --删除学校配置脚本
