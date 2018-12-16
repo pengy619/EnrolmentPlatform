@@ -355,7 +355,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
         public string Search(OrderListReqDto param)
         {
             int reCount = 0;
-            param.FromChannelId = this.EnterpriseId;
+            param.ToLearningCenterId = this.SupplierId;
             List<OrderImageListDto> list = OrderService.GetStudentImageList(param, ref reCount);
             if (list == null)
             {

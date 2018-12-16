@@ -87,7 +87,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             req.OrderIds = orderIds;
             req.Page = 1;
             req.Limit = int.MaxValue;
-            req.IsChannel = true;
             int reCount = 0;
             List<OrderImageListDto> orderList = OrderService.GetStudentImageList(req, ref reCount);
             if (orderList == null || orderList.Count == 0)
