@@ -168,27 +168,22 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         }
 
         /// <summary>
+        /// 配置是否存在
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult ConfigIsExist(Guid schoolId)
+        {
+            bool isExist = SchoolConfigService.FindSubItemById(schoolId).Count() > 0;
+            return Json(isExist, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// 设置费用策略
         /// </summary>
         /// <returns></returns>
         public ActionResult ChargeStrategy(Guid schoolId)
         {
             return View(schoolId);
-        }
-
-        /// <summary>
-        /// 费用设置
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult ChargeSettings(Guid schoolId, Guid levelId, Guid majorId)
-        {
-            return View("_ChargeSettings",
-                new ChargeStrategyDto
-                {
-                    SchoolId = schoolId,
-                    LevelId = levelId,
-                    MajorId = majorId
-                });
         }
 
         public JsonResult GetTreeData(Guid schoolId)

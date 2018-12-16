@@ -41,10 +41,20 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// </summary>		
         public DateTime StartDate { get; set; }
 
+        public string StartDateStr
+        {
+            get { return StartDate.ToString("yyyy-MM-dd"); }
+        }
+
         /// <summary>
         /// 截止时间
         /// </summary>		
         public DateTime EndDate { get; set; }
+
+        public string EndDateStr
+        {
+            get { return EndDate.ToString("yyyy-MM-dd"); }
+        }
 
         /// <summary>
         /// 机构费用
