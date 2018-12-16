@@ -260,5 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /Web/EnrolmentPlatform.Project.Client.FileStorage/Upload
-/Web/EnrolmentPlatform.Project.Client.FileStorage/Upload/OrderImage
-/API/EnrolmentPlatform.Project.WebApi/Configs
+/Web/EnrolmentPlatform.Project.Client.Admin/Content/Upload/OrderImage
+/Web/EnrolmentPlatform.Project.Client.TrainingInstitutions/Content/Upload/OrderImage
