@@ -610,6 +610,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Order\Models\" />
     <Folder Include="Areas\Setting\Models\" />
+    <Folder Include="Content\Upload\OrderImage\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -680,6 +681,7 @@
     <Content Include="Areas\Order\Views\Image\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
+    <Content Include="Temp\OrderImageTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">

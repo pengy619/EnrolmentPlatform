@@ -455,5 +455,10 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 是否是渠道查询
         /// </summary>
         public bool? IsChannel { set; get; }
+
+        /// <summary>
+        /// 查询的ID
+        /// </summary>
+        public List<Guid> OrderIds { set; get; }
     }
 }

@@ -105,6 +105,30 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 获得报名单图片
+        /// </summary>
+        /// <param name="orderIds"></param>
+        /// <returns></returns>
+        public List<OrderImageDto> FindOrderImage(List<Guid> orderIds)
+        {
+            return this.orderImageRepository.LoadEntities(a => orderIds.Contains(a.OrderId))
+                .Select(entity => new OrderImageDto()
+                {
+                    BiYeZhengImg = entity.BiYeZhengImg,
+                    Id = entity.Id,
+                    IDCard1 = entity.IDCard1,
+                    IDCard2 = entity.IDCard2,
+                    LiangCunLanDiImg = entity.LiangCunLanDiImg,
+                    MianKaoJiSuanJiImg = entity.MianKaoJiSuanJiImg,
+                    MianKaoYingYuImg = entity.MianKaoYingYuImg,
+                    OrderId = entity.OrderId,
+                    QiTa = entity.QiTa,
+                    TouXiang = entity.TouXiang,
+                    XueXinWangImg = entity.XueXinWangImg
+                }).ToList();
+        }
+
+        /// <summary>
         /// 修改报名单图片
         /// </summary>
         /// <param name="dto">dto</param>
@@ -204,6 +228,45 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 WorkUnit = entity.WorkUnit
 
             };
+        }
+
+        /// <summary>
+        /// 获得订单
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <returns></returns>
+        public List<OrderDto> GetOrder(List<Guid> ids)
+        {
+            return this.orderRepository.LoadEntities(a => ids.Contains(a.Id))
+                .Select(entity => new OrderDto() {
+                    Address = entity.Address,
+                    AllOrderImageUpload = entity.AllOrderImageUpload,
+                    BatchId = entity.BatchId,
+                    Email = entity.Email,
+                    EnrollAddress = entity.EnrollAddress,
+                    ExamDate = entity.ExamDate,
+                    ExamSubject = entity.ExamSubject,
+                    FromChannelId = entity.FromChannelId,
+                    FromTypeName = entity.FromTypeName,
+                    GraduateSchool = entity.GraduateSchool,
+                    HighesDegree = entity.HighesDegree,
+                    IDCardNo = entity.IDCardNo,
+                    LevelId = entity.LevelId,
+                    MajorId = entity.MajorId,
+                    Native = entity.Native,
+                    OrderId = entity.Id,
+                    Phone = entity.Phone,
+                    Remark = entity.Remark,
+                    SchoolId = entity.SchoolId,
+                    Status = entity.Status,
+                    StudentName = entity.StudentName,
+                    TencentNo = entity.TencentNo,
+                    ToLearningCenterId = entity.ToLearningCenterId,
+                    UserId = entity.CreatorUserId,
+                    UserName = entity.CreatorAccount,
+                    WorkUnit = entity.WorkUnit
+                })
+                .ToList();
         }
 
         /// <summary>

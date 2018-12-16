@@ -378,6 +378,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 query = query.Where(a => a.LevelName.Contains(req.LevelName));
             }
 
+            //查找订单id集合
+            if (req.OrderIds != null && req.OrderIds.Count > 0)
+            {
+                query = query.Where(a => req.OrderIds.Contains(a.OrderId));
+            }
+
             reCount = query.Count();
             if (reCount == 0)
             {
