@@ -60,13 +60,13 @@
                     <div class="item">
                         <span class="label">流水附件：</span>
                         <span class="text">
-                            @if (string.IsNullOrEmpty(dto.FilePath))
+                            @if (!string.IsNullOrWhiteSpace(dto.FilePath))
                             {
-                                Html.Raw("无");
+                                @Html.Raw("<img class=\"orderinfo\" style=\"max-width: 500px;cursor:pointer; max-height: 300px; border: 1px solid #808080;margin-top: 2px;\" src=\"" + dto.FilePath + "\" />")
                             }
                             else
                             {
-                                Html.Raw("<img class=\"orderinfo\" style=\"max-width: 500px;cursor:pointer; max-height: 300px; border: 1px solid #808080;margin-top: 2px;\" src=\"" + dto.FilePath + "\" />");
+                                @Html.Raw("无附件")
                             }
                         </span>
                     </div>
