@@ -512,12 +512,11 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// 获得报名缴费列表
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="paymentSource">支付发起方（1：招生机构，2：学习中心）</param>
         /// <param name="reCount"></param>
         /// <returns></returns>
-        public List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, int paymentSource, ref int reCount)
+        public List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, ref int reCount)
         {
-            return this.orderRepository.GetStudentPaymentList(req, paymentSource, ref reCount);
+            return this.orderRepository.GetStudentPaymentList(req, ref reCount);
         }
     }
 }
