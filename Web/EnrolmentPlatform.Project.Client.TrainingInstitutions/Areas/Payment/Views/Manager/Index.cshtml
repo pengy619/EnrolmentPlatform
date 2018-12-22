@@ -10,7 +10,7 @@
                     <label class="layui-form-label">审核状态</label>
                     <div class="layui-input-inline">
                         <select id="Status" name="Status" style="width:100px;">
-                            <option value="" disabled>全部</option>
+                            <option value="">全部</option>
                             @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<PaymentStatusEnum, int>())
                             {
                                 <option value="@item.Key">@item.Value</option>
@@ -63,13 +63,13 @@
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'checkbox' }
-                , { field: 'Name', title: '缴费名称' }
-                , { field: 'TypeName', title: '类型'}
-                , { field: 'TotalAmount', title: '缴纳金额'}
-                , { field: 'StatusName', title: '状态'}
-                , { field: 'CreatorTime', title: '登记时间'}
-                , { field: 'UserName', title: '登记人'}
-                , { title: '操作', toolbar: '#tableTool', width: 200 }
+                , { field: 'Name', title: '缴费名称', width: 300}
+                , { field: 'TypeName', title: '类型', width: 150}
+                , { field: 'TotalAmount', title: '缴纳金额', width: 150}
+                , { field: 'StatusName', title: '状态', width: 150}
+                , { field: 'CreatorTime', title: '登记时间', width: 200}
+                , { field: 'UserName', title: '登记人', width: 104}
+                , { title: '操作', toolbar: '#tableTool', width: 150 }
             ]]
         }
         table.render(tableOptions);
