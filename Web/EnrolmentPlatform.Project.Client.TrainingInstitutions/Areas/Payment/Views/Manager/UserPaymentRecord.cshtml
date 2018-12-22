@@ -1,5 +1,96 @@
 ﻿@{
-    ViewBag.Title = "付款单列表";
+    ViewBag.Title = "学生缴费明细";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    PaymentUserDetailDto dto = ViewBag.Dto;
 }
-付款单列表
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            学生缴费明细
+        </div>
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row">
+                    <div class="item" style="margin-left:0px;">
+                        <span class="label">学生姓名：</span>
+                        <span class="text">@((dto != null) ? dto.StudentName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">批  次：</span>
+                        <span class="text">@((dto != null) ? dto.BatchName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">院  校：</span>
+                        <span class="text">@((dto != null) ? dto.SchoolName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">层  次：</span>
+                        <span class="text">@((dto != null) ? dto.LevelName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">专  业：</span>
+                        <span class="text">@((dto != null) ? dto.MajorName : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <span class="label">应  缴：</span>
+                        <span class="text">@((dto != null) ? dto.TotalAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">已  缴：</span>
+                        <span class="text" style="color:green;">@((dto != null) ? dto.PayedAmount.ToString("N2") : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <span class="label">未  缴：</span>
+                        <span class="text" style="color:red;">@((dto != null) ? dto.UnPayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">待审核：</span>
+                        <span class="text" style="color:orange;">@((dto != null) ? dto.ApprovalAmount.ToString("N2") : "")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-title">
+            缴费记录
+        </div>
+        <div class="panel-body" style="max-height:500px; overflow-y:auto; overflow-x:hidden;">
+            <table id="table" lay-filter="table"></table>
+            <div class="margin-top-10">
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("AccountIndex","Manager")'">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var table, layer, laydate, form;
+    layui.use(['jquery', 'table', 'laydate', 'layer'], function () {
+        table = layui.table;
+        layer = layui.layer;
+        laydate = layui.laydate;
+        form = layui.form;
+
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            //, width:1000
+            , data: JSON.parse('@(Html.Raw(dto.PaymentRecordList.ToJson()))')
+            , page: false
+            , cols: [[ //表头
+                { field: 'Name', title: '缴费名称'}
+                , { field: 'TypeName', title: '类型'}
+                , { field: 'TotalAmount', title: '金额'}
+                , { field: 'StatusName', title: '状态'}
+                , { field: 'CreatorTime', title: '登记时间'}
+                , { field: 'UserName', title: '登记人' }
+                , { field: 'Auditor', title: '审核人' }
+                , { field: 'AuditTime', title: '审核时间' }
+            ]]
+        }
+        table.render(tableOptions);
+    });
+</script>

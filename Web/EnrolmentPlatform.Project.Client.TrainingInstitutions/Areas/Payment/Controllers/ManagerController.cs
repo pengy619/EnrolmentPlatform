@@ -38,8 +38,14 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
         /// 用户缴费记录
         /// </summary>
         /// <returns></returns>
-        public ActionResult UserPaymentRecord()
+        public ActionResult UserPaymentRecord(Guid? orderId)
         {
+            if (orderId.HasValue == false)
+            {
+                return RedirectToAction("AccountIndex");
+            }
+            PaymentUserDetailDto paymentUserDetailDto = PaymentRecordService.GetUserDetail(orderId.Value, 1);
+            ViewBag.Dto = paymentUserDetailDto;
             return View();
         }
 
