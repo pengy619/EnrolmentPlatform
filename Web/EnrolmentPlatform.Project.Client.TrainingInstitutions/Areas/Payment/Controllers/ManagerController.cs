@@ -64,8 +64,16 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
         /// 缴费查看
         /// </summary>
         /// <returns></returns>
-        public ActionResult PaymentDetail()
+        public ActionResult PaymentDetail(Guid? paymentId)
         {
+            if (paymentId.HasValue == false)
+            {
+                return RedirectToAction("Index");
+            }
+
+            PaymentRecordDto dto = PaymentRecordService.GetInfo(paymentId.Value);
+            ViewBag.Dto = dto;
+
             return View();
         }
 

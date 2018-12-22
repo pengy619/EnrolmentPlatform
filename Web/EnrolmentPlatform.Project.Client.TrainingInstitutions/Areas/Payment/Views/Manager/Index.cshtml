@@ -35,7 +35,7 @@
     </div>
 </div>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentDetail","Manager")" lay-event="log">查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentDetail","Manager")?paymentId={{d.Id}}" lay-event="log">查看</a>
     {{# if(d.Status==3){ }}
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:deletePayment('{{d.Id}}');" lay-event="log">删除</a>
     {{# } }}
@@ -62,8 +62,7 @@
             , url: '@Url.Action("PaymentSearch", "Manager")'
             , page: true //开启分页
             , cols: [[ //表头
-                { type: 'checkbox' }
-                , { field: 'Name', title: '缴费名称', width: 300}
+                { field: 'Name', title: '缴费名称', width: 300}
                 , { field: 'TypeName', title: '类型', width: 150}
                 , { field: 'TotalAmount', title: '缴纳金额', width: 150}
                 , { field: 'StatusName', title: '状态', width: 150}
