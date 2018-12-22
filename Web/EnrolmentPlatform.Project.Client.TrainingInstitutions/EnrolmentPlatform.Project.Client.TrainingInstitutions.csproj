@@ -686,6 +686,7 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />
+    <Content Include="Temp\OrderAmountTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">

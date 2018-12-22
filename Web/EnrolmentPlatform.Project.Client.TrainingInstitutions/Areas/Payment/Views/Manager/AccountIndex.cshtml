@@ -88,7 +88,7 @@
 </div>
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentRecord","Manager")');" lay-event="log">缴费记录</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("UserPaymentRecord","Manager")" lay-event="log">缴费记录</a>
 </script>
 <script type="text/html" id="tableTool1">
     {{d.TotalAmount}}
@@ -149,6 +149,7 @@
                 , { field: 'StatusName', title: '状态', width: 80 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 110 }
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }
+                , { title: '操作', toolbar: '#tableTool', width: 155 }
             ]]
         }
         table.render(tableOptions);
@@ -267,7 +268,7 @@
     function exportOpreation() {
         //获得查询条件
         var searchData = getSearchData();
-        var url = "@Url.Action("Export","Manager",new { area="Order"})" + "?1=1";
+        var url = "@Url.Action("Export","Manager",new { area= "Payment" })" + "?1=1";
         if (searchData.Status != "") {
             url += "&Status=" + searchData.Status;
         }
