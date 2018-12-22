@@ -127,9 +127,8 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// 获得报名缴费列表
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="paymentSource">支付发起方（1：招生机构，2：学习中心）</param>
         /// <param name="reCount"></param>
         /// <returns></returns>
-        List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req,int paymentSource, ref int reCount);
+        List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, ref int reCount);
     }
 }

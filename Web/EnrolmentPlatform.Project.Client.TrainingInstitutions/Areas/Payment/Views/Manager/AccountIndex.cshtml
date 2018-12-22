@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "报名单列表";
+    ViewBag.Title = "学习管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style type="text/css">
@@ -20,9 +20,10 @@
                     <div class="layui-input-inline">
                         <select id="Status" name="Status" style="width:100px;">
                             <option value="">全部</option>
-                            <option value="@((int)OrderStatusEnum.ToLearningCenter)">@EnumDescriptionHelper.GetDescription(OrderStatusEnum.ToLearningCenter)</option>
-                            <option value="@((int)OrderStatusEnum.Join)">@EnumDescriptionHelper.GetDescription(OrderStatusEnum.Join)</option>
-                            <option value="@((int)OrderStatusEnum.LeaveSchool)">@EnumDescriptionHelper.GetDescription(OrderStatusEnum.LeaveSchool)</option>
+                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderStatusEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
                         </select>
                     </div>
                     <label class="layui-form-label">学生姓名</label>
@@ -70,9 +71,7 @@
                         <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
-                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="lq">录取</button>
-                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
-                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>
+                <a href="@Url.Action("Option","Manager",new { area="Payment"})" class="layui-btn ">缴费登记</a>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
             </div>
         </div>
@@ -87,27 +86,32 @@
         <table class="layui-hide" id="Tb_LogSettingForTable"></table>
     </div>
 </div>
-<!-- 弹出层（拒绝确认） -->
-<div id="audit-btn-modal3" style="display:none;">
-    <div class="layui-form" style="text-align: center;">
-        <div class="layui-form-item required" style="padding-top: 20px;">
-            <label class="layui-form-label">拒绝理由</label>
-            <div class="layui-input-inline">
-                <textarea name="rejectReason" placeholder="请输入拒绝理由" style="width:250px;" id="rejectReason" class="layui-textarea"></textarea>
-            </div>
-        </div>
-        <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="rejectc">确定</button>
-    </div>
-</div>
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentRecord","Manager")');" lay-event="log">缴费记录</a>
 </script>
-<script type="text/html" id="tableToolImage">
-    {{# if(d.AllOrderImageUpload==true){ }}
-    <img src="/Content/Website/images/right.png" width="24" />
+<script type="text/html" id="tableTool1">
+    {{d.TotalAmount}}
+</script>
+<script type="text/html" id="tableTool2">
+    {{# if(d.PayedAmount==d.TotalAmount){ }}
+    <span style="color:green;">{{d.PayedAmount}}</span>
     {{# }else{ }}
-    <img src="/Content/Website/images/delete.png" width="24" />
+    {{d.PayedAmount}}
+    {{# } }}
+</script>
+<script type="text/html" id="tableTool3">
+    {{# if(d.UnPayedAmount>0){ }}
+    <span style="color:red;">{{d.UnPayedAmount}}</span>
+    {{# }else{ }}
+    {{d.UnPayedAmount}}
+    {{# } }}
+</script>
+<script type="text/html" id="tableTool4">
+    {{# if(d.ApprovalAmount>0){ }}
+    <span style="color:orange;">{{d.ApprovalAmount}}</span>
+    {{# }else{ }}
+    {{d.ApprovalAmount}}
     {{# } }}
 </script>
 <script>
@@ -129,7 +133,6 @@
             elem: '#table'
             , skin: 'line'
             , limit: 20
-            //, data: [{ OrderId: '@Guid.NewGuid()', StudentName: 'test', BatchName:'批次'}]
             , url: '@Url.Action("Search", "Manager")'
             , page: true //开启分页
             , cols: [[ //表头
@@ -139,21 +142,23 @@
                 , { field: 'SchoolName', title: '院校', width: 150 }
                 , { field: 'LevelName', title: '层次', width: 100 }
                 , { field: 'MajorName', title: '专业', width: 180 }
-                , { title: '电子照', toolbar: '#tableToolImage', width: 100 }
+                , { field: 'TotalAmount', toolbar: '#tableTool1', title: '应缴学费', width: 100 }
+                , { field: 'PayedAmount', toolbar: '#tableTool2', title: '已缴学费', width: 100 }
+                , { field: 'UnPayedAmount', toolbar: '#tableTool3', title: '未缴学费', width: 100 }
+                , { field: 'ApprovalAmount', toolbar: '#tableTool4', title: '待审核学费', width: 100 }
                 , { field: 'StatusName', title: '状态', width: 80 }
-                , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
+                , { field: 'CreateTimeStr', title: '报名时间', width: 110 }
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }
-                , { title: '操作', toolbar: '#tableTool', width: 155 }
             ]]
         }
         table.render(tableOptions);
 
-        //录取
-        form.on('submit(lq)', function (data) {
+        //提交
+        form.on('submit(sb)', function (data) {
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
-                layer.msg('请选择需要录取的报名单。', {
+                layer.msg('请选择需要提交的报名单。', {
                     icon: 2,
                     time: 2000
                 });
@@ -165,13 +170,13 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 5) {
+                if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
                     canSubmit = false;
                 }
             }
 
             if (canSubmit == false) {
-                layer.msg('只有已报送状态的才可以录取。', {
+                layer.msg('只有草稿状态的才可以提交。', {
                     icon: 2,
                     time: 2000
                 });
@@ -179,7 +184,7 @@
             }
 
             //提交确认
-            layer.confirm('确认录取？', {
+            layer.confirm('确认提交？', {
                 btn: ['确认', '取消']
             }, function (index, layero) {
                 $.ajax({
@@ -188,10 +193,10 @@
                     dataType: "json",
                     async: false,
                     data: JSON.stringify(arr),
-                    url: '@Url.Action("LuQu", "Manager")',
+                    url: '@Url.Action("SubmitOrder", "Manager")',
                     success: function (result) {
                         if (result.ret == 1) {
-                            layer.msg('录取成功。', {
+                            layer.msg('报名成功。', {
                                 icon: 1,
                                 time: 2000
                             }, function () {
@@ -207,172 +212,6 @@
                     }
                 });
                 layer.close(index);
-            });
-        });
-
-        //退学
-        form.on('submit(re)', function (data) {
-            //选中行
-            var checkdata = table.checkStatus('table').data;
-            if (checkdata.length == 0) {
-                layer.msg('请选择需要退学的报名单。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //选中的ID
-            var canSubmit = true;
-            var arr = new Array(checkdata.length);
-            for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 7) {
-                    canSubmit = false;
-                }
-            }
-
-            if (canSubmit == false) {
-                layer.msg('只有已录取状态的才可以退学。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //退学确认
-            layer.confirm('确认退学？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(arr),
-                    url: '@Url.Action("Leave", "Manager")',
-                    success: function (result) {
-                        if (result.ret == 1) {
-                            layer.msg('退学成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                table.reload("table");
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
-                });
-                layer.close(index);
-            });
-        });
-
-        //拒绝弹窗
-        form.on('submit(reject)', function (data) {
-            var ret = checkReject();
-            if (ret.result == false) {
-                return false;
-            }
-
-            layerIndex2 = layer.open({
-                type: 1,
-                title: "拒绝确认",
-                area: ["420px", "250px"],
-                content: $('#audit-btn-modal3'),
-                yes: function (index, layero) {
-                    //事件
-                    layer.close(indxex);
-                }
-            });
-        });
-
-        //拒绝校验
-        function checkReject() {
-            var ret = {};
-            //选中行
-            var checkdata = table.checkStatus('table').data;
-            if (checkdata.length == 0) {
-                layer.msg('请选择需要拒绝的报名单。', {
-                    icon: 2,
-                    time: 2000
-                });
-                ret.result = false;
-                return ret;
-            }
-
-            //选中的ID
-            var canSubmit = true;
-            var arr = new Array(checkdata.length);
-            for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].OrderId;
-                //已报名可以进行拒绝
-                if (parseInt(checkdata[i].Status) != 5) {
-                    canSubmit = false;
-                }
-            }
-
-            if (canSubmit == false) {
-                layer.msg('只有已报送的能进行拒绝。', {
-                    icon: 2,
-                    time: 2000
-                });
-                ret.result = false;
-                return ret;
-            }
-
-            ret.result = true;
-            ret.arr = arr;
-            return ret;
-        }
-
-        var layerIndex2 = 2;
-        //拒绝确认
-        form.on('submit(rejectc)', function (data) {
-            var ret = checkReject();
-            if (ret.result == false) {
-                return false;
-            }
-
-            var dto = {};
-            dto.ids = ret.arr;
-            dto.reason = $.trim($("#rejectReason").val());
-            if (dto.reason == "") {
-                layer.msg('请输入拒绝理由！', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json;utf-8",
-                dataType: "json",
-                async: false,
-                data: JSON.stringify(dto),
-                url: '@Url.Action("Reject", "Manager")',
-                success: function (result) {
-                    if (result.ret == 1) {
-                        layer.msg('拒绝成功。', {
-                            icon: 1,
-                            time: 2000
-                        }, function () {
-                            layer.close(layerIndex2);
-                            table.reload("table");
-                        });
-                    }
-                    else {
-                        layer.msg(result.msg, {
-                            icon: 2,
-                            time: 2000
-                        });
-                    }
-                }
             });
         });
 
@@ -486,3 +325,4 @@
         };
     }
 </script>
+

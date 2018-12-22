@@ -400,10 +400,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         /// 获得报名缴费列表
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="paymentSource">支付发起方（1：招生机构，2：学习中心）</param>
+        /// <param name="paymentSource">支付发起方（1：招生机构，2：渠道中心）</param>
         /// <param name="reCount"></param>
         /// <returns></returns>
-        public List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, int paymentSource, ref int reCount)
+        public List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, ref int reCount)
         {
             if (req.DateTo.HasValue)
             {
@@ -424,8 +424,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ddtemp in dtemp.DefaultIfEmpty()
                         join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
                         from eetemp in etemp.DefaultIfEmpty()
-                        join f in dbContext.T_OrderAmount on a.Id equals f.OrderId into ftemp
+                        join f in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 1 } equals new { OrderId = f.OrderId, PaymentSource = f.PaymentSource } into ftemp
                         from fftemp in ftemp.DefaultIfEmpty()
+                        join g in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 1 } equals new { OrderId = g.OrderId, PaymentSource = g.PaymentSource } into gtemp
+                        from ggtemp in gtemp.DefaultIfEmpty()
                         where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
@@ -437,7 +439,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
-                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)&&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
                         (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
                         (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderPaymentListDto()
@@ -453,7 +455,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             StudentName = a.StudentName,
                             ApprovalAmount = fftemp.ApprovalAmount,
                             PayedAmount = fftemp.PayedAmount,
-                            TotalAmount = fftemp.TotalAmount
+                            TotalAmount = fftemp.TotalAmount,
+                            QDApprovalAmount = ggtemp.ApprovalAmount,
+                            QDPayedAmount = ggtemp.PayedAmount,
+                            QDTotalAmount = ggtemp.TotalAmount
                         };
 
             //学校
