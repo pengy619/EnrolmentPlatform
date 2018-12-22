@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers;
 using EnrolmentPlatform.Project.DTO;
+using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 using NPOI.HSSF.UserModel;
@@ -179,6 +180,39 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
             #endregion
 
             return null;
+        }
+
+        /// <summary>
+        /// 提交付款单
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult SavePayment(List<Guid> orderIdList, string name, decimal unitAmount, HttpPostedFileBase file, PaymentTypeEnum paymentType)
+        {
+            //上传的图片地址
+            string fileUrl = this.ImageUpload(file);
+
+            List<PaymentOrderInfo> paymentOrders = orderIdList.Select(a => new PaymentOrderInfo() { OrderId = a, Amount = unitAmount })
+                .ToList();
+            PaymentRecordDto dto = new PaymentRecordDto()
+            {
+                UserId = this.UserId,
+                UserName = this.UserName,
+                CreateTime = DateTime.Now,
+                PaymentSource = 1,
+                PaymentSourceId = this.EnterpriseId,
+                Name = name,
+                FilePath = fileUrl,
+                Type = paymentType,
+                UnitAmount = unitAmount,
+                OrderList = paymentOrders
+            };
+            string msg = PaymentRecordService.AddPaymentRecord(dto);
+            if (msg != "")
+            {
+                return Json(new { ret = true, msg = msg });
+            }
+            return Json(new { ret = true });
         }
     }
 }

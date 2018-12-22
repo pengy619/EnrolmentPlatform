@@ -198,7 +198,9 @@
                 if (i == 0) {
                     url += "?OrderIds=" + arr[i];
                 }
-                url = url + "|" + arr[i];
+                else {
+                    url = url + "|" + arr[i];
+                }
             }
             window.location.href = url;
         });
