@@ -45,6 +45,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
                 return RedirectToAction("AccountIndex");
             }
             PaymentUserDetailDto paymentUserDetailDto = PaymentRecordService.GetUserDetail(orderId.Value, 1);
+            if (paymentUserDetailDto == null)
+            {
+                return RedirectToAction("AccountIndex");
+            }
             ViewBag.Dto = paymentUserDetailDto;
             return View();
         }
