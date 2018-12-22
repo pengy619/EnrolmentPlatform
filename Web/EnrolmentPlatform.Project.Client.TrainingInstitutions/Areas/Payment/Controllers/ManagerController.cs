@@ -48,6 +48,19 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
         /// <returns></returns>
         public ActionResult PaymentAdd()
         {
+            string orderIds = Request.QueryString["OrderIds"];
+            if (string.IsNullOrWhiteSpace(orderIds))
+            {
+                return RedirectToAction("AccountIndex");
+            }
+            string[] orderIdArr = orderIds.Split('|');
+            List<Guid> orderList = new List<Guid>();
+            foreach (var item in orderIdArr)
+            {
+                orderList.Add(Guid.Parse(item));
+            }
+            ViewBag.PersonCount = orderList.Count;
+            ViewBag.OrderList = orderList.ToJson();
             return View();
         }
 

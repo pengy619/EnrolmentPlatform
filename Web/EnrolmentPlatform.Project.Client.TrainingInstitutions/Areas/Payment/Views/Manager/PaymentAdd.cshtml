@@ -2,4 +2,55 @@
     ViewBag.Title = "缴费登记";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-付款单列表
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            缴费登记
+        </div>
+        <div class="panel-body">
+            <div class="layui-form-item required">
+                <label class="layui-form-label">缴费名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="40" lay-verify="required" id="StudentName" value=''>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">缴费类型</label>
+                <div class="layui-input-inline">
+                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required">
+                        <option value=""></option>
+                        @foreach (var item in EnumDescriptionHelper.GetItemValueList<PaymentTypeEnum,int>())
+                        {
+                        <option value="@item.Key">@item.Value</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">缴费人数</label>
+                <div class="layui-input-inline">
+                    <label style="height:38px;line-height:38px;">@(ViewBag.PersonCount)</label>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label" style="font-weight: 600;font-size: 16px;">本次缴费</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="StudentName" value=''>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label" style="font-weight: 600;font-size: 16px;">共&nbsp;&nbsp;计</label>
+                <div class="layui-input-inline">
+                    <label style="height:38px;line-height:38px;">￥0.00</label>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">附件</label>
+                <div class="layui-input-inline">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidOrderList" value="@ViewBag.OrderList" />
