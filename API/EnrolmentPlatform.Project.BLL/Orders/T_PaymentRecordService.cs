@@ -75,7 +75,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             }
 
             //发起方ID
-            if (req.s.HasValue)
+            if (req.Status.HasValue)
             {
                 query = query.Where(a => a.PaymentSourceId == req.PaymentSourceId.Value);
             }

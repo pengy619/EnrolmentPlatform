@@ -246,7 +246,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// <summary>
         /// 状态
         /// </summary>
-        public PaymentStatusEnum Status { set; get; }
+        public PaymentStatusEnum? Status { set; get; }
 
         /// <summary>
         /// 支付发起方（1：机构，2：渠道）
