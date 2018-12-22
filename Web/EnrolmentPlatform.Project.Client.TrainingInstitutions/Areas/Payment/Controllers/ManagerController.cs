@@ -55,13 +55,8 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
                 return RedirectToAction("AccountIndex");
             }
             string[] orderIdArr = orderIds.Split('|');
-            List<Guid> orderList = new List<Guid>();
-            foreach (var item in orderIdArr)
-            {
-                orderList.Add(Guid.Parse(item));
-            }
-            ViewBag.PersonCount = orderList.Count;
-            ViewBag.OrderList = orderList.ToJson();
+            ViewBag.PersonCount = orderIdArr.Length;
+            ViewBag.OrderList = orderIds;
             return View();
         }
 
@@ -185,15 +180,30 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
         /// <summary>
         /// 提交付款单
         /// </summary>
+        /// <param name="orderIdStr"></param>
+        /// <param name="name"></param>
+        /// <param name="unitAmount"></param>
+        /// <param name="file"></param>
+        /// <param name="paymentType"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SavePayment(List<Guid> orderIdList, string name, decimal unitAmount, HttpPostedFileBase file, PaymentTypeEnum paymentType)
+        public JsonResult SavePayment(string orderIdStr, string name, decimal unitAmount, HttpPostedFileBase file, PaymentTypeEnum paymentType)
         {
+            //订单数量检查
+            if (string.IsNullOrWhiteSpace(orderIdStr))
+            {
+                return Json(new { ret = true, msg = "没有任何报名单！" });
+            }
+            var orderIdArr = orderIdStr.Split('|');
+            List<Guid> orderIdList = new List<Guid>();
+            foreach (var item in orderIdArr)
+            {
+                orderIdList.Add(Guid.Parse(item));
+            }
+
             //上传的图片地址
             string fileUrl = this.ImageUpload(file);
-
-            List<PaymentOrderInfo> paymentOrders = orderIdList.Select(a => new PaymentOrderInfo() { OrderId = a, Amount = unitAmount })
-                .ToList();
+            List<PaymentOrderInfo> paymentOrders = orderIdList.Select(a => new PaymentOrderInfo() { OrderId = a, Amount = unitAmount }).ToList();
             PaymentRecordDto dto = new PaymentRecordDto()
             {
                 UserId = this.UserId,
