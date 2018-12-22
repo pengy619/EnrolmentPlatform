@@ -70,7 +70,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
         }
 
         /// <summary>
-        /// 查询列表
+        /// 查询学习管理列表
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
@@ -82,6 +82,29 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
             if (list == null)
             {
                 list = new List<OrderPaymentListDto>();
+            }
+            GridDataResponse grid = new GridDataResponse
+            {
+                Count = reCount,
+                Data = list
+            };
+            return grid.ToJson();
+        }
+
+        /// <summary>
+        /// 查询缴费登记列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public string PaymentSearch(PaymentRecordListReqDto param)
+        {
+            int reCount = 0;
+            param.PaymentSource = 1;
+            param.PaymentSourceId = this.EnterpriseId;
+            List<PaymentRecordListDto> list = PaymentRecordService.GetPagedList(param, ref reCount);
+            if (list == null)
+            {
+                list = new List<PaymentRecordListDto>();
             }
             GridDataResponse grid = new GridDataResponse
             {

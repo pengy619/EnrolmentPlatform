@@ -211,6 +211,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户Id
         /// </summary>
         public Guid UserId { set; get; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateTime { set; get; }
     }
 
     /// <summary>

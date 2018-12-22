@@ -87,9 +87,10 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     TotalAmount = a.TotalAmount,
                     Type = a.Type,
                     UserId = a.CreatorUserId,
-                    UserName = a.CreatorAccount
-                })
-                .ToList();
+                    UserName = a.CreatorAccount,
+                    CreateTime = a.CreatorTime
+                }).ToList();
+
         }
 
         /// <summary>
