@@ -272,7 +272,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                                     TotalAmount = bbtemp.TotalAmount,
                                     Type = bbtemp.Type,
                                     UserId = bbtemp.CreatorUserId,
-                                    UserName = bbtemp.CreatorAccount
+                                    UserName = bbtemp.CreatorAccount,
+                                    CreatorTime=bbtemp.CreatorTime
                                 };
                 detail.PaymentRecordList = listQuery.ToList();
             }
