@@ -71,7 +71,7 @@
                         <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
-                <a href="@Url.Action("PaymentAdd","Manager",new { area="Payment"})" class="layui-btn ">缴费登记</a>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="jf">缴费登记</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
             </div>
         </div>
@@ -154,12 +154,12 @@
         }
         table.render(tableOptions);
 
-        //提交
-        form.on('submit(sb)', function (data) {
+        //缴费登记
+        form.on('submit(jf)', function (data) {
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
-                layer.msg('请选择需要提交的报名单。', {
+                layer.msg('请选择需要缴费的报名单。', {
                     icon: 2,
                     time: 2000
                 });
@@ -171,49 +171,36 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
+                if (parseInt(checkdata[i].UnPayedAmount) == 0) {
                     canSubmit = false;
                 }
             }
 
             if (canSubmit == false) {
-                layer.msg('只有草稿状态的才可以提交。', {
+                layer.msg('请选择未缴学费为0的报名单进行缴费登记。', {
                     icon: 2,
                     time: 2000
                 });
                 return false;
             }
 
-            //提交确认
-            layer.confirm('确认提交？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(arr),
-                    url: '@Url.Action("SubmitOrder", "Manager")',
-                    success: function (result) {
-                        if (result.ret == 1) {
-                            layer.msg('报名成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                table.reload("table");
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
+            if (arr.length > 30)
+            {
+                layer.msg('一次最多只能30个报名单进行缴费登记。', {
+                    icon: 2,
+                    time: 2000
                 });
-                layer.close(index);
-            });
+                return false;
+            }
+
+            var url = "@(Url.Action("PaymentAdd", "Manager"))";
+            for (var i = 0; i < arr.length; i++) {
+                if (i == 0) {
+                    url += "?OrderIds=" + arr[i];
+                }
+                url = url + "|" + arr[i];
+            }
+            window.location.href = url;
         });
 
         //查询
