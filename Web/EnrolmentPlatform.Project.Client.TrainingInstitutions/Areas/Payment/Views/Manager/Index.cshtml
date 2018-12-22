@@ -35,7 +35,7 @@
     </div>
 </div>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("UserPaymentRecord","Manager")" lay-event="log">查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentDetail","Manager")" lay-event="log">查看</a>
     {{# if(d.Status==3){ }}
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:deletePayment('{{d.Id}}');" lay-event="log">删除</a>
     {{# } }}
@@ -67,7 +67,7 @@
                 , { field: 'TypeName', title: '类型'}
                 , { field: 'TotalAmount', title: '缴纳金额'}
                 , { field: 'StatusName', title: '状态'}
-                , { field: 'CreateTime', title: '登记时间'}
+                , { field: 'CreatorTime', title: '登记时间'}
                 , { field: 'UserName', title: '登记人'}
                 , { title: '操作', toolbar: '#tableTool', width: 200 }
             ]]

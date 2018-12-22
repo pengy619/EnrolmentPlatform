@@ -244,6 +244,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string Name { set; get; }
 
         /// <summary>
+        /// 状态
+        /// </summary>
+        public PaymentStatusEnum Status { set; get; }
+
+        /// <summary>
         /// 支付发起方（1：机构，2：渠道）
         /// </summary>
         public int? PaymentSource { set; get; }
