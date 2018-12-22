@@ -9,6 +9,7 @@
     }
 
     .info-cell .row .item {
+        width:400px;
         margin-left: 25px;
     }
 </style>
@@ -20,7 +21,7 @@
         <div class="panel-body">
             <div class="info-cell no-padding">
                 <div class="row">
-                    <div class="item" style="margin-left:0px;">
+                    <div class="item">
                         <span class="label">缴费名称：</span>
                         <span class="text">@((dto != null) ? dto.Name : "")</span>
                     </div>
@@ -32,7 +33,7 @@
                     </div>
                     <div class="item">
                         <span class="label">审核状态：</span>
-                        <span class="text">@((dto != null) ? EnumDescriptionHelper.GetDescription((PaymentTypeEnum)dto.Status) : "")</span>
+                        <span class="text">@((dto != null) ? EnumDescriptionHelper.GetDescription((PaymentStatusEnum)dto.Status) : "")</span>
                     </div>
                 </div>
                 <div class="row">
@@ -59,7 +60,7 @@
                     <div class="item">
                         <span class="label">流水附件：</span>
                         <span class="text">
-                            @if (!string.IsNullOrEmpty(dto.FilePath))
+                            @if (string.IsNullOrEmpty(dto.FilePath))
                             {
                                 Html.Raw("无");
                             }
@@ -75,7 +76,7 @@
         <div class="panel-title">
             包含报名单列表
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="max-height:500px; overflow-y:auto; overflow-x:hidden;">
             <table id="table" lay-filter="table"></table>
         </div>
     </div>
@@ -92,15 +93,16 @@
         var tableOptions = {
             elem: '#table'
             , skin: 'line'
-            , data: '@(Html.Raw(dto.OrderList.ToJson()))'
+            //, width:1000
+            , data: JSON.parse('@(Html.Raw(dto.OrderList.ToJson()))')
             , page: false 
             , cols: [[ //表头
-                { field: 'StudentName', title: '缴费名单', width: 300}
-                , { field: 'BatchName', title: '批次', width: 150}
-                , { field: 'SchoolName', title: '院校', width: 150}
-                , { field: 'LevelName', title: '层次', width: 150}
-                , { field: 'MajorName', title: '专业', width: 200}
-                , { field: 'Amount', title: '缴纳金额', width: 104}
+                { field: 'StudentName', title: '缴费名单'}
+                , { field: 'BatchName', title: '批次'}
+                , { field: 'SchoolName', title: '院校'}
+                , { field: 'LevelName', title: '层次'}
+                , { field: 'MajorName', title: '专业'}
+                , { field: 'Amount', title: '缴纳金额'}
             ]]
         }
         table.render(tableOptions);
