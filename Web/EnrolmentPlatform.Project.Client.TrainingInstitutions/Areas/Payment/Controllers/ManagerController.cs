@@ -255,5 +255,24 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
             }
             return Json(new { ret = true });
         }
+
+        /// <summary>
+        /// 删除付款单
+        /// </summary>
+        /// <param name="paymentId">付款单</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult Delete(Guid paymentId)
+        {
+            var ret = PaymentRecordService.Delete(paymentId);
+            if (ret == true)
+            {
+                return Json(new { ret = true });
+            }
+            else
+            {
+                return Json(new { ret = false, msg = "删除失败。" });
+            }
+        }
     }
 }
