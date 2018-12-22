@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.IBLL.Orders;
+using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 
@@ -14,10 +15,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
     public class T_PaymentRecordService: IT_PaymentRecordService
     {
         private IT_PaymentRecordRepository paymentRecordRepository;
+        private IT_EnterpriseRepository enterpriseRepository;
 
         public T_PaymentRecordService()
         {
             this.paymentRecordRepository = DIContainer.Resolve<IT_PaymentRecordRepository>();
+            this.enterpriseRepository= DIContainer.Resolve<IT_EnterpriseRepository>();
         }
 
         /// <summary>
@@ -38,7 +41,27 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns></returns>
         public List<PaymentRecordListDto> GetPagedList(PaymentRecordListReqDto req, ref int reCount)
         {
-            var query = this.paymentRecordRepository.LoadEntities(a => a.IsDelete == false);
+            var query = from a in this.paymentRecordRepository.LoadEntities(i => i.IsDelete == false)
+                        join b in this.enterpriseRepository.LoadEntities(j => j.IsDelete == false) on a.PaymentSourceId equals b.Id
+                        into btemp
+                        from bbtemp in btemp.DefaultIfEmpty()
+                        select new PaymentRecordListDto()
+                        {
+                            Id = a.Id,
+                            Auditor = a.Auditor,
+                            AuditorId = a.AuditorId,
+                            AuditTime = a.AuditTime,
+                            Name = a.Name,
+                            OrgName = bbtemp.EnterpriseName,
+                            Status = a.Status,
+                            TotalAmount = a.TotalAmount,
+                            Type = a.Type,
+                            UserId = a.CreatorUserId,
+                            UserName = a.CreatorAccount,
+                            CreatorTime = a.CreatorTime,
+                            PaymentSource = a.PaymentSource,
+                            PaymentSourceId = a.PaymentSourceId.Value
+                        };
             //发起方
             if (req.PaymentSource.HasValue)
             {
@@ -75,22 +98,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             {
                 return null;
             }
-            return query.OrderByDescending(a => a.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit)
-                .Select(a => new PaymentRecordListDto()
-                {
-                    Auditor = a.Auditor,
-                    AuditorId = a.AuditorId,
-                    AuditTime = a.AuditTime,
-                    Id = a.Id,
-                    Name = a.Name,
-                    Status = a.Status,
-                    TotalAmount = a.TotalAmount,
-                    Type = a.Type,
-                    UserId = a.CreatorUserId,
-                    UserName = a.CreatorAccount,
-                    CreateTime = a.CreatorTime
-                }).ToList();
-
+            return query.OrderByDescending(a => a.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
 
         /// <summary>

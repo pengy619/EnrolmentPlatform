@@ -188,6 +188,21 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         }
 
         /// <summary>
+        /// 支付发起方（1：机构，2：渠道）
+        /// </summary>
+        public int PaymentSource { set; get; }
+
+        /// <summary>
+        /// 支付发起ID（机构ID，学习中心ID）
+        /// </summary>
+        public Guid PaymentSourceId { set; get; }
+
+        /// <summary>
+        /// 机构名称
+        /// </summary>
+        public string OrgName { set; get; }
+
+        /// <summary>
         /// 审核人
         /// </summary>
         public string Auditor { set; get; }
@@ -215,7 +230,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreateTime { set; get; }
+        public DateTime CreatorTime { set; get; }
     }
 
     /// <summary>
@@ -247,6 +262,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 结束时间
         /// </summary>
         public DateTime? DateTo { set; get; }
+
+        /// <summary>
+        /// 机构名称
+        /// </summary>
+        public string OrgName { set; get; }
     }
 
     /// <summary>
