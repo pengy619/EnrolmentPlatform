@@ -119,7 +119,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
         /// <summary>
         /// 缴费接口
         /// </summary>
-        public static T_PaymentRecordService PaymentRecordService = DIContainer.Resolve<T_PaymentRecordService>();
+        public static IT_PaymentRecordService PaymentRecordService = DIContainer.Resolve<IT_PaymentRecordService>();
 
         /// <summary>
         /// 基础数据接口
