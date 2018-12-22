@@ -269,7 +269,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                                     Id = bbtemp.Id,
                                     Name = bbtemp.Name,
                                     Status = bbtemp.Status,
-                                    TotalAmount = bbtemp.TotalAmount,
+                                    TotalAmount = a.Amount,
                                     Type = bbtemp.Type,
                                     UserId = bbtemp.CreatorUserId,
                                     UserName = bbtemp.CreatorAccount,
