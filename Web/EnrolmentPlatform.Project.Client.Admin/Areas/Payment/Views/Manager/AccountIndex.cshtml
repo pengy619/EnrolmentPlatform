@@ -16,6 +16,10 @@
         <div class="panel-title">
             <div class="layui-form">
                 <div class="layui-form-item flex">
+                    <label class="layui-form-label">学习中心</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="ToLearningCenterName" class="layui-input">
+                    </div>
                     <label class="layui-form-label">学生姓名</label>
                     <div class="layui-input-inline">
                         <input type="text" id="StudentName" class="layui-input">
@@ -152,6 +156,7 @@
             , cols: [[ //表头
                 { type: 'checkbox' }
                 , { field: 'StudentName', title: '学生姓名', width: 100 }
+                , { field: 'ToLearningCenterName', title: '学习中心', width: 100 }
                 , { field: 'BatchName', title: '批次', width: 130 }
                 , { field: 'SchoolName', title: '院校', width: 150 }
                 , { field: 'LevelName', title: '层次', width: 100 }
@@ -317,6 +322,9 @@
         if (searchData.AllOrderImageUpload != "") {
             url += "&AllOrderImageUpload=" + searchData.AllOrderImageUpload;
         }
+        if (searchData.ToLearningCenterName != "") {
+            url += "&ToLearningCenterName=" + searchData.ToLearningCenterName;
+        }
         window.open(url);
     }
 
@@ -340,6 +348,7 @@
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
+            ToLearningCenterName: $("#ToLearningCenterName").val(),
             AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
         };
     }

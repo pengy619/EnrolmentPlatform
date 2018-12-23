@@ -428,6 +428,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from fftemp in ftemp.DefaultIfEmpty()
                         join g in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 2 } equals new { OrderId = g.OrderId, PaymentSource = g.PaymentSource } into gtemp
                         from ggtemp in gtemp.DefaultIfEmpty()
+                        join h in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals h.Id into htemp
+                        from hhtemp in htemp.DefaultIfEmpty()
                         where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
@@ -460,7 +462,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             QDApprovalAmount = ggtemp.ApprovalAmount,
                             QDPayedAmount = ggtemp.PayedAmount,
                             QDTotalAmount = ggtemp.TotalAmount,
-                            ToLearningCenterId = a.ToLearningCenterId.Value
+                            ToLearningCenterId = a.ToLearningCenterId.Value,
+                            ToLearningCenterName = hhtemp.EnterpriseName
                         };
 
             //学校
@@ -473,6 +476,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             if (!string.IsNullOrWhiteSpace(req.LevelName))
             {
                 query = query.Where(a => a.LevelName.Contains(req.LevelName));
+            }
+
+            //层级
+            if (!string.IsNullOrWhiteSpace(req.ToLearningCenterName))
+            {
+                query = query.Where(a => a.ToLearningCenterName.Contains(req.ToLearningCenterName));
             }
 
             reCount = query.Count();

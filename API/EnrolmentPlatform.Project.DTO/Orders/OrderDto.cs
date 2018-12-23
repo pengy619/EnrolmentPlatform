@@ -405,6 +405,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学习中心ID
         /// </summary>
         public Guid ToLearningCenterId { set; get; }
+
+        /// <summary>
+        /// 学习中心名称
+        /// </summary>
+        public string ToLearningCenterName { set; get; }
     }
 
     /// <summary>
@@ -496,5 +501,10 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 查询的ID
         /// </summary>
         public List<Guid> OrderIds { set; get; }
+
+        /// <summary>
+        /// 学习中心
+        /// </summary>
+        public string ToLearningCenterName { set; get; }
     }
 }
