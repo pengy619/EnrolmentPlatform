@@ -36,7 +36,7 @@
                         <div class="layui-input-inline">
                             <input type="text" id="Name" name="Name" autocomplete="off" class="layui-input">
                         </div>
-                        <a href="~/Temp/ExamTemp.xlsx" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
+                        <a href="~/Temp/ExamTemp.xls" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
                         <span class="layui-btn layui-btn-warm fileinput-button">
                             <span>导入excel</span>
                             <input type="file" name="file">
@@ -48,11 +48,11 @@
         <div class="panel-body">
             @if (Model != Guid.Empty)
             {
-                <input type="button" class="layui-btn layui-btn-normal layui-btn-small" value="导出名单" />
+                <a href="@Url.Action("ExportList", "Exam", new { id = Model })" class="layui-btn layui-btn-normal layui-btn-small">导出名单</a>
             }
             <span id="spanMsg" class="span-msg"></span>
             <table id="exam-table" lay-filter="table"></table>
-            <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>            
+            <a href="@Url.Action("Index", "Exam")" class="layui-btn layui-btn-primary">返回</a>
         </div>
     </div>
 </div>

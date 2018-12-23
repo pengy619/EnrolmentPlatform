@@ -145,5 +145,68 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             var data = ExamService.GetExamList(req);
             return data.ToJson();
         }
+
+        /// <summary>
+        /// 导出名单
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult ExportList(Guid id)
+        {
+            var req = new ExamListSearchDto
+            {
+                Page = 1,
+                Limit = int.MaxValue,
+                ExamId = id
+            };
+            List<ExamInfoDto> list = (List<ExamInfoDto>)ExamService.GetExamList(req).Data;
+            if (list == null || list.Count == 0)
+            {
+                return Content("没有任何可以导出的数据！");
+            }
+
+            #region 导出
+
+            HSSFWorkbook hssfworkbook = null;
+            try
+            {
+                using (FileStream file = new FileStream(this.Server.MapPath("~/Temp/ExamTemp.xls"), FileMode.Open, FileAccess.Read))
+                {
+                    hssfworkbook = new HSSFWorkbook(file);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
+            IRow firstRow = sheet.GetRow(0);
+            for (int i = 1; i < list.Count; i++)
+            {
+                IRow row = sheet.CreateRow(i);
+                //创建列
+                for (int j = 0; j < firstRow.LastCellNum; j++)
+                {
+                    ICell cell = row.CreateCell(j, CellType.String);
+                }
+                var item = list[i];
+                row.Cells[0].SetCellValue(item.StudentName);
+                row.Cells[1].SetCellValue(item.StudentNo);
+                row.Cells[2].SetCellValue(item.BatchName);
+                row.Cells[3].SetCellValue(item.LevelName);
+                row.Cells[4].SetCellValue(item.MajorName);
+                row.Cells[5].SetCellValue(item.UserName);
+                row.Cells[6].SetCellValue(item.ExamPlace);
+                row.Cells[7].SetCellValue(item.MailAddress);
+                row.Cells[8].SetCellValue(item.ReturnAddress);
+            }
+
+            //导出
+            this.NPOIExport("考试名单" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls", hssfworkbook, new List<HSSFSheet> { (HSSFSheet)sheet });
+
+            #endregion
+
+            return null;
+        }
     }
 }

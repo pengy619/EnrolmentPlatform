@@ -69,7 +69,7 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
             if (layEvent === 'export') {
-                location.href = "@Url.Action("ExportToExcel", "Exam")?id=" + data.Id;
+                location.href = "@Url.Action("ExportList", "Exam")?id=" + data.Id;
             } else if (layEvent === 'detail') {
                 location.href = "@Url.Action("Option", "Exam")?id=" + data.Id;
             }

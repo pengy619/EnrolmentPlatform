@@ -734,7 +734,7 @@
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />
     <Content Include="Temp\OrderAmountTemp.xls" />
-    <None Include="Temp\ExamTemp.xlsx" />
+    <Content Include="Temp\ExamTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\NoPermission.cshtml" />
