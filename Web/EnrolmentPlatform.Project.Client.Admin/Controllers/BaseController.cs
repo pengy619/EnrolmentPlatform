@@ -107,6 +107,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         public static IT_OrderService OrderService = DIContainer.Resolve<IT_OrderService>();
 
         /// <summary>
+        /// 缴费接口
+        /// </summary>
+        public static IT_PaymentRecordService PaymentRecordService = DIContainer.Resolve<IT_PaymentRecordService>();
+
+        /// <summary>
         /// 基础数据接口
         /// </summary>
         public static IT_MetadataService MetadataService = DIContainer.Resolve<IT_MetadataService>();
@@ -157,6 +162,50 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
                 System.Web.HttpContext.Current.Response.AddHeader("Content-Disposition", string.Format("attachment; filename=" + encodeFileName));// Server.UrlEncode(fileName)
                 System.Web.HttpContext.Current.Response.BinaryWrite(data);
             }
+        }
+
+        #endregion
+
+        #region 图片上传
+
+        /// <summary>
+        /// 图片上传
+        /// </summary>
+        /// <param name="file">图片文件</param>
+        /// <returns></returns>
+        protected string ImageUpload(HttpPostedFileBase file)
+        {
+            if (file == null)
+            {
+                return "";
+            }
+
+            byte[] data;
+            using (Stream inputStream = file.InputStream)
+            {
+                MemoryStream memoryStream = inputStream as MemoryStream;
+                if (memoryStream == null)
+                {
+                    memoryStream = new MemoryStream();
+                    inputStream.CopyTo(memoryStream);
+                }
+                data = memoryStream.ToArray();
+            }
+
+            string fileServerUrl = System.Configuration.ConfigurationManager.AppSettings["FileDoMain"];
+            string fileName = Guid.NewGuid().ToString() + "." + file.FileName.Split('.')[1].ToString();
+            System.Collections.Generic.Dictionary<object, object> parames = new System.Collections.Generic.Dictionary<object, object>();
+            parames.Add("fromType", System.Configuration.ConfigurationManager.AppSettings["FileFrom"]);
+            parames.Add("postFileKey", System.Configuration.ConfigurationManager.AppSettings["PostFileKey"]);
+            var _saveRet = EnrolmentPlatform.Project.Infrastructure.HttpMethods.HttpPost(fileServerUrl + "/UpLoad/Index", parames, fileName, data);
+            EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg _saveResult = Newtonsoft.Json.JsonConvert.DeserializeObject<EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg>(_saveRet);
+            if (_saveResult.IsSuccess == false)
+            {
+                return "";
+            }
+
+            //图片完整地址
+            return fileServerUrl + "/" + _saveResult.Info;
         }
 
         #endregion

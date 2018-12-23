@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "缴费登记明细";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PaymentRecordDto dto = ViewBag.Dto;
+}
+<style type="text/css">
+    .info-cell .row .item .label {
+        margin-right: 10px;
+    }
+
+    .info-cell .row .item {
+        width:400px;
+        margin-left: 25px;
+    }
+</style>
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            缴费登记明细
+        </div>
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row">
+                    <div class="item">
+                        <span class="label">缴费名称：</span>
+                        <span class="text">@((dto != null) ? dto.Name : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <span class="label">缴费类型：</span>
+                        <span class="text">@((dto != null) ? EnumDescriptionHelper.GetDescription((PaymentTypeEnum)dto.Type) : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">审核状态：</span>
+                        <span class="text">@((dto != null) ? EnumDescriptionHelper.GetDescription((PaymentStatusEnum)dto.Status) : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <span class="label">登 记 人：</span>
+                        <span class="text">@((dto != null) ? dto.UserName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">审 核 人：</span>
+                        <span class="text">@((dto != null) ? dto.Auditor : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <span class="label">登记时间：</span>
+                        <span class="text">@((dto != null) ? dto.CreateTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">审核时间：</span>
+                        <span class="text">@((dto != null && dto.AuditTime.HasValue) ? dto.AuditTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <span class="label">流水附件：</span>
+                        <span class="text">
+                            @if (!string.IsNullOrWhiteSpace(dto.FilePath))
+                            {
+                                @Html.Raw("<img class=\"orderinfo\" style=\"max-width: 500px;cursor:pointer; max-height: 300px; border: 1px solid #808080;margin-top: 2px;\" src=\"" + dto.FilePath + "\" />")
+                            }
+                            else
+                            {
+                                @Html.Raw("无附件")
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-title">
+            包含报名单列表
+        </div>
+        <div class="panel-body" style="max-height:500px; overflow-y:auto; overflow-x:hidden;">
+            <table id="table" lay-filter="table"></table>
+            <div class="margin-top-10">
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var table, layer, laydate, form;
+    layui.use(['jquery', 'table', 'laydate', 'layer'], function () {
+        table = layui.table;
+        layer = layui.layer;
+        laydate = layui.laydate;
+        form = layui.form;
+
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            //, width:1000
+            , data: JSON.parse('@(Html.Raw(dto.OrderList.ToJson()))')
+            , page: false 
+            , cols: [[ //表头
+                { field: 'StudentName', title: '缴费名单'}
+                , { field: 'BatchName', title: '批次'}
+                , { field: 'SchoolName', title: '院校'}
+                , { field: 'LevelName', title: '层次'}
+                , { field: 'MajorName', title: '专业'}
+                , { field: 'Amount', title: '缴纳金额'}
+            ]]
+        }
+        table.render(tableOptions);
+
+        //点击图片打开查看
+        $(".orderinfo").click(function () {
+            window.open($(this).attr("src"));
+        });
+    });
+</script>

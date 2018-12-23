@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "缴费登记";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            缴费登记
+        </div>
+        <div class="panel-body">
+            <div class="layui-form-item required">
+                <label class="layui-form-label">缴费名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="40" lay-verify="required" id="Name" value=''>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">缴费类型</label>
+                <div class="layui-input-inline">
+                    <select id="PayType" name="PayType" lay-filter="SchoolId" lay-verify="required">
+                        <option value=""></option>
+                        @foreach (var item in EnumDescriptionHelper.GetItemValueList<PaymentTypeEnum, int>())
+                        {
+                            <option value="@item.Key">@item.Value</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">缴费人数</label>
+                <div class="layui-input-inline">
+                    <label style="height:38px;line-height:38px;" id="PersonCount">@(ViewBag.PersonCount)</label>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label" style="font-weight: 600;font-size: 16px;">本次缴费</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" onchange="javascript:UnitAmountChange(this)" oninput="javascript:UnitAmountChange(this)" maxlength="9" lay-verify="required" id="UnitAmount" value='' />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="font-weight: 600;font-size: 16px;">共&nbsp;&nbsp;计</label>
+                <div class="layui-input-inline">
+                    <label style="height:38px;line-height:38px;" id="totalAmount">￥0.00</label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">附件</label>
+                <div class="layui-input-inline">
+                    <div style="margin-top: 5px;">
+                        <input id="fileImg" style="width: 75px;" onchange="imgShow(this);" class="orderFile" type="file" />
+                        <img id="img" style="max-width: 500px;max-height: 300px;border:1px solid #808080;margin-top: 2px;" src="/Content/Website/images/nopic.png" />
+                    </div>
+                </div>
+            </div>
+            <div class="margin-top-10">
+                <button class="layui-btn " lay-submit="" lay-filter="s">提交缴费</button>
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("AccountIndex","Manager")'">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="orderIdStr" value='@ViewBag.OrderList' />
+<script type="text/javascript">
+    //价格发生变化
+    function UnitAmountChange(obj) {
+        if ($.trim($(obj).val()) == "" || /^[0-9]+(.[0-9]{2})?$/.test($.trim($(obj).val())) == false) {
+            $("#totalAmount").text("￥0.00");
+        }
+        else {
+            var unitAmount = parseFloat($(obj).val());
+            var personCount = parseInt($("#PersonCount").text());
+            var totalAmount = parseFloat(unitAmount * personCount).toFixed(2);
+            $("#totalAmount").text("￥" + totalAmount);
+        }
+    }
+
+    //上传空间变更查看图片
+    var imgChanged = false; 
+    function imgShow(v) {
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            $("#img").attr('src', evt.target.result);
+        }
+        reader.readAsDataURL(v.files[0]);
+        imgChanged = true;
+    }
+
+    layui.use(['jquery', 'form', 'layer'], function () {
+        var form = layui.form, layer = layui.layer;
+        //上传
+        $("#btnUpload").click(function () {
+            window.open($(this).attr("src"));
+        });
+
+        //提交
+        form.on('submit(s)', function (data) {
+            //提交
+            var orderIdStr = $("#orderIdStr").val();
+            var name = $("#Name").val();
+            var unitAmount = $.trim($("#UnitAmount").val());
+            var paymentType = $("#PayType").val();
+
+            //金额检查
+            if (/^[0-9]+(.[0-9]{2})?$/.test(unitAmount) == false) {
+                layer.msg("本次缴费金额输入错误！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            //数据提交
+            var fdata = new FormData();
+            fdata.append("orderIdStr", orderIdStr);
+            fdata.append("name", name);
+            fdata.append("unitAmount", unitAmount);
+            fdata.append("paymentType", paymentType);
+
+            //是否选择图片
+            if (imgChanged == true && $("#fileImg").val() != "") {
+                var file = document.getElementById("fileImg").files[0];
+                fdata.append("file", file);
+            }
+
+            $.ajax({
+                url: "@Url.Action("SavePayment", "Manager")",
+                data: fdata,
+                type: "POST",
+                async: false,
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    if (data.ret == false) {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                    else {
+                        layer.msg('提交成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            window.location.href = '@Url.Action("AccountIndex", "Manager")';
+                        });
+                    }
+                },
+                error: function (e) {
+                    layer.msg("上传失败！", {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+            });
+        });
+    });
+</script>
