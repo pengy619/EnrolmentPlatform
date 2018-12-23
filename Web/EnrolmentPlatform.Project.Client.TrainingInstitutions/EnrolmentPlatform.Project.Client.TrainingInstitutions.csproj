@@ -175,6 +175,7 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Order\Controllers\ExamController.cs" />
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
@@ -683,10 +684,13 @@
     <Content Include="Areas\Payment\Views\Manager\PaymentAdd.cshtml" />
     <Content Include="Areas\Payment\Views\Manager\UserPaymentRecord.cshtml" />
     <Content Include="Areas\Payment\Views\Manager\PaymentDetail.cshtml" />
+    <Content Include="Areas\Order\Views\Exam\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Exam\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />
     <Content Include="Temp\OrderAmountTemp.xls" />
+    <Content Include="Temp\ExamTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">

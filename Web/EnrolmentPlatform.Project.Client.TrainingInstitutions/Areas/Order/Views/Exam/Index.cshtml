@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "考试管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">考试名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Name" autocomplete="off" class="layui-input">
+                    </div>
+                    <button type="button" class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="exam-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="export">导出</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="detail">查看</a>
+</script>
+<script>
+    layui.use(['jquery', 'table', 'layer'], function () {
+        var table = layui.table;
+
+        //实例表格
+        var tableOptions = {
+            elem: '#exam-table'
+            , url: '@Url.Action("ExamSearch", "Exam")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'numbers', title: '序号' }
+                , { field: 'CreatorTime', title: '创建时间', }
+                , { field: 'Name', title: '考试场次名称' }
+                , { title: '操作', toolbar: '#tableTool', width: 150 }
+            ]]
+        }
+        table.render(tableOptions)
+
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('exam-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        Name: $('#Name').val()
+                    }
+                });
+            }
+        };
+
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent === 'export') {
+                location.href = "@Url.Action("ExportList", "Exam")?id=" + data.Id;
+            } else if (layEvent === 'detail') {
+                location.href = "@Url.Action("Option", "Exam")?id=" + data.Id;
+            }
+        })
+    })
+</script> 

@@ -1,0 +1,109 @@
+﻿@model Guid
+@{
+    ViewBag.Title = "考试名单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .fileinput-button {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+    }
+
+        .fileinput-button input {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+            font-size: 200px;
+        }
+
+    .span-msg {
+        color: red;
+        font-size: 16px;
+        line-height: 28px;
+    }
+</style>
+<div class="main-wrap">
+    <div class="panel">
+        @*<div class="panel-title">
+                <form class="layui-form" id="formId" enctype="multipart/form-data">
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">考试名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="Name" name="Name" autocomplete="off" class="layui-input">
+                        </div>
+                        <a href="~/Temp/ExamTemp.xls" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
+                        <span class="layui-btn layui-btn-warm fileinput-button">
+                            <span>导入excel</span>
+                            <input type="file" name="file">
+                        </span>
+                    </div>
+                </form>
+            </div>*@
+        <div class="panel-body">
+            <a href="@Url.Action("ExportList", "Exam", new { id = Model })" class="layui-btn layui-btn-normal layui-btn-small">导出名单</a>
+            <span id="spanMsg" class="span-msg"></span>
+            <table id="exam-table" lay-filter="table"></table>
+            <a href="@Url.Action("Index", "Exam")" class="layui-btn layui-btn-primary">返回</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'table', 'layer'], function () {
+        var table = layui.table;
+
+        //实例表格
+        var tableOptions = {
+            id: 'sid'
+            , elem: '#exam-table'
+            , url: '@Url.Action("ExamListSearch", "Exam",new { ExamId = Model }) //数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'numbers', title: '序号' }
+                , { field: 'StudentName', title: '姓名', }
+                , { field: 'StudentNo', title: '学号' }
+                , { field: 'BatchName', title: '批次' }
+                , { field: 'LevelName', title: '层次' }
+                , { field: 'MajorName', title: '专业' }
+                , { field: 'UserName', title: '用户名' }
+                , { field: 'ExamPlace', title: '考试地点' }
+                , { field: 'MailAddress', title: '邮寄地址' }
+                , { field: 'ReturnAddress', title: '回寄地址' }
+            ]]
+        }
+        table.render(tableOptions)
+
+        $("input[type=file]").change(function () {
+            //ajax提交带有文件上传的form表单
+            var formData = new FormData($("#formId")[0]);
+            $.ajax({
+                url: "@Url.Action("ImportList", "Exam")",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    $("input[type=file]").val("");
+                    $("#spanMsg").html("");
+                    if (res.IsSuccess) {
+                        layer.msg("导入成功", {
+                            icon: 1
+                            , time: 1000
+                        }, function () {
+                            RenderTabel(res.Data);
+                        });
+                    }
+                    else {
+                        $("#spanMsg").html(res.Info);
+                    }
+                },
+                error: function (erro) {
+                    layer.msg("提交错误！");
+                }
+            });
+        });
+    })
+</script> 
