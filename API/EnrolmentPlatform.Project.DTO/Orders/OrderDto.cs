@@ -400,6 +400,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
                 return this.QDTotalAmount - this.QDPayedAmount - this.QDApprovalAmount;
             }
         }
+
+        /// <summary>
+        /// 学习中心ID
+        /// </summary>
+        public Guid ToLearningCenterId { set; get; }
     }
 
     /// <summary>

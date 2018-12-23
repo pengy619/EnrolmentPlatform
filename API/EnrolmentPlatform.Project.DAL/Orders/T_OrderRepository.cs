@@ -436,7 +436,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
                         (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
                         (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
-                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        //缴费单只查询已录取(req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
+                        a.JoinTime.HasValue == true &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
@@ -458,7 +459,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             TotalAmount = fftemp.TotalAmount,
                             QDApprovalAmount = ggtemp.ApprovalAmount,
                             QDPayedAmount = ggtemp.PayedAmount,
-                            QDTotalAmount = ggtemp.TotalAmount
+                            QDTotalAmount = ggtemp.TotalAmount,
+                            ToLearningCenterId = a.ToLearningCenterId.Value
                         };
 
             //学校
