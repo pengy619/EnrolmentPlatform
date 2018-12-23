@@ -30,6 +30,32 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var orderIdList = dto.OrderList.Select(a => a.OrderId).ToList();
+            var sourceId = dto.PaymentSourceId;
+
+            //订单列表
+            var orderList = dbContext.T_Order.Where(a => orderIdList.Contains(a.Id)).ToList();
+            if (orderList.Count != orderIdList.Count)
+            {
+                return "请求失败，请重新发起！";
+            }
+
+            //如果是渠道发起
+            if (dto.PaymentSource == 2)
+            {
+                //存在没有录取的报名单
+                if (orderList.Exists(a => a.JoinTime.HasValue == false))
+                {
+                    return "包含不允许缴费的报名单！";
+                }
+
+                //一次提交多个学习中心报名单
+                if (orderList.Select(a => a.ToLearningCenterId).Distinct().Count() > 1)
+                {
+                    return "一次只能提交相同的学习中心缴费登记！";
+                }
+                sourceId = orderList.First().ToLearningCenterId.Value;
+            }
+
             var orderAmountList = dbContext.T_OrderAmount.Where(a => orderIdList.Contains(a.OrderId) && a.PaymentSource == dto.PaymentSource)
                 .ToList();
             //订单缴费金额检查
@@ -55,7 +81,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 FilePath = dto.FilePath,
                 Name = dto.Name,
                 PaymentSource = dto.PaymentSource,
-                PaymentSourceId = dto.PaymentSourceId,
+                PaymentSourceId = sourceId,
                 Status = (int)PaymentStatusEnum.Submit,
                 TotalAmount = (dto.UnitAmount * dto.OrderList.Count),
                 Type = (int)dto.Type,

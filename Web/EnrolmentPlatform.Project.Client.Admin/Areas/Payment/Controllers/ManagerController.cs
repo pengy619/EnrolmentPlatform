@@ -125,8 +125,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         public string PaymentSearch(PaymentRecordListReqDto param)
         {
             int reCount = 0;
-            param.PaymentSource = 2;
-            param.PaymentSourceId = this.EnterpriseId;
             List<PaymentRecordListDto> list = PaymentRecordService.GetPagedList(param, ref reCount);
             if (list == null)
             {
@@ -268,7 +266,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
                 UserName = this.UserUser,
                 CreateTime = DateTime.Now,
                 PaymentSource = 2,
-                PaymentSourceId = this.EnterpriseId,
                 Name = name,
                 FilePath = fileUrl,
                 Type = paymentType,

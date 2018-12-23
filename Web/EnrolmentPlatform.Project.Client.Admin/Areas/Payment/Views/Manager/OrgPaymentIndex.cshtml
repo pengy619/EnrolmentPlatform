@@ -60,6 +60,7 @@
             , skin: 'line'
             , limit: 10
             , url: '@Url.Action("PaymentSearch", "Manager")'
+            , where: getSearchData()
             , page: true //开启分页
             , cols: [[ //表头
                 { field: 'Name', title: '缴费名称'}
@@ -100,6 +101,7 @@
             Name: $("#Name").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
+            PaymentSource: 1
         };
     }
 
