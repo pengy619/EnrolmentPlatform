@@ -43,8 +43,8 @@
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentDetail","Manager")?paymentId={{d.Id}}" lay-event="log">查看</a>
     {{# if(d.Status==1){ }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:green;" href="javascript:deletePayment('{{d.Id}}');" lay-event="log">审核通过</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:red;" href="javascript:deletePayment('{{d.Id}}');" lay-event="log">审核拒绝</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:green;" href="javascript:ApprovalPayment('{{d.Id}}',true);" lay-event="log">审核通过</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:red;" href="javascript:ApprovalPayment('{{d.Id}}',false);" lay-event="log">审核拒绝</a>
     {{# } }}
 </script>
 <script type="text/javascript">
@@ -115,7 +115,7 @@
     }
 
     //审核付款单
-    function deletePayment(paymentId,approved) {
+    function ApprovalPayment(paymentId,approved) {
         var req = {};
         req.paymentId = paymentId;
         req.approved = approved;
