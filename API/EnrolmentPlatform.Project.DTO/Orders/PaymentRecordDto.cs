@@ -195,7 +195,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// <summary>
         /// 支付发起ID（机构ID，学习中心ID）
         /// </summary>
-        public Guid PaymentSourceId { set; get; }
+        public Guid? PaymentSourceId { set; get; }
 
         /// <summary>
         /// 机构名称
@@ -332,6 +332,32 @@ namespace EnrolmentPlatform.Project.DTO.Orders
             get
             {
                 return this.TotalAmount - this.PayedAmount - this.ApprovalAmount;
+            }
+        }
+
+        /// <summary>
+        /// 渠道中心总金额
+        /// </summary>
+        public decimal QDTotalAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心已缴金额
+        /// </summary>
+        public decimal QDPayedAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心待审核金额
+        /// </summary>
+        public decimal QDApprovalAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心未缴金额
+        /// </summary>
+        public decimal QDUnPayedAmount
+        {
+            get
+            {
+                return this.QDTotalAmount - this.QDPayedAmount - this.QDApprovalAmount;
             }
         }
 

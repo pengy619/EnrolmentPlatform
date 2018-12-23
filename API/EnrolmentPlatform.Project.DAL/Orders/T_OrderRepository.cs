@@ -426,7 +426,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from eetemp in etemp.DefaultIfEmpty()
                         join f in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 1 } equals new { OrderId = f.OrderId, PaymentSource = f.PaymentSource } into ftemp
                         from fftemp in ftemp.DefaultIfEmpty()
-                        join g in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 1 } equals new { OrderId = g.OrderId, PaymentSource = g.PaymentSource } into gtemp
+                        join g in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 2 } equals new { OrderId = g.OrderId, PaymentSource = g.PaymentSource } into gtemp
                         from ggtemp in gtemp.DefaultIfEmpty()
                         where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&

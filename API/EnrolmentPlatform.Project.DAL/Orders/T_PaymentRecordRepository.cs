@@ -237,8 +237,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ddtemp in dtemp.DefaultIfEmpty()
                         join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
                         from eetemp in etemp.DefaultIfEmpty()
-                        join f in dbContext.T_OrderAmount on a.Id equals f.OrderId into ftemp
+                        join f in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 1 } equals new { OrderId = f.OrderId, PaymentSource = f.PaymentSource } into ftemp
                         from fftemp in ftemp.DefaultIfEmpty()
+                        join g in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 2 } equals new { OrderId = g.OrderId, PaymentSource = g.PaymentSource } into gtemp
+                        from ggtemp in gtemp.DefaultIfEmpty()
                         where a.Id == orderId && fftemp.PaymentSource == paymentSource
                         select new PaymentUserDetailDto()
                         {
@@ -250,7 +252,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             StudentName = a.StudentName,
                             ApprovalAmount = fftemp.ApprovalAmount,
                             PayedAmount = fftemp.PayedAmount,
-                            TotalAmount = fftemp.TotalAmount
+                            TotalAmount = fftemp.TotalAmount,
+                            QDApprovalAmount = ggtemp.ApprovalAmount,
+                            QDPayedAmount = ggtemp.PayedAmount,
+                            QDTotalAmount = ggtemp.TotalAmount
                         };
             var detail = query.FirstOrDefault();
             //如果有数据
@@ -273,7 +278,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                                     Type = bbtemp.Type,
                                     UserId = bbtemp.CreatorUserId,
                                     UserName = bbtemp.CreatorAccount,
-                                    CreatorTime=bbtemp.CreatorTime
+                                    CreatorTime = bbtemp.CreatorTime,
+                                    PaymentSource = bbtemp.PaymentSource,
+                                    PaymentSourceId = bbtemp.PaymentSourceId
                                 };
                 detail.PaymentRecordList = listQuery.ToList();
             }
