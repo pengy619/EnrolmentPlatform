@@ -38,9 +38,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// 考试名单
         /// </summary>
         /// <returns></returns>
-        public ActionResult Option()
+        public ActionResult Option(Guid? id)
         {
-            return View();
+            return View(id ?? Guid.Empty);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 CreatorAccount = this.UserAccount
             };
             var ret = ExamService.Add(dto);
-            return Json(new { ret = ret.IsSuccess, msg = ret.Info });
+            return Json(ret);
         }
 
         /// <summary>

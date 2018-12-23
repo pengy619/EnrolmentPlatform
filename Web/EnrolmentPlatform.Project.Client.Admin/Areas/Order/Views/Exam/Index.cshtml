@@ -71,7 +71,7 @@
             if (layEvent === 'export') {
                 location.href = "@Url.Action("ExportToExcel", "Exam")?id=" + data.Id;
             } else if (layEvent === 'detail') {
-                
+                location.href = "@Url.Action("Option", "Exam")?id=" + data.Id;
             }
         })
     })

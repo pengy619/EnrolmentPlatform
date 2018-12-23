@@ -1,4 +1,4 @@
-﻿
+﻿@model Guid
 @{
     ViewBag.Title = "考试名单";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,44 +18,41 @@
             -ms-filter: 'alpha(opacity=0)';
             font-size: 200px;
         }
+
+    .span-msg {
+        color: red;
+        font-size: 16px;
+        line-height: 28px;
+    }
 </style>
 <div class="main-wrap">
     <div class="panel">
-        <div class="panel-title">
-            <form class="layui-form" id="formId" enctype="multipart/form-data">
-                <div class="layui-form-item ">
-                    <label class="layui-form-label">考试名称</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="Name" name="Name" autocomplete="off" class="layui-input">
+        @if (Model == Guid.Empty)
+        {
+            <div class="panel-title">
+                <form class="layui-form" id="formId" enctype="multipart/form-data">
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">考试名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="Name" name="Name" autocomplete="off" class="layui-input">
+                        </div>
+                        <a href="~/Temp/ExamTemp.xlsx" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
+                        <span class="layui-btn layui-btn-warm fileinput-button">
+                            <span>导入excel</span>
+                            <input type="file" name="file">
+                        </span>
                     </div>
-                    <a href="~/Temp/ExamTemp.xlsx" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
-                    <span class="layui-btn layui-btn-warm fileinput-button">
-                        <span>导入excel</span>
-                        <input type="file" name="file" onchange="ImportExcel();">
-                    </span>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        }
         <div class="panel-body">
-            <span id="spanMsg" style="color:red;font-size:16px;"></span>
+            @if (Model != Guid.Empty)
+            {
+                <input type="button" class="layui-btn layui-btn-normal layui-btn-small" value="导出名单" />
+            }
+            <span id="spanMsg" class="span-msg"></span>
             <table id="exam-table" lay-filter="table"></table>
-            @*<table class="layui-table">
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>姓名</th>
-                            <th>学号</th>
-                            <th>批次</th>
-                            <th>层次</th>
-                            <th>专业</th>
-                            <th>用户名</th>
-                            <th>考试地点</th>
-                            <th>邮寄地址</th>
-                            <th>回寄地址</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody"></tbody>
-                </table>*@
+            <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>            
         </div>
     </div>
 </div>
@@ -64,12 +61,16 @@
     layui.use(['jquery', 'table', 'layer'], function () {
         var table = layui.table;
 
-        function RenderTabel() {
+        if ("@Model" != "@Guid.Empty") {
+            RenderTabel("@Model");
+        }
+
+        function RenderTabel(examId) {
             //实例表格
             var tableOptions = {
                 id: 'sid'
                 , elem: '#exam-table'
-                , url: '@Url.Action("ExamListSearch", "Exam")'//数据
+                , url: '@Url.Action("ExamListSearch", "Exam")?ExamId=' + examId//数据
                 , page: true //开启分页
                 , cols: [[ //表头
                     { type: 'numbers', title: '序号' }
@@ -86,56 +87,40 @@
             }
             table.render(tableOptions)
         }
-    })
 
-    function ImportExcel() {
-        if ($.trim($("#Name").val()) == "") {
-            layer.msg("请输入考试名称!");
-            $("input[type=file]").val("");
-            return false;
-        }
-        //ajax提交带有文件上传的form表单
-        var formData = new FormData($("#formId")[0]);
-        $.ajax({
-            url: "@Url.Action("ImportList", "Exam")",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
+        $("input[type=file]").change(function () {
+            if ($.trim($("#Name").val()) == "") {
+                layer.msg("请输入考试名称!");
                 $("input[type=file]").val("");
-                $("#spanMsg").html("");
-                if (data.ret == true) {
-                    layer.msg("导入成功", {
-                        icon: 1
-                        , time: 1000
-                    }, function () {
-                        RenderTabel();
-                    });
-                    //var content = "";
-                    //$.each(JSON.parse(data.data), function (i, o) {
-                    //    content += "<tr>";
-                    //    content += "<td>" + (++i) + "</td>";
-                    //    content += "<td>" + o.StudentName + "</td>";
-                    //    content += "<td>" + o.StudentNo + "</td>";
-                    //    content += "<td>" + o.BatchName + "</td>";
-                    //    content += "<td>" + o.LevelName + "</td>";
-                    //    content += "<td>" + o.MajorName + "</td>";
-                    //    content += "<td>" + o.UserName + "</td>";
-                    //    content += "<td>" + o.ExamPlace + "</td>";
-                    //    content += "<td>" + o.MailAddress + "</td>";
-                    //    content += "<td>" + o.ReturnAddress + "</td>";
-                    //    content += "</tr>";
-                    //});
-                    //$('#tbody').html(content);
-                }
-                else {
-                    $("#spanMsg").html(data.msg);
-                }
-            },
-            error: function (erro) {
-                alert("提交错误！");
+                return false;
             }
+            //ajax提交带有文件上传的form表单
+            var formData = new FormData($("#formId")[0]);
+            $.ajax({
+                url: "@Url.Action("ImportList", "Exam")",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    $("input[type=file]").val("");
+                    $("#spanMsg").html("");
+                    if (res.IsSuccess) {
+                        layer.msg("导入成功", {
+                            icon: 1
+                            , time: 1000
+                        }, function () {
+                            RenderTabel(res.Data);
+                        });
+                    }
+                    else {
+                        $("#spanMsg").html(res.Info);
+                    }
+                },
+                error: function (erro) {
+                    layer.msg("提交错误！");
+                }
+            });
         });
-    }
+    })
 </script> 

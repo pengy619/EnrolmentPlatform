@@ -78,13 +78,13 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 }
                 else
                 {
-                    invalidList.Add(string.Format("姓名:{0},学号:{1}", t.StudentName, t.StudentNo));
+                    invalidList.Add(string.Format("姓名：{0}，学号：{1}", t.StudentName, t.StudentNo));
                 }
             });
             if (invalidList != null && invalidList.Any())
             {
                 resultMsg.IsSuccess = false;
-                resultMsg.Info = "存在无法匹配的记录，请确认以下学生数据正确且已录取：" + string.Join(";", invalidList);
+                resultMsg.Info = "存在无法匹配的记录，请确认以下学生数据正确且已录取：<br>" + string.Join("<br>", invalidList);
                 return resultMsg;
             }
 
@@ -130,6 +130,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     if (resultMsg.IsSuccess)
                     {
                         tran.Commit();
+                        resultMsg.Data = exam.Id;
                     }
                     else
                     {
