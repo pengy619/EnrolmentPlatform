@@ -185,6 +185,7 @@
     <Compile Include="Version\DllVersion.cs" />
     <Compile Include="WeatherHelper\WeatherService.cs" />
     <Compile Include="XML\XmlHelper.cs" />
+    <Compile Include="Zip\ZipHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
