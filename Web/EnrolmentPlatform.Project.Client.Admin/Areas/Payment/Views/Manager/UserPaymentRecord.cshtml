@@ -11,6 +11,18 @@
         dto.PaymentRecordList = dto.PaymentRecordList.OrderBy(a=>a.PaymentSource).ThenByDescending(a => a.CreatorTime).ToList();
     }
 }
+<style type="text/css">
+    .info-cell .row .item .label {
+        margin-right: 10px !important;
+    }
+    .info-cell .row .amountItem .label {
+        width: 90px;
+        margin-right: 10px !important;
+    }
+    .info-cell .row .amountItem .text {
+        width: 100px;
+    }
+</style>
 <div class="main-wrap">
     <div class="panel layui-form">
         <div class="panel-title">
@@ -41,23 +53,39 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="item">
-                        <span class="label">应  缴：</span>
+                    <div class="item amountItem">
+                        <span class="label">机构应收：</span>
                         <span class="text">@((dto != null) ? dto.TotalAmount.ToString("N2") : "")</span>
                     </div>
-                    <div class="item">
-                        <span class="label">已  缴：</span>
+                    <div class="item amountItem">
+                        <span class="label">机构已收：</span>
                         <span class="text" style="color:green;">@((dto != null) ? dto.PayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">机构未收：</span>
+                        <span class="text" style="color:red;">@((dto != null) ? dto.UnPayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">机构待审核：</span>
+                        <span class="text" style="color:orange;">@((dto != null) ? dto.ApprovalAmount.ToString("N2") : "")</span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="item">
-                        <span class="label">未  缴：</span>
-                        <span class="text" style="color:red;">@((dto != null) ? dto.UnPayedAmount.ToString("N2") : "")</span>
+                    <div class="item amountItem">
+                        <span class="label">中心应缴：</span>
+                        <span class="text">@((dto != null) ? dto.QDTotalAmount.ToString("N2") : "")</span>
                     </div>
-                    <div class="item">
-                        <span class="label">待审核：</span>
-                        <span class="text" style="color:orange;">@((dto != null) ? dto.ApprovalAmount.ToString("N2") : "")</span>
+                    <div class="item amountItem">
+                        <span class="label">中心已缴：</span>
+                        <span class="text" style="color:green;">@((dto != null) ? dto.QDPayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">中心未缴：</span>
+                        <span class="text" style="color:red;">@((dto != null) ? dto.QDUnPayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">中心待审核：</span>
+                        <span class="text" style="color:orange;">@((dto != null) ? dto.QDApprovalAmount.ToString("N2") : "")</span>
                     </div>
                 </div>
             </div>
