@@ -38,7 +38,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 var unPayedAmount = item.TotalAmount - item.PayedAmount - item.ApprovalAmount;
                 if (dto.UnitAmount > unPayedAmount)
                 {
-                    return "本次缴费金额大于报名单缴费金额。";
+                    return "本次缴费金额大于报名单未缴金额。";
                 }
                 item.ApprovalAmount = item.ApprovalAmount + dto.UnitAmount;
             }
