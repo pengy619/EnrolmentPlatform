@@ -258,7 +258,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
                 UserId = this.UserId,
                 UserName = this.UserUser,
                 CreateTime = DateTime.Now,
-                PaymentSource = 1,
+                PaymentSource = 2,
                 PaymentSourceId = this.EnterpriseId,
                 Name = name,
                 FilePath = fileUrl,
@@ -269,7 +269,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
             string msg = PaymentRecordService.AddPaymentRecord(dto);
             if (msg != "")
             {
-                return Json(new { ret = true, msg = msg });
+                return Json(new { ret = false, msg = msg });
             }
             return Json(new { ret = true });
         }

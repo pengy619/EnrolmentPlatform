@@ -261,7 +261,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
             string msg = PaymentRecordService.AddPaymentRecord(dto);
             if (msg != "")
             {
-                return Json(new { ret = true, msg = msg });
+                return Json(new { ret = false, msg = msg });
             }
             return Json(new { ret = true });
         }
