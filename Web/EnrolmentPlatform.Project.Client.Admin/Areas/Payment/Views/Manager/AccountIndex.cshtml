@@ -114,6 +114,30 @@
     {{d.ApprovalAmount}}
     {{# } }}
 </script>
+<script type="text/html" id="tableTool11">
+    {{d.QDTotalAmount}}
+</script>
+<script type="text/html" id="tableTool12">
+    {{# if(d.QDPayedAmount==d.QDTotalAmount){ }}
+    <span style="color:green;">{{d.QDPayedAmount}}</span>
+    {{# }else{ }}
+    {{d.QDPayedAmount}}
+    {{# } }}
+</script>
+<script type="text/html" id="tableTool13">
+    {{# if(d.QDUnPayedAmount>0){ }}
+    <span style="color:red;">{{d.QDUnPayedAmount}}</span>
+    {{# }else{ }}
+    {{d.QDUnPayedAmount}}
+    {{# } }}
+</script>
+<script type="text/html" id="tableTool14">
+    {{# if(d.QDApprovalAmount>0){ }}
+    <span style="color:orange;">{{d.QDApprovalAmount}}</span>
+    {{# }else{ }}
+    {{d.QDApprovalAmount}}
+    {{# } }}
+</script>
 <script>
     var table, layer, laydate, form;
     layui.use(['jquery', 'table', 'laydate', 'layer'], function () {
@@ -132,7 +156,7 @@
         var tableOptions = {
             elem: '#table'
             , skin: 'line'
-            , limit: 20
+            , limit: 10
             , url: '@Url.Action("Search", "Manager")'
             , page: true //开启分页
             , cols: [[ //表头
@@ -142,10 +166,14 @@
                 , { field: 'SchoolName', title: '院校', width: 150 }
                 , { field: 'LevelName', title: '层次', width: 100 }
                 , { field: 'MajorName', title: '专业', width: 180 }
-                , { field: 'TotalAmount', toolbar: '#tableTool1', title: '应缴学费', width: 100 }
-                , { field: 'PayedAmount', toolbar: '#tableTool2', title: '已缴学费', width: 100 }
-                , { field: 'UnPayedAmount', toolbar: '#tableTool3', title: '未缴学费', width: 100 }
-                , { field: 'ApprovalAmount', toolbar: '#tableTool4', title: '待审核学费', width: 100 }
+                , { field: 'TotalAmount', toolbar: '#tableTool1', title: '机构应收', width: 100 }
+                , { field: 'PayedAmount', toolbar: '#tableTool2', title: '机构已收', width: 100 }
+                , { field: 'UnPayedAmount', toolbar: '#tableTool3', title: '机构未收', width: 100 }
+                , { field: 'ApprovalAmount', toolbar: '#tableTool4', title: '机构待审核', width: 100 }
+                , { field: 'QDTotalAmount', toolbar: '#tableTool11', title: '中心应缴', width: 100 }
+                , { field: 'QDPayedAmount', toolbar: '#tableTool12', title: '中心已缴', width: 100 }
+                , { field: 'QDUnPayedAmount', toolbar: '#tableTool13', title: '中心未缴', width: 100 }
+                , { field: 'QDApprovalAmount', toolbar: '#tableTool14', title: '中心待审核', width: 100 }
                 , { field: 'StatusName', title: '状态', width: 80 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 110 }
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }

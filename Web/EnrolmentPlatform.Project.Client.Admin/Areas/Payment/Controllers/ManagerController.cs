@@ -104,7 +104,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         public string Search(OrderListReqDto param)
         {
             int reCount = 0;
-            param.FromChannelId = this.EnterpriseId;
             List<OrderPaymentListDto> list = OrderService.GetStudentPaymentList(param, ref reCount);
             if (list == null)
             {
