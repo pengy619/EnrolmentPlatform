@@ -273,3 +273,17 @@ END
 set nocount off
 
 GO
+
+
+--2018-12-22订单表增加学号、用户名、密码
+alter table T_Order Add StudentNo nvarchar(max) null
+alter table T_Order Add UserName nvarchar(max) null
+alter table T_Order Add [Password] nvarchar(max) null
+
+
+--2018-12-23考试名单表增加学生姓名、批次、层次、专业、招生机构Id
+alter table T_ExamInfo Add StudentName nvarchar(max) null
+alter table T_ExamInfo Add BatchName nvarchar(max) null
+alter table T_ExamInfo Add LevelName nvarchar(max) null
+alter table T_ExamInfo Add MajorName nvarchar(max) null
+alter table T_ExamInfo Add ChannelId uniqueidentifier not null

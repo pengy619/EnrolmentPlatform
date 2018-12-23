@@ -7,6 +7,7 @@ using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.DTO.Enums;
 using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.Infrastructure;
+using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.DAL.Accounts
 {
@@ -121,7 +122,7 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
 
             dbContext.ModuleKey = enterprise.Id.ToString();
             dbContext.LogChangesDuringSave = true;
-            dbContext.BusinessName = "企业添加";
+            dbContext.BusinessName = string.Format("添加{0}", EnumDescriptionHelper.GetDescription(dto.Classify));
             return dbContext.SaveChanges() > 0 ? 1 : 3;
         }
 

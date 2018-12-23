@@ -60,6 +60,7 @@
     <Compile Include="Enums\Systems\SMSTemplateEnum.cs" />
     <Compile Include="Enums\Systems\SystemBasicSettingEnum.cs" />
     <Compile Include="Enums\Systems\SystemMessageEnum.cs" />
+    <Compile Include="Orders\ExamDto.cs" />
     <Compile Include="Orders\OrderAmountDto.cs" />
     <Compile Include="Orders\OrderDto.cs" />
     <Compile Include="Orders\OrderImageDto.cs" />

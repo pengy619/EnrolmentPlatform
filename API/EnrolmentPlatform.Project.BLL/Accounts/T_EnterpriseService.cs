@@ -3,10 +3,12 @@ using System.Linq;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Accounts;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.IBLL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
+using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.BLL.Accounts
 {
@@ -164,7 +166,8 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
             model.Phone = dto.Phone;
             model.Remark = dto.Remark;
             model.LastModifyUserId = dto.CurUserId;
-            result.IsSuccess = this.repository.UpdateEntity(model, Domain.EFContext.E_DbClassify.Write, "修改企业资料", true, model.Id.ToString()) > 0;
+            string businessName = string.Format("修改{0}资料", EnumDescriptionHelper.GetDescription((SystemTypeEnum)model.Classify));
+            result.IsSuccess = this.repository.UpdateEntity(model, Domain.EFContext.E_DbClassify.Write, businessName, true, model.Id.ToString()) > 0;
             return result;
         }
 

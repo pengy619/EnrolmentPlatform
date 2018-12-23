@@ -185,6 +185,7 @@
     <Compile Include="Areas\Account\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Basic\BasicAreaRegistration.cs" />
     <Compile Include="Areas\Basic\Controllers\MetadataController.cs" />
+    <Compile Include="Areas\Order\Controllers\ExamController.cs" />
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
@@ -601,7 +602,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configs\AppSettings.config" />
+    <Content Include="Configs\AppSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Configs\Log4net.config" />
     <Content Include="Content\website\js\kindeditor-4.1.10\asp.net\file_manager_json.ashx" />
     <Content Include="Content\website\js\kindeditor-4.1.10\asp.net\upload_json.ashx" />
@@ -712,6 +715,8 @@
     <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <Content Include="Areas\Basic\Views\Metadata\ChargeStrategy.cshtml" />
     <Content Include="Areas\Order\Views\Image\Option.cshtml" />
+    <Content Include="Areas\Order\Views\Exam\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Exam\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />
@@ -719,6 +724,7 @@
     <Content Include="Views\Home\Permissions.cshtml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />
+    <None Include="Temp\ExamTemp.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\NoPermission.cshtml" />

@@ -189,5 +189,23 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public bool AllQuDaoAmountPayed { set; get; }
+
+        /// <summary>
+        /// 学号
+        /// </summary>		
+        [DataMember]
+        public string StudentNo { get; set; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>		
+        [DataMember]
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        [DataMember]
+        public string Password { get; set; }
     }
 }

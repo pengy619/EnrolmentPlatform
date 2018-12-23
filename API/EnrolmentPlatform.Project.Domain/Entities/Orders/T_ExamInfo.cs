@@ -50,5 +50,35 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         /// </summary>		
         [DataMember]
         public string ReturnAddress { get; set; }
+
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        [DataMember]
+        public string StudentName { get; set; }
+
+        /// <summary>
+        /// 批次
+        /// </summary>
+        [DataMember]
+        public string BatchName { get; set; }
+
+        /// <summary>
+        /// 层次
+        /// </summary>
+        [DataMember]
+        public string LevelName { get; set; }
+
+        /// <summary>
+        /// 专业
+        /// </summary>
+        [DataMember]
+        public string MajorName { get; set; }
+
+        /// <summary>
+        /// 机构Id
+        /// </summary>
+        [DataMember]
+        public Guid ChannelId { get; set; }
     }
 }
