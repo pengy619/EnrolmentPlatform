@@ -36,8 +36,9 @@
 </div>
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentDetail","Manager")?paymentId={{d.Id}}" lay-event="log">查看</a>
-    {{# if(d.Status==3){ }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:deletePayment('{{d.Id}}');" lay-event="log">删除</a>
+    {{# if(d.Status==1){ }}
+    <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:green;" href="javascript:ApprovalPayment('{{d.Id}}',true);" lay-event="log">审核通过</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:red;" href="javascript:ApprovalPayment('{{d.Id}}',false);" lay-event="log">审核拒绝</a>
     {{# } }}
 </script>
 <script type="text/javascript">
@@ -103,40 +104,52 @@
         };
     }
 
-    //删除付款单
-    function deletePayment(paymentId) {
+    //审核付款单
+    function ApprovalPayment(paymentId,approved) {
         var req = {};
         req.paymentId = paymentId;
-        //删除确认
-            layer.confirm('确认删除？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(req),
-                    url: '@Url.Action("Delete", "Manager")',
-                    success: function (result) {
-                        if (result.ret == true) {
-                            layer.msg('删除成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                table.reload("table");
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
-                });
+        req.approved = approved;
 
-                layer.close(index);
+        var confirmMsg = "";
+        var sucessMsg = "";
+        if (approved == true) {
+            confirmMsg = "是否确认审核通过？";
+            sucessMsg = "审核通过成功！";
+        } else {
+            confirmMsg = "是否确认审核拒绝？";
+            sucessMsg = "审核拒绝成功！";
+        }
+
+        //审核确认
+        layer.confirm(confirmMsg, {
+            btn: ['确认', '取消']
+        }, function (index, layero) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(req),
+                url: '@Url.Action("Approval", "Manager")',
+                success: function (result) {
+                    if (result.ret == true) {
+                        layer.msg(sucessMsg, {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            table.reload("table");
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
             });
+
+            layer.close(index);
+        });
     }
 </script>

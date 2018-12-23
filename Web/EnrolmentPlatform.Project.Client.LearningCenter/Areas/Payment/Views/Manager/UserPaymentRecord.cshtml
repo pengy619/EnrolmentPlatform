@@ -8,7 +8,7 @@
     }
     else
     {
-        dto.PaymentRecordList = dto.PaymentRecordList.Where(a => a.PaymentSource == 1).OrderByDescending(a=>a.CreatorTime).ToList();
+        dto.PaymentRecordList = dto.PaymentRecordList.Where(a => a.PaymentSource == 2).OrderByDescending(a=>a.CreatorTime).ToList();
     }
 }
 <div class="main-wrap">
@@ -43,21 +43,21 @@
                 <div class="row">
                     <div class="item">
                         <span class="label">应  收：</span>
-                        <span class="text">@((dto != null) ? dto.TotalAmount.ToString("N2") : "")</span>
+                        <span class="text">@((dto != null) ? dto.QDTotalAmount.ToString("N2") : "")</span>
                     </div>
                     <div class="item">
                         <span class="label">已  收：</span>
-                        <span class="text" style="color:green;">@((dto != null) ? dto.PayedAmount.ToString("N2") : "")</span>
+                        <span class="text" style="color:green;">@((dto != null) ? dto.QDPayedAmount.ToString("N2") : "")</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="item">
                         <span class="label">未  收：</span>
-                        <span class="text" style="color:red;">@((dto != null) ? dto.UnPayedAmount.ToString("N2") : "")</span>
+                        <span class="text" style="color:red;">@((dto != null) ? dto.QDUnPayedAmount.ToString("N2") : "")</span>
                     </div>
                     <div class="item">
                         <span class="label">待审核：</span>
-                        <span class="text" style="color:orange;">@((dto != null) ? dto.ApprovalAmount.ToString("N2") : "")</span>
+                        <span class="text" style="color:orange;">@((dto != null) ? dto.QDApprovalAmount.ToString("N2") : "")</span>
                     </div>
                 </div>
             </div>
