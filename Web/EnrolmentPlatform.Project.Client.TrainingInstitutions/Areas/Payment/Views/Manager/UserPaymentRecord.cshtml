@@ -6,6 +6,10 @@
     {
         dto.PaymentRecordList = new List<PaymentRecordListDto>();
     }
+    else
+    {
+        dto.PaymentRecordList = dto.PaymentRecordList.Where(a => a.PaymentSource == 1).OrderByDescending(a=>a.CreatorTime).ToList();
+    }
 }
 <div class="main-wrap">
     <div class="panel layui-form">

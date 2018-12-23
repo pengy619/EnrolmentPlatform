@@ -6,6 +6,10 @@
     {
         dto.PaymentRecordList = new List<PaymentRecordListDto>();
     }
+    else
+    {
+        dto.PaymentRecordList = dto.PaymentRecordList.OrderBy(a=>a.PaymentSource).ThenByDescending(a => a.CreatorTime).ToList();
+    }
 }
 <div class="main-wrap">
     <div class="panel layui-form">
@@ -83,6 +87,7 @@
             , skin: 'line'
             , cols: [[ //表头
                 { field: 'Name', title: '缴费名称' }
+                , { field: 'Name', title: '缴费对象' }
                 , { field: 'TypeName', title: '类型' }
                 , { field: 'TotalAmount', title: '金额' }
                 , { field: 'StatusName', title: '状态' }
