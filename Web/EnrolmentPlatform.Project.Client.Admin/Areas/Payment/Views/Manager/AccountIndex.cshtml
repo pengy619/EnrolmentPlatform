@@ -175,15 +175,15 @@
                 , { title: '操作', toolbar: '#tableTool', width: 155 }
             ]],
             done: function () {
-                $('th:eq(6)').css({ 'background-color': '#009688', 'color': '#fff', 'border': '1px solid #009688' });
-                $('th:eq(7)').css({ 'background-color': '#009688', 'color': '#fff', 'border':'1px solid #009688' });
-                $('th:eq(8)').css({ 'background-color': '#009688', 'color': '#fff', 'border': '1px solid #009688' });
+                $('th:eq(7)').css({ 'background-color': '#009688', 'color': '#fff', 'border': '1px solid #009688' });
+                $('th:eq(8)').css({ 'background-color': '#009688', 'color': '#fff', 'border':'1px solid #009688' });
                 $('th:eq(9)').css({ 'background-color': '#009688', 'color': '#fff', 'border': '1px solid #009688' });
+                $('th:eq(10)').css({ 'background-color': '#009688', 'color': '#fff', 'border': '1px solid #009688' });
 
-                $('th:eq(10)').css({ 'background-color': '#FFB800', 'color': '#fff', 'border': '1px solid #FFB800' });
                 $('th:eq(11)').css({ 'background-color': '#FFB800', 'color': '#fff', 'border': '1px solid #FFB800' });
                 $('th:eq(12)').css({ 'background-color': '#FFB800', 'color': '#fff', 'border': '1px solid #FFB800' });
                 $('th:eq(13)').css({ 'background-color': '#FFB800', 'color': '#fff', 'border': '1px solid #FFB800' });
+                $('th:eq(14)').css({ 'background-color': '#FFB800', 'color': '#fff', 'border': '1px solid #FFB800' });
             }
         }
         table.render(tableOptions);
@@ -202,16 +202,34 @@
 
             //选中的ID
             var canSubmit = true;
+            var toLearningCenterName = "";
+            var toLearningCenterNameChecked = true;
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
                 if (parseInt(checkdata[i].QDUnPayedAmount) == 0) {
                     canSubmit = false;
                 }
+                if (toLearningCenterName == "") {
+                    toLearningCenterName = checkdata[i].ToLearningCenterName;
+                }
+                else {
+                    if (toLearningCenterName != checkdata[i].ToLearningCenterName) {
+                        toLearningCenterNameChecked = false;
+                    }
+                }
             }
 
             if (canSubmit == false) {
                 layer.msg('请选择中心未缴金额大于0的报名单进行缴费登记。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            if (toLearningCenterNameChecked == false) {
+                layer.msg('一次只能选择相同的学习中心进行缴费登记。', {
                     icon: 2,
                     time: 2000
                 });

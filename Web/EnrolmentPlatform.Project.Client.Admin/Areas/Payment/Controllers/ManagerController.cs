@@ -177,17 +177,22 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
             var tempDataRow = list.First();
             HSSFRow tempRow = (HSSFRow)sheet.GetRow(startRow);
             tempRow.Cells[0].SetCellValue(tempDataRow.StudentName);
-            tempRow.Cells[1].SetCellValue(tempDataRow.BatchName);
-            tempRow.Cells[2].SetCellValue(tempDataRow.SchoolName);
-            tempRow.Cells[3].SetCellValue(tempDataRow.LevelName);
-            tempRow.Cells[4].SetCellValue(tempDataRow.MajorName);
-            tempRow.Cells[5].SetCellValue(tempDataRow.TotalAmount.ToString("N2"));
-            tempRow.Cells[6].SetCellValue(tempDataRow.PayedAmount.ToString("N2"));
-            tempRow.Cells[7].SetCellValue(tempDataRow.UnPayedAmount.ToString("N2"));
-            tempRow.Cells[8].SetCellValue(tempDataRow.ApprovalAmount.ToString("N2"));
-            tempRow.Cells[9].SetCellValue(tempDataRow.StatusName);
-            tempRow.Cells[10].SetCellValue(tempDataRow.CreateTimeStr);
-            tempRow.Cells[11].SetCellValue(tempDataRow.CreateUserName);
+            tempRow.Cells[1].SetCellValue(tempDataRow.ToLearningCenterName);
+            tempRow.Cells[2].SetCellValue(tempDataRow.BatchName);
+            tempRow.Cells[3].SetCellValue(tempDataRow.SchoolName);
+            tempRow.Cells[4].SetCellValue(tempDataRow.LevelName);
+            tempRow.Cells[5].SetCellValue(tempDataRow.MajorName);
+            tempRow.Cells[6].SetCellValue(tempDataRow.TotalAmount.ToString("N2"));
+            tempRow.Cells[7].SetCellValue(tempDataRow.PayedAmount.ToString("N2"));
+            tempRow.Cells[8].SetCellValue(tempDataRow.UnPayedAmount.ToString("N2"));
+            tempRow.Cells[9].SetCellValue(tempDataRow.ApprovalAmount.ToString("N2"));
+            tempRow.Cells[10].SetCellValue(tempDataRow.QDTotalAmount.ToString("N2"));
+            tempRow.Cells[11].SetCellValue(tempDataRow.QDPayedAmount.ToString("N2"));
+            tempRow.Cells[12].SetCellValue(tempDataRow.QDUnPayedAmount.ToString("N2"));
+            tempRow.Cells[13].SetCellValue(tempDataRow.QDApprovalAmount.ToString("N2"));
+            tempRow.Cells[14].SetCellValue(tempDataRow.StatusName);
+            tempRow.Cells[15].SetCellValue(tempDataRow.CreateTimeStr);
+            tempRow.Cells[16].SetCellValue(tempDataRow.CreateUserName);
 
             for (int a = 1; a < list.Count; a++)
             {
@@ -205,17 +210,22 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
                 }
                 var dto = list[a];
                 row.Cells[0].SetCellValue(dto.StudentName);
-                row.Cells[1].SetCellValue(dto.BatchName);
-                row.Cells[2].SetCellValue(dto.SchoolName);
-                row.Cells[3].SetCellValue(dto.LevelName);
-                row.Cells[4].SetCellValue(dto.MajorName);
-                row.Cells[5].SetCellValue(dto.TotalAmount.ToString("N2"));
-                row.Cells[6].SetCellValue(dto.PayedAmount.ToString("N2"));
-                row.Cells[7].SetCellValue(dto.UnPayedAmount.ToString("N2"));
-                row.Cells[8].SetCellValue(dto.ApprovalAmount.ToString("N2"));
-                row.Cells[9].SetCellValue(dto.StatusName);
-                row.Cells[10].SetCellValue(dto.CreateTimeStr);
-                row.Cells[11].SetCellValue(dto.CreateUserName);
+                row.Cells[1].SetCellValue(dto.ToLearningCenterName);
+                row.Cells[2].SetCellValue(dto.BatchName);
+                row.Cells[3].SetCellValue(dto.SchoolName);
+                row.Cells[4].SetCellValue(dto.LevelName);
+                row.Cells[5].SetCellValue(dto.MajorName);
+                row.Cells[6].SetCellValue(dto.TotalAmount.ToString("N2"));
+                row.Cells[7].SetCellValue(dto.PayedAmount.ToString("N2"));
+                row.Cells[8].SetCellValue(dto.UnPayedAmount.ToString("N2"));
+                row.Cells[9].SetCellValue(dto.ApprovalAmount.ToString("N2"));
+                row.Cells[10].SetCellValue(dto.QDTotalAmount.ToString("N2"));
+                row.Cells[11].SetCellValue(dto.QDPayedAmount.ToString("N2"));
+                row.Cells[12].SetCellValue(dto.QDUnPayedAmount.ToString("N2"));
+                row.Cells[13].SetCellValue(dto.QDApprovalAmount.ToString("N2"));
+                row.Cells[14].SetCellValue(dto.StatusName);
+                row.Cells[15].SetCellValue(dto.CreateTimeStr);
+                row.Cells[16].SetCellValue(dto.CreateUserName);
             }
 
             //导出
