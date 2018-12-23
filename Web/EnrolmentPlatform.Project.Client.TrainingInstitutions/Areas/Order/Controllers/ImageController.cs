@@ -66,6 +66,8 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             return View();
         }
 
+        #region 导出
+
         /// <summary>
         /// 导出
         /// </summary>
@@ -229,8 +231,6 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             Response.Close();
 
             #endregion
-
-            return Content("导出失败！");
 
             #region 导出excel
 
@@ -441,6 +441,8 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             //}
 
             #endregion
+
+            return Content("导出失败！");
         }
 
         /// <summary>
@@ -521,6 +523,8 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         //    picIndexc.PictureIndex = picIndex;
         //    return picIndexc;
         //}
+
+        #endregion
 
         #endregion
 
