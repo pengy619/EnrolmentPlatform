@@ -69,13 +69,13 @@
             , where: getSearchData()
             , page: true //开启分页
             , cols: [[ //表头
-                { field: 'Name', title: '缴费名称' }
-                , { field: 'OrgName', title: '学习中心' }
-                , { field: 'TypeName', title: '类型'}
-                , { field: 'TotalAmount', title: '缴纳金额'}
-                , { field: 'StatusName', title: '状态'}
-                , { field: 'CreatorTime', title: '登记时间'}
-                , { field: 'UserName', title: '登记人'}
+                { field: 'Name', title: '缴费名称'}
+                , { field: 'OrgName', title: '学习中心', width: 150 }
+                , { field: 'TypeName', title: '类型', width: 150 }
+                , { field: 'TotalAmount', title: '缴纳金额', width: 100 }
+                , { field: 'StatusName', title: '状态', width: 100 }
+                , { field: 'CreatorTime', title: '登记时间', width: 160 }
+                , { field: 'UserName', title: '登记人', width: 100 }
                 , { title: '操作', toolbar: '#tableTool', width: 150 }
             ]]
         }

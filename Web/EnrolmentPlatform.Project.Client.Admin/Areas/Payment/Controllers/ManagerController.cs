@@ -298,5 +298,25 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
                 return Json(new { ret = false, msg = "删除失败。" });
             }
         }
+
+        /// <summary>
+        /// 审核
+        /// </summary>
+        /// <param name="paymentId">付款单</param>
+        /// <param name="approved"></param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult Approval(Guid paymentId, bool approved)
+        {
+            var ret = PaymentRecordService.Approval(paymentId, approved, this.UserId, this.UserUser, "");
+            if (ret == true)
+            {
+                return Json(new { ret = true });
+            }
+            else
+            {
+                return Json(new { ret = false, msg = "系统错误。" });
+            }
+        }
     }
 }
