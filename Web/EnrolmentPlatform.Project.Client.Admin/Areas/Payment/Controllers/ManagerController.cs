@@ -257,7 +257,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
             PaymentRecordDto dto = new PaymentRecordDto()
             {
                 UserId = this.UserId,
-                UserName = this.UserName,
+                UserName = this.UserUser,
                 CreateTime = DateTime.Now,
                 PaymentSource = 1,
                 PaymentSourceId = this.EnterpriseId,
