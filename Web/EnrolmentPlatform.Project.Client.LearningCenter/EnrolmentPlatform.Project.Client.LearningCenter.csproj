@@ -185,6 +185,8 @@
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
+    <Compile Include="Areas\Payment\Controllers\ManagerController.cs" />
+    <Compile Include="Areas\Payment\PaymentAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AccountManageController.cs" />
     <Compile Include="Areas\Setting\Controllers\ChildAccountController.cs" />
     <Compile Include="Areas\Setting\Controllers\LogController.cs" />
@@ -690,10 +692,16 @@
     <Content Include="Areas\Order\Views\Manager\Index.cshtml" />
     <Content Include="Areas\Order\Views\Manager\Option.cshtml" />
     <Content Include="Areas\Order\Views\Image\Option.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\AccountIndex.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\Index.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\PaymentDetail.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\UserPaymentRecord.cshtml" />
+    <Content Include="Areas\Payment\Views\web.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Shared\_calendar.cshtml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />
+    <Content Include="Temp\OrderAmountTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">
