@@ -4,12 +4,14 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
+using EnrolmentPlatform.Project.Infrastructure.Zip;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 
@@ -64,6 +66,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             return View();
         }
 
+        #region 导出
+
         /// <summary>
         /// 导出
         /// </summary>
@@ -94,229 +98,365 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 return Content("导出失败！");
             }
 
-            //导出模板地址
-            HSSFWorkbook hssfworkbook = null;
-            try
+            #region 导出zip
+
+            //所有的图片
+            Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
+
+            #region 获得所有图片
+
+            foreach (var dto in orderList)
             {
-                using (FileStream file = new FileStream(this.Server.MapPath("~/Temp/OrderImageTemp.xls"), FileMode.Open, FileAccess.Read))
+                Dictionary<string, string> dicItem = new Dictionary<string, string>();
+                if (!string.IsNullOrWhiteSpace(dto.LiangCunLanDiImg))
                 {
-                    hssfworkbook = new HSSFWorkbook(file);
-                }
-
-                #region 图片处理
-
-                //所有的图片
-                List<PicIndex> picIndexs = new List<PicIndex>();
-                foreach (var dto in orderList)
-                {
-                    if (!string.IsNullOrWhiteSpace(dto.LiangCunLanDiImg))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "1", dto.LiangCunLanDiImg, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.IDCard1))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "2", dto.IDCard1, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.IDCard2))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "3", dto.IDCard2, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.TouXiang))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "4", dto.TouXiang, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.BiYeZhengImg))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "5", dto.BiYeZhengImg, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.MianKaoYingYuImg))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "6", dto.MianKaoYingYuImg, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.MianKaoJiSuanJiImg))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "7", dto.MianKaoJiSuanJiImg, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.XueXinWangImg))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "8", dto.XueXinWangImg, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(dto.QiTa))
-                    {
-                        var p1 = GetPicIndex(hssfworkbook, "9", dto.QiTa, dto);
-                        if (p1 != null)
-                        {
-                            picIndexs.Add(p1);
-                        }
-                    }
-                }
-
-                #endregion
-
-                int startRow = 2;
-                HSSFSheet sheet = (HSSFSheet)hssfworkbook.GetSheet("data");
-                IDrawing patriarch = sheet.CreateDrawingPatriarch();
-
-                HSSFRow tempRow = (HSSFRow)sheet.GetRow(startRow);
-                for (int a = 1; a < orderList.Count; a++)
-                {
-                    HSSFRow row = (HSSFRow)sheet.CreateRow(startRow + a);
-                    row.HeightInPoints = tempRow.HeightInPoints;
-                    row.Height = tempRow.Height;
-
-                    //创建列
-                    for (int c = 0; c < tempRow.Cells.Count; c++)
-                    {
-                        ICell cell = row.CreateCell(c);
-                        ICell sourceCell = tempRow.GetCell(c);
-                        cell.CellStyle = sourceCell.CellStyle;
-                        cell.SetCellType(sourceCell.CellType);
-                    }
-                }
-
-                for (int i = 0; i < orderList.Count; i++)
-                {
-                    var dataRow = orderList[i];
-                    int rowIndex = startRow + i;
-                    HSSFRow row = (HSSFRow)sheet.GetRow(rowIndex);
-                    row.Cells[0].SetCellValue(dataRow.StudentName);
-                    row.Cells[1].SetCellValue(dataRow.BatchName);
-                    row.Cells[2].SetCellValue(dataRow.SchoolName);
-                    row.Cells[3].SetCellValue(dataRow.LevelName);
-                    row.Cells[4].SetCellValue(dataRow.MajorName);
-                    var p1 = picIndexs.FirstOrDefault(a => a.ImageType == "1" && a.OrderId == dataRow.OrderId);
+                    var p1 = GetLocalPic(dto.LiangCunLanDiImg, dto);
                     if (p1 != null)
                     {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 5, rowIndex, 6, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p1.PictureIndex);
+                        dicItem.Add("两寸蓝底.jpg", p1);
                     }
-
-                    var p2 = picIndexs.FirstOrDefault(a => a.ImageType == "2" && a.OrderId == dataRow.OrderId);
-                    if (p2 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 6, rowIndex, 7, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p2.PictureIndex);
-                    }
-
-                    var p3 = picIndexs.FirstOrDefault(a => a.ImageType == "3" && a.OrderId == dataRow.OrderId);
-                    if (p3 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 7, rowIndex, 8, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p3.PictureIndex);
-                    }
-
-                    var p4 = picIndexs.FirstOrDefault(a => a.ImageType == "4" && a.OrderId == dataRow.OrderId);
-                    if (p4 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 8, rowIndex, 9, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p4.PictureIndex);
-                    }
-
-                    var p5 = picIndexs.FirstOrDefault(a => a.ImageType == "5" && a.OrderId == dataRow.OrderId);
-                    if (p5 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 9, rowIndex, 10, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p5.PictureIndex);
-                    }
-
-                    var p6 = picIndexs.FirstOrDefault(a => a.ImageType == "6" && a.OrderId == dataRow.OrderId);
-                    if (p6 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 10, rowIndex, 11, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p6.PictureIndex);
-                    }
-
-                    var p7 = picIndexs.FirstOrDefault(a => a.ImageType == "7" && a.OrderId == dataRow.OrderId);
-                    if (p7 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 11, rowIndex, 12, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p7.PictureIndex);
-                    }
-
-                    var p8 = picIndexs.FirstOrDefault(a => a.ImageType == "8" && a.OrderId == dataRow.OrderId);
-                    if (p8 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 12, rowIndex, 13, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p8.PictureIndex);
-                    }
-
-                    var p9 = picIndexs.FirstOrDefault(a => a.ImageType == "9" && a.OrderId == dataRow.OrderId);
-                    if (p9 != null)
-                    {
-                        HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 13, rowIndex, 14, (rowIndex + 1));
-                        patriarch.CreatePicture(anchor, p9.PictureIndex);
-                    }
-
-                    row.Cells[14].SetCellValue(dataRow.StatusName);
-                    row.Cells[15].SetCellValue(dataRow.CreateTimeStr);
-                    row.Cells[16].SetCellValue(dataRow.CreateUserName);
                 }
-                //导出
-                this.NPOIExport("报名单照片列表" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls", hssfworkbook, new List<HSSFSheet> { sheet });
-                return null;
+
+                if (!string.IsNullOrWhiteSpace(dto.IDCard1))
+                {
+                    var p1 = GetLocalPic(dto.IDCard1, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("身份证正面.jpg", p1);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.IDCard2))
+                {
+                    var p1 = GetLocalPic(dto.IDCard2, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("身份证反面.jpg", p1);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.TouXiang))
+                {
+                    var p1 = GetLocalPic(dto.TouXiang, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("头像.jpg", p1);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.BiYeZhengImg))
+                {
+                    var p1 = GetLocalPic(dto.BiYeZhengImg, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("毕业证.jpg", p1);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.MianKaoYingYuImg))
+                {
+                    var p1 = GetLocalPic(dto.MianKaoYingYuImg, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("免试英语.jpg", p1);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.MianKaoJiSuanJiImg))
+                {
+                    var p1 = GetLocalPic(dto.MianKaoJiSuanJiImg, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("免试计算机.jpg", p1);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.XueXinWangImg))
+                {
+                    var p1 = GetLocalPic(dto.XueXinWangImg, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("学信网截图.jpg", p1);
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(dto.QiTa))
+                {
+                    var p1 = GetLocalPic(dto.QiTa, dto);
+                    if (p1 != null)
+                    {
+                        dicItem.Add("其他.jpg", p1);
+                    }
+                }
+
+                //文件夹名称
+                string key = dto.StudentName;
+                if (dic.Keys.Contains(key))
+                {
+                    key = "_" + dto.OrderId.ToString();
+                }
+
+                //如果有照片
+                if (dicItem.Count > 0)
+                {
+                    dic.Add(key, dicItem);
+                }
             }
-            catch (Exception ex)
+
+            #endregion
+
+            //创建临时目录
+            string tempPath = Path.Combine(this.Server.MapPath("~/Temp"), "TempData");
+            DirectoryInfo di = new DirectoryInfo(tempPath);
+            if (di.Exists == true)
             {
-                return Content("导出失败！");
+                di.Delete(true);
             }
+            di.Create();
+
+            string fileName = "照片包" + DateTime.Now.ToString("yyyyMMddHHmmsss") + ".zip";
+            string fullZipFile = Path.Combine(tempPath, fileName);
+            string msg = ZipHelper.ZipFile(dic, fullZipFile);
+            if (msg != "")
+            {
+                return Content("导出失败：" + msg);
+            }
+
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
+            Response.WriteFile(fullZipFile);
+            Response.Flush();
+            Response.End();
+            Response.Close();
+
+            #endregion
+
+            #region 导出EXCEL
+
+            ////导出模板地址
+            //HSSFWorkbook hssfworkbook = null;
+            //try
+            //{
+            //    using (FileStream file = new FileStream(this.Server.MapPath("~/Temp/OrderImageTemp.xls"), FileMode.Open, FileAccess.Read))
+            //    {
+            //        hssfworkbook = new HSSFWorkbook(file);
+            //    }
+
+            //    #region 图片处理
+
+            //    //所有的图片
+            //    List<PicIndex> picIndexs = new List<PicIndex>();
+            //    foreach (var dto in orderList)
+            //    {
+            //        if (!string.IsNullOrWhiteSpace(dto.LiangCunLanDiImg))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "1", dto.LiangCunLanDiImg, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.IDCard1))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "2", dto.IDCard1, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.IDCard2))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "3", dto.IDCard2, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.TouXiang))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "4", dto.TouXiang, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.BiYeZhengImg))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "5", dto.BiYeZhengImg, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.MianKaoYingYuImg))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "6", dto.MianKaoYingYuImg, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.MianKaoJiSuanJiImg))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "7", dto.MianKaoJiSuanJiImg, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.XueXinWangImg))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "8", dto.XueXinWangImg, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+
+            //        if (!string.IsNullOrWhiteSpace(dto.QiTa))
+            //        {
+            //            var p1 = GetPicIndex(hssfworkbook, "9", dto.QiTa, dto);
+            //            if (p1 != null)
+            //            {
+            //                picIndexs.Add(p1);
+            //            }
+            //        }
+            //    }
+
+            //    #endregion
+
+            //    int startRow = 2;
+            //    HSSFSheet sheet = (HSSFSheet)hssfworkbook.GetSheet("data");
+            //    IDrawing patriarch = sheet.CreateDrawingPatriarch();
+
+            //    HSSFRow tempRow = (HSSFRow)sheet.GetRow(startRow);
+            //    for (int a = 1; a < orderList.Count; a++)
+            //    {
+            //        HSSFRow row = (HSSFRow)sheet.CreateRow(startRow + a);
+            //        row.HeightInPoints = tempRow.HeightInPoints;
+            //        row.Height = tempRow.Height;
+
+            //        //创建列
+            //        for (int c = 0; c < tempRow.Cells.Count; c++)
+            //        {
+            //            ICell cell = row.CreateCell(c);
+            //            ICell sourceCell = tempRow.GetCell(c);
+            //            cell.CellStyle = sourceCell.CellStyle;
+            //            cell.SetCellType(sourceCell.CellType);
+            //        }
+            //    }
+
+            //    for (int i = 0; i < orderList.Count; i++)
+            //    {
+            //        var dataRow = orderList[i];
+            //        int rowIndex = startRow + i;
+            //        HSSFRow row = (HSSFRow)sheet.GetRow(rowIndex);
+            //        row.Cells[0].SetCellValue(dataRow.StudentName);
+            //        row.Cells[1].SetCellValue(dataRow.BatchName);
+            //        row.Cells[2].SetCellValue(dataRow.SchoolName);
+            //        row.Cells[3].SetCellValue(dataRow.LevelName);
+            //        row.Cells[4].SetCellValue(dataRow.MajorName);
+            //        var p1 = picIndexs.FirstOrDefault(a => a.ImageType == "1" && a.OrderId == dataRow.OrderId);
+            //        if (p1 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 5, rowIndex, 6, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p1.PictureIndex);
+            //        }
+
+            //        var p2 = picIndexs.FirstOrDefault(a => a.ImageType == "2" && a.OrderId == dataRow.OrderId);
+            //        if (p2 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 6, rowIndex, 7, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p2.PictureIndex);
+            //        }
+
+            //        var p3 = picIndexs.FirstOrDefault(a => a.ImageType == "3" && a.OrderId == dataRow.OrderId);
+            //        if (p3 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 7, rowIndex, 8, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p3.PictureIndex);
+            //        }
+
+            //        var p4 = picIndexs.FirstOrDefault(a => a.ImageType == "4" && a.OrderId == dataRow.OrderId);
+            //        if (p4 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 8, rowIndex, 9, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p4.PictureIndex);
+            //        }
+
+            //        var p5 = picIndexs.FirstOrDefault(a => a.ImageType == "5" && a.OrderId == dataRow.OrderId);
+            //        if (p5 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 9, rowIndex, 10, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p5.PictureIndex);
+            //        }
+
+            //        var p6 = picIndexs.FirstOrDefault(a => a.ImageType == "6" && a.OrderId == dataRow.OrderId);
+            //        if (p6 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 10, rowIndex, 11, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p6.PictureIndex);
+            //        }
+
+            //        var p7 = picIndexs.FirstOrDefault(a => a.ImageType == "7" && a.OrderId == dataRow.OrderId);
+            //        if (p7 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 11, rowIndex, 12, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p7.PictureIndex);
+            //        }
+
+            //        var p8 = picIndexs.FirstOrDefault(a => a.ImageType == "8" && a.OrderId == dataRow.OrderId);
+            //        if (p8 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 12, rowIndex, 13, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p8.PictureIndex);
+            //        }
+
+            //        var p9 = picIndexs.FirstOrDefault(a => a.ImageType == "9" && a.OrderId == dataRow.OrderId);
+            //        if (p9 != null)
+            //        {
+            //            HSSFClientAnchor anchor = new HSSFClientAnchor(5, 2, 0, 0, 13, rowIndex, 14, (rowIndex + 1));
+            //            patriarch.CreatePicture(anchor, p9.PictureIndex);
+            //        }
+
+            //        row.Cells[14].SetCellValue(dataRow.StatusName);
+            //        row.Cells[15].SetCellValue(dataRow.CreateTimeStr);
+            //        row.Cells[16].SetCellValue(dataRow.CreateUserName);
+            //    }
+            //    //导出
+            //    this.NPOIExport("报名单照片列表" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls", hssfworkbook, new List<HSSFSheet> { sheet });
+            //    return null;
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Content("导出失败！");
+            //}
+
+            #endregion
+
+            return Content("导出失败！");
         }
 
         /// <summary>
         /// 报名单某项图片处理
         /// </summary>
-        /// <param name="hssfworkbook">excel</param>
-        /// <param name="type">图片类型</param>
         /// <param name="url">图片远程地址</param>
         /// <param name="orderDto">订单信息</param>
         /// <returns></returns>
-        private PicIndex GetPicIndex(HSSFWorkbook hssfworkbook, string type, string url, OrderImageListDto orderDto)
+        private string GetLocalPic(string url, OrderImageListDto orderDto)
         {
             //循环获得每个TTSBasic内PartCode所关联的图片
             string localPath = Path.Combine(this.Server.MapPath("~/Content/Upload/OrderImage") + "/" + (orderDto.BatchName + "-" + orderDto.SchoolName
                  + "-" + orderDto.LevelName + "-" + orderDto.MajorName));
             string localFile = Path.Combine(localPath, Path.GetFileName(url));
-
-            byte[] bytes = null;
 
             //本地不存在，需要去远程服务器查找
             if (System.IO.File.Exists(localFile) == false)
@@ -332,20 +472,61 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     Directory.CreateDirectory(localPath);
                 }
                 img.Save(localFile, ImageFormat.Jpeg);
-                bytes = mybyte;
             }
-            else
-            {
-                bytes = System.IO.File.ReadAllBytes(localFile);
-            }
-
-            int picIndex = hssfworkbook.AddPicture(bytes, PictureType.JPEG);
-            PicIndex picIndexc = new PicIndex();
-            picIndexc.OrderId = orderDto.OrderId;
-            picIndexc.ImageType = type;
-            picIndexc.PictureIndex = picIndex;
-            return picIndexc;
+            return localFile;
         }
+
+        #region EXCEL导出图片时用到
+
+        ///// <summary>
+        ///// 报名单某项图片处理
+        ///// </summary>
+        ///// <param name="hssfworkbook">excel</param>
+        ///// <param name="type">图片类型</param>
+        ///// <param name="url">图片远程地址</param>
+        ///// <param name="orderDto">订单信息</param>
+        ///// <returns></returns>
+        //private PicIndex GetPicIndex(HSSFWorkbook hssfworkbook, string type, string url, OrderImageListDto orderDto)
+        //{
+        //    //循环获得每个TTSBasic内PartCode所关联的图片
+        //    string localPath = Path.Combine(this.Server.MapPath("~/Content/Upload/OrderImage") + "/" + (orderDto.BatchName + "-" + orderDto.SchoolName
+        //         + "-" + orderDto.LevelName + "-" + orderDto.MajorName));
+        //    string localFile = Path.Combine(localPath, Path.GetFileName(url));
+
+        //    byte[] bytes = null;
+
+        //    //本地不存在，需要去远程服务器查找
+        //    if (System.IO.File.Exists(localFile) == false)
+        //    {
+        //        WebClient my = new WebClient();
+        //        byte[] mybyte;
+        //        mybyte = my.DownloadData(url);
+        //        MemoryStream ms = new MemoryStream(mybyte);
+        //        System.Drawing.Image img;
+        //        img = System.Drawing.Image.FromStream(ms);
+        //        if (Directory.Exists(localPath) == false)
+        //        {
+        //            Directory.CreateDirectory(localPath);
+        //        }
+        //        img.Save(localFile, ImageFormat.Jpeg);
+        //        bytes = mybyte;
+        //    }
+        //    else
+        //    {
+        //        bytes = System.IO.File.ReadAllBytes(localFile);
+        //    }
+
+        //    int picIndex = hssfworkbook.AddPicture(bytes, PictureType.JPEG);
+        //    PicIndex picIndexc = new PicIndex();
+        //    picIndexc.OrderId = orderDto.OrderId;
+        //    picIndexc.ImageType = type;
+        //    picIndexc.PictureIndex = picIndex;
+        //    return picIndexc;
+        //}
+
+        #endregion
+
+        #endregion
 
         /// <summary>
         /// 查询列表

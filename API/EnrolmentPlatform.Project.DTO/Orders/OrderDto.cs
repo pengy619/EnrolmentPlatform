@@ -350,17 +350,22 @@ namespace EnrolmentPlatform.Project.DTO.Orders
     public class OrderPaymentListDto : OrderListBasicInfoDto
     {
         /// <summary>
-        /// 总金额
+        /// 招生机构总金额
         /// </summary>
         public decimal TotalAmount { set; get; }
 
         /// <summary>
-        /// 已缴金额
+        /// 招生机构已缴金额
         /// </summary>
         public decimal PayedAmount { set; get; }
 
         /// <summary>
-        /// 未缴金额
+        /// 招生机构待审核金额
+        /// </summary>
+        public decimal ApprovalAmount { set; get; }
+
+        /// <summary>
+        /// 招生机构未缴金额
         /// </summary>
         public decimal UnPayedAmount
         {
@@ -371,9 +376,40 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         }
 
         /// <summary>
-        /// 待审核金额
+        /// 渠道中心总金额
         /// </summary>
-        public decimal ApprovalAmount { set; get; }
+        public decimal QDTotalAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心已缴金额
+        /// </summary>
+        public decimal QDPayedAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心待审核金额
+        /// </summary>
+        public decimal QDApprovalAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心未缴金额
+        /// </summary>
+        public decimal QDUnPayedAmount
+        {
+            get
+            {
+                return this.QDTotalAmount - this.QDPayedAmount - this.QDApprovalAmount;
+            }
+        }
+
+        /// <summary>
+        /// 学习中心ID
+        /// </summary>
+        public Guid ToLearningCenterId { set; get; }
+
+        /// <summary>
+        /// 学习中心名称
+        /// </summary>
+        public string ToLearningCenterName { set; get; }
     }
 
     /// <summary>
@@ -465,5 +501,10 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 查询的ID
         /// </summary>
         public List<Guid> OrderIds { set; get; }
+
+        /// <summary>
+        /// 学习中心
+        /// </summary>
+        public string ToLearningCenterName { set; get; }
     }
 }

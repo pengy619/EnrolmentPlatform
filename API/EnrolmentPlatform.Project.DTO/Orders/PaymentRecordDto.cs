@@ -188,6 +188,21 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         }
 
         /// <summary>
+        /// 支付发起方（1：机构，2：渠道）
+        /// </summary>
+        public int PaymentSource { set; get; }
+
+        /// <summary>
+        /// 支付发起ID（机构ID，学习中心ID）
+        /// </summary>
+        public Guid? PaymentSourceId { set; get; }
+
+        /// <summary>
+        /// 招生结构/学习中心
+        /// </summary>
+        public string OrgName { set; get; }
+
+        /// <summary>
         /// 审核人
         /// </summary>
         public string Auditor { set; get; }
@@ -211,6 +226,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户Id
         /// </summary>
         public Guid UserId { set; get; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreatorTime { set; get; }
     }
 
     /// <summary>
@@ -222,6 +242,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 缴费名称
         /// </summary>
         public string Name { set; get; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public PaymentStatusEnum? Status { set; get; }
 
         /// <summary>
         /// 支付发起方（1：机构，2：渠道）
@@ -242,6 +267,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 结束时间
         /// </summary>
         public DateTime? DateTo { set; get; }
+
+        /// <summary>
+        /// 机构名称
+        /// </summary>
+        public string OrgName { set; get; }
     }
 
     /// <summary>
@@ -302,6 +332,32 @@ namespace EnrolmentPlatform.Project.DTO.Orders
             get
             {
                 return this.TotalAmount - this.PayedAmount - this.ApprovalAmount;
+            }
+        }
+
+        /// <summary>
+        /// 渠道中心总金额
+        /// </summary>
+        public decimal QDTotalAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心已缴金额
+        /// </summary>
+        public decimal QDPayedAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心待审核金额
+        /// </summary>
+        public decimal QDApprovalAmount { set; get; }
+
+        /// <summary>
+        /// 渠道中心未缴金额
+        /// </summary>
+        public decimal QDUnPayedAmount
+        {
+            get
+            {
+                return this.QDTotalAmount - this.QDPayedAmount - this.QDApprovalAmount;
             }
         }
 

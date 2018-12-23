@@ -47,7 +47,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public int PaymentSource { set; get; }
 
         /// <summary>
-        /// 支付发起ID
+        /// 支付发起ID（机构ID，学习中心ID）
         /// </summary>
         [DataMember]
         public Guid? PaymentSourceId { set; get; }

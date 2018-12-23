@@ -189,6 +189,8 @@
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
+    <Compile Include="Areas\Payment\Controllers\ManagerController.cs" />
+    <Compile Include="Areas\Payment\PaymentAreaRegistration.cs" />
     <Compile Include="Areas\Setting\Controllers\AddressController.cs" />
     <Compile Include="Areas\Setting\Controllers\DepartmentController.cs" />
     <Compile Include="Areas\Setting\Controllers\LogController.cs" />
@@ -717,6 +719,13 @@
     <Content Include="Areas\Order\Views\Image\Option.cshtml" />
     <Content Include="Areas\Order\Views\Exam\Index.cshtml" />
     <Content Include="Areas\Order\Views\Exam\Option.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\AccountIndex.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\Index.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\PaymentAdd.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\PaymentDetail.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\UserPaymentRecord.cshtml" />
+    <Content Include="Areas\Payment\Views\web.config" />
+    <Content Include="Areas\Payment\Views\Manager\OrgPaymentIndex.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />
@@ -724,6 +733,7 @@
     <Content Include="Views\Home\Permissions.cshtml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />
+    <Content Include="Temp\OrderAmountTemp.xls" />
     <None Include="Temp\ExamTemp.xlsx" />
   </ItemGroup>
   <ItemGroup>

@@ -679,9 +679,14 @@
     <Content Include="Areas\Setting\Views\AccountManage\Info.cshtml" />
     <Content Include="Areas\Order\Views\Image\Index.cshtml" />
     <Content Include="Areas\Order\Views\Image\Option.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\AccountIndex.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\PaymentAdd.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\UserPaymentRecord.cshtml" />
+    <Content Include="Areas\Payment\Views\Manager\PaymentDetail.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />
+    <Content Include="Temp\OrderAmountTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">

@@ -115,6 +115,11 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
         public static IT_OrderService OrderService = DIContainer.Resolve<IT_OrderService>();
 
         /// <summary>
+        /// 缴费接口
+        /// </summary>
+        public static IT_PaymentRecordService PaymentRecordService = DIContainer.Resolve<IT_PaymentRecordService>();
+
+        /// <summary>
         /// 基础数据接口
         /// </summary>
         public static IT_MetadataService MetadataService = DIContainer.Resolve<IT_MetadataService>();

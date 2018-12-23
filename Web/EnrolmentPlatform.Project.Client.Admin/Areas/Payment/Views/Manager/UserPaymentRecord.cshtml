@@ -1,0 +1,150 @@
+﻿@{
+    ViewBag.Title = "学生缴费明细";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PaymentUserDetailDto dto = ViewBag.Dto;
+    if (dto.PaymentRecordList == null)
+    {
+        dto.PaymentRecordList = new List<PaymentRecordListDto>();
+    }
+    else
+    {
+        dto.PaymentRecordList = dto.PaymentRecordList.OrderBy(a=>a.PaymentSource).ThenByDescending(a => a.CreatorTime).ToList();
+    }
+}
+<style type="text/css">
+    .info-cell .row .item .label {
+        margin-right: 10px !important;
+    }
+    .info-cell .row .amountItem .label {
+        width: 90px;
+        margin-right: 10px !important;
+    }
+    .info-cell .row .amountItem .text {
+        width: 100px;
+    }
+</style>
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            学生缴费明细
+        </div>
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row">
+                    <div class="item" style="margin-left:0px;">
+                        <span class="label">学生姓名：</span>
+                        <span class="text">@((dto != null) ? dto.StudentName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">批  次：</span>
+                        <span class="text">@((dto != null) ? dto.BatchName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">院  校：</span>
+                        <span class="text">@((dto != null) ? dto.SchoolName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">层  次：</span>
+                        <span class="text">@((dto != null) ? dto.LevelName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">专  业：</span>
+                        <span class="text">@((dto != null) ? dto.MajorName : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item amountItem">
+                        <span class="label">机构应收：</span>
+                        <span class="text">@((dto != null) ? dto.TotalAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">机构已收：</span>
+                        <span class="text" style="color:green;">@((dto != null) ? dto.PayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">机构未收：</span>
+                        <span class="text" style="color:red;">@((dto != null) ? dto.UnPayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">机构待审核：</span>
+                        <span class="text" style="color:orange;">@((dto != null) ? dto.ApprovalAmount.ToString("N2") : "")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item amountItem">
+                        <span class="label">中心应缴：</span>
+                        <span class="text">@((dto != null) ? dto.QDTotalAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">中心已缴：</span>
+                        <span class="text" style="color:green;">@((dto != null) ? dto.QDPayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">中心未缴：</span>
+                        <span class="text" style="color:red;">@((dto != null) ? dto.QDUnPayedAmount.ToString("N2") : "")</span>
+                    </div>
+                    <div class="item amountItem">
+                        <span class="label">中心待审核：</span>
+                        <span class="text" style="color:orange;">@((dto != null) ? dto.QDApprovalAmount.ToString("N2") : "")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-title">
+            缴费记录
+        </div>
+        <div class="panel-body" style="max-height:500px; overflow-y:auto; overflow-x:hidden;">
+            <table id="table" lay-filter="table"></table>
+            <div class="margin-top-10">
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("AccountIndex","Manager")'">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool1">
+    {{# if(d.PaymentSource==1){ }}
+    机构
+    {{# }else if(d.PaymentSource==2){ }}
+    渠道
+    {{# } }}
+</script>
+<script type="text/javascript">
+    var table, layer, laydate, form;
+    layui.use(['jquery', 'table', 'laydate', 'layer'], function () {
+        table = layui.table;
+        layer = layui.layer;
+        laydate = layui.laydate;
+        form = layui.form;
+
+        //初始化表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            , cols: [[ //表头
+                { field: 'Name', title: '缴费名称'}
+                , { title: '缴费对象', toolbar: '#tableTool1', width: 100 }
+                , { field: 'TypeName', title: '缴费类型', width: 100 }
+                , { field: 'TotalAmount', title: '金额', width: 100 }
+                , { field: 'StatusName', title: '状态', width: 100}
+                , { field: 'UserName', title: '登记人', width: 100}
+                , { field: 'CreatorTime', title: '登记时间', width: 200}
+                , { field: 'Auditor', title: '审核人', width: 100}
+                , { field: 'AuditTime', title: '审核时间', width: 200}
+            ]]
+        }
+
+        //实例数据
+        var dataJson = '@Html.Raw(dto.PaymentRecordList.Count > 0 ? dto.PaymentRecordList.ToJson() : "")';
+        if (dataJson != '') {
+            //如果有列表数据，绑定数据
+            tableOptions.page = false;
+            tableOptions.data = JSON.parse(dataJson);
+        }
+        else {
+            //没有显示无数据
+            tableOptions.page = true
+            tableOptions.data = [];
+        }
+        table.render(tableOptions);
+    });
+</script>

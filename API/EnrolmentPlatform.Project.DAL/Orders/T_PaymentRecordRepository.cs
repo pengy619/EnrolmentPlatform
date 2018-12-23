@@ -30,6 +30,32 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var orderIdList = dto.OrderList.Select(a => a.OrderId).ToList();
+            var sourceId = dto.PaymentSourceId;
+
+            //订单列表
+            var orderList = dbContext.T_Order.Where(a => orderIdList.Contains(a.Id)).ToList();
+            if (orderList.Count != orderIdList.Count)
+            {
+                return "请求失败，请重新发起！";
+            }
+
+            //如果是渠道发起
+            if (dto.PaymentSource == 2)
+            {
+                //存在没有录取的报名单
+                if (orderList.Exists(a => a.JoinTime.HasValue == false))
+                {
+                    return "包含不允许缴费的报名单！";
+                }
+
+                //一次提交多个学习中心报名单
+                if (orderList.Select(a => a.ToLearningCenterId).Distinct().Count() > 1)
+                {
+                    return "一次只能提交相同的学习中心缴费登记！";
+                }
+                sourceId = orderList.First().ToLearningCenterId.Value;
+            }
+
             var orderAmountList = dbContext.T_OrderAmount.Where(a => orderIdList.Contains(a.OrderId) && a.PaymentSource == dto.PaymentSource)
                 .ToList();
             //订单缴费金额检查
@@ -38,7 +64,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 var unPayedAmount = item.TotalAmount - item.PayedAmount - item.ApprovalAmount;
                 if (dto.UnitAmount > unPayedAmount)
                 {
-                    return "本次缴费金额大于报名单缴费金额。";
+                    return "本次缴费金额大于报名单未缴金额。";
                 }
                 item.ApprovalAmount = item.ApprovalAmount + dto.UnitAmount;
             }
@@ -55,7 +81,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 FilePath = dto.FilePath,
                 Name = dto.Name,
                 PaymentSource = dto.PaymentSource,
-                PaymentSourceId = dto.PaymentSourceId,
+                PaymentSourceId = sourceId,
                 Status = (int)PaymentStatusEnum.Submit,
                 TotalAmount = (dto.UnitAmount * dto.OrderList.Count),
                 Type = (int)dto.Type,
@@ -237,8 +263,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ddtemp in dtemp.DefaultIfEmpty()
                         join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
                         from eetemp in etemp.DefaultIfEmpty()
-                        join f in dbContext.T_OrderAmount on a.Id equals f.OrderId into ftemp
+                        join f in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 1 } equals new { OrderId = f.OrderId, PaymentSource = f.PaymentSource } into ftemp
                         from fftemp in ftemp.DefaultIfEmpty()
+                        join g in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 2 } equals new { OrderId = g.OrderId, PaymentSource = g.PaymentSource } into gtemp
+                        from ggtemp in gtemp.DefaultIfEmpty()
                         where a.Id == orderId && fftemp.PaymentSource == paymentSource
                         select new PaymentUserDetailDto()
                         {
@@ -250,7 +278,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             StudentName = a.StudentName,
                             ApprovalAmount = fftemp.ApprovalAmount,
                             PayedAmount = fftemp.PayedAmount,
-                            TotalAmount = fftemp.TotalAmount
+                            TotalAmount = fftemp.TotalAmount,
+                            QDApprovalAmount = ggtemp.ApprovalAmount,
+                            QDPayedAmount = ggtemp.PayedAmount,
+                            QDTotalAmount = ggtemp.TotalAmount
                         };
             var detail = query.FirstOrDefault();
             //如果有数据
@@ -269,10 +300,13 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                                     Id = bbtemp.Id,
                                     Name = bbtemp.Name,
                                     Status = bbtemp.Status,
-                                    TotalAmount = bbtemp.TotalAmount,
+                                    TotalAmount = a.Amount,
                                     Type = bbtemp.Type,
                                     UserId = bbtemp.CreatorUserId,
-                                    UserName = bbtemp.CreatorAccount
+                                    UserName = bbtemp.CreatorAccount,
+                                    CreatorTime = bbtemp.CreatorTime,
+                                    PaymentSource = bbtemp.PaymentSource,
+                                    PaymentSourceId = bbtemp.PaymentSourceId
                                 };
                 detail.PaymentRecordList = listQuery.ToList();
             }
