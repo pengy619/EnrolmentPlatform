@@ -148,7 +148,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         public ActionResult Export(OrderListReqDto param)
         {
             int reCount = 0;
-            param.FromChannelId = this.EnterpriseId;
             param.Page = 1;
             param.Limit = int.MaxValue;
             List<OrderPaymentListDto> list = OrderService.GetStudentPaymentList(param, ref reCount);
