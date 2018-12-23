@@ -73,6 +73,13 @@
         </div>
     </div>
 </div>
+<script type="text/html" id="tableTool1">
+    {{# if(d.PaymentSource==1){ }}
+    机构
+    {{# }else if(d.PaymentSource==2){ }}
+    渠道
+    {{# } }}
+</script>
 <script type="text/javascript">
     var table, layer, laydate, form;
     layui.use(['jquery', 'table', 'laydate', 'layer'], function () {
@@ -86,9 +93,9 @@
             elem: '#table'
             , skin: 'line'
             , cols: [[ //表头
-                { field: 'Name', title: '缴费名称' }
-                , { field: 'Name', title: '缴费对象' }
-                , { field: 'TypeName', title: '类型' }
+                { field: 'Name', title: '缴费名称',width:200 }
+                , { field: 'Name', title: '缴费对象', toolbar:'#tableTool1' }
+                , { field: 'TypeName', title: '缴费类型' }
                 , { field: 'TotalAmount', title: '金额' }
                 , { field: 'StatusName', title: '状态' }
                 , { field: 'CreatorTime', title: '登记时间',width:200 }
