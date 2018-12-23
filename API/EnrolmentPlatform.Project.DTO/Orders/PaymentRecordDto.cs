@@ -198,7 +198,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public Guid? PaymentSourceId { set; get; }
 
         /// <summary>
-        /// 机构名称
+        /// 招生结构/学习中心
         /// </summary>
         public string OrgName { set; get; }
 

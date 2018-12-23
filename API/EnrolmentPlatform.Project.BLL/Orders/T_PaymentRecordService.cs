@@ -86,6 +86,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 query = query.Where(a => a.Name.Contains(req.Name));
             }
 
+            //招生机构/学习中心
+            if (!string.IsNullOrWhiteSpace(req.OrgName))
+            {
+                query = query.Where(a => a.OrgName.Contains(req.OrgName));
+            }
+
             //开始时间
             if (req.DateFrom.HasValue)
             {
