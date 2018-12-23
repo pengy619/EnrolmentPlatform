@@ -21,11 +21,17 @@
                     <div class="layui-input-inline">
                         <input type="text" id="Name" class="layui-input">
                     </div>
-                    <label class="layui-form-label">报名时间</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="Date" readonly="readonly" class="layui-input">
-                    </div>
                     <button class="layui-btn layui-btn-warm" type="button" lay-submit="" lay-filter="s">查询</button>
+                </div>
+            </div>
+            <div class="layui-form-item flex">
+                <label class="layui-form-label">学习中心</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="OrgName" class="layui-input">
+                </div>
+                <label class="layui-form-label">报名时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="Date" readonly="readonly" class="layui-input">
                 </div>
             </div>
         </div>
@@ -102,7 +108,8 @@
             Name: $("#Name").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
-            PaymentSource:2
+            OrgName: $("#OrgName").val(),
+            PaymentSource: 2
         };
     }
 
