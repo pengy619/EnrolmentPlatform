@@ -183,15 +183,37 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             }
         }
 
+        ///// <summary>
+        ///// 报名单录取
+        ///// </summary>
+        ///// <param name="ids">ID集合</param>
+        ///// <returns>1：成功，2：错误</returns>
+        //[HttpPost]
+        //public JsonResult LuQu(Guid[] ids)
+        //{
+        //    var ret = OrderService.Luqu(ids.ToList(), this.UserId);
+        //    if (ret == true)
+        //    {
+        //        return Json(new { ret = 1 });
+        //    }
+        //    else
+        //    {
+        //        return Json(new { ret = 0, msg = "录取失败。" });
+        //    }
+        //}
+
         /// <summary>
         /// 报名单录取
         /// </summary>
-        /// <param name="ids">ID集合</param>
-        /// <returns>1：成功，2：错误</returns>
+        /// <param name="orderId">orderId</param>
+        /// <param name="xuehao">xuehao</param>
+        /// <param name="zhanghao">zhanghao</param>
+        /// <param name="mima">mima</param>
+        /// <returns></returns>
         [HttpPost]
-        public JsonResult LuQu(Guid[] ids)
+        public JsonResult LuQuConfirm(Guid orderId, string xuehao, string zhanghao, string mima)
         {
-            var ret = OrderService.Luqu(ids.ToList(), this.UserId);
+            var ret = OrderService.Luqu(orderId, xuehao, zhanghao, mima, this.UserId);
             if (ret == true)
             {
                 return Json(new { ret = 1 });
