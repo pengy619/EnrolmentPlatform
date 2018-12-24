@@ -173,8 +173,9 @@
         table.render(tableOptions);
 
         //录取
+        var luquLayerIndex = 0;
         form.on('submit(lq)', function (data) {
-            layerIndex2 = layer.open({
+            luquLayerIndex = layer.open({
                 type: 1,
                 title: "录取确认",
                 area: ["400px", "300px"],
@@ -265,6 +266,7 @@
                             }, function () {
                                 table.reload("table");
                             });
+                            layer.close(luquLayerIndex);
                         }
                         else {
                             layer.msg(result.msg, {
