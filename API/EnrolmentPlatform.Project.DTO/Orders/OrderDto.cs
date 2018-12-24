@@ -215,6 +215,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 招生老师
         /// </summary>
         public string CreateUserName { set; get; }
+
+        /// <summary>
+        /// 学号
+        /// </summary>
+        public string XueHao { set; get; }
     }
 
     /// <summary>

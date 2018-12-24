@@ -280,7 +280,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             SchoolName = cctemp.Name,
                             Status = a.Status,
                             StudentName = a.StudentName,
-                            ToLearningCenterTime = a.ToLearningCenterTime
+                            ToLearningCenterTime = a.ToLearningCenterTime,
+                            XueHao = a.StudentNo
                         };
 
             //学校
