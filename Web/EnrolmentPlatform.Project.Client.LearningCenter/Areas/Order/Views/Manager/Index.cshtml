@@ -103,7 +103,7 @@
 <div id="audit-btn-modalluqu" style="display:none;">
     <div class="layui-form" style="text-align: center;">
         <div class="layui-form-item required" style="padding-top: 20px;">
-            <label class="layui-form-label">学号</label>
+            <label class="layui-form-label">学号：</label>
             <div class="layui-input-inline">
                 <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="txtXueHao" value=''>
             </div>
@@ -177,7 +177,7 @@
             layerIndex2 = layer.open({
                 type: 1,
                 title: "录取确认",
-                area: ["500px", "300px"],
+                area: ["400px", "300px"],
                 content: $('#audit-btn-modalluqu'),
                 yes: function (index, layero) {
                     //事件
@@ -222,6 +222,30 @@
             dto.zhanghao = $("#txtZhangHao").val();
             dto.mima = $("#txtMiMa").val();
 
+            if (dto.xuehao == "") {
+                layer.msg('请输入学生学号！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            if (dto.zhanghao == "") {
+                layer.msg('请输入学生账号！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            if (dto.mima == "") {
+                layer.msg('请输入学生密码！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            
             //提交确认
             layer.confirm('确认录取？', {
                 btn: ['确认', '取消']
