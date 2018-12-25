@@ -27,23 +27,15 @@
 </style>
 <div class="main-wrap">
     <div class="panel">
-        @*<div class="panel-title">
-                <form class="layui-form" id="formId" enctype="multipart/form-data">
-                    <div class="layui-form-item ">
-                        <label class="layui-form-label">考试名称</label>
-                        <div class="layui-input-inline">
-                            <input type="text" id="Name" name="Name" autocomplete="off" class="layui-input">
-                        </div>
-                        <a href="~/Temp/ExamTemp.xls" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
-                        <span class="layui-btn layui-btn-warm fileinput-button">
-                            <span>导入excel</span>
-                            <input type="file" name="file">
-                        </span>
-                    </div>
-                </form>
-            </div>*@
         <div class="panel-body">
-            <a href="@Url.Action("ExportList", "Exam", new { id = Model })" class="layui-btn layui-btn-normal layui-btn-small">导出名单</a>
+            <form id="formId" enctype="multipart/form-data">
+                <a href="~/Temp/ExamTemp.xls" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
+                <a href="@Url.Action("ExportList", "Exam", new { id = Model })" class="layui-btn layui-btn-normal layui-btn-small">导出名单</a>
+                <span class="layui-btn layui-btn-warm fileinput-button">
+                    <span>回填上传</span>
+                    <input type="file" name="file">
+                </span>
+            </form>
             <span id="spanMsg" class="span-msg"></span>
             <table id="exam-table" lay-filter="table"></table>
             <a href="@Url.Action("Index", "Exam")" class="layui-btn layui-btn-primary">返回</a>
@@ -59,7 +51,7 @@
         var tableOptions = {
             id: 'sid'
             , elem: '#exam-table'
-            , url: '@Url.Action("ExamListSearch", "Exam",new { ExamId = Model }) //数据
+            , url: '@Url.Action("ExamListSearch", "Exam",new { ExamId = Model })' //数据
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'numbers', title: '序号' }
