@@ -87,10 +87,21 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <summary>
         /// 录取
         /// </summary>
-        /// <param name="orderIdList">orderIdList</param>
-        /// <param name="userId">修改人</param>
+        /// <param name="orderId">orderId</param>
+        /// <param name="xuehao">xuehao</param>
+        /// <param name="zhanghao">zhanghao</param>
+        /// <param name="mima">mima</param>
+        /// <param name="mima">userId</param>
         /// <returns></returns>
-        bool Luqu(List<Guid> orderIdList, Guid userId);
+        bool Luqu(Guid orderId, string xuehao, string zhanghao, string mima, Guid userId);
+
+        ///// <summary>
+        ///// 录取
+        ///// </summary>
+        ///// <param name="orderIdList">orderIdList</param>
+        ///// <param name="userId">修改人</param>
+        ///// <returns></returns>
+        //bool Luqu(List<Guid> orderIdList, Guid userId);
 
         /// <summary>
         /// 退学
@@ -105,7 +116,7 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// </summary>
         /// <param name="orderIds">orderIds</param>
         /// <returns></returns>
-        bool Delete(Guid [] orderIds);
+        bool Delete(Guid[] orderIds);
 
         /// <summary>
         /// 获得报名列表

@@ -99,6 +99,30 @@
         <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="rejectc">确定</button>
     </div>
 </div>
+<!-- 录取（录取确认） -->
+<div id="audit-btn-modalluqu" style="display:none;">
+    <div class="layui-form" style="text-align: center;">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">学号：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="txtXueHao" value=''>
+            </div>
+        </div>
+        <div class="layui-form-item required">
+            <label class="layui-form-label">账号：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="txtZhangHao" value=''>
+            </div>
+        </div>
+        <div class="layui-form-item required">
+            <label class="layui-form-label">密码：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="txtMiMa" value=''>
+            </div>
+        </div>
+        <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="luquConfirm">确定</button>
+    </div>
+</div>
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
@@ -135,12 +159,13 @@
             , cols: [[ //表头
                 { type: 'checkbox' }
                 , { field: 'StudentName', title: '学生姓名', width: 100 }
-                , { field: 'BatchName', title: '批次', width: 130 }
+                , { field: 'BatchName', title: '批次', width: 80 }
                 , { field: 'SchoolName', title: '院校', width: 150 }
                 , { field: 'LevelName', title: '层次', width: 100 }
                 , { field: 'MajorName', title: '专业', width: 180 }
                 , { title: '电子照', toolbar: '#tableToolImage', width: 100 }
                 , { field: 'StatusName', title: '状态', width: 80 }
+                , { field: 'XueHao', title: '学号', width: 150 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }
                 , { title: '操作', toolbar: '#tableTool', width: 155 }
@@ -149,7 +174,22 @@
         table.render(tableOptions);
 
         //录取
+        var luquLayerIndex = 0;
         form.on('submit(lq)', function (data) {
+            luquLayerIndex = layer.open({
+                type: 1,
+                title: "录取确认",
+                area: ["400px", "300px"],
+                content: $('#audit-btn-modalluqu'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+
+        //录取确认
+        form.on('submit(luquConfirm)', function (data) {
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
@@ -160,17 +200,17 @@
                 return false;
             }
 
-            //选中的ID
-            var canSubmit = true;
-            var arr = new Array(checkdata.length);
-            for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 5) {
-                    canSubmit = false;
-                }
+            if (checkdata.length > 1) {
+                layer.msg('一次只能录取一个。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
             }
 
-            if (canSubmit == false) {
+            //选中的ID
+            var orderId = checkdata[0].OrderId;
+            if (parseInt(checkdata[0].Status) != 5) {
                 layer.msg('只有已报送状态的才可以录取。', {
                     icon: 2,
                     time: 2000
@@ -178,6 +218,36 @@
                 return false;
             }
 
+            var dto = {};
+            dto.orderId = orderId;
+            dto.xuehao = $("#txtXueHao").val();
+            dto.zhanghao = $("#txtZhangHao").val();
+            dto.mima = $("#txtMiMa").val();
+
+            if (dto.xuehao == "") {
+                layer.msg('请输入学生学号！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            if (dto.zhanghao == "") {
+                layer.msg('请输入学生账号！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            if (dto.mima == "") {
+                layer.msg('请输入学生密码！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            
             //提交确认
             layer.confirm('确认录取？', {
                 btn: ['确认', '取消']
@@ -187,8 +257,8 @@
                     contentType: "application/json;utf-8",
                     dataType: "json",
                     async: false,
-                    data: JSON.stringify(arr),
-                    url: '@Url.Action("LuQu", "Manager")',
+                    data: JSON.stringify(dto),
+                    url: '@Url.Action("LuQuConfirm", "Manager")',
                     success: function (result) {
                         if (result.ret == 1) {
                             layer.msg('录取成功。', {
@@ -197,6 +267,7 @@
                             }, function () {
                                 table.reload("table");
                             });
+                            layer.close(luquLayerIndex);
                         }
                         else {
                             layer.msg(result.msg, {

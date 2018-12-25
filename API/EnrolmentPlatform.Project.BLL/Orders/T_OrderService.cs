@@ -400,42 +400,69 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <summary>
         /// 录取
         /// </summary>
-        /// <param name="orderIdList">orderIdList</param>
-        /// <param name="userId">修改人</param>
+        /// <param name="orderId">orderId</param>
+        /// <param name="xuehao">xuehao</param>
+        /// <param name="zhanghao">zhanghao</param>
+        /// <param name="mima">mima</param>
+        /// <param name="mima">userId</param>
         /// <returns></returns>
-        public bool Luqu(List<Guid> orderIdList, Guid userId)
+        public bool Luqu(Guid orderId, string xuehao, string zhanghao, string mima, Guid userId)
         {
-            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            var entity = this.orderRepository.FindEntityById(orderId);
+            if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter)
             {
-                conn.Open();
-                var tran = conn.BeginTransaction();
-                try
-                {
-                    foreach (var item in orderIdList)
-                    {
-                        var entity = this.orderRepository.FindEntityById(item);
-                        if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter)
-                        {
-                            break;
-                        }
-
-                        entity.Status = (int)OrderStatusEnum.Join;
-                        entity.JoinTime = DateTime.Now;
-                        entity.LastModifyTime = DateTime.Now;
-                        entity.LastModifyUserId = userId;
-                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "录取成功", true, entity.Id.ToString());
-                    }
-
-                    tran.Commit();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    return false;
-                }
+                return false;
             }
+
+            entity.Status = (int)OrderStatusEnum.Join;
+            entity.JoinTime = DateTime.Now;
+            entity.LastModifyTime = DateTime.Now;
+            entity.StudentNo = xuehao;
+            entity.UserName = zhanghao;
+            entity.Password = mima;
+            entity.LastModifyUserId = userId;
+            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "录取成功", true, entity.Id.ToString()) > 0;
         }
+
+        ///// <summary>
+        ///// 录取
+        ///// </summary>
+        ///// <param name="orderIdList">orderIdList</param>
+        ///// <param name="userId">修改人</param>
+        ///// <returns></returns>
+        //public bool Luqu(List<Guid> orderIdList, Guid userId)
+        //{
+        //    using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+        //    {
+        //        conn.Open();
+        //        var tran = conn.BeginTransaction();
+        //        try
+        //        {
+        //            foreach (var item in orderIdList)
+        //            {
+        //                var entity = this.orderRepository.FindEntityById(item);
+        //                if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter)
+        //                {
+        //                    break;
+        //                }
+
+        //                entity.Status = (int)OrderStatusEnum.Join;
+        //                entity.JoinTime = DateTime.Now;
+        //                entity.LastModifyTime = DateTime.Now;
+        //                entity.LastModifyUserId = userId;
+        //                this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "录取成功", true, entity.Id.ToString());
+        //            }
+
+        //            tran.Commit();
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            tran.Rollback();
+        //            return false;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// 退学
