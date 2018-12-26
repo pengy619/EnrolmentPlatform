@@ -41,7 +41,7 @@
     </div>
 </div>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("PaymentDetail","Manager")?paymentId={{d.Id}}" lay-event="log">查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href="@Url.Action("OrgPaymentDetail","Manager")?paymentId={{d.Id}}" lay-event="log">查看</a>
     {{# if(d.Status==1){ }}
     <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:green;" href="javascript:ApprovalPayment('{{d.Id}}',true);" lay-event="log">审核通过</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" style="color:red;" href="javascript:ApprovalPayment('{{d.Id}}',false);" lay-event="log">审核拒绝</a>

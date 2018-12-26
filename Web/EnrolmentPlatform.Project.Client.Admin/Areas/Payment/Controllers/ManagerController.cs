@@ -80,7 +80,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         }
 
         /// <summary>
-        /// 缴费查看
+        /// 学习中心缴费查看
         /// </summary>
         /// <returns></returns>
         public ActionResult PaymentDetail(Guid? paymentId)
@@ -94,6 +94,23 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
             ViewBag.Dto = dto;
 
             return View();
+        }
+
+        /// <summary>
+        /// 机构缴费查看
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult OrgPaymentDetail(Guid? paymentId)
+        {
+            if (paymentId.HasValue == false)
+            {
+                return RedirectToAction("OrgPaymentIndex");
+            }
+
+            PaymentRecordDto dto = PaymentRecordService.GetInfo(paymentId.Value);
+            ViewBag.Dto = dto;
+
+            return View("PaymentDetail");
         }
 
         /// <summary>
