@@ -181,9 +181,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
 
             ISheet sheet = hssfworkbook.GetSheetAt(0);
             IRow firstRow = sheet.GetRow(0);
-            for (int i = 1; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                IRow row = sheet.CreateRow(i);
+                IRow row = sheet.CreateRow(i + 1);
                 //创建列
                 for (int j = 0; j < firstRow.LastCellNum; j++)
                 {
