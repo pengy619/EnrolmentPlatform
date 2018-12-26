@@ -31,5 +31,12 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="req"></param>
         /// <returns></returns>
         GridDataResponse GetExamList(ExamListSearchDto req);
+
+        /// <summary>
+        /// 回填考试名单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        ResultMsg Fill(FillExamInfoDto dto);
     }
 }

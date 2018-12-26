@@ -48,7 +48,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult ImportList(string name, HttpPostedFileBase file)
+        public JsonResult ImportList(Guid examId, HttpPostedFileBase file)
         {
             List<ExamInfoDto> examList = new List<ExamInfoDto>();
             IWorkbook workbook = null;
@@ -124,14 +124,14 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     throw;
                 }
             }
-            var dto = new AddExamDto
+            var dto = new FillExamInfoDto
             {
-                Name = name,
+                ExamId = examId,
+                ChannelId = this.EnterpriseId,
                 ExamList = examList,
-                CreatorUserId = this.UserId,
-                CreatorAccount = this.UserAccount
+                UserId = this.UserId
             };
-            var ret = ExamService.Add(dto);
+            var ret = ExamService.Fill(dto);
             return Json(ret);
         }
 
@@ -183,9 +183,9 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
 
             ISheet sheet = hssfworkbook.GetSheetAt(0);
             IRow firstRow = sheet.GetRow(0);
-            for (int i = 1; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                IRow row = sheet.CreateRow(i);
+                IRow row = sheet.CreateRow(i + 1);
                 //创建列
                 for (int j = 0; j < firstRow.LastCellNum; j++)
                 {

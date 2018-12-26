@@ -70,16 +70,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
     public class ExamInfoDto
     {
         /// <summary>
-        /// 学生Id
-        /// </summary>		
-        public Guid StudentId { get; set; }
-
-        /// <summary>
-        /// 机构Id
-        /// </summary>
-        public Guid ChannelId { get; set; }
-
-        /// <summary>
         /// 学生姓名
         /// </summary>
         public string StudentName { get; set; }
@@ -139,5 +129,31 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 机构Id
         /// </summary>		
         public Guid? ChannelId { get; set; }
+    }
+
+    /// <summary>
+    /// 回填考试名单Dto
+    /// </summary>
+    public class FillExamInfoDto
+    {
+        /// <summary>
+        /// 考试Id
+        /// </summary>		
+        public Guid ExamId { get; set; }
+
+        /// <summary>
+        /// 机构Id
+        /// </summary>		
+        public Guid ChannelId { get; set; }
+
+        /// <summary>
+        /// 考试名单
+        /// </summary>
+        public List<ExamInfoDto> ExamList { get; set; }
+
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        public Guid UserId { get; set; }
     }
 }

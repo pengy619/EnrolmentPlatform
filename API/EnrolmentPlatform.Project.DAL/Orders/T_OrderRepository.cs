@@ -281,7 +281,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Status = a.Status,
                             StudentName = a.StudentName,
                             ToLearningCenterTime = a.ToLearningCenterTime,
-                            XueHao = a.StudentNo
+                            XueHao = a.StudentNo,
+                            FromChannelId = a.FromChannelId
                         };
 
             //学校

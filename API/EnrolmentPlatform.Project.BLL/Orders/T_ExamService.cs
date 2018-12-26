@@ -66,15 +66,43 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             ResultMsg resultMsg = new ResultMsg();
             //根据学生姓名和学号验证数据有效性（订单表存在且已录取）
-            var studentList = this.orderRepository.LoadEntities(t => !t.IsDelete && t.Status == (int)OrderStatusEnum.Join).ToList();
+            int reCount = 0;
+            var studentList = this.orderRepository.GetStudentList(new OrderListReqDto
+            {
+                Page = 1,
+                Limit = int.MaxValue,
+                Status = OrderStatusEnum.Join
+            }, ref reCount);
             var invalidList = new List<string>();
+            var exam = new T_Exam
+            {
+                Id = Guid.NewGuid(),
+                Name = dto.Name
+            };
+            var examInfoList = new List<T_ExamInfo>();
             dto.ExamList.ForEach(t =>
             {
-                var student = studentList.FirstOrDefault(s => s.StudentName == t.StudentName && s.StudentNo == t.StudentNo);
+                var student = studentList.FirstOrDefault(s => s.StudentName == t.StudentName && s.XueHao == t.StudentNo
+                && s.BatchName == t.BatchName && s.LevelName == t.LevelName && s.MajorName == t.MajorName);
                 if (student != null)
                 {
-                    t.StudentId = student.Id;
-                    t.ChannelId = student.FromChannelId ?? Guid.Empty;
+                    var examInfo = new T_ExamInfo
+                    {
+                        Id = Guid.NewGuid(),
+                        ExamId = exam.Id,
+                        StudentId = student.OrderId,
+                        ChannelId = student.FromChannelId ?? Guid.Empty,
+                        StudentName = t.StudentName,
+                        StudentNo = t.StudentNo,
+                        BatchName = t.BatchName,
+                        LevelName = t.LevelName,
+                        MajorName = t.MajorName,
+                        UserName = t.UserName,
+                        ExamPlace = t.ExamPlace,
+                        MailAddress = t.MailAddress,
+                        ReturnAddress = t.ReturnAddress
+                    };
+                    examInfoList.Add(examInfo);
                 }
                 else
                 {
@@ -94,37 +122,11 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             {
                 try
                 {
-                    var exam = new T_Exam
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = dto.Name
-                    };
                     resultMsg.IsSuccess = examRepository.AddEntity(exam, Domain.EFContext.E_DbClassify.Write, "新增考试", true, exam.Id.ToString()) > 0;
 
                     if (resultMsg.IsSuccess)
                     {
-                        var examList = new List<T_ExamInfo>();
-                        foreach (var item in dto.ExamList)
-                        {
-                            var examInfo = new T_ExamInfo
-                            {
-                                Id = Guid.NewGuid(),
-                                ExamId = exam.Id,
-                                StudentId = item.StudentId,
-                                ChannelId = item.ChannelId,
-                                StudentName = item.StudentName,
-                                StudentNo = item.StudentNo,
-                                BatchName = item.BatchName,
-                                LevelName = item.LevelName,
-                                MajorName = item.MajorName,
-                                UserName = item.UserName,
-                                ExamPlace = item.ExamPlace,
-                                MailAddress = item.MailAddress,
-                                ReturnAddress = item.ReturnAddress
-                            };
-                            examList.Add(examInfo);
-                        }
-                        resultMsg.IsSuccess = examInfoRepository.AddEntities(examList) > 0;
+                        resultMsg.IsSuccess = examInfoRepository.AddEntities(examInfoList) > 0;
                     }
 
                     if (resultMsg.IsSuccess)
@@ -175,6 +177,68 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 }).ToList();
             res.Count = records;
             return res;
+        }
+
+        /// <summary>
+        /// 回填考试名单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public ResultMsg Fill(FillExamInfoDto dto)
+        {
+            ResultMsg resultMsg = new ResultMsg();
+            //校验数据有效性（考试名单表中存在）
+            var examList = this.examInfoRepository.LoadEntities(t => !t.IsDelete && t.ExamId == dto.ExamId && t.ChannelId == dto.ChannelId).ToList();
+            var invalidList = new List<string>();
+            var updateList = new List<T_ExamInfo>();
+            dto.ExamList.ForEach(t =>
+            {
+                var item = examList.FirstOrDefault(s => s.StudentName == t.StudentName && s.StudentNo == t.StudentNo);
+                if (item != null)
+                {
+                    item.MailAddress = t.MailAddress;
+                    item.ReturnAddress = t.ReturnAddress;
+                    item.LastModifyTime = DateTime.Now;
+                    item.LastModifyUserId = dto.UserId;
+                    updateList.Add(item);
+                }
+                else
+                {
+                    invalidList.Add(string.Format("姓名：{0}，学号：{1}", t.StudentName, t.StudentNo));
+                }
+            });
+            if (invalidList != null && invalidList.Any())
+            {
+                resultMsg.IsSuccess = false;
+                resultMsg.Info = "存在无法匹配的记录，请确认以下学生在本次考试名单中：<br>" + string.Join("<br>", invalidList);
+                return resultMsg;
+            }
+
+            DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection;
+            conn.Open();
+            using (var tran = conn.BeginTransaction())
+            {
+                try
+                {
+                    resultMsg.IsSuccess = examInfoRepository.UpdateEntities(updateList) > 0;
+
+                    if (resultMsg.IsSuccess)
+                    {
+                        tran.Commit();
+                    }
+                    else
+                    {
+                        tran.Rollback();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    resultMsg.IsSuccess = false;
+                    resultMsg.Info = ex.Message;
+                }
+            }
+            return resultMsg;
         }
     }
 }

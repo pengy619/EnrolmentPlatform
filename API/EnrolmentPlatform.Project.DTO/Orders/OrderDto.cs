@@ -292,10 +292,14 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         {
             get
             {
-                return this.LeaveTime
-.HasValue == true;
+                return this.LeaveTime.HasValue == true;
             }
         }
+
+        /// <summary>
+        /// 来源机构
+        /// </summary>
+        public Guid? FromChannelId { set; get; }
     }
 
     /// <summary>
