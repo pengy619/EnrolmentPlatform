@@ -176,20 +176,6 @@
         //录取
         var luquLayerIndex = 0;
         form.on('submit(lq)', function (data) {
-            luquLayerIndex = layer.open({
-                type: 1,
-                title: "录取确认",
-                area: ["400px", "300px"],
-                content: $('#audit-btn-modalluqu'),
-                yes: function (index, layero) {
-                    //事件
-                    layer.close(indxex);
-                }
-            });
-        });
-
-        //录取确认
-        form.on('submit(luquConfirm)', function (data) {
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
@@ -218,6 +204,20 @@
                 return false;
             }
 
+            luquLayerIndex = layer.open({
+                type: 1,
+                title: "录取确认",
+                area: ["400px", "300px"],
+                content: $('#audit-btn-modalluqu'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+
+        //录取确认
+        form.on('submit(luquConfirm)', function (data) {
             var dto = {};
             dto.orderId = orderId;
             dto.xuehao = $("#txtXueHao").val();
