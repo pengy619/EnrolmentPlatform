@@ -89,27 +89,36 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                                         examInfo.StudentName = cellValue;
                                         break;
                                     case 1:
-                                        examInfo.StudentNo = cellValue;
+                                        examInfo.IDCardNo = cellValue;
                                         break;
                                     case 2:
-                                        examInfo.BatchName = cellValue;
+                                        examInfo.StudentNo = cellValue;
                                         break;
                                     case 3:
-                                        examInfo.LevelName = cellValue;
+                                        examInfo.BatchName = cellValue;
                                         break;
                                     case 4:
-                                        examInfo.MajorName = cellValue;
+                                        examInfo.LevelName = cellValue;
                                         break;
                                     case 5:
-                                        examInfo.UserName = cellValue;
+                                        examInfo.MajorName = cellValue;
                                         break;
                                     case 6:
-                                        examInfo.ExamPlace = cellValue;
+                                        examInfo.UserName = cellValue;
                                         break;
                                     case 7:
-                                        examInfo.MailAddress = cellValue;
+                                        examInfo.ExamPlace = cellValue;
                                         break;
                                     case 8:
+                                        examInfo.ExamSubject = cellValue;
+                                        break;
+                                    case 9:
+                                        examInfo.Remark = cellValue;
+                                        break;
+                                    case 10:
+                                        examInfo.MailAddress = cellValue;
+                                        break;
+                                    case 11:
                                         examInfo.ReturnAddress = cellValue;
                                         break;
                                 }
@@ -191,14 +200,17 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 }
                 var item = list[i];
                 row.Cells[0].SetCellValue(item.StudentName);
-                row.Cells[1].SetCellValue(item.StudentNo);
-                row.Cells[2].SetCellValue(item.BatchName);
-                row.Cells[3].SetCellValue(item.LevelName);
-                row.Cells[4].SetCellValue(item.MajorName);
-                row.Cells[5].SetCellValue(item.UserName);
-                row.Cells[6].SetCellValue(item.ExamPlace);
-                row.Cells[7].SetCellValue(item.MailAddress);
-                row.Cells[8].SetCellValue(item.ReturnAddress);
+                row.Cells[1].SetCellValue(item.IDCardNo);
+                row.Cells[2].SetCellValue(item.StudentNo);
+                row.Cells[3].SetCellValue(item.BatchName);
+                row.Cells[4].SetCellValue(item.LevelName);
+                row.Cells[5].SetCellValue(item.MajorName);
+                row.Cells[6].SetCellValue(item.UserName);
+                row.Cells[7].SetCellValue(item.ExamPlace);
+                row.Cells[8].SetCellValue(item.ExamSubject);
+                row.Cells[9].SetCellValue(item.Remark);
+                row.Cells[10].SetCellValue(item.MailAddress);
+                row.Cells[11].SetCellValue(item.ReturnAddress);
             }
 
             //导出

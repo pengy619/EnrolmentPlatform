@@ -100,13 +100,16 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         UserName = t.UserName,
                         ExamPlace = t.ExamPlace,
                         MailAddress = t.MailAddress,
-                        ReturnAddress = t.ReturnAddress
+                        ReturnAddress = t.ReturnAddress,
+                        IDCardNo = t.IDCardNo,
+                        ExamSubject = t.ExamSubject,
+                        Remark = t.Remark
                     };
                     examInfoList.Add(examInfo);
                 }
                 else
                 {
-                    invalidList.Add(string.Format("姓名：{0}，学号：{1}", t.StudentName, t.StudentNo));
+                    invalidList.Add(string.Format("姓名：{0}，身份证号：{1}", t.StudentName, t.IDCardNo));
                 }
             });
             if (invalidList != null && invalidList.Any())
@@ -173,7 +176,10 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     UserName = t.UserName,
                     ExamPlace = t.ExamPlace,
                     MailAddress = t.MailAddress,
-                    ReturnAddress = t.ReturnAddress
+                    ReturnAddress = t.ReturnAddress,
+                    IDCardNo = t.IDCardNo,
+                    ExamSubject = t.ExamSubject,
+                    Remark = t.Remark
                 }).ToList();
             res.Count = records;
             return res;
@@ -204,7 +210,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 }
                 else
                 {
-                    invalidList.Add(string.Format("姓名：{0}，学号：{1}", t.StudentName, t.StudentNo));
+                    invalidList.Add(string.Format("姓名：{0}，身份证号：{1}", t.StudentName, t.IDCardNo));
                 }
             });
             if (invalidList != null && invalidList.Any())

@@ -75,6 +75,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string StudentName { get; set; }
 
         /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string IDCardNo { set; get; }
+
+        /// <summary>
         /// 学号
         /// </summary>		
         public string StudentNo { get; set; }
@@ -103,6 +108,16 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 考试地点
         /// </summary>		
         public string ExamPlace { get; set; }
+
+        /// <summary>
+        /// 考试科目
+        /// </summary>
+        public string ExamSubject { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
 
         /// <summary>
         /// 邮寄地址

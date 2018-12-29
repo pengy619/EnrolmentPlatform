@@ -287,3 +287,9 @@ alter table T_ExamInfo Add BatchName nvarchar(max) null
 alter table T_ExamInfo Add LevelName nvarchar(max) null
 alter table T_ExamInfo Add MajorName nvarchar(max) null
 alter table T_ExamInfo Add ChannelId uniqueidentifier not null
+
+
+--2018-12-29考试名单增加身份证号码、考试科目、备注
+alter table T_ExamInfo Add IDCardNo nvarchar(max) null
+alter table T_ExamInfo Add ExamSubject nvarchar(max) null
+alter table T_ExamInfo Add Remark nvarchar(max) null

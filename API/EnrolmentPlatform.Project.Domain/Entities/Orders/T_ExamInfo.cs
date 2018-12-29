@@ -80,5 +80,23 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         /// </summary>
         [DataMember]
         public Guid ChannelId { get; set; }
+
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        [DataMember]
+        public string IDCardNo { set; get; }
+
+        /// <summary>
+        /// 考试科目
+        /// </summary>
+        [DataMember]
+        public string ExamSubject { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        [DataMember]
+        public string Remark { get; set; }
     }
 }
