@@ -195,10 +195,10 @@
         });
     });
 
-    var canUpload = "@(dto.FromChannelId.HasValue==false?"true":"")";
+    @*var canUpload = "@(dto.FromChannelId.HasValue==false?"true":"")";
     if (canUpload == "") {
         $(".uploadDiv").hide();
-    }
+    }*@
 
     //上传文件
     function postFile(type) {
