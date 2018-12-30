@@ -140,7 +140,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     var p1 = GetLocalPic(dto.TouXiang, dto);
                     if (p1 != null)
                     {
-                        dicItem.Add("头像.jpg", p1);
+                        dicItem.Add("录取通知书.jpg", p1);
                     }
                 }
 
@@ -158,7 +158,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     var p1 = GetLocalPic(dto.MianKaoYingYuImg, dto);
                     if (p1 != null)
                     {
-                        dicItem.Add("免试英语.jpg", p1);
+                        dicItem.Add("社保/居住证正面.jpg", p1);
                     }
                 }
 
@@ -167,7 +167,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     var p1 = GetLocalPic(dto.MianKaoJiSuanJiImg, dto);
                     if (p1 != null)
                     {
-                        dicItem.Add("免试计算机.jpg", p1);
+                        dicItem.Add("社保/居住证反面.jpg", p1);
                     }
                 }
 
