@@ -580,7 +580,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg _saveResult = Newtonsoft.Json.JsonConvert.DeserializeObject<EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg>(_saveRet);
             if (_saveResult.IsSuccess == false)
             {
-                return Json(new { ret = false, msg = "上传失败！" });
+                return Json(new { ret = false, msg = _saveResult.Info });
             }
 
             //图片完整地址

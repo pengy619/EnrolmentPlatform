@@ -25,8 +25,9 @@ namespace EnrolmentPlatform.Project.Client.FileStorage.Controllers
             ResultMsg _msg = new ResultMsg();
             if (postFileKey.Equals(ConfigurationManager.AppSettings["PostFileKey"]))
             {
+                int limitSize = Convert.ToInt32(ConfigurationManager.AppSettings["LimitSize"]);
                 HttpPostedFileBase _file = Request.Files[0];
-                if (_file.ContentLength <= 1024 * 1024 * 3)
+                if (_file.ContentLength <= limitSize * 1024)
                 {
                     string _dir = "Admin";
                     switch (fromType)
@@ -92,7 +93,7 @@ namespace EnrolmentPlatform.Project.Client.FileStorage.Controllers
                 else
                 {
                     _msg.IsSuccess = false;
-                    _msg.Info = "图片大小限制为3M以内！";
+                    _msg.Info = string.Format("图片大小限制为{0}kb以内！", limitSize);
                 }
             }
             else

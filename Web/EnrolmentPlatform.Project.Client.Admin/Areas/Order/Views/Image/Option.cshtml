@@ -223,7 +223,7 @@
             contentType: false, //必须
             success: function (data) {
                 if (data.ret == false) {
-                    layer.msg("上传失败！", {
+                    layer.msg(data.msg, {
                         icon: 2,
                         time: 2000
                     });
