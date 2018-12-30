@@ -225,8 +225,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 ToLearningCenterId = entity.ToLearningCenterId,
                 UserId = entity.CreatorUserId,
                 UserName = entity.CreatorAccount,
-                WorkUnit = entity.WorkUnit
-
+                WorkUnit = entity.WorkUnit,
+                BiYeZhengBianHao = entity.BiYeZhengBianHao,
+                GongZuoDanWei = entity.GongZuoDanWei,
+                JiGuan = entity.JiGuan,
+                MinZu = entity.MinZu,
+                Sex = entity.Sex,
             };
         }
 
@@ -264,7 +268,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     ToLearningCenterId = entity.ToLearningCenterId,
                     UserId = entity.CreatorUserId,
                     UserName = entity.CreatorAccount,
-                    WorkUnit = entity.WorkUnit
+                    WorkUnit = entity.WorkUnit,
+                    BiYeZhengBianHao = entity.BiYeZhengBianHao,
+                    GongZuoDanWei = entity.GongZuoDanWei,
+                    JiGuan = entity.JiGuan,
+                    MinZu = entity.MinZu,
+                    Sex = entity.Sex
                 })
                 .ToList();
         }

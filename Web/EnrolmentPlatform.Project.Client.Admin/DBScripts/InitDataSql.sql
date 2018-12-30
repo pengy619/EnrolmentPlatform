@@ -293,3 +293,10 @@ alter table T_ExamInfo Add ChannelId uniqueidentifier not null
 alter table T_ExamInfo Add IDCardNo nvarchar(max) null
 alter table T_ExamInfo Add ExamSubject nvarchar(max) null
 alter table T_ExamInfo Add Remark nvarchar(max) null
+
+--2018-12-29报名单单增加性别、民族、籍贯、毕业证编号、工作单位
+alter table T_Order Add Sex nvarchar(max) null;
+alter table T_Order Add MinZu nvarchar(max) null;
+alter table T_Order Add JiGuan nvarchar(max) null;
+alter table T_Order Add BiYeZhengBianHao nvarchar(max) null;
+alter table T_Order Add GongZuoDanWei nvarchar(max) null;

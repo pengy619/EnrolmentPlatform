@@ -77,6 +77,48 @@
                     </select>
                 </div>
             </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <select id="Sex" name="Sex" lay-verify="required">
+                        <option value=""></option>
+                        <option @Html.Raw((dto != null && dto.Sex == "男") ? "selected" : "") value="男">男</option>
+                        <option @Html.Raw((dto != null && dto.Sex == "女") ? "selected" : "") value="女">女</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">民族</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="MinZu" value='@((dto!=null) ? dto.MinZu : "")'>
+                </div>
+                <label class="layui-form-label">籍贯</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="JiGuan" value='@((dto!=null) ? dto.JiGuan : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">最高学历</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="HighesDegree" value='@((dto!=null) ? dto.HighesDegree : "")'>
+                </div>
+                <label class="layui-form-label">毕业学校</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GraduateSchool" value='@((dto!=null) ? dto.GraduateSchool : "")'>
+                </div>
+                <label class="layui-form-label">毕业证编号</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="BiYeZhengBianHao" value='@((dto!=null) ? dto.BiYeZhengBianHao : "")'>
+                </div>
+            </div>
+            <div class="layui-form-item required">
+                <label class="layui-form-label">地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="200" lay-verify="required" id="Address" value='@((dto!=null) ? dto.Address : "")'>
+                </div>
+                <label class="layui-form-label">工作单位</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GongZuoDanWei" value='@((dto!=null) ? dto.GongZuoDanWei : "")'>
+                </div>
+            </div>
         </div>
         <div class="panel-title">
             备注
@@ -113,6 +155,14 @@
             dto.MajorId = $("#MajorId").val();
             dto.BatchId = $("#BatchId").val();
             dto.Remark = $("#Remark").val();
+            dto.Sex = $("#Sex").val();
+            dto.MinZu = $("#MinZu").val();
+            dto.JiGuan = $("#JiGuan").val();
+            dto.HighesDegree = $("#HighesDegree").val();
+            dto.GraduateSchool = $("#GraduateSchool").val();
+            dto.BiYeZhengBianHao = $("#BiYeZhengBianHao").val();
+            dto.Address = $("#Address").val();
+            dto.GongZuoDanWei = $("#GongZuoDanWei").val();
 
             $.ajax({
                 type: "POST",

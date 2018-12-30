@@ -142,6 +142,31 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户Id
         /// </summary>
         public Guid UserId { set; get; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public string Sex { set; get; }
+
+        /// <summary>
+        /// 民族
+        /// </summary>
+        public string MinZu { set; get; }
+
+        /// <summary>
+        /// 籍贯
+        /// </summary>
+        public string JiGuan { set; get; }
+
+        /// <summary>
+        /// 毕业证编号
+        /// </summary>
+        public string BiYeZhengBianHao { set; get; }
+
+        /// <summary>
+        /// 工作单位
+        /// </summary>
+        public string GongZuoDanWei { set; get; }
     }
 
     /// <summary>

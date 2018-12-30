@@ -207,5 +207,35 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public string Password { get; set; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        [DataMember]
+        public string Sex { set; get; }
+
+        /// <summary>
+        /// 民族
+        /// </summary>
+        [DataMember]
+        public string MinZu { set; get; }
+
+        /// <summary>
+        /// 籍贯
+        /// </summary>
+        [DataMember]
+        public string JiGuan { set; get; }
+
+        /// <summary>
+        /// 毕业证编号
+        /// </summary>
+        [DataMember]
+        public string BiYeZhengBianHao { set; get; }
+
+        /// <summary>
+        /// 工作单位
+        /// </summary>
+        [DataMember]
+        public string GongZuoDanWei { set; get; }
     }
 }

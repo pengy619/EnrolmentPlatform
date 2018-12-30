@@ -64,7 +64,15 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 IsDelete = false,
                 LastModifyTime = DateTime.Now,
                 LastModifyUserId = dto.UserId,
-                Unix = DateTime.Now.ConvertDateTimeInt()
+                Unix = DateTime.Now.ConvertDateTimeInt(),
+                Address = dto.Address,
+                BiYeZhengBianHao = dto.BiYeZhengBianHao,
+                GongZuoDanWei = dto.GongZuoDanWei,
+                GraduateSchool = dto.GraduateSchool,
+                HighesDegree = dto.HighesDegree,
+                JiGuan = dto.JiGuan,
+                MinZu = dto.MinZu,
+                Sex = dto.Sex
             };
 
             //添加订单
@@ -166,6 +174,14 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             entity.Remark = dto.Remark;
             entity.LastModifyUserId = dto.UserId;
             entity.LastModifyTime = DateTime.Now;
+            entity.Address = dto.Address;
+            entity.BiYeZhengBianHao = dto.BiYeZhengBianHao;
+            entity.GongZuoDanWei = dto.GongZuoDanWei;
+            entity.GraduateSchool = dto.GraduateSchool;
+            entity.HighesDegree = dto.HighesDegree;
+            entity.JiGuan = dto.JiGuan;
+            entity.MinZu = dto.MinZu;
+            entity.Sex = dto.Sex;
             dbContext.Entry(entity).State = EntityState.Modified;
 
             //删除价格
