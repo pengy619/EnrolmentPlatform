@@ -193,12 +193,12 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public int PaymentSource { set; get; }
 
         /// <summary>
-        /// 支付发起ID（机构ID，学习中心ID）
+        /// 支付发起ID（机构ID，学院中心ID）
         /// </summary>
         public Guid? PaymentSourceId { set; get; }
 
         /// <summary>
-        /// 招生结构/学习中心
+        /// 招生结构/学院中心
         /// </summary>
         public string OrgName { set; get; }
 

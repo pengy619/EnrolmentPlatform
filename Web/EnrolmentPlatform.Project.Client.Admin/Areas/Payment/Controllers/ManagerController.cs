@@ -80,7 +80,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         }
 
         /// <summary>
-        /// 学习中心缴费查看
+        /// 学院中心缴费查看
         /// </summary>
         /// <returns></returns>
         public ActionResult PaymentDetail(Guid? paymentId)

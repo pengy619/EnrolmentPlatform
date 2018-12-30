@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "学习中心管理";
+    ViewBag.Title = "学院中心管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="main-wrap">
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item ">
-                        <label class="layui-form-label">学习中心</label>
+                        <label class="layui-form-label">学院中心</label>
                         <div class="layui-input-inline">
                             <input type="text" id="supplierName" autocomplete="off" class="layui-input">
                         </div>
@@ -56,7 +56,7 @@
             , cols: [[ //表头
                 { type: 'checkbox', fixed: 'left' }
                 , { type: 'numbers', title: '序号' }
-                , { field: 'SupplierName', title: '学习中心', }
+                , { field: 'SupplierName', title: '学院中心', }
                 , { field: 'LoginAccount', title: '账号' }
                 , { field: 'Contact', title: '联系人' }
                 , { field: 'Phone', title: '联系电话' }
@@ -84,7 +84,7 @@
                 var checkStatus = table.checkStatus('supplier-table')
                     , data = checkStatus.data;
                 if (data.length == 0) return false;
-                layer.confirm('您确定要删除选中的学习中心吗？', function (index) {
+                layer.confirm('您确定要删除选中的学院中心吗？', function (index) {
                     var ckb_value = [];
                     for (var i = 0; i < data.length; i++) {
                         ckb_value.push(data[i].SupplierId);
@@ -128,7 +128,7 @@
             if (layEvent === 'edit') {
                 location.href = "@Url.Action("Option", "LearningCenter")?supplierId=" + data.SupplierId;
             } else if (layEvent === 'resetPwd') {
-                layer.confirm('您确定要为该学习中心账号重置密码吗？', function (index) {
+                layer.confirm('您确定要为该学院中心账号重置密码吗？', function (index) {
                     var ajaxOption = {
                         url: "@Url.Action("ResetPassword", "Supplier")",
                         type: 'Post',

@@ -101,7 +101,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public DateTime? EnrollTime { set; get; }
 
         /// <summary>
-        /// 报送学习中心时间
+        /// 报送学院中心时间
         /// </summary>
         [DataMember]
         public DateTime? ToLearningCenterTime { set; get; }
@@ -131,7 +131,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string FromTypeName { set; get; }
 
         /// <summary>
-        /// 报送学习中心
+        /// 报送学院中心
         /// </summary>
         [DataMember]
         public Guid? ToLearningCenterId { set; get; }

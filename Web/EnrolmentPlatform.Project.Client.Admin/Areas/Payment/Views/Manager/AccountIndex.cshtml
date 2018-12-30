@@ -16,7 +16,7 @@
         <div class="panel-title">
             <div class="layui-form">
                 <div class="layui-form-item flex">
-                    <label class="layui-form-label">学习中心</label>
+                    <label class="layui-form-label">学院中心</label>
                     <div class="layui-input-inline">
                         <input type="text" id="ToLearningCenterName" class="layui-input">
                     </div>
@@ -187,7 +187,7 @@
             , cols: [[ //表头
                 { type: 'checkbox' }
                 , { field: 'StudentName', title: '学生姓名', width: 100 }
-                , { field: 'ToLearningCenterName', title: '学习中心', width: 100 }
+                , { field: 'ToLearningCenterName', title: '学院中心', width: 100 }
                 , { field: 'BatchName', title: '批次', width: 130 }
                 , { field: 'SchoolName', title: '院校', width: 150 }
                 , { field: 'LevelName', title: '层次', width: 100 }
@@ -260,7 +260,7 @@
             }
 
             if (toLearningCenterNameChecked == false) {
-                layer.msg('一次只能选择相同的学习中心进行缴费登记。', {
+                layer.msg('一次只能选择相同的学院中心进行缴费登记。', {
                     icon: 2,
                     time: 2000
                 });
@@ -298,7 +298,7 @@
             });
         });
 
-        //修改学习中心金额
+        //修改学院中心金额
         var xiugaiLayerIndex = 0;
         form.on('submit(xgje)', function (data) {
             //选中行
@@ -328,7 +328,7 @@
 
             xiugaiLayerIndex = layer.open({
                 type: 1,
-                title: "学习中心金额",
+                title: "学院中心金额",
                 area: ["400px", "350px"],
                 content: $('#audit-btn-modalxgje'),
                 yes: function (index, layero) {

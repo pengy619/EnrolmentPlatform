@@ -229,7 +229,7 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'6b0c9082-81c9-4fb3-b45c-fa893c248323', N'结算管理', 1, N'', N'', N'', N'', 1, N'00000000-0000-0000-0000-000000000000', 5, N'icon-icon-')
 GO
-INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'd810d171-1fea-4592-b9dc-fe37283de67d', N'学习中心', 3, N'Account', N'LearningCenter', N'index', N'', 1, N'5d93c6b0-cfd6-4a2a-b1fe-ed14efe80ef3', 2, N'icon-yunyingguanli')
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'd810d171-1fea-4592-b9dc-fe37283de67d', N'学院中心', 3, N'Account', N'LearningCenter', N'index', N'', 1, N'5d93c6b0-cfd6-4a2a-b1fe-ed14efe80ef3', 2, N'icon-yunyingguanli')
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'b1062c38-81cd-40f6-ac3e-ffbbfb285930', N'子账号详情', 4, N'Setting', N'ChildAccount', N'Option', N'', 3, N'562e78d9-7fd1-4169-9594-23b8902412bc', 1, N'')
 GO

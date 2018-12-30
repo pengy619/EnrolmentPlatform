@@ -365,7 +365,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// 报送中心
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
-        /// <param name="toLearningCenterId">报送的学习中心</param>
+        /// <param name="toLearningCenterId">报送的学院中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
         public bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
@@ -392,7 +392,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         entity.ToLearningCenterTime = DateTime.Now;
                         entity.LastModifyTime = DateTime.Now;
                         entity.LastModifyUserId = userId;
-                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学习中心", true, entity.Id.ToString());
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学院中心", true, entity.Id.ToString());
                     }
 
                     tran.Commit();

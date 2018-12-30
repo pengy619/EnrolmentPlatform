@@ -1,6 +1,6 @@
 ﻿@model EnterpriseAddDto
 @{
-    ViewBag.Title = Model.EnterpriseId.IsEmpty() ? "添加学习中心" : "编辑学习中心";
+    ViewBag.Title = Model.EnterpriseId.IsEmpty() ? "添加学院中心" : "编辑学院中心";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,7 +15,7 @@
             <div class="panel-body">
                 <div class="layui-form">
                     <div class="layui-form-item required">
-                        <label class="layui-form-label">学习中心</label>
+                        <label class="layui-form-label">学院中心</label>
                         <div class="layui-input-inline">
                             <input type="text" name="EnterpriseName" autocomplete="off" class="layui-input" lay-verify="required" value="@Model.EnterpriseName">
                         </div>

@@ -100,11 +100,11 @@
         <table class="layui-hide" id="Tb_LogSettingForTable"></table>
     </div>
 </div>
-<!-- 弹出层（报送学习中心） -->
+<!-- 弹出层（报送学院中心） -->
 <div id="audit-btn-modal2" style="display:none;">
     <div class="layui-form">
         <div class="layui-form-item required" style="padding-top: 20px;">
-            <label class="layui-form-label">学习中心</label>
+            <label class="layui-form-label">学院中心</label>
             <div class="layui-input-inline">
                 <select id="LearningCenter" name="LearningCenter">
                     @if (learningList != null && learningList.Count > 0)
@@ -257,7 +257,7 @@
             });
         });
 
-        //选择学习中心
+        //选择学院中心
         form.on('submit(bs)', function (data) {
             var ret = checkBaosong();
             if (ret.result == false) {
@@ -266,7 +266,7 @@
 
             layerIndex = layer.open({
                 type: 1,
-                title: "选择学习中心",
+                title: "选择学院中心",
                 area: ["450px", "200px"],
                 content: $('#audit-btn-modal2'),
                 yes: function (index, layero) {
@@ -316,7 +316,7 @@
         }
 
         var layerIndex = 1;
-        //报送学习中心
+        //报送学院中心
         form.on('submit(bsc)', function (data) {
             var ret = checkBaosong();
             if (ret.result == false) {
@@ -327,7 +327,7 @@
             dto.ids = ret.arr;
             dto.learningCenterId = $("#LearningCenter").val();
             if (dto.learningCenterId == false) {
-                layer.msg('请选择学习中心！', {
+                layer.msg('请选择学院中心！', {
                     icon: 2,
                     time: 2000
                 });

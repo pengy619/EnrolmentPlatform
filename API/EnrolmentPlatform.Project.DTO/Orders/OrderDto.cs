@@ -94,7 +94,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string FromTypeName { set; get; }
 
         /// <summary>
-        /// 报送学习中心
+        /// 报送学院中心
         /// </summary>
         public Guid? ToLearningCenterId { set; get; }
 
@@ -263,7 +263,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public DateTime? EnrollTime { set; get; }
 
         /// <summary>
-        /// 报送学习中心时间
+        /// 报送学院中心时间
         /// </summary>
         public DateTime? ToLearningCenterTime { set; get; }
 
@@ -289,7 +289,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         }
 
         /// <summary>
-        /// 是否报送学习中心
+        /// 是否报送学院中心
         /// </summary>
         public bool IsToLearningCenter
         {
@@ -436,12 +436,12 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         }
 
         /// <summary>
-        /// 学习中心ID
+        /// 学院中心ID
         /// </summary>
         public Guid ToLearningCenterId { set; get; }
 
         /// <summary>
-        /// 学习中心名称
+        /// 学院中心名称
         /// </summary>
         public string ToLearningCenterName { set; get; }
     }
@@ -517,7 +517,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public Guid? FromChannelId { set; get; }
 
         /// <summary>
-        /// 报送学习中心
+        /// 报送学院中心
         /// </summary>
         public Guid? ToLearningCenterId { set; get; }
 
@@ -537,7 +537,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public List<Guid> OrderIds { set; get; }
 
         /// <summary>
-        /// 学习中心
+        /// 学院中心
         /// </summary>
         public string ToLearningCenterName { set; get; }
     }

@@ -19,9 +19,9 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Systems
         ChannelCenter = 1,
 
         /// <summary>
-        /// 学习中心
+        /// 学院中心
         /// </summary>
-        [Description("学习中心")]
+        [Description("学院中心")]
         LearningCenter = 3,
 
         /// <summary>

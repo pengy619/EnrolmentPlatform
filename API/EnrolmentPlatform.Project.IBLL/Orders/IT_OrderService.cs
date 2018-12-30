@@ -79,7 +79,7 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// 报送中心
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
-        /// <param name="toLearningCenterId">报送的学习中心</param>
+        /// <param name="toLearningCenterId">报送的学院中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
         bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId);

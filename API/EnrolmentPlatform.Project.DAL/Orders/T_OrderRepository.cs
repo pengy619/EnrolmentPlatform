@@ -114,7 +114,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 Unix = DateTime.Now.ConvertDateTimeInt()
             });
 
-            //添加订单（学习中心）金额数据
+            //添加订单（学院中心）金额数据
             dbContext.T_OrderAmount.Add(new T_OrderAmount()
             {
                 Id = Guid.NewGuid(),
@@ -214,7 +214,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 Unix = DateTime.Now.ConvertDateTimeInt()
             });
 
-            //添加订单（学习中心）金额数据
+            //添加订单（学院中心）金额数据
             dbContext.T_OrderAmount.Add(new T_OrderAmount()
             {
                 Id = Guid.NewGuid(),

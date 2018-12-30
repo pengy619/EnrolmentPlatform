@@ -16,7 +16,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
     public class LearningCenterController : BaseController
     {
         /// <summary>
-        /// 学习中心管理
+        /// 学院中心管理
         /// </summary>
         /// <returns></returns>
         public ActionResult Index()
@@ -25,7 +25,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
         }
 
         /// <summary>
-        /// 学习中心操作
+        /// 学院中心操作
         /// </summary>
         /// <returns></returns>
         public ActionResult Option(Guid? supplierId)
@@ -48,7 +48,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
         }
 
         /// <summary>
-        /// 保存学习中心
+        /// 保存学院中心
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>

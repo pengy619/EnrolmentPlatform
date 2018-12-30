@@ -48,10 +48,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     return "包含不允许缴费的报名单！";
                 }
 
-                //一次提交多个学习中心报名单
+                //一次提交多个学院中心报名单
                 if (orderList.Select(a => a.ToLearningCenterId).Distinct().Count() > 1)
                 {
-                    return "一次只能提交相同的学习中心缴费登记！";
+                    return "一次只能提交相同的学院中心缴费登记！";
                 }
                 sourceId = orderList.First().ToLearningCenterId.Value;
             }

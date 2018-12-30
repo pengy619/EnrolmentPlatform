@@ -25,7 +25,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         [DataMember]
         public string Phone { get; set; }
         /// <summary>
-        /// 类型【3：学习中心】【5：培训机构】
+        /// 类型【3：学院中心】【5：培训机构】
         /// </summary> 
         [DataMember]
         public int Classify { get; set; }

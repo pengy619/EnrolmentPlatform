@@ -187,7 +187,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// 报名单报送
         /// </summary>
         /// <param name="ids">ID集合</param>
-        /// <param name="learningCenterId">学习中心ID</param>
+        /// <param name="learningCenterId">学院中心ID</param>
         /// <returns>1：成功，2：错误</returns>
         [HttpPost]
         public JsonResult ToLearningCenter(Guid[] ids,Guid learningCenterId)
@@ -199,7 +199,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             }
             else
             {
-                return Json(new { ret = 0, msg = "报送学习中心失败。" });
+                return Json(new { ret = 0, msg = "报送学院中心失败。" });
             }
         }
 
