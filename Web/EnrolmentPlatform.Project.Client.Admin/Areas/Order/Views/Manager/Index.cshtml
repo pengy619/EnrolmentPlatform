@@ -1,15 +1,18 @@
 ﻿@{
     ViewBag.Title = "报名单列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> trainingList = ViewBag.TrainingList;
     List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> learningList = ViewBag.LearningList;
 }
 <style type="text/css">
     .searchMore {
         display: none;
     }
+
     #audit-btn-modal2 .layui-form-select dl {
         max-height: 84px;
     }
+
     .layui-table-body {
         overflow-x: auto;
     }
@@ -64,6 +67,34 @@
                     <label class="layui-form-label">报名时间</label>
                     <div class="layui-input-inline">
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">来源（机构）</label>
+                    <div class="layui-input-inline">
+                        <select id="FromChannelId" name="FromChannelId" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in trainingList)
+                            {
+                                <option value="@item.SupplierId">@item.SupplierName</option>
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">去向（学习中心）</label>
+                    <div class="layui-input-inline">
+                        <select id="ToLearningCenterId" name="ToLearningCenterId" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in learningList)
+                            {
+                                <option value="@item.SupplierId">@item.SupplierName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">批次</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="BatchName" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item searchMore">
@@ -563,7 +594,10 @@
             DateFrom: dateFrom,
             DateTo: dateTo,
             AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val(),
-            IsChannelAdd: $("input[name='IsChannelAdd']:checked").val()
+            IsChannelAdd: $("input[name='IsChannelAdd']:checked").val(),
+            FromChannelId: $("#FromChannelId").val(),
+            ToLearningCenterId: $("#ToLearningCenterId").val(),
+            BatchName: $("#BatchName").val()
         };
     }
 </script>

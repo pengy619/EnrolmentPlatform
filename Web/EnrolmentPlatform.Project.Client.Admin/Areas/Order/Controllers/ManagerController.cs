@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Accounts;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 using Newtonsoft.Json;
@@ -24,24 +25,41 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            SupplierSearchDto req = new SupplierSearchDto();
-            req.Classify = DTO.Enums.Systems.SystemTypeEnum.LearningCenter;
-            req.Limit = int.MaxValue;
-            req.Page = 1;
-            req.Status = 2;
-            var data = WebApiHelper.Post<HttpResponseMsg>(
+            //招生机构
+            ViewBag.TrainingList = GetUserList(SystemTypeEnum.TrainingInstitutions);
+            //学习中心
+            ViewBag.LearningList = GetUserList(SystemTypeEnum.LearningCenter);
+            return View();
+        }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private List<SupplierListDto> GetUserList(SystemTypeEnum type)
+        {
+            List<SupplierListDto> list = new List<SupplierListDto>();
+            SupplierSearchDto req = new SupplierSearchDto
+            {
+                Classify = type,
+                Limit = int.MaxValue,
+                Page = 1,
+                Status = 2
+            };
+            var ret = WebApiHelper.Post<HttpResponseMsg>(
                 "/api/Enterprise/GetSupplierPageList",
                 JsonConvert.SerializeObject(req),
                ConfigurationManager.AppSettings["StaffId"].ToInt());
-            if (data.Data != null)
+            if (ret.Data != null)
             {
-                var res= data.Data.ToString().ToObject<GridDataResponse>();
+                var res = ret.Data.ToString().ToObject<GridDataResponse>();
                 if (res != null)
                 {
-                    ViewBag.LearningList = res.Data.ToString().ToObject<List<SupplierListDto>>();
+                    list = res.Data.ToString().ToList<SupplierListDto>();
                 }
             }
-            return View();
+            return list;
         }
 
         /// <summary>
@@ -190,7 +208,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// <param name="learningCenterId">学院中心ID</param>
         /// <returns>1：成功，2：错误</returns>
         [HttpPost]
-        public JsonResult ToLearningCenter(Guid[] ids,Guid learningCenterId)
+        public JsonResult ToLearningCenter(Guid[] ids, Guid learningCenterId)
         {
             var ret = OrderService.ToLearningCenter(ids.ToList(), learningCenterId, this.UserId);
             if (ret == true)

@@ -482,6 +482,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string LevelName { set; get; }
 
         /// <summary>
+        /// 报名批次
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
         /// 开始时间
         /// </summary>
         public DateTime? DateFrom { set; get; }

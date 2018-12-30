@@ -313,6 +313,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 query = query.Where(a => a.LevelName.Contains(req.LevelName));
             }
 
+            //批次
+            if (!string.IsNullOrWhiteSpace(req.BatchName))
+            {
+                query = query.Where(a => a.BatchName.Contains(req.BatchName));
+            }
+
             reCount = query.Count();
             if (reCount == 0)
             {
