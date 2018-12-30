@@ -510,5 +510,33 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
+
+        /// <summary>
+        /// 修改订单金额
+        /// </summary>
+        /// <param name="orderId">订单ID</param>
+        /// <param name="amount">金额</param>
+        /// <returns>1：成功，2：找不到，3：金额不能小于已经申请的金额，4失败</returns>
+        public int UpdateQDAmount(Guid orderId, decimal amount)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var amountEntity = dbContext.T_OrderAmount.FirstOrDefault(a => a.OrderId == orderId && a.PaymentSource == 2);
+            if (amountEntity == null)
+            {
+                return 2;
+            }
+
+            //如果已审核金额 + 已支付金额 > 修改的金额
+            if ((amountEntity.ApprovalAmount + amountEntity.PayedAmount) > amount)
+            {
+                return 3;
+            }
+
+            amountEntity.TotalAmount = amount;
+            dbContext.Entry(amountEntity).State = EntityState.Modified;
+            dbContext.LogChangesDuringSave = false;
+            dbContext.BusinessName = "新增报名";
+            return dbContext.SaveChanges() > 0 ? 1 : 3;
+        }
     }
 }

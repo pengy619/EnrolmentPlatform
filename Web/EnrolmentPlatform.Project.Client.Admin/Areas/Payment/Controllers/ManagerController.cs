@@ -317,6 +317,34 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         }
 
         /// <summary>
+        /// 修改渠道金额
+        /// </summary>
+        /// <param name="orderId">订单ID</param>
+        /// <param name="amount">金额</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult UpdateAmount(Guid orderId,decimal amount)
+        {
+            var ret = OrderService.UpdateQDAmount(orderId, amount);
+            if (ret == 1)
+            {
+                return Json(new { ret = true });
+            }
+            else if (ret == 2)
+            {
+                return Json(new { ret = false, msg = "系统错误！" });
+            }
+            else if (ret == 3)
+            {
+                return Json(new { ret = false, msg = "金额不能小于已经存在的金额" });
+            }
+            else
+            {
+                return Json(new { ret = false, msg = "修改失败！" });
+            }
+        }
+
+        /// <summary>
         /// 审核
         /// </summary>
         /// <param name="paymentId">付款单</param>

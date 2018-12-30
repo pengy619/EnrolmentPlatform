@@ -14,7 +14,7 @@ using EnrolmentPlatform.Project.Infrastructure;
 
 namespace EnrolmentPlatform.Project.BLL.Orders
 {
-    public class T_OrderService: IT_OrderService
+    public class T_OrderService : IT_OrderService
     {
         private IT_OrderRepository orderRepository;
         private IT_OrderImageRepository orderImageRepository;
@@ -58,7 +58,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
         public int UpdateOrder(OrderDto dto)
         {
-            var exisit = this.orderRepository.Count(a => a.IsDelete==false && a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.IDCardNo == dto.IDCardNo) > 0;
+            var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.IDCardNo == dto.IDCardNo) > 0;
             if (exisit == true)
             {
                 //同一批次重复录入
@@ -152,7 +152,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     entity.QiTa = dto.QiTa;
                     entity.TouXiang = dto.TouXiang;
                     entity.XueXinWangImg = dto.XueXinWangImg;
-                    bool ret= this.orderImageRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改报名单照片", true, entity.Id.ToString())
+                    bool ret = this.orderImageRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改报名单照片", true, entity.Id.ToString())
                         > 0 ? true : false;
                     if (ret)
                     {
@@ -295,8 +295,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     foreach (var item in orderIdList)
                     {
                         var entity = this.orderRepository.FindEntityById(item);
-                        if (entity == null || 
-                            (entity.Status != (int)OrderStatusEnum.Init && entity.Status!= (int)OrderStatusEnum.Reject))
+                        if (entity == null ||
+                            (entity.Status != (int)OrderStatusEnum.Init && entity.Status != (int)OrderStatusEnum.Reject))
                         {
                             break;
                         }
@@ -326,7 +326,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <param name="userId">修改人</param>
         /// <param name="comment">拒绝理由</param>
         /// <returns></returns>
-        public bool Reject(List<Guid> orderIdList, Guid userId,string comment)
+        public bool Reject(List<Guid> orderIdList, Guid userId, string comment)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -337,7 +337,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     foreach (var item in orderIdList)
                     {
                         var entity = this.orderRepository.FindEntityById(item);
-                        if (entity == null || 
+                        if (entity == null ||
                             (entity.Status != (int)OrderStatusEnum.Enroll && entity.Status != (int)OrderStatusEnum.ToLearningCenter))
                         {
                             break;
@@ -368,7 +368,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <param name="toLearningCenterId">报送的学习中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        public bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId,Guid userId)
+        public bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -379,8 +379,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     foreach (var item in orderIdList)
                     {
                         var entity = this.orderRepository.LoadEntities(a => a.Id == item).FirstOrDefault();
-                        if (entity == null || 
-                            (entity.FromChannelId.HasValue == true && entity.Status != (int)OrderStatusEnum.Enroll)||
+                        if (entity == null ||
+                            (entity.FromChannelId.HasValue == true && entity.Status != (int)OrderStatusEnum.Enroll) ||
                             (entity.FromChannelId.HasValue == false && entity.Status != (int)OrderStatusEnum.Init && entity.Status != (int)OrderStatusEnum.Reject))
                         {
                             break;
@@ -553,6 +553,17 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, ref int reCount)
         {
             return this.orderRepository.GetStudentPaymentList(req, ref reCount);
+        }
+
+        /// <summary>
+        /// 修改订单金额
+        /// </summary>
+        /// <param name="orderId">订单ID</param>
+        /// <param name="amount">金额</param>
+        /// <returns>1：成功，2：找不到，3：金额不能小于已经申请的金额，4失败</returns>
+        public int UpdateQDAmount(Guid orderId, decimal amount)
+        {
+            return this.orderRepository.UpdateQDAmount(orderId, amount);
         }
     }
 }

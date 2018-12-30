@@ -47,5 +47,13 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// <param name="reCount"></param>
         /// <returns></returns>
         List<OrderPaymentListDto> GetStudentPaymentList(OrderListReqDto req, ref int reCount);
+
+        /// <summary>
+        /// 修改订单金额
+        /// </summary>
+        /// <param name="orderId">订单ID</param>
+        /// <param name="amount">金额</param>
+        /// <returns>1：成功，2：找不到，3：金额不能小于已经申请的金额，4失败</returns>
+        int UpdateQDAmount(Guid orderId, decimal amount);
     }
 }
