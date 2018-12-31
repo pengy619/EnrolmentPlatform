@@ -93,7 +93,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
                 {
                     idList.Add(Guid.Parse(item));
                 }
-                ViewBag.UnPayedTotal = OrderService.GetOrderAmountUnPayedTotal(idList, 1);
+                ViewBag.UnPayedTotal = OrderService.GetOrderAmountUnPayedTotal(idList, 2);
             }
             return View();
         }
