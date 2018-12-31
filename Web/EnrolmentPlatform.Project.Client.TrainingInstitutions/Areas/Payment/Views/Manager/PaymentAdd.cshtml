@@ -17,7 +17,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">缴费类型</label>
                 <div class="layui-input-inline">
-                    <select id="PayType" name="PayType" lay-filter="SchoolId" lay-verify="required">
+                    <select id="PayType" name="PayType" lay-filter="PayType" lay-verify="required">
                         <option value=""></option>
                         @foreach (var item in EnumDescriptionHelper.GetItemValueList<PaymentTypeEnum, int>())
                         {
@@ -61,6 +61,7 @@
     </div>
 </div>
 <input type="hidden" id="orderIdStr" value='@ViewBag.OrderList' />
+<input type="hidden" id="UnPayedTotal" value='@ViewBag.UnPayedTotal' />
 <script type="text/javascript">
     //价格发生变化
     function UnitAmountChange(obj) {
@@ -115,6 +116,7 @@
             fdata.append("name", name);
             fdata.append("unitAmount", unitAmount);
             fdata.append("paymentType", paymentType);
+            fdata.append("totalAmount", $("#totalAmount").val().replace("￥",""));
 
             //是否选择图片
             if (imgChanged == true && $("#fileImg").val() != "") {
@@ -152,6 +154,18 @@
                     });
                 }
             });
+        });
+
+        //尾款类型处理
+        form.on('select(PayType)', function (data) {
+            if ($("#PayType").val() == "@((int)PaymentTypeEnum.EndPayment)") {
+                $("#UnitAmount").prop("readOnly", true);
+                $("#totalAmount").val("￥" + parseFloat($("#UnPayedTotal").val()).toFixed("2"));
+            }
+            else {
+                $("#UnitAmount").prop("readOnly", false);
+                $("#totalAmount").val("￥0.00");
+            }
         });
     });
 </script>

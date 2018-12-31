@@ -58,20 +58,13 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             var orderAmountList = dbContext.T_OrderAmount.Where(a => orderIdList.Contains(a.OrderId) && a.PaymentSource == dto.PaymentSource)
                 .ToList();
-            //订单缴费金额检查
-            foreach (var item in orderAmountList)
+
+            //总金额
+            decimal totalAmount = dto.TotalAmount;
+            if (dto.Type == PaymentTypeEnum.Normal)
             {
-                var unPayedAmount = item.TotalAmount - item.PayedAmount - item.ApprovalAmount;
-                if (dto.UnitAmount > unPayedAmount)
-                {
-                    return "本次缴费金额大于报名单未缴金额。";
-                }
-                item.ApprovalAmount = item.ApprovalAmount + dto.UnitAmount;
-            }
-            //修改订单缴费金额信息
-            foreach (var item in orderAmountList)
-            {
-                dbContext.Entry(item).State = EntityState.Modified;
+                //如果是普通缴费，那么总金额等于单价 * 订单数量
+                totalAmount = (dto.UnitAmount * dto.OrderList.Count);
             }
 
             //新增付款单
@@ -83,7 +76,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 PaymentSource = dto.PaymentSource,
                 PaymentSourceId = sourceId,
                 Status = (int)PaymentStatusEnum.Submit,
-                TotalAmount = (dto.UnitAmount * dto.OrderList.Count),
+                TotalAmount = totalAmount,
                 Type = (int)dto.Type,
                 CreatorAccount = dto.UserName,
                 CreatorTime = DateTime.Now,
@@ -100,10 +93,17 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             //新增付款单记录
             foreach (var item in dto.OrderList)
             {
+                var curUnitPrice = dto.UnitAmount;
+                if (dto.Type == PaymentTypeEnum.EndPayment)
+                {
+                    var curAmount = orderAmountList.Find(a => a.OrderId == item.OrderId);
+                    curUnitPrice = curAmount.TotalAmount - curAmount.PayedAmount - curAmount.ApprovalAmount;
+                }
+
                 dbContext.T_PaymentInfo.Add(new T_PaymentInfo()
                 {
                     Id = Guid.NewGuid(),
-                    Amount = dto.UnitAmount,
+                    Amount = curUnitPrice,
                     OrderId = item.OrderId,
                     PaymentRecordId = payment.Id,
                     CreatorAccount = dto.UserName,
@@ -116,6 +116,36 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     LastModifyUserId = dto.UserId,
                     Unix = DateTime.Now.ConvertDateTimeInt()
                 });
+            }
+
+            //订单缴费金额检查
+            foreach (var item in orderAmountList)
+            {
+                if (item.TotalAmount == item.PayedAmount)
+                {
+                    return "本次缴费包含已完成的报名单，登记失败。";
+                }
+                if (dto.Type == PaymentTypeEnum.Normal)
+                {
+                    var unPayedAmount = item.TotalAmount - item.PayedAmount - item.ApprovalAmount;
+                    if (dto.UnitAmount > unPayedAmount)
+                    {
+                        return "本次缴费金额大于报名单未缴金额。";
+                    }
+
+                    //如果是普通缴费，待审核金额 = 待审核金额 + 本次登记金额
+                    item.ApprovalAmount = item.ApprovalAmount + dto.UnitAmount;
+                }
+                else if (dto.Type == PaymentTypeEnum.EndPayment)
+                {
+                    //如果是尾款，待审核金额 = 总金额 - 已付金额
+                    item.ApprovalAmount = item.TotalAmount - item.PayedAmount;
+                }
+            }
+            //修改订单缴费金额信息
+            foreach (var item in orderAmountList)
+            {
+                dbContext.Entry(item).State = EntityState.Modified;
             }
 
             dbContext.ModuleKey = "缴费";

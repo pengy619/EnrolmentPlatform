@@ -67,6 +67,17 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
             string[] orderIdArr = orderIds.Split('|');
             ViewBag.PersonCount = orderIdArr.Length;
             ViewBag.OrderList = orderIds;
+
+            //尾款总金额
+            if (orderIds.Length > 0)
+            {
+                List<Guid> idList = new List<Guid>();
+                foreach (var item in orderIdArr)
+                {
+                    idList.Add(Guid.Parse(item));
+                }
+                ViewBag.UnPayedTotal = OrderService.GetOrderAmountUnPayedTotal(idList, 1);
+            }
             return View();
         }
 
@@ -226,9 +237,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
         /// <param name="unitAmount"></param>
         /// <param name="file"></param>
         /// <param name="paymentType"></param>
+        /// <param name="totalAmount">总金额</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SavePayment(string orderIdStr, string name, decimal unitAmount, HttpPostedFileBase file, PaymentTypeEnum paymentType)
+        public JsonResult SavePayment(string orderIdStr, string name, decimal unitAmount, HttpPostedFileBase file, PaymentTypeEnum paymentType,decimal totalAmount)
         {
             //订单数量检查
             if (string.IsNullOrWhiteSpace(orderIdStr))
@@ -256,6 +268,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
                 FilePath = fileUrl,
                 Type = paymentType,
                 UnitAmount = unitAmount,
+                TotalAmount = totalAmount,
                 OrderList = paymentOrders
             };
             string msg = PaymentRecordService.AddPaymentRecord(dto);

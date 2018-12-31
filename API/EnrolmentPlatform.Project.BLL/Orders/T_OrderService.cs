@@ -18,12 +18,14 @@ namespace EnrolmentPlatform.Project.BLL.Orders
     {
         private IT_OrderRepository orderRepository;
         private IT_OrderImageRepository orderImageRepository;
+        private IT_OrderAmountRepository orderAmountRepository;
         protected IDbContextFactory _dbContextFactory;
 
         public T_OrderService()
         {
             this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
             this.orderImageRepository = DIContainer.Resolve<IT_OrderImageRepository>();
+            this.orderAmountRepository = DIContainer.Resolve<IT_OrderAmountRepository>();
             this._dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
         }
 
@@ -565,6 +567,19 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public int UpdateQDAmount(Guid orderId, decimal amount, int amountType)
         {
             return this.orderRepository.UpdateQDAmount(orderId, amount, amountType);
+        }
+
+        /// <summary>
+        /// 获得订单尾款
+        /// </summary>
+        /// <param name="orderIds">订单集合</param>
+        /// <param name="paymentSource">1：招生机构，2：渠道中心</param>
+        /// <returns></returns>
+        public decimal GetOrderAmountUnPayedTotal(List<Guid> orderIds,int paymentSource)
+        {
+            var orderList= this.orderAmountRepository.LoadEntities(a => orderIds.Contains(a.OrderId) && a.PaymentSource == paymentSource)
+                .ToList();
+            return orderList.Sum(a => (a.TotalAmount - a.PayedAmount - a.ApprovalAmount));
         }
     }
 }

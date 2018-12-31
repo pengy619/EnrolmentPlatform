@@ -150,5 +150,13 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="amountType">金额类型</param>
         /// <returns>1：成功，2：找不到，3：金额不能小于已经申请的金额，4失败</returns>
         int UpdateQDAmount(Guid orderId, decimal amount, int amountType);
+
+        /// <summary>
+        /// 获得订单尾款
+        /// </summary>
+        /// <param name="orderIds">订单集合</param>
+        /// <param name="paymentSource">1：招生机构，2：渠道中心</param>
+        /// <returns></returns>
+        decimal GetOrderAmountUnPayedTotal(List<Guid> orderIds, int paymentSource);
     }
 }
