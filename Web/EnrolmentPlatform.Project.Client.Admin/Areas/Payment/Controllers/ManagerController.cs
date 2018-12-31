@@ -84,6 +84,17 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
             string[] orderIdArr = orderIds.Split('|');
             ViewBag.PersonCount = orderIdArr.Length;
             ViewBag.OrderList = orderIds;
+
+            //尾款总金额
+            if (orderIds.Length > 0)
+            {
+                List<Guid> idList = new List<Guid>();
+                foreach (var item in orderIdArr)
+                {
+                    idList.Add(Guid.Parse(item));
+                }
+                ViewBag.UnPayedTotal = OrderService.GetOrderAmountUnPayedTotal(idList, 1);
+            }
             return View();
         }
 
