@@ -17,7 +17,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">缴费类型</label>
                 <div class="layui-input-inline">
-                    <select id="PayType" name="PayType" lay-filter="SchoolId" lay-verify="required">
+                    <select id="PayType" name="PayType" lay-filter="PayType" lay-verify="required">
                         <option value=""></option>
                         @foreach (var item in EnumDescriptionHelper.GetItemValueList<PaymentTypeEnum, int>())
                         {
@@ -101,20 +101,27 @@
             var unitAmount = $.trim($("#UnitAmount").val());
             var paymentType = $("#PayType").val();
 
-            //金额检查
-            if (/^[0-9]+(.[0-9]{2})?$/.test(unitAmount) == false) {
-                layer.msg("本次缴费金额输入错误！", {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
+            if (paymentType == "@((int)PaymentTypeEnum.Normal)") {
+                //金额检查
+                if (/^[0-9]+(.[0-9]{2})?$/.test(unitAmount) == false) {
+                    layer.msg("本次缴费金额输入错误！", {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
             }
+            else {
+                unitAmount = 0;
+            }
+
             //数据提交
             var fdata = new FormData();
             fdata.append("orderIdStr", orderIdStr);
             fdata.append("name", name);
             fdata.append("unitAmount", unitAmount);
             fdata.append("paymentType", paymentType);
+            fdata.append("totalAmount", $("#totalAmount").text().replace("￥", ""));
 
             //是否选择图片
             if (imgChanged == true && $("#fileImg").val() != "") {
@@ -152,6 +159,20 @@
                     });
                 }
             });
+        });
+
+        //尾款类型处理
+        form.on('select(PayType)', function (data) {
+            if ($("#PayType").val() == "@((int)PaymentTypeEnum.EndPayment)") {
+                $("#UnitAmount").val("自动计算");
+                $("#UnitAmount").prop("disabled", true);
+                $("#totalAmount").text("￥" + parseFloat($("#UnPayedTotal").val()).toFixed("2"));
+            }
+            else {
+                $("#UnitAmount").val("");
+                $("#UnitAmount").prop("disabled", false);
+                $("#totalAmount").text("￥0.00");
+            }
         });
     });
 </script>

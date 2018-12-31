@@ -266,9 +266,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         /// <param name="unitAmount"></param>
         /// <param name="file"></param>
         /// <param name="paymentType"></param>
+        /// <param name="totalAmount">总金额</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SavePayment(string orderIdStr, string name, decimal unitAmount, HttpPostedFileBase file, PaymentTypeEnum paymentType)
+        public JsonResult SavePayment(string orderIdStr, string name, decimal unitAmount, HttpPostedFileBase file, PaymentTypeEnum paymentType, decimal totalAmount)
         {
             //订单数量检查
             if (string.IsNullOrWhiteSpace(orderIdStr))
@@ -295,6 +296,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
                 FilePath = fileUrl,
                 Type = paymentType,
                 UnitAmount = unitAmount,
+                TotalAmount= totalAmount,
                 OrderList = paymentOrders
             };
             string msg = PaymentRecordService.AddPaymentRecord(dto);
