@@ -151,6 +151,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             {
                 ViewBag.OrderInfo = OrderService.GetOrder(orderId.Value);
             }
+            else
+            {
+                return RedirectToAction("Index", "Manager");
+            }
 
             //批次
             ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
