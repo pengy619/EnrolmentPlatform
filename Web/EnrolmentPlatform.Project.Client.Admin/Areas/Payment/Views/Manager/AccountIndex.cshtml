@@ -170,25 +170,29 @@
             </div>
         </div>
         <div class="layui-form-item required">
-            <label class="layui-form-label" style="width:100px;">中心已缴：</label>
+            <label class="layui-form-label jigou" style="width:100px;">机构已收：</label>
+            <label class="layui-form-label zhongxin" style="width:100px;">中心已缴：</label>
             <div class="layui-input-inline" style="line-height:38px; text-align:left;">
                 <label id="yijiao"></label>
             </div>
         </div>
         <div class="layui-form-item required">
-            <label class="layui-form-label" style="width:100px;">中心未缴：</label>
+            <label class="layui-form-label jigou" style="width:100px;">机构未收：</label>
+            <label class="layui-form-label zhongxin" style="width:100px;">中心未缴：</label>
             <div class="layui-input-inline" style="line-height:38px; text-align:left;">
                 <label id="weijiao"></label>
             </div>
         </div>
         <div class="layui-form-item required">
-            <label class="layui-form-label" style="width:100px;">中心待审核：</label>
+            <label class="layui-form-label jigou" style="width:100px;">机构待审核：</label>
+            <label class="layui-form-label zhongxin" style="width:100px;">中心待审核：</label>
             <div class="layui-input-inline" style="line-height:38px; text-align:left;">
                 <label id="daishenhe"></label>
             </div>
         </div>
         <div class="layui-form-item required" style="padding-bottom:10px;">
-            <label class="layui-form-label" style="width:100px;">中心应缴：</label>
+            <label class="layui-form-label jigou" style="width:100px;">机构应收：</label>
+            <label class="layui-form-label zhongxin" style="width:100px;">中心应缴：</label>
             <div class="layui-input-inline">
                 <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="yingjiao" value=''>
             </div>
@@ -340,12 +344,16 @@
         function changeSelect() {
             if (selectAmountData) {
                 if ($("#AmountType").val() == "1") {
+                    $(".jigou").show();
+                    $(".zhongxin").hide();
                     $("#yingjiao").val(selectAmountData.TotalAmount);
                     $("#yijiao").text(selectAmountData.PayedAmount);
                     $("#weijiao").text(selectAmountData.UnPayedAmount);
                     $("#daishenhe").text(selectAmountData.ApprovalAmount);
                 }
                 else if ($("#AmountType").val() == "2") {
+                    $(".jigou").hide();
+                    $(".zhongxin").show();
                     $("#yingjiao").val(selectAmountData.QDTotalAmount);
                     $("#yijiao").text(selectAmountData.QDPayedAmount);
                     $("#weijiao").text(selectAmountData.QDUnPayedAmount);
