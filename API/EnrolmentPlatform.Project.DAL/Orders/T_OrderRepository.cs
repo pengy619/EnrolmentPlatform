@@ -524,11 +524,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         /// </summary>
         /// <param name="orderId">订单ID</param>
         /// <param name="amount">金额</param>
+        /// <param name="amountType">金额类型</param>
         /// <returns>1：成功，2：找不到，3：金额不能小于已经申请的金额，4失败</returns>
-        public int UpdateQDAmount(Guid orderId, decimal amount)
+        public int UpdateQDAmount(Guid orderId, decimal amount, int amountType)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var amountEntity = dbContext.T_OrderAmount.FirstOrDefault(a => a.OrderId == orderId && a.PaymentSource == 2);
+            var amountEntity = dbContext.T_OrderAmount.FirstOrDefault(a => a.OrderId == orderId && a.PaymentSource == amountType);
             if (amountEntity == null)
             {
                 return 2;

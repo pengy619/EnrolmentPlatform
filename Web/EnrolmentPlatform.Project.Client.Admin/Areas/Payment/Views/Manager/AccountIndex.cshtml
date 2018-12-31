@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="jf">缴费登记</button>
-                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="xgje">修改中心金额</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="xgje">修改金额</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
             </div>
         </div>
@@ -160,6 +160,15 @@
 <!-- 修改金额 -->
 <div id="audit-btn-modalxgje" style="display:none;">
     <div class="layui-form" style="text-align: center;">
+        <div class="layui-form-item required" style="padding-top: 5px;">
+            <label class="layui-form-label" style="width:100px;">金额类型：</label>
+            <div class="layui-input-inline" style="line-height:38px; text-align:left;">
+                <select id="AmountType" lay-filter="AmountType" name="AmountType" style="width:100px;">
+                    <option value="1">招生机构</option>
+                    <option value="2">渠道中心</option>
+                </select>
+            </div>
+        </div>
         <div class="layui-form-item required">
             <label class="layui-form-label" style="width:100px;">中心已缴：</label>
             <div class="layui-input-inline" style="line-height:38px; text-align:left;">
@@ -322,6 +331,29 @@
             });
         });
 
+        //金额类型变更
+        form.on('select(AmountType)', function (data) {
+            changeSelect();
+        });
+
+        //金额类型变更金额显示处理
+        function changeSelect() {
+            if (selectAmountData) {
+                if ($("#AmountType").val() == "1") {
+                    $("#yingjiao").val(selectAmountData.TotalAmount);
+                    $("#yijiao").text(selectAmountData.PayedAmount);
+                    $("#weijiao").text(selectAmountData.UnPayedAmount);
+                    $("#daishenhe").text(selectAmountData.ApprovalAmount);
+                }
+                else if ($("#AmountType").val() == "2") {
+                    $("#yingjiao").val(selectAmountData.QDTotalAmount);
+                    $("#yijiao").text(selectAmountData.QDPayedAmount);
+                    $("#weijiao").text(selectAmountData.QDUnPayedAmount);
+                    $("#daishenhe").text(selectAmountData.QDApprovalAmount);
+                }
+            }
+        }
+
         //修改学院中心金额
         var xiugaiLayerIndex = 0;
         form.on('submit(xgje)', function (data) {
@@ -343,17 +375,14 @@
                 return false;
             }
 
-            var curData = checkdata[0];
-            $("#yingjiao").val(curData.QDTotalAmount);
-            $("#yijiao").text(curData.QDPayedAmount);
-            $("#weijiao").text(curData.QDUnPayedAmount);
-            $("#daishenhe").text(curData.QDApprovalAmount);
-            orderId = curData.OrderId;
+            selectAmountData = checkdata[0];
+            orderId = selectAmountData.OrderId;
+            changeSelect();
 
             xiugaiLayerIndex = layer.open({
                 type: 1,
-                title: "学院中心金额",
-                area: ["400px", "350px"],
+                title: "金额修改",
+                area: ["400px", "370px"],
                 content: $('#audit-btn-modalxgje'),
                 yes: function (index, layero) {
                     //事件
@@ -364,10 +393,12 @@
 
         //录取确认
         var orderId;
+        var selectAmountData;
         form.on('submit(xiugaiConfirm)', function (data) {
             var dto = {};
             dto.orderId = orderId;
             dto.amount = $("#yingjiao").val();
+            dto.amountType = $("#AmountType").val();
 
             if (dto.amount == "") {
                 layer.msg('请输入修改的金额！', {

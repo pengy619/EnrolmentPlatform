@@ -53,7 +53,8 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// </summary>
         /// <param name="orderId">订单ID</param>
         /// <param name="amount">金额</param>
+        /// <param name="amountType">金额类型</param>
         /// <returns>1：成功，2：找不到，3：金额不能小于已经申请的金额，4失败</returns>
-        int UpdateQDAmount(Guid orderId, decimal amount);
+        int UpdateQDAmount(Guid orderId, decimal amount, int amountType);
     }
 }

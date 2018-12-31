@@ -329,11 +329,12 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         /// </summary>
         /// <param name="orderId">订单ID</param>
         /// <param name="amount">金额</param>
+        /// <param name="amountType">金额类型</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult UpdateAmount(Guid orderId,decimal amount)
+        public JsonResult UpdateAmount(Guid orderId,decimal amount,int amountType)
         {
-            var ret = OrderService.UpdateQDAmount(orderId, amount);
+            var ret = OrderService.UpdateQDAmount(orderId, amount, amountType);
             if (ret == 1)
             {
                 return Json(new { ret = true });

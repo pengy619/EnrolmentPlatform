@@ -560,10 +560,11 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// </summary>
         /// <param name="orderId">订单ID</param>
         /// <param name="amount">金额</param>
+        /// <param name="amountType">金额类型</param>
         /// <returns>1：成功，2：找不到，3：金额不能小于已经申请的金额，4失败</returns>
-        public int UpdateQDAmount(Guid orderId, decimal amount)
+        public int UpdateQDAmount(Guid orderId, decimal amount, int amountType)
         {
-            return this.orderRepository.UpdateQDAmount(orderId, amount);
+            return this.orderRepository.UpdateQDAmount(orderId, amount, amountType);
         }
     }
 }
