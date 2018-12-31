@@ -57,6 +57,12 @@
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">批次</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="BatchName" class="layui-input">
+                    </div>
+                </div>
                 <div class="layui-form-item searchMore">
                     <label class="layui-form-label">照片全上传</label>
                     <div>
@@ -305,6 +311,7 @@
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
+            BatchName: $("#BatchName").val(),
             AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
         };
     }

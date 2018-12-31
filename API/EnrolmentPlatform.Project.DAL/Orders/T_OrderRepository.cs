@@ -438,6 +438,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             var noPhone = string.IsNullOrWhiteSpace(req.Phone);
             var noIdCard = string.IsNullOrWhiteSpace(req.IDCard);
             var noCreateName = string.IsNullOrWhiteSpace(req.CreateUserName);
+            var noBatchName = string.IsNullOrWhiteSpace(req.BatchName);
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var query = from a in dbContext.T_Order
                         join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
@@ -457,6 +458,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
+                        (noBatchName || bbtemp.Name.Contains(req.BatchName)) &&
                         (noCreateName || a.CreatorAccount.Contains(req.CreateUserName)) &&
                         (req.DateFrom.HasValue == false || a.CreatorTime >= req.DateFrom.Value) &&
                         (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
