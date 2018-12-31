@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "学习管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> trainingList = ViewBag.TrainingList;
+    List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> learningList = ViewBag.LearningList;
 }
 <style type="text/css">
     .searchMore {
@@ -16,9 +18,9 @@
         <div class="panel-title">
             <div class="layui-form">
                 <div class="layui-form-item flex">
-                    <label class="layui-form-label">学院中心</label>
+                    <label class="layui-form-label">批次</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="ToLearningCenterName" class="layui-input">
+                        <input type="text" id="BatchName" class="layui-input">
                     </div>
                     <label class="layui-form-label">学生姓名</label>
                     <div class="layui-input-inline">
@@ -55,6 +57,28 @@
                     <label class="layui-form-label">报名时间</label>
                     <div class="layui-input-inline">
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">来源（机构）</label>
+                    <div class="layui-input-inline">
+                        <select id="FromChannelId" name="FromChannelId" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in trainingList)
+                            {
+                                <option value="@item.SupplierId">@item.SupplierName</option>
+                            }
+                        </select>
+                    </div>
+                    <label class="layui-form-label">去向（学习中心）</label>
+                    <div class="layui-input-inline">
+                        <select id="ToLearningCenterId" name="ToLearningCenterId" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in learningList)
+                            {
+                                <option value="@item.SupplierId">@item.SupplierName</option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="layui-form-item searchMore">
@@ -490,6 +514,9 @@
             DateFrom: dateFrom,
             DateTo: dateTo,
             ToLearningCenterName: $("#ToLearningCenterName").val(),
+            ToLearningCenterId: $("#ToLearningCenterId").val(),
+            FromChannelId: $("#FromChannelId").val(),
+            BatchName: $("#BatchName").val(),
             AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
         };
     }

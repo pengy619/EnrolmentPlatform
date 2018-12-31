@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO;
+using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.DTO.Enums.Orders;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
+using Newtonsoft.Json;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 
@@ -31,6 +35,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         /// <returns></returns>
         public ActionResult AccountIndex()
         {
+            //招生机构
+            ViewBag.TrainingList = GetUserList(SystemTypeEnum.TrainingInstitutions);
+            //学习中心
+            ViewBag.LearningList = GetUserList(SystemTypeEnum.LearningCenter);
             return View();
         }
 
@@ -362,6 +370,36 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
             {
                 return Json(new { ret = false, msg = "系统错误。" });
             }
+        }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private List<SupplierListDto> GetUserList(SystemTypeEnum type)
+        {
+            List<SupplierListDto> list = new List<SupplierListDto>();
+            SupplierSearchDto req = new SupplierSearchDto
+            {
+                Classify = type,
+                Limit = int.MaxValue,
+                Page = 1,
+                Status = 2
+            };
+            var ret = WebApiHelper.Post<HttpResponseMsg>(
+                "/api/Enterprise/GetSupplierPageList",
+                JsonConvert.SerializeObject(req),
+               ConfigurationManager.AppSettings["StaffId"].ToInt());
+            if (ret.Data != null)
+            {
+                var res = ret.Data.ToString().ToObject<GridDataResponse>();
+                if (res != null)
+                {
+                    list = res.Data.ToString().ToList<SupplierListDto>();
+                }
+            }
+            return list;
         }
     }
 }
