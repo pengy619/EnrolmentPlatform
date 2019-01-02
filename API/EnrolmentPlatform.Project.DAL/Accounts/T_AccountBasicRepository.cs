@@ -54,7 +54,7 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
         {
             int classify = (int)dto.SystemType;
             //检查是否重复名称（todo：鉴于现有系统登陆方式，整个系统不允许出现重复账号，而不是一个供应商下）
-            if (this.Count(a => a.AccountNo == dto.UserAccount
+            if (this.Count(a => a.AccountNo == dto.UserAccount && !a.IsDelete
                          && a.Classify == classify) > 0) //&& a.EnterpriseId == dto.EnterpriseId
             {
                 //账号重复
@@ -105,7 +105,7 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             }
 
             //检查是否重复名称
-            if (this.Count(a => a.AccountNo == dto.UserAccount
+            if (this.Count(a => a.AccountNo == dto.UserAccount && !a.IsDelete
                         && a.Id != dto.UserId
                         && a.Classify == user.Classify
                         && a.EnterpriseId == user.EnterpriseId) > 0)
@@ -253,7 +253,7 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             msg = "";
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var userInfo = dbContext.T_AccountBasic.FirstOrDefault(a => a.Classify == (int)dto.SystemType
-                && a.AccountNo == dto.UserAccount);
+                && a.AccountNo == dto.UserAccount && !a.IsDelete);
 
             //用户错误
             if (userInfo == null)
@@ -382,149 +382,5 @@ namespace EnrolmentPlatform.Project.DAL.Accounts
             queryable = queryable.OrderByDescending(a => a.CreateTime).Skip((param.Page - 1) * param.Limit).Take(param.Limit);
             return queryable.ToList();
         }
-
-        #region 供应商用户
-
-        /// <summary>
-        /// 新增供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        public int AddSupplierUser(SupplierUserDto dto)
-        {
-            int classify = (int)dto.SystemType;
-            //检查是否重复名称（todo：鉴于现有系统登陆方式，整个系统不允许出现重复账号，而不是一个供应商下）
-            if (this.Count(a => a.AccountNo == dto.UserAccount
-                         && a.Classify == classify) > 0) //&& a.EnterpriseId == dto.EnterpriseId
-            {
-                //账号重复
-                return 2;
-            }
-            T_AccountBasic accountEntity = new T_AccountBasic()
-            {
-                Classify = classify,
-                DepartmentId = dto.DepartmentId,
-                EnterpriseId = dto.EnterpriseId,
-                Id = Guid.NewGuid(),
-                IsMaster = dto.IsMaster,
-                JobID = dto.JobID,
-                PassWord = dto.Password,
-                Sex = dto.Sex,
-                Remark = dto.Comment,
-                RoleId = dto.RoleId,
-                Status = (int)dto.Status,
-                Phone = dto.Phone,
-                AccountNo = dto.UserAccount,
-                RealName = dto.UserName,
-                Nickname = dto.UserName,
-                IsAllowMobileLogin = dto.IsAllowMobileLogin,
-                CreatorAccount = dto.CreateAccount,
-                CreatorTime = DateTime.Now,
-                CreatorUserId = dto.CreateUserId,
-                DeleteTime = DateTime.MaxValue,
-                DeleteUserId = Guid.Empty,
-                IsDelete = false,
-                LastModifyTime = DateTime.Now,
-                LastModifyUserId = dto.CreateUserId,
-                Unix = DateTime.Now.ConvertDateTimeInt()
-            };
-            
-            //数据库操作
-            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            //添加至EF
-            dbContext.T_AccountBasic.Add(accountEntity);
-
-            //保存并记录日志
-            dbContext.ModuleKey = accountEntity.Id.ToString();
-            dbContext.LogChangesDuringSave = true;
-            dbContext.BusinessName = "供应商子账户添加";
-            return (dbContext.SaveChanges() > 0) ? 1 : 3;
-        }
-
-        /// <summary>
-        /// 修改供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        public int UpdateSupplierUser(SupplierUserDto dto)
-        {
-            //数据库操作
-            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            //不存在
-            T_AccountBasic user = dbContext.T_AccountBasic.Find(dto.UserId.Value);
-            if (user == null || user.EnterpriseId != dto.EnterpriseId)
-            {
-                return 3;
-            }
-
-            //检查是否重复名称
-            if (this.Count(a => a.AccountNo == dto.UserAccount
-                        && a.Id != dto.UserId
-                        && a.Classify == user.Classify
-                        && a.EnterpriseId == user.EnterpriseId) > 0)
-            {
-                //账号重复
-                return 2;
-            }
-
-            //修改实体属性
-            user.RealName = dto.UserName;
-            user.Nickname = dto.UserName;
-            user.Sex = dto.Sex;
-            user.DepartmentId = dto.DepartmentId;
-            user.JobID = dto.JobID;
-            user.Phone = dto.Phone;
-            user.IsAllowMobileLogin = dto.IsAllowMobileLogin;
-            user.RoleId = dto.RoleId;
-            user.Remark = dto.Comment;
-            user.Status = (int)dto.Status;
-            user.LastModifyTime = DateTime.Now;
-            user.LastModifyUserId = dto.CreateUserId;
-            if (!string.IsNullOrWhiteSpace(dto.Password))
-            {
-                user.PassWord = dto.Password;
-            }
-            user.Phone = dto.Phone;
-            dbContext.Entry(user).State = EntityState.Modified;
-
-            //保存并记录日志
-            dbContext.ModuleKey = user.Id.ToString();
-            dbContext.LogChangesDuringSave = true;
-            dbContext.BusinessName = "供应商子账户修改";
-            return (dbContext.SaveChanges() > 0) ? 1 : 3;
-
-        }
-
-        /// <summary>
-        /// 获得供应商子账户信息
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <returns></returns>
-        public SupplierUserDto GetSupplierUser(Guid userId)
-        {
-            T_AccountBasic user = this.FindEntityById(userId);
-            SupplierUserDto dto = new SupplierUserDto()
-            {
-                Comment = user.Remark,
-                IntStatus = user.Status,
-                IsMaster = user.IsMaster,
-                Password = user.PassWord,
-                Picture = user.Picture,
-                Phone = user.Phone,
-                RoleId = user.RoleId,
-                SystemType = (SystemTypeEnum)user.Classify,
-                IsAllowMobileLogin = user.IsAllowMobileLogin.HasValue ? user.IsAllowMobileLogin.Value : false,
-                UserAccount = user.AccountNo,
-                UserName = user.RealName,
-                UserId = user.Id,
-                Sex = user.Sex,
-                CreateTime = user.CreatorTime,
-                EnterpriseId = user.EnterpriseId,
-                DepartmentId = user.DepartmentId,
-                JobID = user.JobID,
-                Nickname = user.Nickname
-            };
-            return dto;
-        }
-
-        #endregion
     }
 }

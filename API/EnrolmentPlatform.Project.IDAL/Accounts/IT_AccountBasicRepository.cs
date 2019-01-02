@@ -86,28 +86,5 @@ namespace EnrolmentPlatform.Project.IDAL.Accounts
         /// <param name="reCount">总记录</param>
         /// <returns></returns>
         List<UserDto> GetMemberList(UserSearchDto param, out int reCount);
-
-        #region 供应商子账户
-
-        /// <summary>
-        /// 新增供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        int AddSupplierUser(SupplierUserDto dto);
-
-        /// <summary>
-        /// 修改供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        int UpdateSupplierUser(SupplierUserDto dto);
-
-        /// <summary>
-        /// 获得供应商子账户信息
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <returns></returns>
-        SupplierUserDto GetSupplierUser(Guid userId);
-
-        #endregion
     }
 }

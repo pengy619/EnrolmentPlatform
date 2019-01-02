@@ -1,6 +1,6 @@
 ﻿@{
     var opStatus = ViewBag.OPStatus;
-    EnrolmentPlatform.Project.DTO.Systems.SupplierUserDto dto = ViewBag.UserInfo;
+    EnrolmentPlatform.Project.DTO.Systems.UserDto dto = ViewBag.UserInfo;
     List<EnrolmentPlatform.Project.DTO.Systems.RoleDto> roleList = ViewBag.RoleList;
     ViewBag.Title = dto==null||!dto.UserId.HasValue ? "子账号添加" : "子账号编辑";
     Layout = "~/Views/Shared/_Layout.cshtml";

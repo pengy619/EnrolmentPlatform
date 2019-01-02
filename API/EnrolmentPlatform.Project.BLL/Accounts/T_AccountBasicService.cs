@@ -256,37 +256,5 @@ namespace EnrolmentPlatform.Project.BLL.Systems
             result.IsSuccess = true;
             return result;
         }
-
-
-        #region 供应商子账户
-
-        /// <summary>
-        /// 新增供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        public int AddSupplierUser(SupplierUserDto dto)
-        {
-            return this.AccountRepository.AddSupplierUser(dto);
-        }
-
-        /// <summary>
-        /// 修改供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        public int UpdateSupplierUser(SupplierUserDto dto)
-        {
-            return this.AccountRepository.UpdateSupplierUser(dto);
-        }
-
-        /// <summary>
-        /// 获得供应商子账户信息
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <returns></returns>
-        public SupplierUserDto GetSupplierUser(Guid userId)
-        {
-            return this.AccountRepository.GetSupplierUser(userId);
-        }
-        #endregion
     }
 }

@@ -109,29 +109,5 @@ namespace EnrolmentPlatform.Project.IBLL.Accounts
         /// <param name="dto"></param>
         /// <returns></returns>
         ResultMsg ChangePwd(ChangePwdDto dto);
-
-
-        #region 供应商子账户
-
-        /// <summary>
-        /// 新增供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        int AddSupplierUser(SupplierUserDto dto);
-
-        /// <summary>
-        /// 修改供应商用户
-        /// </summary>
-        /// <returns>1：成功，2：存在相同账号，3：失败</returns>
-        int UpdateSupplierUser(SupplierUserDto dto);
-
-        /// <summary>
-        /// 获得供应商子账户信息
-        /// </summary>
-        /// <param name="userId">用户ID</param>
-        /// <returns></returns>
-        SupplierUserDto GetSupplierUser(Guid userId);
-
-        #endregion
     }
 }

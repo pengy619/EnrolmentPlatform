@@ -47,10 +47,10 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
             if (userId.HasValue)
             {
                 var data2 = WebApiHelper.Get<HttpResponseMsg>(
-                "/api/AccountBasic/GetSupplierUser", "", "userId=" + userId.Value.ToString(),
+                "/api/AccountBasic/GetUser", "", "userId=" + userId.Value.ToString(),
                 ConfigurationManager.AppSettings["StaffId"].ToInt());
                 ViewBag.OPStatus = 2;
-                ViewBag.UserInfo = data2.Data.ToString().ToObject<SupplierUserDto>();
+                ViewBag.UserInfo = data2.Data.ToString().ToObject<UserDto>();
             }
             return View();
         }
@@ -77,14 +77,14 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Setting.Controll
         /// </summary>
         /// <returns>1：成功，2：错误</returns>
         [HttpPost]
-        public JsonResult SaveUser(SupplierUserDto dto)
+        public JsonResult SaveUser(UserDto dto)
         {
             dto.EnterpriseId = this.SupplierId;
             dto.SystemType = SystemTypeEnum.LearningCenter;
             dto.CreateUserId = this.UserId;
             dto.CreateAccount = this.UserAccount;
             var data = WebApiHelper.Post<HttpResponseMsg>(
-                "/api/AccountBasic/SaveSupplierUser",
+                "/api/AccountBasic/SaveUser",
                 JsonConvert.SerializeObject(dto),
                ConfigurationManager.AppSettings["StaffId"].ToInt());
 
