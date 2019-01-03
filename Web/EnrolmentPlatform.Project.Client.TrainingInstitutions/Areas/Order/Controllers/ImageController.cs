@@ -90,6 +90,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             OrderListReqDto req = new OrderListReqDto();
             req.OrderIds = orderIds;
             req.Page = 1;
+            req.FromChannelId = this.EnterpriseId;
             req.Limit = int.MaxValue;
             int reCount = 0;
             List<OrderImageListDto> orderList = OrderService.GetStudentImageList(req,ref reCount);
