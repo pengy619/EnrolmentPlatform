@@ -91,6 +91,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             req.OrderIds = orderIds;
             req.Page = 1;
             req.Limit = int.MaxValue;
+            req.ToLearningCenterId = this.SupplierId;
             int reCount = 0;
             List<OrderImageListDto> orderList = OrderService.GetStudentImageList(req, ref reCount);
             if (orderList == null || orderList.Count == 0)
