@@ -325,6 +325,16 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 来源机构
         /// </summary>
         public Guid? FromChannelId { set; get; }
+
+        /// <summary>
+        /// 来源机构名称
+        /// </summary>
+        public string FromChannelName { set; get; }
+
+        /// <summary>
+        /// 学习中心名称
+        /// </summary>
+        public string ToLearningCenterName { set; get; }
     }
 
     /// <summary>

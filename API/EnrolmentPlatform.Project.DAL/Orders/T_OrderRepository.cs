@@ -267,6 +267,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ddtemp in dtemp.DefaultIfEmpty()
                         join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
                         from eetemp in etemp.DefaultIfEmpty()
+                        join f in dbContext.T_Enterprise on a.FromChannelId.Value equals f.Id into ftemp
+                        from fftemp in ftemp.DefaultIfEmpty()
+                        join g in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals g.Id into gtemp
+                        from ggtemp in gtemp.DefaultIfEmpty()
                         where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
@@ -298,7 +302,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             StudentName = a.StudentName,
                             ToLearningCenterTime = a.ToLearningCenterTime,
                             XueHao = a.StudentNo,
-                            FromChannelId = a.FromChannelId
+                            FromChannelId = a.FromChannelId,
+                            FromChannelName = fftemp.EnterpriseName,
+                            ToLearningCenterName = ggtemp.EnterpriseName
                         };
 
             //学校

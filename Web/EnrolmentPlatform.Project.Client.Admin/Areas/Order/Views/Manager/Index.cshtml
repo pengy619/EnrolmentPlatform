@@ -165,8 +165,8 @@
 </div>
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=1&orderId={{d.OrderId}}'>编辑</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=1&orderId={{d.OrderId}}'>编辑</a>
 </script>
 <script type="text/html" id="tableToolImage">
     {{# if(d.AllOrderImageUpload==true){ }}
@@ -205,6 +205,8 @@
                 , { field: 'LevelName', title: '层次', width: 100 }
                 , { field: 'MajorName', title: '专业', width: 180 }
                 , { title: '电子照', toolbar: '#tableToolImage', width: 100 }
+                , { field: 'FromChannelName', title: '来源机构', width: 120 }
+                , { field: 'ToLearningCenterName', title: '学院中心', width: 120 }
                 , { field: 'StatusName', title: '状态', width: 80 }
                 , { field: 'XueHao', title: '学号', width: 120 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
