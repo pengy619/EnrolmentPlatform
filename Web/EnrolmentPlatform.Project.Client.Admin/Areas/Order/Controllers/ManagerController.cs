@@ -130,9 +130,12 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 row.Cells[2].SetCellValue(dto.SchoolName);
                 row.Cells[3].SetCellValue(dto.LevelName);
                 row.Cells[4].SetCellValue(dto.MajorName);
-                row.Cells[5].SetCellValue(dto.StatusName);
-                row.Cells[6].SetCellValue(dto.CreateTimeStr);
-                row.Cells[7].SetCellValue(dto.CreateUserName);
+                row.Cells[5].SetCellValue(dto.XueHao);
+                row.Cells[6].SetCellValue(dto.FromChannelName);
+                row.Cells[7].SetCellValue(dto.ToLearningCenterName);
+                row.Cells[8].SetCellValue(dto.StatusName);
+                row.Cells[9].SetCellValue(dto.CreateTimeStr);
+                row.Cells[10].SetCellValue(dto.CreateUserName);
             }
 
             //导出
