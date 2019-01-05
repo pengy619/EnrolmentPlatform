@@ -572,6 +572,12 @@
         if (searchData.IsChannelAdd != "") {
             url += "&IsChannelAdd=" + searchData.IsChannelAdd;
         }
+        if (searchData.FromChannelId != "") {
+            url += "&FromChannelId=" + searchData.FromChannelId;
+        }
+        if (searchData.ToLearningCenterId != "") {
+            url += "&ToLearningCenterId=" + searchData.ToLearningCenterId;
+        }
         window.open(url);
     }
 
