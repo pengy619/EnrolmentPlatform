@@ -103,9 +103,12 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             tempRow.Cells[2].SetCellValue(tempDataRow.SchoolName);
             tempRow.Cells[3].SetCellValue(tempDataRow.LevelName);
             tempRow.Cells[4].SetCellValue(tempDataRow.MajorName);
-            tempRow.Cells[5].SetCellValue(tempDataRow.StatusName);
-            tempRow.Cells[6].SetCellValue(tempDataRow.CreateTimeStr);
-            tempRow.Cells[7].SetCellValue(tempDataRow.CreateUserName);
+            tempRow.Cells[5].SetCellValue(tempDataRow.XueHao);
+            tempRow.Cells[6].SetCellValue(tempDataRow.FromChannelName);
+            tempRow.Cells[7].SetCellValue(tempDataRow.ToLearningCenterName);
+            tempRow.Cells[8].SetCellValue(tempDataRow.StatusName);
+            tempRow.Cells[9].SetCellValue(tempDataRow.CreateTimeStr);
+            tempRow.Cells[10].SetCellValue(tempDataRow.CreateUserName);
 
             for (int a = 1; a < list.Count; a++)
             {
