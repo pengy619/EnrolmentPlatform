@@ -510,9 +510,6 @@
         if (searchData.IDCard != "") {
             url += "&IDCard=" + searchData.IDCard;
         }
-        if (searchData.CreateUserName != "") {
-            url += "&CreateUserName=" + searchData.CreateUserName;
-        }
         if (searchData.SchoolName != "") {
             url += "&SchoolName=" + searchData.SchoolName;
         }
@@ -546,7 +543,6 @@
             StudentName: $("#StudentName").val(),
             Phone: $("#Phone").val(),
             IDCard: $("#IDCard").val(),
-            CreateUserName: $("#CreateUserName").val(),
             SchoolName: $("#SchoolName").val(),
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
