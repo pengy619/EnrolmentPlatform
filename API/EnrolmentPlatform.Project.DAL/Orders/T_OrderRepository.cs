@@ -304,7 +304,16 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             XueHao = a.StudentNo,
                             FromChannelId = a.FromChannelId,
                             FromChannelName = fftemp.EnterpriseName,
-                            ToLearningCenterName = ggtemp.EnterpriseName
+                            ToLearningCenterName = ggtemp.EnterpriseName,
+                            Address = a.Address,
+                            BiYeZhengBianHao = a.BiYeZhengBianHao,
+                            GongZuoDanWei = a.GongZuoDanWei,
+                            GraduateSchool = a.GraduateSchool,
+                            HighesDegree = a.HighesDegree,
+                            IDCardNo = a.IDCardNo,
+                            JiGuan = a.JiGuan,
+                            MinZu = a.MinZu,
+                            Sex = a.Sex
                         };
 
             //学校

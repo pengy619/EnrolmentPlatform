@@ -61,12 +61,21 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             var tempDataRow = list.First();
             HSSFRow tempRow = (HSSFRow)sheet.GetRow(startRow);
             tempRow.Cells[0].SetCellValue(tempDataRow.StudentName);
-            tempRow.Cells[1].SetCellValue(tempDataRow.BatchName);
-            tempRow.Cells[2].SetCellValue(tempDataRow.SchoolName);
-            tempRow.Cells[3].SetCellValue(tempDataRow.LevelName);
-            tempRow.Cells[4].SetCellValue(tempDataRow.MajorName);
-            tempRow.Cells[5].SetCellValue(tempDataRow.StatusName);
-            tempRow.Cells[6].SetCellValue(tempDataRow.CreateTimeStr);
+            tempRow.Cells[1].SetCellValue(tempDataRow.IDCardNo);
+            tempRow.Cells[2].SetCellValue(tempDataRow.BatchName);
+            tempRow.Cells[3].SetCellValue(tempDataRow.SchoolName);
+            tempRow.Cells[4].SetCellValue(tempDataRow.LevelName);
+            tempRow.Cells[5].SetCellValue(tempDataRow.MajorName);
+            tempRow.Cells[6].SetCellValue(tempDataRow.Sex);
+            tempRow.Cells[7].SetCellValue(tempDataRow.MinZu);
+            tempRow.Cells[8].SetCellValue(tempDataRow.JiGuan);
+            tempRow.Cells[9].SetCellValue(tempDataRow.HighesDegree);
+            tempRow.Cells[10].SetCellValue(tempDataRow.GraduateSchool);
+            tempRow.Cells[11].SetCellValue(tempDataRow.BiYeZhengBianHao);
+            tempRow.Cells[12].SetCellValue(tempDataRow.Address);
+            tempRow.Cells[13].SetCellValue(tempDataRow.GongZuoDanWei);
+            tempRow.Cells[14].SetCellValue(tempDataRow.StatusName);
+            tempRow.Cells[15].SetCellValue(tempDataRow.CreateTimeStr);
             //tempRow.Cells[7].SetCellValue(tempDataRow.CreateUserName);
 
             for (int a = 1; a < list.Count; a++)
@@ -85,12 +94,21 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
                 }
                 var dto = list[a];
                 row.Cells[0].SetCellValue(dto.StudentName);
-                row.Cells[1].SetCellValue(dto.BatchName);
-                row.Cells[2].SetCellValue(dto.SchoolName);
-                row.Cells[3].SetCellValue(dto.LevelName);
-                row.Cells[4].SetCellValue(dto.MajorName);
-                row.Cells[5].SetCellValue(dto.StatusName);
-                row.Cells[6].SetCellValue(dto.CreateTimeStr);
+                row.Cells[1].SetCellValue(dto.IDCardNo);
+                row.Cells[2].SetCellValue(dto.BatchName);
+                row.Cells[3].SetCellValue(dto.SchoolName);
+                row.Cells[4].SetCellValue(dto.LevelName);
+                row.Cells[5].SetCellValue(dto.MajorName);
+                row.Cells[6].SetCellValue(dto.Sex);
+                row.Cells[7].SetCellValue(dto.MinZu);
+                row.Cells[8].SetCellValue(dto.JiGuan);
+                row.Cells[9].SetCellValue(dto.HighesDegree);
+                row.Cells[10].SetCellValue(dto.GraduateSchool);
+                row.Cells[11].SetCellValue(dto.BiYeZhengBianHao);
+                row.Cells[12].SetCellValue(dto.Address);
+                row.Cells[13].SetCellValue(dto.GongZuoDanWei);
+                row.Cells[14].SetCellValue(dto.StatusName);
+                row.Cells[15].SetCellValue(dto.CreateTimeStr);
                 //row.Cells[7].SetCellValue(dto.CreateUserName);
             }
 

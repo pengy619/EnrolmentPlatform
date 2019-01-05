@@ -335,6 +335,51 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学习中心名称
         /// </summary>
         public string ToLearningCenterName { set; get; }
+
+        /// <summary>
+        /// 身份证号
+        /// </summary>
+        public string IDCardNo { set; get; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public string Sex { set; get; }
+
+        /// <summary>
+        /// 民族
+        /// </summary>
+        public string MinZu { set; get; }
+
+        /// <summary>
+        /// 籍贯
+        /// </summary>
+        public string JiGuan { set; get; }
+
+        /// <summary>
+        /// 毕业证编号
+        /// </summary>
+        public string BiYeZhengBianHao { set; get; }
+
+        /// <summary>
+        /// 工作单位
+        /// </summary>
+        public string GongZuoDanWei { set; get; }
+
+        /// <summary>
+        /// 地址
+        /// </summary>
+        public string Address { set; get; }
+
+        /// <summary>
+        /// 毕业院校
+        /// </summary>
+        public string GraduateSchool { set; get; }
+
+        /// <summary>
+        /// 最高学历
+        /// </summary>
+        public string HighesDegree { set; get; }
     }
 
     /// <summary>
