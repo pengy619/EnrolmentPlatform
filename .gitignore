@@ -262,3 +262,7 @@ __pycache__/
 /Web/EnrolmentPlatform.Project.Client.FileStorage/Upload
 /Web/EnrolmentPlatform.Project.Client.Admin/Content/Upload/OrderImage
 /Web/EnrolmentPlatform.Project.Client.TrainingInstitutions/Content/Upload/OrderImage
+/API/EnrolmentPlatform.Project.WebApi/Configs/DataBase.config
+/Web/EnrolmentPlatform.Project.Client.Admin/Web.config
+/Web/EnrolmentPlatform.Project.Client.LearningCenter/Web.config
+/Web/EnrolmentPlatform.Project.Client.TrainingInstitutions/Web.config
