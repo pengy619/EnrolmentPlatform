@@ -57,6 +57,11 @@ namespace EnrolmentPlatform.Project.DTO.Systems
             }
         }
         public string DateStr { get; set; }
+
+        /// <summary>
+        /// 对招生机构隐藏学院中心操作人
+        /// </summary>
+        public bool IsFilterAccount { get; set; }
     }
 
 

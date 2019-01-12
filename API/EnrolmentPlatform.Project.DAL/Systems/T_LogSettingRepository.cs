@@ -56,7 +56,7 @@ namespace EnrolmentPlatform.Project.DAL.Systems
                                     BusinessName = it.BusinessName,
                                     IP = it.IP,
                                     CreatorTime = it.CreatorTime,
-                                    CreatorAccount = account.AccountNo
+                                    CreatorAccount = account.Classify == 3 && param.IsFilterAccount ? "" : account.AccountNo
                                 });
 
             records = _tIQueryable.Count();

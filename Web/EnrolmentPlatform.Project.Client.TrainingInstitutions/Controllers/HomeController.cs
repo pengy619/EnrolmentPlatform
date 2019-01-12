@@ -34,6 +34,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
 
         public async Task<string> LogSettingForTable(LogSettingDTO param)
         {
+            param.IsFilterAccount = true;
             var data = await WebApiHelper.PostAsync<HttpResponseMsg>(
              "/api/LogSetting/FindLogSettingByKeyForGridData",
              JsonConvert.SerializeObject(param),
@@ -42,6 +43,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
         }
         public async Task<string> Search(LogSettingDTO param)
         {
+            param.IsFilterAccount = true;
             var data = await WebApiHelper.PostAsync<HttpResponseMsg>(
                 "/api/LogSetting/FindLogSettingByKeyForGridData",
                 JsonConvert.SerializeObject(param),
