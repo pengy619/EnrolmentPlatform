@@ -435,6 +435,46 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "录取成功", true, entity.Id.ToString()) > 0;
         }
 
+        /// <summary>
+        /// 毕业
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        public bool Graduated(List<Guid> orderIdList, Guid userId)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null ||
+                            (entity.Status != (int)OrderStatusEnum.Join))
+                        {
+                            break;
+                        }
+
+                        entity.Status = (int)OrderStatusEnum.Graduated;
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已经毕业", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
         ///// <summary>
         ///// 录取
         ///// </summary>

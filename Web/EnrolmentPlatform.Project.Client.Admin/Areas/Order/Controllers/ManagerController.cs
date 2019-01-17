@@ -252,6 +252,25 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
+        /// 报名单毕业
+        /// </summary>
+        /// <param name="ids">ID集合</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult Graduated(Guid[] ids)
+        {
+            var ret = OrderService.Graduated(ids.ToList(), this.UserId);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "毕业操作失败。" });
+            }
+        }
+
+        /// <summary>
         /// 获得层级数据
         /// </summary>
         /// <param name="parentId">父类ID</param>

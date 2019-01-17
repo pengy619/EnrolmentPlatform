@@ -106,15 +106,16 @@
                     </div>
                 </div>
                 @*<div class="layui-form-item searchMore">
-                    <label class="layui-form-label">渠道添加</label>
-                    <div>
-                        <input type="radio" name="IsChannelAdd" value="" title="全部" checked>
-                        <input type="radio" name="IsChannelAdd" value="true" title="是">
-                        <input type="radio" name="IsChannelAdd" value="false" title="否">
-                    </div>
-                </div>*@
+            <label class="layui-form-label">渠道添加</label>
+            <div>
+                <input type="radio" name="IsChannelAdd" value="" title="全部" checked>
+                <input type="radio" name="IsChannelAdd" value="true" title="是">
+                <input type="radio" name="IsChannelAdd" value="false" title="否">
+            </div>
+        </div>*@
                 @*<a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新增</a>*@
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
+                <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="by">毕业</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
@@ -234,13 +235,13 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 0) {
+                if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
                     canDelete = false;
                 }
             }
 
             if (canDelete == false) {
-                layer.msg('只有草稿状态的才可以删除。', {
+                layer.msg('只有草稿和拒绝状态的才可以删除。', {
                     icon: 2,
                     time: 2000
                 });
@@ -288,6 +289,69 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: getSearchData()
+            });
+        });
+
+        //毕业
+        form.on('submit(by)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要毕业的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //毕业处理
+            var canBiYe = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                if (parseInt(checkdata[i].Status) != 7) {
+                    canBiYe = false;
+                }
+            }
+
+            if (canBiYe == false) {
+                layer.msg('只有已录取状态的才可以毕业。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //毕业确认
+            layer.confirm('确认毕业？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("Graduated", "Manager")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('毕业操作成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+
+                layer.close(index);
             });
         });
 

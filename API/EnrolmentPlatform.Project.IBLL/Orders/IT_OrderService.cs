@@ -95,6 +95,14 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <returns></returns>
         bool Luqu(Guid orderId, string xuehao, string zhanghao, string mima, Guid userId);
 
+        /// <summary>
+        /// 毕业
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        bool Graduated(List<Guid> orderIdList, Guid userId);
+
         ///// <summary>
         ///// 录取
         ///// </summary>

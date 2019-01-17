@@ -52,7 +52,13 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         /// 已录取
         /// </summary>
         [Description("已录取")]
-        Join = 7
+        Join = 7,
+
+        /// <summary>
+        /// 已毕业
+        /// </summary>
+        [Description("已毕业")]
+        Graduated = 8
     }
 
     /// <summary>
