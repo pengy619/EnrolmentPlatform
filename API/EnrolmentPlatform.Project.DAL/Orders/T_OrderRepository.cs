@@ -56,7 +56,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 Status = (int)OrderStatusEnum.Init,
                 FromTypeName = dto.FromTypeName,
                 FromChannelId = dto.FromChannelId,
-                CreatorAccount = dto.UserName,
+                CreatorAccount = dto.CreateUserName,
                 CreatorTime = DateTime.Now,
                 CreatorUserId = dto.UserId,
                 DeleteTime = DateTime.MaxValue,
@@ -182,9 +182,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             entity.JiGuan = dto.JiGuan;
             entity.MinZu = dto.MinZu;
             entity.Sex = dto.Sex;
-            if (!string.IsNullOrWhiteSpace(dto.UserName))
+            if (!string.IsNullOrWhiteSpace(dto.CreateUserName))
             {
-                entity.UserName = dto.UserName;
+                entity.CreatorAccount = dto.CreateUserName;
             }
             dbContext.Entry(entity).State = EntityState.Modified;
 

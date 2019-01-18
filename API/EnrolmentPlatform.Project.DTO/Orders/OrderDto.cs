@@ -167,6 +167,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 工作单位
         /// </summary>
         public string GongZuoDanWei { set; get; }
+
+        /// <summary>
+        /// 创建用户
+        /// </summary>
+        public string CreateUserName { set; get; }
     }
 
     /// <summary>

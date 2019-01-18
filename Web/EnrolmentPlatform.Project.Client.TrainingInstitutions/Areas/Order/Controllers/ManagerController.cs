@@ -206,9 +206,9 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             order.FromTypeName = "机构";
             order.FromChannelId = this.EnterpriseId;
             //如果没有填写招生老师
-            if (string.IsNullOrWhiteSpace(order.UserName))
+            if (string.IsNullOrWhiteSpace(order.CreateUserName))
             {
-                order.UserName = this.UserName;
+                order.CreateUserName = this.UserName;
             }
             order.UserId = this.UserId;
 
