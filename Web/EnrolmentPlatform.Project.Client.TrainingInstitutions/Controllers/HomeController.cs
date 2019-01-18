@@ -36,22 +36,6 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
              "/api/LogSetting/FindLogSettingByKeyForGridData",
              JsonConvert.SerializeObject(param),
             ConfigurationManager.AppSettings["StaffId"].ToInt());
-            var resData = data.Data.ToString().ToObject<GridDataResponse>();
-            if (resData != null)
-            {
-                var listData = resData.Data.ToString().ToObject<List<LogSettingDTO>>();
-                if (listData != null && listData.Count > 0)
-                {
-                    List<LogSettingDTO> newDataList = new List<LogSettingDTO>();
-                    foreach (var item in listData)
-                    {
-                        if (item.BusinessName.Contains("新增") || item.BusinessName.Contains("修改") || item.BusinessName.Contains("提交"))
-                        {
-                            newDataList.Add(item);
-                        }
-                    }
-                }
-            }
             return data.Data.ToString();
         }
 
