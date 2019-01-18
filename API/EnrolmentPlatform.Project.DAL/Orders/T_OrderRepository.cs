@@ -182,6 +182,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             entity.JiGuan = dto.JiGuan;
             entity.MinZu = dto.MinZu;
             entity.Sex = dto.Sex;
+            if (!string.IsNullOrWhiteSpace(dto.UserName))
+            {
+                entity.UserName = dto.UserName;
+            }
             dbContext.Entry(entity).State = EntityState.Modified;
 
             //删除价格
