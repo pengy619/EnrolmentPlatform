@@ -205,7 +205,12 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             //当前订单信息
             order.FromTypeName = "机构";
             order.FromChannelId = this.EnterpriseId;
-            order.UserName = this.UserName;
+            //如果有填写招生老师
+            if (!string.IsNullOrWhiteSpace(order.UserName))
+            {
+                //给定输入的招生老师
+                order.UserName = this.UserName;
+            }
             order.UserId = this.UserId;
 
             var ret = 1;

@@ -118,6 +118,10 @@
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GongZuoDanWei" value='@((dto!=null) ? dto.GongZuoDanWei : "")'>
                 </div>
+                <label class="layui-form-label">招生老师</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" id="ZhaoShengLaoShi" value='@((dto!=null) ? dto.UserName : "")'>
+                </div>
             </div>
         </div>
         <div class="panel-title">
@@ -163,6 +167,7 @@
             dto.BiYeZhengBianHao = $("#BiYeZhengBianHao").val();
             dto.Address = $("#Address").val();
             dto.GongZuoDanWei = $("#GongZuoDanWei").val();
+            dto.UserName = $("#ZhaoShengLaoShi").val();
 
             $.ajax({
                 type: "POST",
