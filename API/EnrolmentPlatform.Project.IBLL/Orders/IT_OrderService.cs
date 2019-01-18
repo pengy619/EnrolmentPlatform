@@ -103,6 +103,15 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <returns></returns>
         bool Graduated(List<Guid> orderIdList, Guid userId);
 
+        /// <summary>
+        /// 修改渠道
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <param name="trainingInstitutionsId">trainingInstitutionsId</param>
+        /// <param name="userId">userId</param>
+        /// <returns></returns>
+        bool UpdateTrainingInstitutions(Guid[] ids, Guid trainingInstitutionsId, Guid userId);
+
         ///// <summary>
         ///// 录取
         ///// </summary>

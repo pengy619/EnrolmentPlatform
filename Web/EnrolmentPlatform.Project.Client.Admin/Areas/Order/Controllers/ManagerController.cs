@@ -271,6 +271,25 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
+        /// 修改渠道
+        /// </summary>
+        /// <param name="ids">ID集合</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult UpdateTrainingInstitutions(Guid[] ids, Guid trainingInstitutionsId)
+        {
+            var ret = OrderService.UpdateTrainingInstitutions(ids, trainingInstitutionsId, this.UserId);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "渠道修改失败。" });
+            }
+        }
+
+        /// <summary>
         /// 获得层级数据
         /// </summary>
         /// <param name="parentId">父类ID</param>

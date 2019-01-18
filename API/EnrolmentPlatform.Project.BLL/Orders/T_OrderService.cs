@@ -477,6 +477,42 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             }
         }
 
+        /// <summary>
+        /// 修改渠道
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <param name="trainingInstitutionsId">trainingInstitutionsId</param>
+        /// <param name="userId">userId</param>
+        /// <returns></returns>
+        public bool UpdateTrainingInstitutions(Guid[] ids, Guid trainingInstitutionsId,Guid userId)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in ids)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        entity.FromChannelId = trainingInstitutionsId;
+                        entity.FromTypeName = "机构";
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改渠道", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
         ///// <summary>
         ///// 录取
         ///// </summary>

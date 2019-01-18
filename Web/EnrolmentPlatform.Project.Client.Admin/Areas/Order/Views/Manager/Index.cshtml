@@ -116,6 +116,7 @@
                 @*<a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新增</a>*@
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="by">毕业</button>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="xgqd">修改渠道</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 @*<button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>*@
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
@@ -162,6 +163,26 @@
             </div>
         </div>
         <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="rejectc">确定</button>
+    </div>
+</div>
+<!-- 修改来源渠道 -->
+<div id="audit-btn-modalqd" style="display:none;">
+    <div class="layui-form">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">学院中心</label>
+            <div class="layui-input-inline">
+                <select id="trainingModify" name="trainingModify">
+                    @if (trainingList != null && trainingList.Count > 0)
+                    {
+                        foreach (var item in trainingList)
+                        {
+                            <option value="@item.SupplierId">@item.SupplierName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="qdxgConfirm">确定</button>
+        </div>
     </div>
 </div>
 <script type="text/html" id="tableTool">
@@ -445,6 +466,79 @@
                             time: 2000
                         }, function () {
                             layer.close(layerIndex);
+                            table.reload("table");
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+        });
+
+        //渠道修改
+        var qudaoxiugaiIndex = 0;
+        form.on('submit(xgqd)', function (data) {
+
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要修改渠道的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            qudaoxiugaiIndex = layer.open({
+                type: 1,
+                title: "选择学院中心",
+                area: ["450px", "200px"],
+                content: $('#audit-btn-modalqd'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+
+        //渠道修改确认
+        form.on('submit(qdxgConfirm)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要修改渠道的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+            }
+
+            var dto = {};
+            dto.ids = ret.arr;
+            dto.trainingInstitutionsId = $("#trainingModify").val();
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("UpdateTrainingInstitutions", "Manager")',
+                success: function (result) {
+                    if (result.ret == 1) {
+                        layer.msg('渠道修改成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            layer.close(qudaoxiugaiIndex);
                             table.reload("table");
                         });
                     }
