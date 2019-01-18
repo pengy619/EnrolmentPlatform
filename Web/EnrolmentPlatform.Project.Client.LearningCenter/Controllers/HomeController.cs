@@ -12,6 +12,7 @@ using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 using EnrolmentPlatform.Project.Client.LearningCenter.Filter;
 using EnrolmentPlatform.Project.DTO.Enums.Systems;
+using EnrolmentPlatform.Project.DTO;
 
 namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
 {
@@ -77,6 +78,24 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
              "/api/LogSetting/FindLogSettingByKeyForGridData",
              JsonConvert.SerializeObject(param),
             ConfigurationManager.AppSettings["StaffId"].ToInt());
+
+            var resData = data.Data.ToString().ToObject<GridDataResponse>();
+            if (resData != null)
+            {
+                var listData = resData.Data.ToString().ToObject<List<LogSettingDTO>>();
+                if (listData != null && listData.Count > 0)
+                {
+                    List<LogSettingDTO> newDataList = new List<LogSettingDTO>();
+                    foreach (var item in listData)
+                    {
+                        if (item.BusinessName.Contains("录取") || item.BusinessName.Contains("拒绝") || item.BusinessName.Contains("退学"))
+                        {
+                            newDataList.Add(item);
+                        }
+                    }
+                }
+            }
+
             return data.Data.ToString();
         }
 
