@@ -116,7 +116,7 @@
                 @*<a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新增</a>*@
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="by">毕业</button>
-                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="xgqd">修改渠道</button>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="xgqd">修改来源</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 @*<button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>*@
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
@@ -495,7 +495,7 @@
 
             qudaoxiugaiIndex = layer.open({
                 type: 1,
-                title: "选择学院中心",
+                title: "选择来源机构",
                 area: ["450px", "200px"],
                 content: $('#audit-btn-modalqd'),
                 yes: function (index, layero) {
@@ -523,7 +523,7 @@
             }
 
             var dto = {};
-            dto.ids = ret.arr;
+            dto.ids = arr;
             dto.trainingInstitutionsId = $("#trainingModify").val();
             $.ajax({
                 type: "POST",
