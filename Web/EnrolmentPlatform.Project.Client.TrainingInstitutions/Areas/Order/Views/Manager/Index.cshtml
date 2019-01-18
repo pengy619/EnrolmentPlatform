@@ -155,13 +155,13 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                if (parseInt(checkdata[i].Status) != 0) {
+                if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
                     canDelete = false;
                 }
             }
 
             if (canDelete == false) {
-                layer.msg('只有草稿状态的才可以删除。', {
+                layer.msg('只有草稿和拒绝状态的才可以删除。', {
                     icon: 2,
                     time: 2000
                 });
