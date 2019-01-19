@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "考试名单";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> learningList = ViewBag.LearningList;
 }
 <style>
     .fileinput-button {
@@ -36,16 +35,6 @@
                         <label class="layui-form-label">考试名称</label>
                         <div class="layui-input-inline">
                             <input type="text" id="Name" name="Name" autocomplete="off" class="layui-input">
-                        </div>
-                        <label class="layui-form-label">学院中心</label>
-                        <div class="layui-input-inline">
-                            <select id="LearningCenterId" name="LearningCenterId" style="width:100px;">
-                                <option value=""></option>
-                                @foreach (var item in learningList)
-                                {
-                                    <option value="@item.SupplierId">@item.SupplierName</option>
-                                }
-                            </select>
                         </div>
                         <a href="~/Temp/ExamTemp.xls" class="layui-btn layui-btn-normal layui-btn-small">导出模板</a>
                         <span class="layui-btn layui-btn-warm fileinput-button">
@@ -105,11 +94,6 @@
         $("input[type=file]").change(function () {
             if ($.trim($("#Name").val()) == "") {
                 layer.msg("请输入考试名称!");
-                $("input[type=file]").val("");
-                return false;
-            }
-            if ($("#LearningCenterId").val() == "") {
-                layer.msg("请选择学院中心!");
                 $("input[type=file]").val("");
                 return false;
             }

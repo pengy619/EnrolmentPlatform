@@ -13,7 +13,7 @@
                         <input type="text" id="Name" autocomplete="off" class="layui-input">
                     </div>
                     <button type="button" class="layui-btn layui-btn-warm" data-type="reload">查询</button>
-                    <a href="@Url.Action("Option","Exam",new { area="Order" })" class="layui-btn layui-btn-normal layui-btn-small">新增考试</a>
+                    @*<a href="@Url.Action("Option","Exam",new { area="Order" })" class="layui-btn layui-btn-normal layui-btn-small">新增考试</a>*@
                 </div>
             </div>
         </div>
@@ -38,7 +38,6 @@
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'numbers', title: '序号' }
-                , { field: 'LearningCenter', title: '学院中心' }
                 , { field: 'Name', title: '考试场次名称' }
                 , { field: 'CreatorTime', title: '创建时间', }
                 , { title: '操作', toolbar: '#tableTool', width: 150 }

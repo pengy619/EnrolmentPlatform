@@ -129,6 +129,11 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
         /// </summary>
         public static IT_SchoolLevelMajorService LevelService = DIContainer.Resolve<IT_SchoolLevelMajorService>();
 
+        /// <summary>
+        /// 考试接口
+        /// </summary>
+        public static IT_ExamService ExamService = DIContainer.Resolve<IT_ExamService>();
+
         #endregion
 
         #region NPOI模板导出

@@ -11,6 +11,7 @@ using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.IDAL;
+using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
@@ -22,6 +23,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         private IT_ExamRepository examRepository;
         private IT_ExamInfoRepository examInfoRepository;
         private IT_OrderRepository orderRepository;
+        private IT_EnterpriseRepository enterpriseRepository;
         protected IDbContextFactory _dbContextFactory;
 
         public T_ExamService()
@@ -29,6 +31,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             this.examRepository = DIContainer.Resolve<IT_ExamRepository>();
             this.examInfoRepository = DIContainer.Resolve<IT_ExamInfoRepository>();
             this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
+            this.enterpriseRepository = DIContainer.Resolve<IT_EnterpriseRepository>();
             this._dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
         }
 
@@ -41,19 +44,19 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             var noName = string.IsNullOrWhiteSpace(req.Name);
             GridDataResponse res = new GridDataResponse();
-            res.Data = this.examRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete && (noName || t.Name.Contains(req.Name)),
-               req.Field,
-               req.Limit,
-               req.Page,
-               out int records,
-               (req.Sort ?? "desc").ToLower().Equals("asc")
-                ).Select(t => new ExamDto
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    CreatorTime = t.CreatorTime
-                }).ToList();
-            res.Count = records;
+            var query = from a in examRepository.LoadEntities(o => !o.IsDelete)
+                        join b in enterpriseRepository.LoadEntities(o => !o.IsDelete) on a.LearningCenterId equals b.Id
+                        where (noName || a.Name.Contains(req.Name))
+                        && (req.LearningCenterId.HasValue ? a.LearningCenterId == req.LearningCenterId.Value : true)
+                        select new ExamDto
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            CreatorTime = a.CreatorTime,
+                            LearningCenter = b.EnterpriseName
+                        };
+            res.Count = query.Count();
+            res.Data = query.OrderByDescending(o => o.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
             return res;
         }
 
@@ -77,7 +80,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             var exam = new T_Exam
             {
                 Id = Guid.NewGuid(),
-                Name = dto.Name
+                Name = dto.Name,
+                LearningCenterId = dto.LearningCenterId
             };
             var examInfoList = new List<T_ExamInfo>();
             dto.ExamList.ForEach(t =>

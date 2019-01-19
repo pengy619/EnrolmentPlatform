@@ -169,7 +169,7 @@
 <div id="audit-btn-modalqd" style="display:none;">
     <div class="layui-form">
         <div class="layui-form-item required" style="padding-top: 20px;">
-            <label class="layui-form-label">学院中心</label>
+            <label class="layui-form-label">招生机构</label>
             <div class="layui-input-inline">
                 <select id="trainingModify" name="trainingModify">
                     @if (trainingList != null && trainingList.Count > 0)
@@ -486,7 +486,7 @@
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
-                layer.msg('请选择需要修改渠道的报名单。', {
+                layer.msg('请选择需要修改来源的报名单。', {
                     icon: 2,
                     time: 2000
                 });
@@ -510,7 +510,7 @@
             //选中行
             var checkdata = table.checkStatus('table').data;
             if (checkdata.length == 0) {
-                layer.msg('请选择需要修改渠道的报名单。', {
+                layer.msg('请选择需要修改来源的报名单。', {
                     icon: 2,
                     time: 2000
                 });
@@ -534,7 +534,7 @@
                 url: '@Url.Action("UpdateTrainingInstitutions", "Manager")',
                 success: function (result) {
                     if (result.ret == 1) {
-                        layer.msg('渠道修改成功。', {
+                        layer.msg('修改成功。', {
                             icon: 1,
                             time: 2000
                         }, function () {

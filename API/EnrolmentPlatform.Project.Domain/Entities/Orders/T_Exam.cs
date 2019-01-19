@@ -14,5 +14,11 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         /// </summary>		
         [DataMember]
         public string Name { get; set; }
+
+        /// <summary>
+        /// 学院中心
+        /// </summary>
+        [DataMember]
+        public Guid LearningCenterId { set; get; }
     }
 }

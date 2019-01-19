@@ -120,7 +120,7 @@
     </div>
 </div>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
+    @*<a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>*@
     <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
 </script>
 <script type="text/html" id="tableToolImage">
@@ -149,7 +149,6 @@
             elem: '#table'
             , skin: 'line'
             , limit: 10
-            //, data: [{ OrderId: '@Guid.NewGuid()', StudentName: 'test', BatchName:'批次'}]
             , url: '@Url.Action("Search", "Manager")'
             , page: true //开启分页
             , cols: [[ //表头
@@ -164,8 +163,7 @@
                 , { field: 'StatusName', title: '状态', width: 80 }
                 , { field: 'XueHao', title: '学号', width: 120 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
-                //, { field: 'CreateUserName', title: '招生老师', width: 90 }
-                , { title: '操作', toolbar: '#tableTool', width: 155 }
+                , { title: '操作', toolbar: '#tableTool', width: 70 }
             ]]
         }
         table.render(tableOptions);

@@ -22,6 +22,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string Name { get; set; }
 
         /// <summary>
+        /// 学院中心
+        /// </summary>
+        public string LearningCenter { get; set; }
+
+        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreatorTime { get; set; }
@@ -36,6 +41,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 考试名称
         /// </summary>		
         public string Name { get; set; }
+
+        /// <summary>
+        /// 学院中心
+        /// </summary>
+        public Guid? LearningCenterId { set; get; }
     }
 
     /// <summary>
@@ -47,6 +57,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 考试名称
         /// </summary>		
         public string Name { get; set; }
+
+        /// <summary>
+        /// 学院中心
+        /// </summary>
+        public Guid LearningCenterId { set; get; }
 
         /// <summary>
         /// 考试名单

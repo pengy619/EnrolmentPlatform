@@ -300,3 +300,15 @@ alter table T_Order Add MinZu nvarchar(max) null;
 alter table T_Order Add JiGuan nvarchar(max) null;
 alter table T_Order Add BiYeZhengBianHao nvarchar(max) null;
 alter table T_Order Add GongZuoDanWei nvarchar(max) null;
+
+
+--2019-01-19考试表增加学院中心Id
+alter table T_Exam Add LearningCenterId uniqueidentifier not null
+
+--2019-01-19学院中心增加考试管理菜单
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'da7a9a02-49ed-47cd-b67d-64a538c80a0b', N'考试管理', 3, N'Order', N'Exam', N'Index', NULL, 3, N'7f3adae1-87a1-4a0f-8ac7-c6120f35832c', 3, N'icon-wenzhang')
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'6682cf76-53b9-43ba-b1ec-e1332db3567f', N'考试名单', 4, N'Order', N'Exam', N'Option', NULL, 3, N'da7a9a02-49ed-47cd-b67d-64a538c80a0b', 1, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'dcf0b683-4513-41a7-b889-cd6ad09112b7', N'导出名单', 4, N'Order', N'Exam', N'ExportList', NULL, 3, N'da7a9a02-49ed-47cd-b67d-64a538c80a0b', 2, NULL)
+GO

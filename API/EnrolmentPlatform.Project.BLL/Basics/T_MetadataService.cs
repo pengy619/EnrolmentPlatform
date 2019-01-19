@@ -127,7 +127,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                     Type = (MetadataTypeEnum)a.Type,
                     CreatorUserId = a.CreatorUserId,
                     CreatorAccount = a.CreatorAccount
-                }).ToList();
+                }).OrderBy(t => t.Name).ToList();
         }
 
         /// <summary>

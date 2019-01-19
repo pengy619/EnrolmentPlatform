@@ -1,21 +1,16 @@
-﻿using EnrolmentPlatform.Project.Client.Admin.Controllers;
-using EnrolmentPlatform.Project.DTO;
-using EnrolmentPlatform.Project.DTO.Accounts;
-using EnrolmentPlatform.Project.DTO.Enums.Systems;
+﻿using EnrolmentPlatform.Project.Client.LearningCenter.Controllers;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
-using Newtonsoft.Json;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
 
-namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
+namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controllers
 {
     public class ExamController : BaseController
     {
@@ -35,6 +30,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// <returns></returns>
         public string ExamSearch(ExamSearchDto req)
         {
+            req.LearningCenterId = this.SupplierId;
             var data = ExamService.GetPagedList(req);
             return data.ToJson();
         }
@@ -44,27 +40,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult Option(Guid? id)
-        {
-            //学习中心
-            SupplierSearchDto req = new SupplierSearchDto
-            {
-                Classify = SystemTypeEnum.LearningCenter,
-                Limit = int.MaxValue,
-                Page = 1,
-                Status = 2
-            };
-            var ret = WebApiHelper.Post<HttpResponseMsg>(
-                "/api/Enterprise/GetSupplierPageList",
-                JsonConvert.SerializeObject(req),
-               ConfigurationManager.AppSettings["StaffId"].ToInt());
-            if (ret.Data != null)
-            {
-                var res = ret.Data.ToString().ToObject<GridDataResponse>();
-                if (res != null)
-                {
-                    ViewBag.LearningList = res.Data.ToString().ToList<SupplierListDto>();
-                }
-            }
+        {            
             return View(id ?? Guid.Empty);
         }
 
@@ -73,7 +49,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult ImportList(string name, Guid learningCenterId, HttpPostedFileBase file)
+        public JsonResult ImportList(string name, HttpPostedFileBase file)
         {
             List<ExamInfoDto> examList = new List<ExamInfoDto>();
             IWorkbook workbook = null;
@@ -161,7 +137,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             var dto = new AddExamDto
             {
                 Name = name,
-                LearningCenterId = learningCenterId,
+                LearningCenterId = this.SupplierId,
                 ExamList = examList,
                 CreatorUserId = this.UserId,
                 CreatorAccount = this.UserAccount
