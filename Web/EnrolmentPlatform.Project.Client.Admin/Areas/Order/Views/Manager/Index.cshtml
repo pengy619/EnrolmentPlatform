@@ -216,7 +216,6 @@
             elem: '#table'
             , skin: 'line'
             , limit: 10
-            //, data: [{ OrderId: '@Guid.NewGuid()', StudentName: 'test', BatchName:'批次'}]
             , url: '@Url.Action("Search", "Manager")'
             , page: true //开启分页
             , cols: [[ //表头
@@ -234,7 +233,7 @@
                 , { field: 'XueHao', title: '学号', width: 120 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }
-                , { title: '操作', toolbar: '#tableTool', width: 155 }
+                , { title: '操作', toolbar: '#tableTool', width: 168 }
             ]]
         }
         table.render(tableOptions);
