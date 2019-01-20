@@ -56,5 +56,11 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         /// </summary>		
         [DataMember]
         public decimal CenterCharge { get; set; }
+
+        /// <summary>
+        /// 机构Id
+        /// </summary>
+        [DataMember]
+        public Guid InstitutionId { get; set; }
     }
 }

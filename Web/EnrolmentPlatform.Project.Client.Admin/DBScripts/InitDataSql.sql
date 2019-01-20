@@ -312,3 +312,6 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'dcf0b683-4513-41a7-b889-cd6ad09112b7', N'导出名单', 4, N'Order', N'Exam', N'ExportList', NULL, 3, N'da7a9a02-49ed-47cd-b67d-64a538c80a0b', 2, NULL)
 GO
+
+--2019-01-20收费策略表增加机构Id
+alter table T_ChargeStrategy Add InstitutionId uniqueidentifier not null default('00000000-0000-0000-0000-000000000000')

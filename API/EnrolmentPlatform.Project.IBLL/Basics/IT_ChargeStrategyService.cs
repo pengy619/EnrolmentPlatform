@@ -25,10 +25,17 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         bool Delete(Guid id);
 
         /// <summary>
-        /// 获取分页列表
+        /// 获取通用费用策略分页列表
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
         GridDataResponse GetPagedList(ChargeStrategySearchDto req);
+
+        /// <summary>
+        /// 获取机构费用策略分页列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        GridDataResponse GetInstitutionPagedList(ChargeStrategySearchDto req);
     }
 }

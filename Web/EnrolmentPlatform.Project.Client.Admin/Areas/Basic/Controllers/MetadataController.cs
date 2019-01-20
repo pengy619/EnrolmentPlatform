@@ -1,10 +1,15 @@
 ﻿using EnrolmentPlatform.Project.Client.Admin.Controllers;
+using EnrolmentPlatform.Project.DTO;
+using EnrolmentPlatform.Project.DTO.Accounts;
 using EnrolmentPlatform.Project.DTO.Basics;
 using EnrolmentPlatform.Project.DTO.Enums.Basics;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -183,6 +188,26 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         /// <returns></returns>
         public ActionResult ChargeStrategy(Guid schoolId)
         {
+            //招生机构
+            SupplierSearchDto req = new SupplierSearchDto
+            {
+                Classify = SystemTypeEnum.TrainingInstitutions,
+                Limit = int.MaxValue,
+                Page = 1,
+                Status = 2
+            };
+            var ret = WebApiHelper.Post<HttpResponseMsg>(
+                "/api/Enterprise/GetSupplierPageList",
+                JsonConvert.SerializeObject(req),
+               ConfigurationManager.AppSettings["StaffId"].ToInt());
+            if (ret.Data != null)
+            {
+                var res = ret.Data.ToString().ToObject<GridDataResponse>();
+                if (res != null)
+                {
+                    ViewBag.InstitutionList = res.Data.ToString().ToList<SupplierListDto>();
+                }
+            }
             return View(schoolId);
         }
 
@@ -211,12 +236,22 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         }
 
         /// <summary>
-        /// 收费策略列表
+        /// 通用费用策略列表
         /// </summary>
         /// <returns></returns>
         public string ChargeList(ChargeStrategySearchDto req)
         {
             var data = ChargeStrategyService.GetPagedList(req);
+            return data.ToJson();
+        }
+
+        /// <summary>
+        /// 机构费用策略列表
+        /// </summary>
+        /// <returns></returns>
+        public string InstitutionChargeList(ChargeStrategySearchDto req)
+        {
+            var data = ChargeStrategyService.GetInstitutionPagedList(req);
             return data.ToJson();
         }
 

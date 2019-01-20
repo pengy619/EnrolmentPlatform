@@ -26,8 +26,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             //价格策略检查
             var nowDate = DateTime.Now.Date;
-            var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId==dto.LevelId
-            && a.MajorId == dto.MajorId
+            var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+            && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
             && nowDate >= a.StartDate && nowDate <= a.EndDate);
             if (chargeStrategy == null)
             {
@@ -95,11 +95,14 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             });
 
             //添加订单（招生机构）金额数据
+            var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+            && a.MajorId == dto.MajorId && a.InstitutionId == dto.FromChannelId
+            && nowDate >= a.StartDate && nowDate <= a.EndDate);
             dbContext.T_OrderAmount.Add(new T_OrderAmount()
             {
                 Id = Guid.NewGuid(),
                 OrderId = order.Id,
-                TotalAmount = chargeStrategy.InstitutionCharge,
+                TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge, //如果机构未设置费用策略则取通用的
                 ApprovalAmount = 0,
                 PayedAmount = 0,
                 PaymentSource = 1,
@@ -153,7 +156,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             //价格策略检查
             var nowDate = DateTime.Now.Date;
             var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-            && a.MajorId == dto.MajorId
+            && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
             && nowDate >= a.StartDate && nowDate <= a.EndDate);
             if (chargeStrategy == null)
             {
@@ -199,11 +202,14 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             //添加订单（招生机构）金额数据
+            var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+            && a.MajorId == dto.MajorId && a.InstitutionId == entity.FromChannelId
+            && nowDate >= a.StartDate && nowDate <= a.EndDate);
             dbContext.T_OrderAmount.Add(new T_OrderAmount()
             {
                 Id = Guid.NewGuid(),
                 OrderId = dto.OrderId.Value,
-                TotalAmount = chargeStrategy.InstitutionCharge,
+                TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge,
                 ApprovalAmount = 0,
                 PayedAmount = 0,
                 PaymentSource = 1,
@@ -250,7 +256,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         /// <param name="req"></param>
         /// <param name="reCount"></param>
         /// <returns></returns>
-        public List<OrderListDto> GetStudentList(OrderListReqDto req,ref int reCount)
+        public List<OrderListDto> GetStudentList(OrderListReqDto req, ref int reCount)
         {
             if (req.DateTo.HasValue)
             {
@@ -344,7 +350,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-            return query.OrderByDescending(a=>a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
         }
 
         /// <summary>
@@ -387,7 +393,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
-                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value)&&
+                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
                         (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
                         (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderImageListDto()

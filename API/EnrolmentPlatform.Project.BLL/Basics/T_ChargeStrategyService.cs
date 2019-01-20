@@ -7,6 +7,7 @@ using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Basics;
 using EnrolmentPlatform.Project.IBLL.Basics;
+using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Basics;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Castle;
@@ -16,10 +17,12 @@ namespace EnrolmentPlatform.Project.BLL.Basics
     public class T_ChargeStrategyService : IT_ChargeStrategyService, IInterceptorLogic
     {
         private IT_ChargeStrategyRepository chargeStrategyRepository;
+        private IT_EnterpriseRepository enterpriseRepository;
 
         public T_ChargeStrategyService()
         {
             this.chargeStrategyRepository = DIContainer.Resolve<IT_ChargeStrategyRepository>();
+            this.enterpriseRepository = DIContainer.Resolve<IT_EnterpriseRepository>();
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Add(ChargeStrategyDto dto)
         {
             ResultMsg _resultMsg = new ResultMsg();
-            var exist = this.chargeStrategyRepository.Count(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
+            var exist = this.chargeStrategyRepository.Count(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId && a.InstitutionId == dto.InstitutionId
             && ((a.StartDate <= dto.StartDate && a.EndDate >= dto.StartDate) || (a.StartDate <= dto.EndDate && a.EndDate >= dto.EndDate))) > 0;
             if (exist == true)
             {
@@ -49,6 +52,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 EndDate = dto.EndDate,
                 InstitutionCharge = dto.InstitutionCharge,
                 CenterCharge = dto.CenterCharge,
+                InstitutionId = dto.InstitutionId,
                 CreatorUserId = dto.CreatorUserId,
                 CreatorAccount = dto.CreatorAccount
             };
@@ -67,7 +71,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 获取分页列表
+        /// 获取通用费用策略分页列表
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
@@ -75,7 +79,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         {
             GridDataResponse res = new GridDataResponse();
             res.Data = this.chargeStrategyRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete
-            && t.SchoolId == req.SchoolId && t.LevelId == req.LevelId && t.MajorId == req.MajorId,
+            && t.SchoolId == req.SchoolId && t.LevelId == req.LevelId && t.MajorId == req.MajorId && t.InstitutionId == Guid.Empty,
                req.Field,
                req.Limit,
                req.Page,
@@ -91,6 +95,32 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                     CenterCharge = t.CenterCharge
                 }).ToList();
             res.Count = records;
+            return res;
+        }
+
+        /// <summary>
+        /// 获取机构费用策略分页列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public GridDataResponse GetInstitutionPagedList(ChargeStrategySearchDto req)
+        {
+            GridDataResponse res = new GridDataResponse();
+            var query = from a in chargeStrategyRepository.LoadEntities(o => !o.IsDelete)
+                        join b in enterpriseRepository.LoadEntities(o => !o.IsDelete) on a.InstitutionId equals b.Id
+                        where a.SchoolId == req.SchoolId && a.LevelId == req.LevelId && a.MajorId == req.MajorId
+                        select new ChargeStrategyDto
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            StartDate = a.StartDate,
+                            EndDate = a.EndDate,
+                            InstitutionCharge = a.InstitutionCharge,
+                            InstitutionName = b.EnterpriseName,
+                            CreatorTime = a.CreatorTime
+                        };
+            res.Count = query.Count();
+            res.Data = query.OrderByDescending(o => o.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
             return res;
         }
     }
