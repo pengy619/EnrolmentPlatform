@@ -569,7 +569,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             amountEntity.TotalAmount = amount;
             dbContext.Entry(amountEntity).State = EntityState.Modified;
             dbContext.LogChangesDuringSave = false;
-            dbContext.BusinessName = "新增报名";
+            dbContext.BusinessName = "修改订单金额";
             return dbContext.SaveChanges() > 0 ? 1 : 3;
         }
     }
