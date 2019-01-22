@@ -48,7 +48,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             {
                 return this.orderRepository.AddOrder(dto);
             }
-            catch
+            catch(Exception ex)
             {
                 return 3;
             }
