@@ -364,7 +364,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
 
             //上传的excel文件
             IWorkbook hssfworkbook = WorkbookFactory.Create(file.InputStream);
-            ISheet sheet = hssfworkbook.GetSheetAt(9);
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
             if (sheet.LastRowNum == 1)
             {
                 return Json(new { ret = false, msg = "没有任何数据！" });
