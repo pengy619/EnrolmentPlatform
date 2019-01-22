@@ -340,5 +340,128 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             }
             return Json(new { ret = true });
         }
+
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        public JsonResult Upload(HttpPostedFileBase file)
+        {
+            //没有文件
+            if (string.IsNullOrWhiteSpace(file.FileName))
+            {
+               return Json(new { ret = false, msg = "请上传文件！" });
+            }
+
+            string strFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+            //验证是否是.xls文件
+            if (strFileExtension != ".xls" && strFileExtension != ".xlsx")
+            {
+                return Json(new { ret = false, msg = "文件格式错误！" });
+            }
+
+            //上传的excel文件
+            IWorkbook hssfworkbook = WorkbookFactory.Create(file.InputStream);
+            ISheet sheet = hssfworkbook.GetSheetAt(9);
+            if (sheet.LastRowNum == 1)
+            {
+                return Json(new { ret = false, msg = "没有任何数据！" });
+            }
+
+            //订单上传数据
+            List<OrderUploadDto> list = new List<OrderUploadDto>();
+            for (var i = 1; i <= sheet.LastRowNum; i++)
+            {
+                try
+                {
+                    IRow row = sheet.GetRow(i);
+                    OrderUploadDto dto = new OrderUploadDto();
+                    dto.StudentName = row.GetCell(0).ToString().Trim();
+                    dto.IDCardNo = row.GetCell(1).ToString().Trim();
+                    dto.Phone = row.GetCell(2).ToString().Trim();
+                    dto.TencentNo = row.GetCell(3).ToString().Trim();
+                    dto.Email = row.GetCell(4).ToString().Trim();
+                    dto.BatchName = row.GetCell(5).ToString().Trim();
+                    dto.SchoolName = row.GetCell(6).ToString().Trim();
+                    dto.LevelName = row.GetCell(7).ToString().Trim();
+                    dto.MajorName = row.GetCell(8).ToString().Trim();
+                    var createDate = row.GetCell(9).ToString().Trim();
+                    if (!string.IsNullOrEmpty(createDate))
+                    {
+                        dto.CreateDate = DateTime.Parse(createDate);
+                    }
+                    else
+                    {
+                        dto.CreateDate = DateTime.Now;
+                    }
+
+                    var luquDate = row.GetCell(10).ToString().Trim();
+                    if (!string.IsNullOrEmpty(luquDate))
+                    {
+                        dto.LuquDate = DateTime.Parse(luquDate);
+                    }
+                    else
+                    {
+                        dto.LuquDate = DateTime.Now;
+                    }
+                    dto.CreateUserName = row.GetCell(11).ToString().Trim();
+                    dto.Sex = row.GetCell(12).ToString().Trim();
+                    dto.MinZu = row.GetCell(13).ToString().Trim();
+                    dto.JiGuan = row.GetCell(14).ToString().Trim();
+                    dto.HighesDegree = row.GetCell(15).ToString().Trim();
+                    dto.GraduateSchool = row.GetCell(16).ToString().Trim();
+                    dto.BiYeZhengBianHao = row.GetCell(17).ToString().Trim();
+                    dto.Address = row.GetCell(18).ToString().Trim();
+                    dto.GongZuoDanWei = row.GetCell(19).ToString().Trim();
+                    dto.Remark = row.GetCell(20).ToString().Trim();
+                    dto.FromChannelName = row.GetCell(21).ToString().Trim();
+                    dto.ToLearningCenterName = row.GetCell(22).ToString().Trim();
+                    dto.StudentNo = row.GetCell(23).ToString().Trim();
+                    dto.UserName = row.GetCell(24).ToString().Trim();
+                    dto.Password = row.GetCell(25).ToString().Trim();
+                    dto.JiGouAmount = Convert.ToDecimal(row.GetCell(26).NumericCellValue);
+                    dto.JiGouPayedAmount = Convert.ToDecimal(row.GetCell(27).NumericCellValue);
+                    dto.ZhongXinAmount = Convert.ToDecimal(row.GetCell(28).NumericCellValue);
+                    dto.ZhongXinPayedAmount = Convert.ToDecimal(row.GetCell(29).NumericCellValue);
+
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) || string.IsNullOrWhiteSpace(dto.IDCardNo)
+                        || string.IsNullOrWhiteSpace(dto.Phone) || string.IsNullOrWhiteSpace(dto.TencentNo)
+                        || string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.BatchName)
+                        || string.IsNullOrWhiteSpace(dto.SchoolName) || string.IsNullOrWhiteSpace(dto.LevelName)
+                        || string.IsNullOrWhiteSpace(dto.MajorName) || string.IsNullOrWhiteSpace(dto.CreateUserName)
+                        || string.IsNullOrWhiteSpace(dto.Sex) || string.IsNullOrWhiteSpace(dto.MinZu)
+                        || string.IsNullOrWhiteSpace(dto.JiGuan) || string.IsNullOrWhiteSpace(dto.HighesDegree)
+                        || string.IsNullOrWhiteSpace(dto.GraduateSchool) || string.IsNullOrWhiteSpace(dto.BiYeZhengBianHao)
+                        || string.IsNullOrWhiteSpace(dto.Address) || string.IsNullOrWhiteSpace(dto.GongZuoDanWei)
+                        || string.IsNullOrWhiteSpace(dto.FromChannelName) || string.IsNullOrWhiteSpace(dto.ToLearningCenterName)
+                        || string.IsNullOrWhiteSpace(dto.StudentNo) || string.IsNullOrWhiteSpace(dto.UserName)
+                        || string.IsNullOrWhiteSpace(dto.Password))
+                    {
+                        return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据填写不完整！" });
+                    }
+
+                    if (dto.JiGouAmount < dto.JiGouPayedAmount || dto.ZhongXinAmount < dto.ZhongXinPayedAmount)
+                    {
+                        return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的金额数据错误！" });
+                    }
+
+                    list.Add(dto);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据错误！" });
+                }
+            }
+
+            string msg = OrderService.Upload(list);
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                return Json(new { ret = false, msg = msg });
+            }
+
+            return Json(new { ret = true });
+        }
     }
 }

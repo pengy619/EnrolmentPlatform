@@ -659,5 +659,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 .ToList();
             return orderList.Sum(a => (a.TotalAmount - a.PayedAmount - a.ApprovalAmount));
         }
+
+        /// <summary>
+        /// 上传报名单
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        public string Upload(List<OrderUploadDto> list)
+        {
+            return orderRepository.Upload(list);
+        }
     }
 }

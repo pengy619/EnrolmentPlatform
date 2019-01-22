@@ -606,4 +606,160 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// </summary>
         public string ToLearningCenterName { set; get; }
     }
+
+    /// <summary>
+    /// 订单导入DTO
+    /// </summary>
+    public class OrderUploadDto
+    {
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        public string StudentName { set; get; }
+
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string IDCardNo { set; get; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string Phone { set; get; }
+
+        /// <summary>
+        /// 微信/QQ
+        /// </summary>
+        public string TencentNo { set; get; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { set; get; }
+
+        /// <summary>
+        /// 报名批次
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
+        /// 报考学校
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 报读层次
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 报读专业
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreateDate { set; get; }
+
+        /// <summary>
+        /// 录取时间
+        /// </summary>
+        public DateTime? LuquDate { set; get; }
+
+        /// <summary>
+        /// 招生老师
+        /// </summary>
+        public string CreateUserName { set; get; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public string Sex { set; get; }
+
+        /// <summary>
+        /// 民族
+        /// </summary>
+        public string MinZu { set; get; }
+
+        /// <summary>
+        /// 籍贯
+        /// </summary>
+        public string JiGuan { set; get; }
+
+        /// <summary>
+        /// 最高学历
+        /// </summary>
+        public string HighesDegree { set; get; }
+
+        /// <summary>
+        /// 毕业院校
+        /// </summary>
+        public string GraduateSchool { set; get; }
+
+        /// <summary>
+        /// 毕业证编号
+        /// </summary>
+        public string BiYeZhengBianHao { set; get; }
+
+        /// <summary>
+        /// 联系地址
+        /// </summary>
+        public string Address { set; get; }
+
+        /// <summary>
+        /// 工作单位
+        /// </summary>
+        public string GongZuoDanWei { set; get; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { set; get; }
+
+        /// <summary>
+        /// 来源机构
+        /// </summary>
+        public string FromChannelName { set; get; }
+
+        /// <summary>
+        /// 学院中心
+        /// </summary>
+        public string ToLearningCenterName { set; get; }
+
+        /// <summary>
+        /// 学号
+        /// </summary>		
+        public string StudentNo { get; set; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>		
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// 机构应缴
+        /// </summary>
+        public decimal JiGouAmount { set; get; }
+
+        /// <summary>
+        /// 机构已缴
+        /// </summary>
+        public decimal JiGouPayedAmount { set; get; }
+
+        /// <summary>
+        /// 中心应缴
+        /// </summary>
+        public decimal ZhongXinAmount { set; get; }
+
+        /// <summary>
+        /// 中心已缴
+        /// </summary>
+        public decimal ZhongXinPayedAmount { set; get; }
+    }
 }

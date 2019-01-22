@@ -175,5 +175,12 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="paymentSource">1：招生机构，2：渠道中心</param>
         /// <returns></returns>
         decimal GetOrderAmountUnPayedTotal(List<Guid> orderIds, int paymentSource);
+
+        /// <summary>
+        /// 上传报名单
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        string Upload(List<OrderUploadDto> list); 
     }
 }
