@@ -342,7 +342,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
-        /// 保存图片
+        /// 保存报名单
         /// </summary>
         /// <param name="file">文件</param>
         /// <returns></returns>
@@ -365,7 +365,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             //上传的excel文件
             IWorkbook hssfworkbook = WorkbookFactory.Create(file.InputStream);
             ISheet sheet = hssfworkbook.GetSheetAt(0);
-            if (sheet.LastRowNum == 1)
+            if (sheet.LastRowNum < 1)
             {
                 return Json(new { ret = false, msg = "没有任何数据！" });
             }
