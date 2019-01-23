@@ -412,7 +412,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     dto.BiYeZhengBianHao = row.GetCell(17).ToString().Trim();
                     dto.Address = row.GetCell(18).ToString().Trim();
                     dto.GongZuoDanWei = row.GetCell(19).ToString().Trim();
-                    dto.Remark = row.GetCell(20).ToString().Trim();
+                    if (row.GetCell(20) != null)
+                    {
+                        dto.Remark = row.GetCell(20).ToString().Trim();
+                    }
                     dto.FromChannelName = row.GetCell(21).ToString().Trim();
                     dto.ToLearningCenterName = row.GetCell(22).ToString().Trim();
                     dto.StudentNo = row.GetCell(23).ToString().Trim();
