@@ -387,7 +387,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     dto.SchoolName = row.GetCell(6).ToString().Trim();
                     dto.LevelName = row.GetCell(7).ToString().Trim();
                     dto.MajorName = row.GetCell(8).ToString().Trim();
-                    var createDate = row.GetCell(9).ToString().Trim();
+                    var createDate = row.GetCell(9).ToString();
                     if (!string.IsNullOrEmpty(createDate))
                     {
                         dto.CreateDate = DateTime.Parse(createDate);
@@ -397,7 +397,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                         dto.CreateDate = DateTime.Now;
                     }
 
-                    var luquDate = row.GetCell(10).ToString().Trim();
+                    var luquDate = row.GetCell(10).ToString();
                     if (!string.IsNullOrEmpty(luquDate))
                     {
                         dto.LuquDate = DateTime.Parse(luquDate);
