@@ -669,6 +669,23 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     WorkUnit = dto.GongZuoDanWei,
                     EnrollAddress = dto.Address
                 };
+
+                var exisit = dbContext.T_Order.Count(a => a.IsDelete == false && a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
+            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+                if (exisit == true)
+                {
+                    //同一批次重复录入
+                    return "第" + (i + 1).ToString() + "行的数据重复录入！";
+                }
+
+                var exisit2 = orderList.Count(a => a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
+            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+                if (exisit2 == true)
+                {
+                    //同一批次重复录入
+                    return "第" + (i + 1).ToString() + "行的数据重复录入！";
+                }
+
                 orderList.Add(order);
 
                 //添加订单（招生机构）金额数据
