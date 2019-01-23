@@ -714,6 +714,8 @@
                             icon: 1,
                             time: 2000
                         });
+                        layer.close(orderuploadIndex);
+                        table.reload("table");
                     }
                 },
                 error: function (e) {
