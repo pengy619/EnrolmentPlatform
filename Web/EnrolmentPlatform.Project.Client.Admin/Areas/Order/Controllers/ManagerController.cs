@@ -426,6 +426,22 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     dto.ZhongXinAmount = Convert.ToDecimal(row.GetCell(28).NumericCellValue);
                     dto.ZhongXinPayedAmount = Convert.ToDecimal(row.GetCell(29).NumericCellValue);
 
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
+                        && string.IsNullOrWhiteSpace(dto.Phone) && string.IsNullOrWhiteSpace(dto.TencentNo)
+                        && string.IsNullOrWhiteSpace(dto.Email) && string.IsNullOrWhiteSpace(dto.BatchName)
+                        && string.IsNullOrWhiteSpace(dto.SchoolName) && string.IsNullOrWhiteSpace(dto.LevelName)
+                        && string.IsNullOrWhiteSpace(dto.MajorName) && string.IsNullOrWhiteSpace(dto.CreateUserName)
+                        && string.IsNullOrWhiteSpace(dto.Sex) && string.IsNullOrWhiteSpace(dto.MinZu)
+                        && string.IsNullOrWhiteSpace(dto.JiGuan) && string.IsNullOrWhiteSpace(dto.HighesDegree)
+                        && string.IsNullOrWhiteSpace(dto.GraduateSchool) && string.IsNullOrWhiteSpace(dto.BiYeZhengBianHao)
+                        && string.IsNullOrWhiteSpace(dto.Address) && string.IsNullOrWhiteSpace(dto.GongZuoDanWei)
+                        && string.IsNullOrWhiteSpace(dto.FromChannelName) && string.IsNullOrWhiteSpace(dto.ToLearningCenterName)
+                        && string.IsNullOrWhiteSpace(dto.StudentNo) && string.IsNullOrWhiteSpace(dto.UserName)
+                        && string.IsNullOrWhiteSpace(dto.Password))
+                    {
+                        continue;
+                    }
+
                     if (string.IsNullOrWhiteSpace(dto.StudentName) || string.IsNullOrWhiteSpace(dto.IDCardNo)
                         || string.IsNullOrWhiteSpace(dto.Phone) || string.IsNullOrWhiteSpace(dto.TencentNo)
                         || string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.BatchName)
@@ -520,11 +536,20 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                         dto.LuquDate = DateTime.Now;
                     }
 
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
+                        && string.IsNullOrWhiteSpace(dto.BatchName) && string.IsNullOrWhiteSpace(dto.SchoolName)
+                        && string.IsNullOrWhiteSpace(dto.LevelName) && string.IsNullOrWhiteSpace(dto.MajorName)
+                        && string.IsNullOrWhiteSpace(dto.StudentNo) && string.IsNullOrWhiteSpace(dto.UserName)
+                        && string.IsNullOrWhiteSpace(dto.Password))
+                    {
+                        continue;
+                    }
+
                     if (string.IsNullOrWhiteSpace(dto.StudentName) || string.IsNullOrWhiteSpace(dto.IDCardNo)
-                        || string.IsNullOrWhiteSpace(dto.BatchName) || string.IsNullOrWhiteSpace(dto.SchoolName)
-                        || string.IsNullOrWhiteSpace(dto.LevelName) || string.IsNullOrWhiteSpace(dto.MajorName)
-                        || string.IsNullOrWhiteSpace(dto.StudentNo) || string.IsNullOrWhiteSpace(dto.UserName)
-                        || string.IsNullOrWhiteSpace(dto.Password))
+                    || string.IsNullOrWhiteSpace(dto.BatchName) || string.IsNullOrWhiteSpace(dto.SchoolName)
+                    || string.IsNullOrWhiteSpace(dto.LevelName) || string.IsNullOrWhiteSpace(dto.MajorName)
+                    || string.IsNullOrWhiteSpace(dto.StudentNo) || string.IsNullOrWhiteSpace(dto.UserName)
+                    || string.IsNullOrWhiteSpace(dto.Password))
                     {
                         return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据填写不完整！" });
                     }
