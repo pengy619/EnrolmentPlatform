@@ -463,5 +463,87 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
 
             return Json(new { ret = true });
         }
+
+        /// <summary>
+        /// 录取导入
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        public JsonResult LuquUpload(HttpPostedFileBase file)
+        {
+            //没有文件
+            if (string.IsNullOrWhiteSpace(file.FileName))
+            {
+                return Json(new { ret = false, msg = "请上传文件！" });
+            }
+
+            string strFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+            //验证是否是.xls文件
+            if (strFileExtension != ".xls" && strFileExtension != ".xlsx")
+            {
+                return Json(new { ret = false, msg = "文件格式错误！" });
+            }
+
+            //上传的excel文件
+            IWorkbook hssfworkbook = WorkbookFactory.Create(file.InputStream);
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
+            if (sheet.LastRowNum < 1)
+            {
+                return Json(new { ret = false, msg = "没有任何数据！" });
+            }
+
+            //订单录取数据
+            List<OrderLuQuUploadDto> list = new List<OrderLuQuUploadDto>();
+            for (var i = 1; i <= sheet.LastRowNum; i++)
+            {
+                try
+                {
+                    IRow row = sheet.GetRow(i);
+                    OrderLuQuUploadDto dto = new OrderLuQuUploadDto();
+                    dto.StudentName = row.GetCell(0).ToString().Trim();
+                    dto.IDCardNo = row.GetCell(1).ToString().Trim();
+                    dto.BatchName = row.GetCell(2).ToString().Trim();
+                    dto.SchoolName = row.GetCell(3).ToString().Trim();
+                    dto.LevelName = row.GetCell(4).ToString().Trim();
+                    dto.MajorName = row.GetCell(5).ToString().Trim();
+                    dto.StudentNo = row.GetCell(6).ToString().Trim();
+                    dto.UserName = row.GetCell(7).ToString().Trim();
+                    dto.Password = row.GetCell(8).ToString().Trim();
+
+                    if (row.GetCell(9) != null && !string.IsNullOrEmpty(row.GetCell(9).ToString()))
+                    {
+                        dto.LuquDate = row.GetCell(9).DateCellValue;
+                    }
+                    else
+                    {
+                        dto.LuquDate = DateTime.Now;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) || string.IsNullOrWhiteSpace(dto.IDCardNo)
+                        || string.IsNullOrWhiteSpace(dto.BatchName) || string.IsNullOrWhiteSpace(dto.SchoolName)
+                        || string.IsNullOrWhiteSpace(dto.LevelName) || string.IsNullOrWhiteSpace(dto.MajorName)
+                        || string.IsNullOrWhiteSpace(dto.StudentNo) || string.IsNullOrWhiteSpace(dto.UserName)
+                        || string.IsNullOrWhiteSpace(dto.Password))
+                    {
+                        return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据填写不完整！" });
+                    }
+
+                    list.Add(dto);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据错误！" });
+                }
+            }
+
+            string msg = OrderService.LuQuUpload(list);
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                return Json(new { ret = false, msg = msg });
+            }
+
+            return Json(new { ret = true });
+        }
     }
 }

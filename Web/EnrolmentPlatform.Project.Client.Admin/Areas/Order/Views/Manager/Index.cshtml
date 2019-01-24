@@ -106,13 +106,13 @@
                     </div>
                 </div>
                 @*<div class="layui-form-item searchMore">
-                        <label class="layui-form-label">渠道添加</label>
-                        <div>
-                            <input type="radio" name="IsChannelAdd" value="" title="全部" checked>
-                            <input type="radio" name="IsChannelAdd" value="true" title="是">
-                            <input type="radio" name="IsChannelAdd" value="false" title="否">
-                        </div>
-                    </div>*@
+            <label class="layui-form-label">渠道添加</label>
+            <div>
+                <input type="radio" name="IsChannelAdd" value="" title="全部" checked>
+                <input type="radio" name="IsChannelAdd" value="true" title="是">
+                <input type="radio" name="IsChannelAdd" value="false" title="否">
+            </div>
+        </div>*@
                 @*<a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新增</a>*@
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="by">毕业</button>
@@ -120,8 +120,10 @@
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 @*<button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>*@
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="upload">导入</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="luquUpload">批量录取</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
-                <a href="/Temp/student.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;">导出模板</a>
+                <a href="/Temp/student.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;">导入模板下载</a>
+                <a href="/Temp/luqutemp.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;margin-right: 10px;">录取模板下载</a>
             </div>
         </div>
         <div class="panel-body">
@@ -193,9 +195,21 @@
         <div class="layui-form-item required" style="padding-top: 20px;">
             <label class="layui-form-label">文件</label>
             <div class="layui-input-inline">
-                <input type="file" name="uploadFile" id="uploadFile" style="width:200px;"/>
+                <input type="file" name="uploadFile" id="uploadFile" style="width:200px;" />
             </div>
             <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadConfirm">确定</button>
+        </div>
+    </div>
+</div>
+<!-- 导入录取列表 -->
+<div id="audit-btn-modaluploadLuqu" style="display:none;">
+    <div class="layui-form">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">文件</label>
+            <div class="layui-input-inline">
+                <input type="file" name="uploadLuquFile" id="uploadLuquFile" style="width:200px;" />
+            </div>
+            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadLuquConfirm">确定</button>
         </div>
     </div>
 </div>
@@ -684,7 +698,7 @@
             });
         });
         form.on('submit(uploadConfirm)', function (data) {
-            //上传图片检查
+            //上传文件检查
             if ($("#uploadFile").val() == "") {
                 layer.msg("请选择上传文件！", {
                     icon: 2,
@@ -716,6 +730,65 @@
                             time: 2000
                         });
                         layer.close(orderuploadIndex);
+                        table.reload("table");
+                    }
+                },
+                error: function (e) {
+                    layer.msg("导入失败！", {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+            });
+        });
+
+        //录取导入
+        var orderluquuploadIndex = 0;
+        form.on('submit(luquUpload)', function (data) {
+            orderluquuploadIndex = layer.open({
+                type: 1,
+                title: "录取导入",
+                area: ["450px", "200px"],
+                content: $('#audit-btn-modaluploadLuqu'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+        form.on('submit(uploadLuquConfirm)', function (data) {
+            //上传文件检查
+            if ($("#uploadFile").val() == "") {
+                layer.msg("请选择上传文件！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            var file = document.getElementById("uploadLuquFile").files[0];
+            var fdata = new FormData();
+            fdata.append("file", file);
+            $.ajax({
+                url: "@Url.Action("LuquUpload", "Manager")",
+                data: fdata,
+                type: "POST",
+                async: false,
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    if (data.ret == false) {
+                        layer.msg(data.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                    else {
+                        layer.msg("导入成功！", {
+                            icon: 1,
+                            time: 2000
+                        });
+                        layer.close(orderluquuploadIndex);
                         table.reload("table");
                     }
                 },

@@ -762,4 +762,60 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// </summary>
         public decimal ZhongXinPayedAmount { set; get; }
     }
+
+    /// <summary>
+    /// 录取导入DTO
+    /// </summary>
+    public class OrderLuQuUploadDto
+    {
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        public string StudentName { set; get; }
+
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string IDCardNo { set; get; }
+
+        /// <summary>
+        /// 报名批次
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
+        /// 报考学校
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 报读层次
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 报读专业
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
+        /// 录取时间
+        /// </summary>
+        public DateTime? LuquDate { set; get; }
+
+        /// <summary>
+        /// 学号
+        /// </summary>		
+        public string StudentNo { get; set; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>		
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+    }
 }

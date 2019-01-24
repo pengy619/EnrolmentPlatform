@@ -669,5 +669,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             return orderRepository.Upload(list);
         }
+
+        /// <summary>
+        /// 录取上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        public string LuQuUpload(List<OrderLuQuUploadDto> list)
+        {
+            return orderRepository.LuQuUpload(list);
+        }
     }
 }
