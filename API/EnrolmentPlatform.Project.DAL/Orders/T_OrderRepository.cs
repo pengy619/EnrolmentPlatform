@@ -785,7 +785,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 var majar = majorList.FirstOrDefault(a => a.Name == dto.MajorName);
                 if (majar == null) { return "第" + (i + 1).ToString() + "行的专业在系统不存在！"; }
 
-                var order = dbContext.T_Order.FirstOrDefault(a => a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
+                var order = dbContext.T_Order.FirstOrDefault(a => a.StudentName==dto.StudentName && a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
                   && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id);
                 if (order == null)
                 {
