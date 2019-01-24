@@ -792,6 +792,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     return "第" + (i + 1).ToString() + "行的数据在系统不存在！";
                 }
 
+                order.StudentNo = dto.StudentNo;
+                order.UserName = dto.UserName;
+                order.Password = dto.Password;
                 order.JoinTime = dto.LuquDate.Value;
                 order.Status = (int)OrderStatusEnum.Join;
                 dbContext.Entry(order).State = EntityState.Modified;
