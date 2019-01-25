@@ -105,21 +105,13 @@
                         <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
-                @*<div class="layui-form-item searchMore">
-            <label class="layui-form-label">渠道添加</label>
-            <div>
-                <input type="radio" name="IsChannelAdd" value="" title="全部" checked>
-                <input type="radio" name="IsChannelAdd" value="true" title="是">
-                <input type="radio" name="IsChannelAdd" value="false" title="否">
-            </div>
-        </div>*@
                 @*<a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新增</a>*@
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="by">毕业</button>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="xgqd">修改来源</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 @*<button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>*@
-                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="upload">导入</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="upload">订单导入</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="luquUpload">批量录取</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
                 <a href="/Temp/student.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;">导入模板下载</a>
@@ -873,9 +865,6 @@
         if (searchData.AllOrderImageUpload != "") {
             url += "&AllOrderImageUpload=" + searchData.AllOrderImageUpload;
         }
-        if (searchData.IsChannelAdd != "") {
-            url += "&IsChannelAdd=" + searchData.IsChannelAdd;
-        }
         if (searchData.FromChannelId != "") {
             url += "&FromChannelId=" + searchData.FromChannelId;
         }
@@ -906,7 +895,6 @@
             DateFrom: dateFrom,
             DateTo: dateTo,
             AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val(),
-            IsChannelAdd: $("input[name='IsChannelAdd']:checked").val(),
             FromChannelId: $("#FromChannelId").val(),
             ToLearningCenterId: $("#ToLearningCenterId").val(),
             BatchName: $("#BatchName").val()

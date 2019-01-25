@@ -68,14 +68,6 @@
                         <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
-                <div class="layui-form-item searchMore">
-                    <label class="layui-form-label">渠道添加</label>
-                    <div>
-                        <input type="radio" name="IsChannelAdd" value="" title="全部" checked>
-                        <input type="radio" name="IsChannelAdd" value="true" title="是">
-                        <input type="radio" name="IsChannelAdd" value="false" title="否">
-                    </div>
-                </div>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出照片包</button></a>
             </div>
         </div>
@@ -263,8 +255,7 @@
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
-            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val(),
-            IsChannelAdd: $("input[name='IsChannelAdd']:checked").val()
+            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
         };
     }
 </script>
