@@ -342,7 +342,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
-        /// 保存报名单
+        /// 导入报名单
         /// </summary>
         /// <param name="file">文件</param>
         /// <returns></returns>

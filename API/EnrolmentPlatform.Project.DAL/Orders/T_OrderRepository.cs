@@ -738,6 +738,22 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             foreach (var item in orderList)
             {
                 dbContext.T_Order.Add(item);
+
+                //添加订单图片数据
+                dbContext.T_OrderImage.Add(new T_OrderImage()
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = item.Id,
+                    CreatorAccount = item.UserName,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = item.CreatorUserId,
+                    DeleteTime = DateTime.MaxValue,
+                    DeleteUserId = Guid.Empty,
+                    IsDelete = false,
+                    LastModifyTime = DateTime.Now,
+                    LastModifyUserId = item.CreatorUserId,
+                    Unix = DateTime.Now.ConvertDateTimeInt()
+                });
             }
 
             //新增订单金额
