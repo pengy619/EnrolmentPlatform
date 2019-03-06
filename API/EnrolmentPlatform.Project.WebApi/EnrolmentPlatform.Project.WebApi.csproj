@@ -245,7 +245,9 @@
     <Content Include="Configs\AppSettings.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Configs\DataBase.config" />
+    <Content Include="Configs\DataBase.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Configs\Log4net.config" />
   </ItemGroup>
   <ItemGroup>
