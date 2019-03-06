@@ -529,7 +529,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
 
                     if (row.GetCell(9) != null && !string.IsNullOrEmpty(row.GetCell(9).ToString()))
                     {
-                        dto.LuquDate = row.GetCell(9).DateCellValue;
+                        dto.LuquDate = Convert.ToDateTime(row.GetCell(9).ToString());
                     }
                     else
                     {
