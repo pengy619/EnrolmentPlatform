@@ -171,6 +171,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             entity.IDCardNo = dto.IDCardNo;
             entity.Phone = dto.Phone;
             entity.TencentNo = dto.TencentNo;
+            entity.Email = dto.Email;
             entity.SchoolId = dto.SchoolId;
             entity.LevelId = dto.LevelId;
             entity.MajorId = dto.MajorId;
