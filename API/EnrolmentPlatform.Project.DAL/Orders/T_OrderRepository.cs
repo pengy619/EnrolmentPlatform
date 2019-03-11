@@ -791,22 +791,22 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             {
                 var dto = list[i];
                 var batch = batchList.FirstOrDefault(a => a.Name == dto.BatchName);
-                if (batch == null) { return "第" + (i + 1).ToString() + "行的批次在系统不存在！"; }
+                if (batch == null) { return "第" + (i + 2).ToString() + "行的批次在系统不存在！"; }
 
                 var school = schoolList.FirstOrDefault(a => a.Name == dto.SchoolName);
-                if (school == null) { return "第" + (i + 1).ToString() + "行的学校在系统不存在！"; }
+                if (school == null) { return "第" + (i + 2).ToString() + "行的学校在系统不存在！"; }
 
                 var level = levelList.FirstOrDefault(a => a.Name == dto.LevelName);
-                if (level == null) { return "第" + (i + 1).ToString() + "行的层次在系统不存在！"; }
+                if (level == null) { return "第" + (i + 2).ToString() + "行的层次在系统不存在！"; }
 
                 var majar = majorList.FirstOrDefault(a => a.Name == dto.MajorName);
-                if (majar == null) { return "第" + (i + 1).ToString() + "行的专业在系统不存在！"; }
+                if (majar == null) { return "第" + (i + 2).ToString() + "行的专业在系统不存在！"; }
 
                 var order = dbContext.T_Order.FirstOrDefault(a => a.StudentName==dto.StudentName && a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
                   && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id);
                 if (order == null)
                 {
-                    return "第" + (i + 1).ToString() + "行的数据在系统不存在！";
+                    return "第" + (i + 2).ToString() + "行的数据在系统不存在！";
                 }
 
                 order.StudentNo = dto.StudentNo;
