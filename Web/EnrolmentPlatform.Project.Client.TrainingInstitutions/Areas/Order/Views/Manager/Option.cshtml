@@ -149,8 +149,8 @@
             //提交
             var dto = {};
             dto.OrderId = $("#hidOrderId").val();
-            dto.StudentName = $("#StudentName").val();
-            dto.IDCardNo = $("#IDCardNo").val();
+            dto.StudentName = $.trim($("#StudentName").val());
+            dto.IDCardNo = $.trim($("#IDCardNo").val());
             dto.Phone = $("#Phone").val();
             dto.TencentNo = $("#TencentNo").val();
             dto.Email = $("#Email").val();
