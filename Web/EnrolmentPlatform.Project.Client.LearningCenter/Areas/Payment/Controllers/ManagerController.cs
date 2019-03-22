@@ -162,7 +162,6 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Payment.Controll
             tempRow.Cells[8].SetCellValue(tempDataRow.QDApprovalAmount.ToString("N2"));
             tempRow.Cells[9].SetCellValue(tempDataRow.StatusName);
             tempRow.Cells[10].SetCellValue(tempDataRow.CreateTimeStr);
-            tempRow.Cells[11].SetCellValue(tempDataRow.CreateUserName);
 
             for (int a = 1; a < list.Count; a++)
             {
@@ -190,7 +189,6 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Payment.Controll
                 row.Cells[8].SetCellValue(dto.QDApprovalAmount.ToString("N2"));
                 row.Cells[9].SetCellValue(dto.StatusName);
                 row.Cells[10].SetCellValue(dto.CreateTimeStr);
-                row.Cells[11].SetCellValue(dto.CreateUserName);
             }
 
             //导出
