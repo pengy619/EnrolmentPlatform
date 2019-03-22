@@ -526,8 +526,14 @@
         if (searchData.AllOrderImageUpload != "") {
             url += "&AllOrderImageUpload=" + searchData.AllOrderImageUpload;
         }
-        if (searchData.ToLearningCenterName != "") {
-            url += "&ToLearningCenterName=" + searchData.ToLearningCenterName;
+        if (searchData.FromChannelId != "") {
+            url += "&FromChannelId=" + searchData.FromChannelId;
+        }
+        if (searchData.ToLearningCenterId != "") {
+            url += "&ToLearningCenterId=" + searchData.ToLearningCenterId;
+        }
+        if (searchData.BatchName != "") {
+            url += "&BatchName=" + searchData.BatchName;
         }
         window.open(url);
     }
@@ -552,7 +558,6 @@
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
-            ToLearningCenterName: $("#ToLearningCenterName").val(),
             ToLearningCenterId: $("#ToLearningCenterId").val(),
             FromChannelId: $("#FromChannelId").val(),
             BatchName: $("#BatchName").val(),

@@ -871,6 +871,9 @@
         if (searchData.ToLearningCenterId != "") {
             url += "&ToLearningCenterId=" + searchData.ToLearningCenterId;
         }
+        if (searchData.BatchName != "") {
+            url += "&BatchName=" + searchData.BatchName;
+        }
         window.open(url);
     }
 
