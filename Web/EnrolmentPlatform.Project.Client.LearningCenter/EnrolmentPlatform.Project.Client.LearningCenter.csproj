@@ -706,6 +706,7 @@
     <Content Include="Temp\OrderImageTemp.xls" />
     <Content Include="Temp\OrderAmountTemp.xls" />
     <Content Include="Temp\ExamTemp.xls" />
+    <Content Include="Temp\OrderTempNew.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\API\EnrolmentPlatform.Project.BLL\EnrolmentPlatform.Project.BLL.csproj">

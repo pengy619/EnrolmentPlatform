@@ -283,6 +283,17 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public DateTime? JoinTime { set; get; }
 
         /// <summary>
+        /// 录取时间
+        /// </summary>
+        public string JoinTimeStr
+        {
+            get
+            {
+                return JoinTime.HasValue ? JoinTime.Value.ToString("yyyy-MM-dd") : "";
+            }
+        }
+
+        /// <summary>
         /// 是否报名提交
         /// </summary>
         public bool IsSubmit
@@ -385,6 +396,31 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 最高学历
         /// </summary>
         public string HighesDegree { set; get; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string Phone { set; get; }
+
+        /// <summary>
+        /// 微信/QQ
+        /// </summary>
+        public string TencentNo { set; get; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { set; get; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>		
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
     }
 
     /// <summary>

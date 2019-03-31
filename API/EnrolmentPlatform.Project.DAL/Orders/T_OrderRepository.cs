@@ -325,7 +325,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             IDCardNo = a.IDCardNo,
                             JiGuan = a.JiGuan,
                             MinZu = a.MinZu,
-                            Sex = a.Sex
+                            Sex = a.Sex,
+                            Phone = a.Phone,
+                            TencentNo = a.TencentNo,
+                            Email = a.Email,
+                            UserName = a.UserName,
+                            Password = a.Password
                         };
 
             //学校
@@ -583,7 +588,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public string Upload(List<OrderUploadDto> list)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var mdata= dbContext.T_Metadata.ToList();
+            var mdata = dbContext.T_Metadata.ToList();
             //所有批次
             var batchList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Batch).ToList();
             //所有学校
@@ -601,7 +606,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             //数据新增
             List<T_Order> orderList = new List<T_Order>();
-            List<T_OrderAmount> orderAmountList = new List<T_OrderAmount>();  
+            List<T_OrderAmount> orderAmountList = new List<T_OrderAmount>();
             for (int i = 0; i < list.Count; i++)
             {
                 var dto = list[i];
@@ -802,7 +807,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 var majar = majorList.FirstOrDefault(a => a.Name == dto.MajorName);
                 if (majar == null) { return "第" + (i + 2).ToString() + "行的专业在系统不存在！"; }
 
-                var order = dbContext.T_Order.FirstOrDefault(a => a.StudentName==dto.StudentName && a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
+                var order = dbContext.T_Order.FirstOrDefault(a => a.StudentName == dto.StudentName && a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
                   && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id);
                 if (order == null)
                 {

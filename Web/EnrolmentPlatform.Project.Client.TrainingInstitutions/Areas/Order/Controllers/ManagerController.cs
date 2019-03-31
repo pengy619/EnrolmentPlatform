@@ -46,7 +46,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             HSSFWorkbook hssfworkbook = null;
             try
             {
-                using (FileStream file = new FileStream(this.Server.MapPath("~/Temp/OrderTemp.xls"), FileMode.Open, FileAccess.Read))
+                using (FileStream file = new FileStream(this.Server.MapPath("~/Temp/OrderTempNew.xls"), FileMode.Open, FileAccess.Read))
                 {
                     hssfworkbook = new HSSFWorkbook(file);
                 }
@@ -55,47 +55,43 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             {
             }
 
-            HSSFSheet sheet = (HSSFSheet)hssfworkbook.GetSheet("data");
-
-            int startRow = 2;
-            var tempDataRow = list.First();
-            HSSFRow tempRow = (HSSFRow)sheet.GetRow(startRow);
-            tempRow.Cells[0].SetCellValue(tempDataRow.StudentName);
-            tempRow.Cells[1].SetCellValue(tempDataRow.BatchName);
-            tempRow.Cells[2].SetCellValue(tempDataRow.SchoolName);
-            tempRow.Cells[3].SetCellValue(tempDataRow.LevelName);
-            tempRow.Cells[4].SetCellValue(tempDataRow.MajorName);
-            tempRow.Cells[5].SetCellValue(tempDataRow.StatusName);
-            tempRow.Cells[6].SetCellValue(tempDataRow.CreateTimeStr);
-            tempRow.Cells[7].SetCellValue(tempDataRow.CreateUserName);
-
-            for (int a = 1; a < list.Count; a++)
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
+            IRow firstRow = sheet.GetRow(0);
+            for (int i = 0; i < list.Count; i++)
             {
-                HSSFRow row = (HSSFRow)sheet.CreateRow(startRow + a);
-                row.HeightInPoints = tempRow.HeightInPoints;
-                row.Height = tempRow.Height;
-
+                IRow row = sheet.CreateRow(i + 1);
                 //创建列
-                for (int c = 0; c < tempRow.Cells.Count; c++)
+                for (int j = 0; j < firstRow.LastCellNum; j++)
                 {
-                    ICell cell = row.CreateCell(c);
-                    ICell sourceCell = tempRow.GetCell(c);
-                    cell.CellStyle = sourceCell.CellStyle;
-                    cell.SetCellType(sourceCell.CellType);
+                    ICell cell = row.CreateCell(j, CellType.String);
                 }
-                var dto = list[a];
+                var dto = list[i];
                 row.Cells[0].SetCellValue(dto.StudentName);
-                row.Cells[1].SetCellValue(dto.BatchName);
-                row.Cells[2].SetCellValue(dto.SchoolName);
-                row.Cells[3].SetCellValue(dto.LevelName);
-                row.Cells[4].SetCellValue(dto.MajorName);
-                row.Cells[5].SetCellValue(dto.StatusName);
-                row.Cells[6].SetCellValue(dto.CreateTimeStr);
-                row.Cells[7].SetCellValue(dto.CreateUserName);
+                row.Cells[1].SetCellValue(dto.IDCardNo);
+                row.Cells[2].SetCellValue(dto.Phone);
+                row.Cells[3].SetCellValue(dto.TencentNo);
+                row.Cells[4].SetCellValue(dto.Email);
+                row.Cells[5].SetCellValue(dto.BatchName);
+                row.Cells[6].SetCellValue(dto.SchoolName);
+                row.Cells[7].SetCellValue(dto.LevelName);
+                row.Cells[8].SetCellValue(dto.MajorName);
+                row.Cells[9].SetCellValue(dto.CreateTimeStr);
+                row.Cells[10].SetCellValue(dto.JoinTimeStr);
+                row.Cells[11].SetCellValue(dto.Sex);
+                row.Cells[12].SetCellValue(dto.MinZu);
+                row.Cells[13].SetCellValue(dto.JiGuan);
+                row.Cells[14].SetCellValue(dto.HighesDegree);
+                row.Cells[15].SetCellValue(dto.GraduateSchool);
+                row.Cells[16].SetCellValue(dto.BiYeZhengBianHao);
+                row.Cells[17].SetCellValue(dto.Address);
+                row.Cells[18].SetCellValue(dto.GongZuoDanWei);
+                row.Cells[19].SetCellValue(dto.XueHao);
+                row.Cells[20].SetCellValue(dto.UserName);
+                row.Cells[21].SetCellValue(dto.Password);
             }
 
             //导出
-            this.NPOIExport("报名单列表" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls", hssfworkbook, new List<HSSFSheet> { sheet });
+            this.NPOIExport("报名单列表" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls", hssfworkbook, new List<HSSFSheet> { (HSSFSheet)sheet });
 
             #endregion
 
