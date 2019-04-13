@@ -808,7 +808,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 if (majar == null) { return "第" + (i + 2).ToString() + "行的专业在系统不存在！"; }
 
                 var order = dbContext.T_Order.FirstOrDefault(a => a.StudentName == dto.StudentName && a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
-                  && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id);
+                  && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id && a.IsDelete == false);
                 if (order == null)
                 {
                     return "第" + (i + 2).ToString() + "行的数据在系统不存在！";
