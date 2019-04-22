@@ -62,6 +62,24 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
+        /// 获取学校配置
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <returns></returns>
+        public List<KeyValuePair<Guid, Guid>> GetSchoolConfigList(Guid schoolId)
+        {
+            var query = from a in schoolLevelMajorRepository.LoadEntities(t => !t.IsDelete)
+                        join b in schoolLevelMajorRepository.LoadEntities(t => !t.IsDelete) on a.Id equals b.ParentId
+                        where a.ParentId == schoolId
+                        select new
+                        {
+                            Key = a.ItemId,
+                            Value = b.ItemId
+                        };
+            return query.ToList().Select(t => new KeyValuePair<Guid, Guid>(t.Key, t.Value)).ToList();
+        }
+
+        /// <summary>
         /// 保存配置
         /// </summary>
         /// <returns></returns>

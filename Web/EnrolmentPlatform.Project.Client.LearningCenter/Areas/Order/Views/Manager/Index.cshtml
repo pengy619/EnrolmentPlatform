@@ -66,6 +66,7 @@
                         <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="audit">初审通过</button>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="lq">录取</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>
@@ -219,7 +220,7 @@
             dto.xuehao = $("#txtXueHao").val();
             dto.zhanghao = $("#txtZhangHao").val();
             dto.mima = $("#txtMiMa").val();
-            
+
             if (dto.xuehao == "") {
                 layer.msg('请输入学生学号！', {
                     icon: 2,
@@ -243,7 +244,7 @@
                 });
                 return false;
             }
-            
+
             //提交确认
             layer.confirm('确认录取？', {
                 btn: ['确认', '取消']
@@ -264,6 +265,68 @@
                                 table.reload("table");
                             });
                             layer.close(luquLayerIndex);
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        });
+
+        //初审通过
+        form.on('submit(audit)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择初审通过的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                if (parseInt(checkdata[i].Status) != 5) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有已报送状态的才可以初审。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //初审确认
+            layer.confirm('确认初审通过？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("Audit", "Manager")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('操作成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
                         }
                         else {
                             layer.msg(result.msg, {

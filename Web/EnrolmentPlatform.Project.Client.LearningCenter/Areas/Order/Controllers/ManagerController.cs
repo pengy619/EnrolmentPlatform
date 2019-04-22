@@ -179,6 +179,25 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             }
         }
 
+        /// <summary>
+        /// 报名单初审
+        /// </summary>
+        /// <param name="ids">ID集合</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult Audit(Guid[] ids)
+        {
+            var ret = OrderService.Audit(ids.ToList(), this.UserId);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "初审失败。" });
+            }
+        }
+
         ///// <summary>
         ///// 报名单录取
         ///// </summary>

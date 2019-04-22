@@ -49,6 +49,12 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         ToLearningCenter = 5,
 
         /// <summary>
+        /// 已初审
+        /// </summary>
+        [Description("已初审")]
+        Audited = 6,
+
+        /// <summary>
         /// 已录取
         /// </summary>
         [Description("已录取")]

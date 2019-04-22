@@ -110,55 +110,32 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         /// <returns></returns>
         public ActionResult SchoolConfig(Guid schoolId)
         {
-            //第一级为层次
-            StringBuilder sb = new StringBuilder("[");
+            return View(schoolId);
+        }
+
+        public JsonResult GetSchoolConfigTreeData(Guid schoolId)
+        {
             var levelList = MetadataService.GetList(MetadataTypeEnum.Level);
             var majorList = MetadataService.GetList(MetadataTypeEnum.Major);
-            for (int i = 0; i < levelList.Count; i++)
-            {
-                //一级模块组装
-                var item = levelList[i];
-                sb.Append("{ title: \"" + item.Name + "\", value: \"" + item.Id + "\", data: [");
-
-                //第二级为专业
-                for (int j = 0; j < majorList.Count; j++)
-                {
-                    //二级菜单组装
-                    var item2 = majorList[j];
-                    sb.Append("{ title: \"" + item2.Name + "\", value: \"" + item.Id + "_" + item2.Id + "\", data: [");
-
-                    sb.Append("]}");
-                    if (j != majorList.Count - 1)
-                    {
-                        sb.Append(",");
-                    }
-                }
-
-                sb.Append("]}");
-                if (i != levelList.Count - 1)
-                {
-                    sb.Append(",");
-                }
-            }
-            sb.Append("]");
-            ViewBag.DataList = sb.ToString();
-
             //已选集合
-            var selectedList = new List<string>();
-            var allItem = SchoolConfigService.GetAllList().ToList();
-            var levelIds = allItem.Where(t => t.ParentId == schoolId).Select(t => new { t.Id, t.ItemId }).ToList();
-            if (levelIds != null && levelIds.Any())
-            {
-                foreach (var item in levelIds)
-                {
-                    var majorIds = allItem.Where(t => t.ParentId == item.Id).Select(t => item.ItemId + "_" + t.ItemId).ToList();
-                    selectedList.Add(item.ItemId.ToString());
-                    selectedList.AddRange(majorIds);
-                }
-            }
-            ViewBag.SelectedIds = string.Join(",", selectedList);
-
-            return View(schoolId);
+            var selectedList = SchoolConfigService.GetSchoolConfigList(schoolId);
+            var listtree = (from a in levelList
+                            select new JSTree
+                            {
+                                id = a.Id,
+                                text = a.Name,
+                                li_attr = new LiAttr() { level = 0 },
+                                state = new State() { opened = false },
+                                children = (from b in majorList
+                                            select new JSTree
+                                            {
+                                                id = Guid.NewGuid(),
+                                                text = b.Name,
+                                                li_attr = new LiAttr() { parentId = a.Id, level = 1, itemId = b.Id },
+                                                state = new State() { opened = false, selected = selectedList.Exists(t => t.Key == a.Id && t.Value == b.Id) }
+                                            }).ToList()
+                            }).ToList();
+            return Json(listtree, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

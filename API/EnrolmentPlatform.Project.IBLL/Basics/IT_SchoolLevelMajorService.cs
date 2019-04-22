@@ -24,6 +24,13 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         IList<SchoolItemDto> GetAllList();
 
         /// <summary>
+        /// 获取学校配置
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <returns></returns>
+        List<KeyValuePair<Guid, Guid>> GetSchoolConfigList(Guid schoolId);
+
+        /// <summary>
         /// 保存配置
         /// </summary>
         /// <returns></returns>

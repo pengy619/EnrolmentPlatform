@@ -37,7 +37,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public int AddOrder(OrderDto dto)
         {
             var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.BatchId == dto.BatchId && a.SchoolId == dto.SchoolId && a.IDCardNo == dto.IDCardNo
-            && a.Status!=(int)OrderStatusEnum.LeaveSchool) > 0;
+            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
             if (exisit == true)
             {
                 //同一批次重复录入
@@ -48,7 +48,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             {
                 return this.orderRepository.AddOrder(dto);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return 3;
             }
@@ -246,7 +246,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public List<OrderDto> GetOrder(List<Guid> ids)
         {
             return this.orderRepository.LoadEntities(a => ids.Contains(a.Id))
-                .Select(entity => new OrderDto() {
+                .Select(entity => new OrderDto()
+                {
                     Address = entity.Address,
                     AllOrderImageUpload = entity.AllOrderImageUpload,
                     BatchId = entity.BatchId,
@@ -422,7 +423,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public bool Luqu(Guid orderId, string xuehao, string zhanghao, string mima, Guid userId)
         {
             var entity = this.orderRepository.FindEntityById(orderId);
-            if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter)
+            if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter || entity.Status != (int)OrderStatusEnum.Audited)
             {
                 return false;
             }
@@ -484,7 +485,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <param name="trainingInstitutionsId">trainingInstitutionsId</param>
         /// <param name="userId">userId</param>
         /// <returns></returns>
-        public bool UpdateTrainingInstitutions(Guid[] ids, Guid trainingInstitutionsId,Guid userId)
+        public bool UpdateTrainingInstitutions(Guid[] ids, Guid trainingInstitutionsId, Guid userId)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -593,6 +594,44 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 初审
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        public bool Audit(List<Guid> orderIdList, Guid userId)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter)
+                        {
+                            return false;
+                        }
+                        entity.Status = (int)OrderStatusEnum.Audited;
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "初审", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="orderIds">orderIds</param>
@@ -653,9 +692,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <param name="orderIds">订单集合</param>
         /// <param name="paymentSource">1：招生机构，2：渠道中心</param>
         /// <returns></returns>
-        public decimal GetOrderAmountUnPayedTotal(List<Guid> orderIds,int paymentSource)
+        public decimal GetOrderAmountUnPayedTotal(List<Guid> orderIds, int paymentSource)
         {
-            var orderList= this.orderAmountRepository.LoadEntities(a => orderIds.Contains(a.OrderId) && a.PaymentSource == paymentSource)
+            var orderList = this.orderAmountRepository.LoadEntities(a => orderIds.Contains(a.OrderId) && a.PaymentSource == paymentSource)
                 .ToList();
             return orderList.Sum(a => (a.TotalAmount - a.PayedAmount - a.ApprovalAmount));
         }
