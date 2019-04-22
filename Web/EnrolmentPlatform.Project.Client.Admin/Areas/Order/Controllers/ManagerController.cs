@@ -125,9 +125,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 row.Cells[18].SetCellValue(dto.GongZuoDanWei);
                 row.Cells[19].SetCellValue(dto.FromChannelName);
                 row.Cells[20].SetCellValue(dto.ToLearningCenterName);
-                row.Cells[21].SetCellValue(dto.XueHao);
-                row.Cells[22].SetCellValue(dto.UserName);
-                row.Cells[23].SetCellValue(dto.Password);
+                row.Cells[21].SetCellValue(dto.StatusName);
+                row.Cells[22].SetCellValue(dto.XueHao);
+                row.Cells[23].SetCellValue(dto.UserName);
+                row.Cells[24].SetCellValue(dto.Password);
             }
 
             //导出
