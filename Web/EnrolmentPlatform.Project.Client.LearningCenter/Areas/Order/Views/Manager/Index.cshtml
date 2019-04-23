@@ -21,6 +21,7 @@
                         <select id="Status" name="Status" style="width:100px;">
                             <option value="">全部</option>
                             <option value="@((int)OrderStatusEnum.ToLearningCenter)">@EnumDescriptionHelper.GetDescription(OrderStatusEnum.ToLearningCenter)</option>
+                            <option value="@((int)OrderStatusEnum.Audited)">@EnumDescriptionHelper.GetDescription(OrderStatusEnum.Audited)</option>
                             <option value="@((int)OrderStatusEnum.Join)">@EnumDescriptionHelper.GetDescription(OrderStatusEnum.Join)</option>
                             <option value="@((int)OrderStatusEnum.LeaveSchool)">@EnumDescriptionHelper.GetDescription(OrderStatusEnum.LeaveSchool)</option>
                         </select>
@@ -66,7 +67,7 @@
                         <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
-                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="audit">初审通过</button>
+                <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="audit">初审通过</button>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="lq">录取</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="reject">拒绝</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="re">退学</button>

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Controllers;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Orders;
+using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Zip;
 using NPOI.HSSF.UserModel;
@@ -186,6 +187,20 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     if (p1 != null)
                     {
                         dicItem.Add("其他.jpg", p1);
+                    }
+                }
+
+                //附件
+                List<FileDto> fileList = FileService.GetFileList(dto.OrderId);
+                if (fileList != null && fileList.Any())
+                {
+                    foreach (var item in fileList)
+                    {
+                        var p1 = GetLocalPic(item.FilePath, dto);
+                        if (p1 != null)
+                        {
+                            dicItem.Add(item.FileName, p1);
+                        }
                     }
                 }
 
@@ -461,17 +476,19 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             //本地不存在，需要去远程服务器查找
             if (System.IO.File.Exists(localFile) == false)
             {
-                WebClient my = new WebClient();
-                byte[] mybyte;
-                mybyte = my.DownloadData(url);
-                MemoryStream ms = new MemoryStream(mybyte);
-                System.Drawing.Image img;
-                img = System.Drawing.Image.FromStream(ms);
-                if (Directory.Exists(localPath) == false)
+                //WebClient my = new WebClient();
+                //byte[] mybyte;
+                //mybyte = my.DownloadData(url);
+                //MemoryStream ms = new MemoryStream(mybyte);
+                //System.Drawing.Image img;
+                //img = System.Drawing.Image.FromStream(ms);
+                if (!Directory.Exists(localPath))
                 {
                     Directory.CreateDirectory(localPath);
                 }
-                img.Save(localFile, ImageFormat.Jpeg);
+                //img.Save(localFile, ImageFormat.Jpeg);
+                WebClient client = new WebClient();
+                client.DownloadFile(url, localFile);
             }
             return localFile;
         }
@@ -633,6 +650,95 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             else
             {
                 return Json(new { ret = false, msg = "上传失败！" });
+            }
+        }
+
+        /// <summary>
+        /// 保存附件
+        /// </summary>
+        /// <param name="orderId">订单ID</param>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        public JsonResult SaveAttachment(Guid orderId, HttpPostedFileBase file)
+        {
+            byte[] data;
+            using (Stream inputStream = file.InputStream)
+            {
+                MemoryStream memoryStream = inputStream as MemoryStream;
+                if (memoryStream == null)
+                {
+                    memoryStream = new MemoryStream();
+                    inputStream.CopyTo(memoryStream);
+                }
+                data = memoryStream.ToArray();
+            }
+
+            string fileServerUrl = System.Configuration.ConfigurationManager.AppSettings["FileDoMain"];
+            string fileName = Guid.NewGuid().ToString() + "." + file.FileName.Split('.')[1].ToString();
+            System.Collections.Generic.Dictionary<object, object> parames = new System.Collections.Generic.Dictionary<object, object>();
+            parames.Add("fromType", System.Configuration.ConfigurationManager.AppSettings["FileFrom"]);
+            parames.Add("postFileKey", System.Configuration.ConfigurationManager.AppSettings["PostFileKey"]);
+            var _saveRet = EnrolmentPlatform.Project.Infrastructure.HttpMethods.HttpPost(fileServerUrl + "/UpLoad/Index", parames, fileName, data);
+            EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg _saveResult = Newtonsoft.Json.JsonConvert.DeserializeObject<EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg>(_saveRet);
+            if (_saveResult.IsSuccess == false)
+            {
+                return Json(new { ret = false, msg = _saveResult.Info });
+            }
+
+            //文件完整地址
+            string fullUrl = fileServerUrl + "/" + _saveResult.Info;
+
+            //保存文件
+            var ret = FileService.AddFile(new FileDto
+            {
+                ForeignKeyId = orderId,
+                FilePath = fullUrl,
+                FileName = file.FileName,
+                CreatorUserId = this.UserId,
+                CreatorAccount = this.UserAccount
+            });
+            if (ret.IsSuccess)
+            {
+                return Json(new { ret = true, msg = "上传成功！" });
+            }
+            else
+            {
+                return Json(new { ret = false, msg = "上传失败！" });
+            }
+        }
+
+        /// <summary>
+        /// 文件列表
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public string FileList(Guid orderId)
+        {
+            List<FileDto> list = FileService.GetFileList(orderId);
+            GridDataResponse grid = new GridDataResponse
+            {
+                Count = list.Count,
+                Data = list
+            };
+            return grid.ToJson();
+        }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult DeleteFile(Guid id)
+        {
+            var ret = FileService.DeleteFileById(id);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "删除失败。" });
             }
         }
     }

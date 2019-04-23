@@ -8,6 +8,7 @@ using EnrolmentPlatform.Project.Client.Admin.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IBLL.Orders;
+using EnrolmentPlatform.Project.IBLL.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
 using NPOI.HSSF.UserModel;
 
@@ -130,6 +131,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         /// 考试接口
         /// </summary>
         public static IT_ExamService ExamService = DIContainer.Resolve<IT_ExamService>();
+
+        /// <summary>
+        /// 文件接口
+        /// </summary>
+        public static IT_FileService FileService = DIContainer.Resolve<IT_FileService>();
 
         #endregion
 

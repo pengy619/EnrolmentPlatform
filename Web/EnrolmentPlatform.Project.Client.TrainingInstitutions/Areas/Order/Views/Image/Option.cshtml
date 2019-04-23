@@ -120,7 +120,7 @@
                         <span class="label" style="width:102px;">社保/居住证正：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
                         <span class="text">
                             <div class="imgDiv">
-                                <img id="image5" class="orderImg"  src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
+                                <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
                             </div>
                             <div class="uploadDiv">
                                 <input id="File5" class="orderFile" type="file" />
@@ -179,16 +179,73 @@
                         </span>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="item" style="margin-left: 0px;">
+                        <span class="label">上传附件：</span>
+                        <span class="text">
+                            <input id="Attachment" type="file" />
+                            <input id="Button10" style="width: 50px;height: 30px;" type="button" onclick="postFiles()" value="上传" />
+                        </span>
+                    </div>
+                </div>
+                <div class="row" style="width: 500px;">
+                    <table id="table" lay-filter="table"></table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除</a>
+</script>
 <script type="text/javascript">
-    var form, layer;
-    layui.use(['jquery', 'form', 'layer'], function () {
+    var form, layer, table;
+    layui.use(['jquery', 'form', 'layer', 'table'], function () {
         form = layui.form;
         layer = layui.layer;
+        table = layui.table;
+
+        table.render({
+            elem: '#table'
+            , url: "@Url.Action("FileList", "Image",new { orderId = dto.OrderId })" //数据
+            , cols: [[
+                { field: 'FileName', title: '文件名', templet: '<div><a href="{{d.FilePath}}" target="_blank" class="layui-table-link">{{d.FileName}}</a></div>' }
+                , { title: '操作', toolbar: '#tableTool', width: 80 }
+            ]]
+        });
+
+        //监听工具条
+        table.on('tool(table)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('您确定要删除该文件吗？', function (index) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteFile", "Image")',
+                        data: { id: data.Id },
+                        dataType: 'json',
+                        type: 'post',
+                        success: function (result) {
+                            if (result.ret == 1) {
+                                layer.msg('删除成功。', {
+                                    icon: 1,
+                                    time: 1000
+                                }, function () {
+                                    table.reload("table");
+                                });
+                            }
+                            else {
+                                layer.msg(result.msg, {
+                                    icon: 2,
+                                    time: 2000
+                                });
+                            }
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+        });
 
         $(".orderImg").click(function () {
             window.open($(this).attr("src"));
@@ -230,6 +287,51 @@
                     });
                     $("#image" + type).attr("src", data.url);
                     $("#File" + type).val("");
+                }
+            },
+            error: function (e) {
+                layer.msg("上传失败！", {
+                    icon: 2,
+                    time: 2000
+                });
+            }
+        });
+    }
+
+    //上传附件
+    function postFiles() {
+        if ($("#Attachment").val() == "") {
+            layer.msg("请选择上传文件！", {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
+        var file = document.getElementById("Attachment").files[0];
+        var fdata = new FormData();
+        fdata.append("file", file);
+        fdata.append("orderId", $("#hidOrderId").val());
+        $.ajax({
+            url: "@Url.Action("SaveAttachment", "Image")",
+            data: fdata,
+            type: "POST",
+            async: false,
+            processData: false,//用于对data参数进行序列化处理 这里必须false
+            contentType: false, //必须
+            success: function (data) {
+                if (data.ret == false) {
+                    layer.msg(data.msg, {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+                else {
+                    layer.msg("上传成功！", {
+                        icon: 1,
+                        time: 2000
+                    });
+                    table.reload('table');
+                    $("#Attachment").val("");
                 }
             },
             error: function (e) {

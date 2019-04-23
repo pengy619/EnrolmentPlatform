@@ -1,8 +1,10 @@
-﻿@{
+﻿@using EnrolmentPlatform.Project.DTO.Systems;
+@{
     ViewBag.Title = "证件明细";
     Layout = "~/Views/Shared/_Layout.cshtml";
     OrderDto dto = ViewBag.OrderInfo;
     OrderImageDto imageDto = ViewBag.ImageDto;
+    List<FileDto> fileList = ViewBag.FileList;
 }
 <style type="text/css">
     .info-cell .row .item .label{
@@ -104,7 +106,7 @@
                         <span class="label">社保/居住证正：</span>
                         <span class="text">
                             <div class="imgDiv">
-                                <img id="image5" class="orderImg"  src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
+                                <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
                             </div>
                         </span>
                     </div>
@@ -143,6 +145,35 @@
                         </span>
                     </div>
                 </div>
+                @if (fileList != null && fileList.Any())
+                {
+                    <div class="row">
+                        <div class="layui-form">
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="400">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>附件：</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in fileList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="layui-table-cell">
+                                                    <a href="@item.FilePath" target="_blank" class="layui-table-link">@item.FileName</a>
+                                                </div>                                                
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>

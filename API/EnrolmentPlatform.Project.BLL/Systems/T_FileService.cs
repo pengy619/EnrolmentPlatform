@@ -24,16 +24,52 @@ namespace EnrolmentPlatform.Project.BLL.Systems
         }
 
         /// <summary>
+        /// 获取文件列表
+        /// </summary>
+        /// <param name="foreignKeyId"></param>
+        /// <returns></returns>
+        public List<FileDto> GetFileList(Guid foreignKeyId)
+        {
+            var query = from a in this.LoadEntities(t => !t.IsDelete && t.ForeignKeyId == foreignKeyId)
+                        select new FileDto
+                        {
+                            Id = a.Id,
+                            FilePath = a.FilePath,
+                            FileName = a.FileName
+                        };
+            return query.ToList();
+        }
+
+        /// <summary>
+        /// 添加文件
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public ResultMsg AddFile(FileDto dto)
+        {
+            ResultMsg resultMsg = new ResultMsg();
+            var file = new T_File
+            {
+                Id = Guid.NewGuid(),
+                ForeignKeyId = dto.ForeignKeyId,
+                FilePath = dto.FilePath,
+                FileName = dto.FileName,
+                FileClassify = (int)FileClassifyEnum.File,
+                CreatorUserId = dto.CreatorUserId,
+                CreatorAccount = dto.CreatorAccount
+            };
+            resultMsg.IsSuccess = this.AddEntity(file) > 0;
+            return resultMsg;
+        }
+
+        /// <summary>
         /// 删除文件
         /// </summary>
-        /// <param name="Id">文件Id</param> 
+        /// <param name="id">文件Id</param> 
         /// <returns></returns>  
-        public bool DeleteFileById(Guid Id)
+        public bool DeleteFileById(Guid id)
         {
-            #region 删除农产品图片  
-            T_File t_File = this.FindEntityById(Id);
-            return this.PhysicsDeleteEntity(t_File, E_DbClassify.Write, "删除农产品图片", true, t_File.ForeignKeyId.ToString()) > 0;
-            #endregion
+            return this.PhysicsDeleteBy(t => t.Id == id) > 0;
         }
 
     }

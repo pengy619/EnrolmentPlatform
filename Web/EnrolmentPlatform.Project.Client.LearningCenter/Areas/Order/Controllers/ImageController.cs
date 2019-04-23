@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.LearningCenter.Controllers;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Orders;
+using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Zip;
 using NPOI.HSSF.UserModel;
@@ -57,6 +58,9 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
 
                 //照片信息
                 ViewBag.ImageDto = OrderService.FindOrderImage(orderId.Value);
+
+                //附件列表
+                ViewBag.FileList = FileService.GetFileList(orderId.Value);
             }
             else
             {
@@ -187,6 +191,20 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
                     if (p1 != null)
                     {
                         dicItem.Add("其他.jpg", p1);
+                    }
+                }
+
+                //附件
+                List<FileDto> fileList = FileService.GetFileList(dto.OrderId);
+                if (fileList != null && fileList.Any())
+                {
+                    foreach (var item in fileList)
+                    {
+                        var p1 = GetLocalPic(item.FilePath, dto);
+                        if (p1 != null)
+                        {
+                            dicItem.Add(item.FileName, p1);
+                        }
                     }
                 }
 
@@ -462,17 +480,19 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             //本地不存在，需要去远程服务器查找
             if (System.IO.File.Exists(localFile) == false)
             {
-                WebClient my = new WebClient();
-                byte[] mybyte;
-                mybyte = my.DownloadData(url);
-                MemoryStream ms = new MemoryStream(mybyte);
-                System.Drawing.Image img;
-                img = System.Drawing.Image.FromStream(ms);
-                if (Directory.Exists(localPath) == false)
+                //WebClient my = new WebClient();
+                //byte[] mybyte;
+                //mybyte = my.DownloadData(url);
+                //MemoryStream ms = new MemoryStream(mybyte);
+                //System.Drawing.Image img;
+                //img = System.Drawing.Image.FromStream(ms);
+                if (!Directory.Exists(localPath))
                 {
                     Directory.CreateDirectory(localPath);
                 }
-                img.Save(localFile, ImageFormat.Jpeg);
+                //img.Save(localFile, ImageFormat.Jpeg);
+                WebClient client = new WebClient();
+                client.DownloadFile(url, localFile);
             }
             return localFile;
         }

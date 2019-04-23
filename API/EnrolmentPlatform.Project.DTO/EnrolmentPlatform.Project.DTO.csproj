@@ -69,6 +69,7 @@
     <Compile Include="Systems\AddressDto.cs" />
     <Compile Include="Systems\AddressOptionDTO.cs" />
     <Compile Include="Systems\DepartmentDto.cs" />
+    <Compile Include="Systems\FileDto.cs" />
     <Compile Include="Systems\JobDto.cs" />
     <Compile Include="Enums\Systems\StatusBaseEnum.cs" />
     <Compile Include="Enums\Systems\StatusCodeForApiEnum.cs" />
