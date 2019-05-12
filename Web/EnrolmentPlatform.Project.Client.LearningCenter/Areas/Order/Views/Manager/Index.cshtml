@@ -58,6 +58,10 @@
                     <div class="layui-input-inline">
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
                     </div>
+                    <label class="layui-form-label">批次</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="BatchName" class="layui-input">
+                    </div>
                 </div>
                 <div class="layui-form-item searchMore">
                     <label class="layui-form-label">照片全上传</label>
@@ -584,6 +588,9 @@
         if (searchData.DateTo != "") {
             url += "&DateTo=" + searchData.DateTo;
         }
+        if (searchData.BatchName != "") {
+            url += "&BatchName=" + searchData.BatchName;
+        }
         if (searchData.AllOrderImageUpload != "") {
             url += "&AllOrderImageUpload=" + searchData.AllOrderImageUpload;
         }
@@ -592,7 +599,7 @@
 
     //获得查询条件
     function getSearchData() {
-        var dateArr = $("#time").val();
+        var dateArr = $("#Date").val();
         var dateFrom = "";
         var dateTo = "";
         if ($.trim(dateArr) != "") {
@@ -609,6 +616,7 @@
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
+            BatchName: $("#BatchName").val(),
             AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
         };
     }
