@@ -86,9 +86,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 row.Cells[17].SetCellValue(dto.Address);
                 row.Cells[18].SetCellValue(dto.GongZuoDanWei);
                 row.Cells[19].SetCellValue(dto.StatusName);
-                row.Cells[20].SetCellValue(dto.XueHao);
-                row.Cells[21].SetCellValue(dto.UserName);
-                row.Cells[22].SetCellValue(dto.Password);
+                row.Cells[20].SetCellValue(dto.CreateUserName);
+                row.Cells[21].SetCellValue(dto.XueHao);
+                row.Cells[22].SetCellValue(dto.UserName);
+                row.Cells[23].SetCellValue(dto.Password);
             }
 
             //导出
