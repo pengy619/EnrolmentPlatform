@@ -199,7 +199,7 @@
 
             //选中的ID
             orderId = checkdata[0].OrderId;
-            if (checkdata[0].Status != 5 || checkdata[0].Status != 6) {
+            if (checkdata[0].Status != 5 && checkdata[0].Status != 6) {
                 layer.msg('只有已报送或已初审状态的才可以录取。', {
                     icon: 2,
                     time: 2000
