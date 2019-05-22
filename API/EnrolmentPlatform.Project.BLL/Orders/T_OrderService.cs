@@ -423,7 +423,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public bool Luqu(Guid orderId, string xuehao, string zhanghao, string mima, Guid userId)
         {
             var entity = this.orderRepository.FindEntityById(orderId);
-            if (entity == null || entity.Status != (int)OrderStatusEnum.ToLearningCenter || entity.Status != (int)OrderStatusEnum.Audited)
+            if (entity == null || (entity.Status != (int)OrderStatusEnum.ToLearningCenter && entity.Status != (int)OrderStatusEnum.Audited))
             {
                 return false;
             }
