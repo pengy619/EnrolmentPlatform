@@ -308,7 +308,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
                         (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
-                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
+                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderListDto()
                         {
                             AllOrderImageUpload = a.AllOrderImageUpload,
@@ -414,7 +414,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
                         (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
-                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
+                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderImageListDto()
                         {
                             BatchName = bbtemp.Name,
