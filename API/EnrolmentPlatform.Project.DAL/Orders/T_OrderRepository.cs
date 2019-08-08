@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -385,83 +386,145 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 req.DateTo = req.DateTo.Value.AddDays(1);
             }
 
-            var noStudentName = string.IsNullOrWhiteSpace(req.StudentName);
-            var noPhone = string.IsNullOrWhiteSpace(req.Phone);
-            var noIdCard = string.IsNullOrWhiteSpace(req.IDCard);
-            var noCreateName = string.IsNullOrWhiteSpace(req.CreateUserName);
+            StringBuilder sql = new StringBuilder(@"SELECT 
+                        o.CreatorTime AS CreatorTime, 
+	                    o.[CreatorAccount] AS CreateUserName,
+                        o.Id AS OrderId, 
+                        o.Status AS[Status],
+                        o.StudentName AS StudentName, 
+                        m1.Name as BatchName,
+	                    m2.Name as SchoolName,
+	                    m3.Name as LevelName,
+	                    m4.Name as MajorName
+                        from T_Order AS o
+                        LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
+                        LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id
+                        LEFT JOIN T_Metadata AS m3 ON o.LevelId = m3.Id
+                        LEFT JOIN T_Metadata AS m4 ON o.MajorId = m4.Id
+                        where o.IsDelete=0");
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            #region 查询条件
+
+            if (!string.IsNullOrWhiteSpace(req.StudentName))
+            {
+                sql.Append(" and o.StudentName like @StudentName");
+                parameters.Add(new SqlParameter("@StudentName", "%" + req.StudentName + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(req.Phone))
+            {
+                sql.Append(" and o.Phone like @Phone");
+                parameters.Add(new SqlParameter("@Phone", "%" + req.Phone + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(req.IDCard))
+            {
+                sql.Append(" and o.IDCard like @IDCard");
+                parameters.Add(new SqlParameter("@IDCard", "%" + req.IDCard + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(req.CreateUserName))
+            {
+                sql.Append(" and o.CreatorAccount like @CreatorAccount");
+                parameters.Add(new SqlParameter("@CreatorAccount", "%" + req.CreateUserName + "%"));
+            }
+
+            if (req.DateFrom.HasValue)
+            {
+                sql.Append(" and o.CreatorTime>=@DateFrom");
+                parameters.Add(new SqlParameter("@DateFrom", req.DateFrom.Value));
+            }
+
+            if (req.DateTo.HasValue)
+            {
+                req.DateTo = req.DateTo.Value.AddDays(1);
+                sql.Append(" and o.CreatorTime<@DateTo");
+                parameters.Add(new SqlParameter("@DateTo", req.DateTo.Value));
+            }
+
+            if (req.QuDaoXueFei.HasValue)
+            {
+                sql.Append(" and o.AllQuDaoAmountPayed=@AllQuDaoAmountPayed");
+                parameters.Add(new SqlParameter("@AllQuDaoAmountPayed", req.QuDaoXueFei.Value));
+            }
+
+            if (req.ZhaoShengXueFei.HasValue)
+            {
+                sql.Append(" and o.AllZSZhongXinAmountPayed=@AllZSZhongXinAmountPayed");
+                parameters.Add(new SqlParameter("@AllZSZhongXinAmountPayed", req.ZhaoShengXueFei.Value));
+            }
+
+            if (req.AllOrderImageUpload.HasValue)
+            {
+                sql.Append(" and o.AllOrderImageUpload=@AllOrderImageUpload");
+                parameters.Add(new SqlParameter("@AllOrderImageUpload", req.AllOrderImageUpload.Value));
+            }
+
+            if (req.Status.HasValue)
+            {
+                sql.Append(" and o.Status=@Status");
+                parameters.Add(new SqlParameter("@Status", req.Status.Value));
+            }
+
+            if (req.FromChannelId.HasValue)
+            {
+                sql.Append(" and o.FromChannelId=@FromChannelId");
+                parameters.Add(new SqlParameter("@FromChannelId", req.FromChannelId.Value));
+            }
+
+            if (req.ToLearningCenterId.HasValue)
+            {
+                sql.Append(" and o.ToLearningCenterId=@ToLearningCenterId");
+                parameters.Add(new SqlParameter("@ToLearningCenterId", req.ToLearningCenterId.Value));
+            }
+
+            if (req.IsChannelAdd.HasValue)
+            {
+                sql.Append(" and o.FromChannelId is not null");
+            }
+
+            if (req.IsChannel.HasValue)
+            {
+                sql.Append(" and ((o.FromChannelId is not null and o.Status!=0) or o.FromChannelId is null)");
+            }
+
+            #endregion
+
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var query = from a in dbContext.T_Order
-                        join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
-                        from bbtemp in btemp.DefaultIfEmpty()
-                        join c in dbContext.T_Metadata on a.SchoolId equals c.Id into ctemp
-                        from cctemp in ctemp.DefaultIfEmpty()
-                        join d in dbContext.T_Metadata on a.LevelId equals d.Id into dtemp
-                        from ddtemp in dtemp.DefaultIfEmpty()
-                        join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
-                        from eetemp in etemp.DefaultIfEmpty()
-                        join f in dbContext.T_OrderImage on a.Id equals f.OrderId into ftemp
-                        from fftemp in ftemp.DefaultIfEmpty()
-                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
-                        (noPhone || a.Phone.Contains(req.Phone)) &&
-                        (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
-                        (noCreateName || a.CreatorAccount.Contains(req.CreateUserName)) &&
-                        (req.DateFrom.HasValue == false || a.CreatorTime >= req.DateFrom.Value) &&
-                        (req.DateTo.HasValue == false || a.CreatorTime < req.DateTo.Value) &&
-                        (req.QuDaoXueFei.HasValue == false || a.AllQuDaoAmountPayed == req.QuDaoXueFei.Value) &&
-                        (req.ZhaoShengXueFei.HasValue == false || a.AllZSZhongXinAmountPayed == req.ZhaoShengXueFei.Value) &&
-                        (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
-                        (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
-                        (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
-                        (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
-                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
-                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
-                        select new OrderImageListDto()
-                        {
-                            BatchName = bbtemp.Name,
-                            CreateTime = a.CreatorTime,
-                            CreateUserName = a.CreatorAccount,
-                            LevelName = ddtemp.Name,
-                            MajorName = eetemp.Name,
-                            OrderId = a.Id,
-                            SchoolName = cctemp.Name,
-                            Status = a.Status,
-                            StudentName = a.StudentName,
-                            BiYeZhengImg = fftemp.BiYeZhengImg,
-                            IDCard1 = fftemp.IDCard1,
-                            IDCard2 = fftemp.IDCard2,
-                            LiangCunLanDiImg = fftemp.LiangCunLanDiImg,
-                            MianKaoJiSuanJiImg = fftemp.MianKaoJiSuanJiImg,
-                            MianKaoYingYuImg = fftemp.MianKaoYingYuImg,
-                            QiTa = fftemp.QiTa,
-                            TouXiang = fftemp.TouXiang,
-                            XueXinWangImg = fftemp.XueXinWangImg
-                        };
-
-            //学校
-            if (!string.IsNullOrWhiteSpace(req.SchoolName))
-            {
-                query = query.Where(a => a.SchoolName.Contains(req.SchoolName));
-            }
-
-            //层级
-            if (!string.IsNullOrWhiteSpace(req.LevelName))
-            {
-                query = query.Where(a => a.LevelName.Contains(req.LevelName));
-            }
-
-            //查找订单id集合
-            if (req.OrderIds != null && req.OrderIds.Count > 0)
-            {
-                query = query.Where(a => req.OrderIds.Contains(a.OrderId));
-            }
-
-            reCount = query.Count();
+            reCount = dbContext.Database.SqlQuery<int>("select count(1) from (" + sql.ToString() + ") as t1", parameters.Select(x => ((ICloneable)x).Clone()).ToArray()).FirstOrDefault();
             if (reCount == 0)
             {
                 return null;
             }
 
-            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+             var list = dbContext.Database.SqlQuery<OrderImageListDto>(sql.ToString(), (SqlParameter[])parameters.ToArray().Clone())
+                .OrderByDescending(a => a.CreateTime)
+                .Skip((req.Page - 1) * req.Limit)
+                .Take(req.Limit).ToList();
+
+            //获得订单图片
+            var idList = list.Select(a => a.OrderId).ToList();
+            var imageList = dbContext.T_OrderImage.Where(a => idList.Contains(a.OrderId)).ToList();
+            foreach (var item in list)
+            {
+                var curImg = imageList.FirstOrDefault(a => a.OrderId == item.OrderId);
+                if (curImg != null)
+                {
+                    item.BiYeZhengImg = curImg.BiYeZhengImg;
+                    item.IDCard1 = curImg.IDCard1;
+                    item.IDCard2 = curImg.IDCard2;
+                    item.LiangCunLanDiImg = curImg.LiangCunLanDiImg;
+                    item.MianKaoJiSuanJiImg = curImg.MianKaoJiSuanJiImg;
+                    item.MianKaoYingYuImg = curImg.MianKaoYingYuImg;
+                    item.QiTa = curImg.QiTa;
+                    item.TouXiang = curImg.TouXiang;
+                    item.XueXinWangImg = curImg.XueXinWangImg;
+                }
+            }
+            
+            return list;
         }
 
         /// <summary>
