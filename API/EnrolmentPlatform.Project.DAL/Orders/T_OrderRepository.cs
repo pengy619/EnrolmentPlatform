@@ -468,6 +468,23 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 parameters.Add(new SqlParameter("@Status", req.Status.Value));
             }
 
+            if (req.OrderIds != null && req.OrderIds.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder("(");
+                for (var i = 0; i < req.OrderIds.Count; i++)
+                {
+                    var curOrderId = req.OrderIds[i];
+                    sb.Append("'" + curOrderId.ToString() + "'");
+                    if (i != req.OrderIds.Count - 1)
+                    {
+                        sb.Append(",");
+                    }
+                }
+                sb.Append(")");
+
+                sql.Append(" and o.Id in " + sb.ToString());
+            }
+
             if (req.FromChannelId.HasValue)
             {
                 sql.Append(" and o.FromChannelId=@FromChannelId");
