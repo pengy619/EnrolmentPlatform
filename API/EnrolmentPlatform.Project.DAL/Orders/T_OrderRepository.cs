@@ -468,23 +468,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 parameters.Add(new SqlParameter("@Status", req.Status.Value));
             }
 
-            if (req.OrderIds != null && req.OrderIds.Count > 0)
-            {
-                StringBuilder sb = new StringBuilder("(");
-                for (var i = 0; i < req.OrderIds.Count; i++)
-                {
-                    var curOrderId = req.OrderIds[i];
-                    sb.Append("'" + curOrderId.ToString() + "'");
-                    if (i != req.OrderIds.Count - 1)
-                    {
-                        sb.Append(",");
-                    }
-                }
-                sb.Append(")");
-
-                sql.Append(" and o.Id in " + sb.ToString());
-            }
-
             if (req.FromChannelId.HasValue)
             {
                 sql.Append(" and o.FromChannelId=@FromChannelId");
@@ -507,6 +490,38 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 sql.Append(" and ((o.FromChannelId is not null and o.Status!=0) or o.FromChannelId is null)");
             }
 
+            //学校
+            if (!string.IsNullOrWhiteSpace(req.SchoolName))
+            {
+                sql.Append(" and m2.Name like @SchoolName");
+                parameters.Add(new SqlParameter("@SchoolName", "%" + req.SchoolName + "%"));
+            }
+
+            //层级
+            if (!string.IsNullOrWhiteSpace(req.LevelName))
+            {
+                sql.Append(" and m3.Name like @LevelName");
+                parameters.Add(new SqlParameter("@LevelName", "%" + req.LevelName + "%"));
+            }
+
+            //查找订单id集合
+            if (req.OrderIds != null && req.OrderIds.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder("(");
+                for (var i = 0; i < req.OrderIds.Count; i++)
+                {
+                    var curOrderId = req.OrderIds[i];
+                    sb.Append("'" + curOrderId.ToString() + "'");
+                    if (i != req.OrderIds.Count - 1)
+                    {
+                        sb.Append(",");
+                    }
+                }
+                sb.Append(")");
+
+                sql.Append(" and o.Id in " + sb.ToString());
+            }
+
             #endregion
 
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
@@ -516,10 +531,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-             var list = dbContext.Database.SqlQuery<OrderImageListDto>(sql.ToString(), (SqlParameter[])parameters.ToArray().Clone())
-                .OrderByDescending(a => a.CreateTime)
-                .Skip((req.Page - 1) * req.Limit)
-                .Take(req.Limit).ToList();
+            var list = dbContext.Database.SqlQuery<OrderImageListDto>(sql.ToString(), (SqlParameter[])parameters.ToArray().Clone())
+               .OrderByDescending(a => a.CreateTime)
+               .Skip((req.Page - 1) * req.Limit)
+               .Take(req.Limit).ToList();
 
             //获得订单图片
             var idList = list.Select(a => a.OrderId).ToList();
@@ -540,7 +555,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     item.XueXinWangImg = curImg.XueXinWangImg;
                 }
             }
-            
+
             return list;
         }
 
