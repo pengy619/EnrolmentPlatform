@@ -6,7 +6,10 @@
     .searchMore {
         display: none;
     }
-    .layui-table-view .layui-table-box td .laytable-cell-1-9{width:100px!important;}
+
+    .layui-table-view .layui-table-box td .laytable-cell-1-9 {
+        width: 100px !important;
+    }
 </style>
 <div class="main-wrap">
     <div class="panel">
@@ -41,20 +44,16 @@
                     </div>
                 </div>
                 <div class="layui-form-item flex searchMore">
-                    <label class="layui-form-label">创建老师</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="CreateUserName" class="layui-input">
-                    </div>
                     <label class="layui-form-label">报考学校</label>
                     <div class="layui-input-inline">
                         <input type="text" id="SchoolName" class="layui-input">
                     </div>
-                </div>
-                <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">报读层次</label>
                     <div class="layui-input-inline">
                         <input type="text" id="LevelName" class="layui-input">
                     </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">报名时间</label>
                     <div class="layui-input-inline">
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
@@ -158,7 +157,6 @@
             elem: '#table'
             , skin: 'line'
             , limit: 10
-            //, data: [{ OrderId: '@Guid.NewGuid()', StudentName: 'test', BatchName:'批次'}]
             , url: '@Url.Action("Search", "Image")'
             , page: true //开启分页
             , cols: [[ //表头
@@ -179,7 +177,6 @@
                 , { title: '其他', toolbar: '#tableToolImage9', width: 80 }
                 , { field: 'StatusName', title: '状态', width: 80 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 110 }
-                , { field: 'CreateUserName', title: '招生老师', width: 90 }
             ]]
         }
         table.render(tableOptions);
@@ -250,7 +247,6 @@
             StudentName: $("#StudentName").val(),
             Phone: $("#Phone").val(),
             IDCard: $("#IDCard").val(),
-            CreateUserName: $("#CreateUserName").val(),
             SchoolName: $("#SchoolName").val(),
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,

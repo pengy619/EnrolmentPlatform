@@ -34,20 +34,16 @@
                     </div>
                 </div>
                 <div class="layui-form-item flex searchMore">
-                    <label class="layui-form-label">创建老师</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="CreateUserName" class="layui-input">
-                    </div>
                     <label class="layui-form-label">报考学校</label>
                     <div class="layui-input-inline">
                         <input type="text" id="SchoolName" class="layui-input">
                     </div>
-                </div>
-                <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">报读层次</label>
                     <div class="layui-input-inline">
                         <input type="text" id="LevelName" class="layui-input">
                     </div>
+                </div>
+                <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">报名时间</label>
                     <div class="layui-input-inline">
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
@@ -206,9 +202,6 @@
         if (searchData.IDCard != "") {
             url += "&IDCard=" + searchData.IDCard;
         }
-        if (searchData.CreateUserName != "") {
-            url += "&CreateUserName=" + searchData.CreateUserName;
-        }
         if (searchData.SchoolName != "") {
             url += "&SchoolName=" + searchData.SchoolName;
         }
@@ -242,7 +235,6 @@
             StudentName: $("#StudentName").val(),
             Phone: $("#Phone").val(),
             IDCard: $("#IDCard").val(),
-            CreateUserName: $("#CreateUserName").val(),
             SchoolName: $("#SchoolName").val(),
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
