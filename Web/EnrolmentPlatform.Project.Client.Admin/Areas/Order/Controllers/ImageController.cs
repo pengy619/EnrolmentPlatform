@@ -697,14 +697,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 CreatorUserId = this.UserId,
                 CreatorAccount = this.UserAccount
             });
-            if (ret.IsSuccess)
-            {
-                return Json(new { ret = true, msg = "上传成功！" });
-            }
-            else
-            {
-                return Json(new { ret = false, msg = "上传失败！" });
-            }
+            return Json(new { ret = ret.IsSuccess, msg = ret.Info });
         }
 
         /// <summary>
