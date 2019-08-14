@@ -48,6 +48,12 @@ namespace EnrolmentPlatform.Project.BLL.Systems
         public ResultMsg AddFile(FileDto dto)
         {
             ResultMsg resultMsg = new ResultMsg();
+            if (this.Count(t => t.ForeignKeyId == dto.ForeignKeyId && t.FileName == dto.FileName) > 0)
+            {
+                resultMsg.IsSuccess = false;
+                resultMsg.Info = "该文件已存在，请勿重复添加";
+                return resultMsg;
+            }
             var file = new T_File
             {
                 Id = Guid.NewGuid(),
