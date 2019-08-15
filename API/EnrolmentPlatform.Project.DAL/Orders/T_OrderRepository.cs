@@ -421,7 +421,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             if (!string.IsNullOrWhiteSpace(req.IDCard))
             {
-                sql.Append(" and o.IDCard like @IDCard");
+                sql.Append(" and o.IDCardNo like @IDCard");
                 parameters.Add(new SqlParameter("@IDCard", "%" + req.IDCard + "%"));
             }
 
