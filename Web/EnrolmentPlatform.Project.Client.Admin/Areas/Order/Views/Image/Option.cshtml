@@ -313,6 +313,18 @@
             return false;
         }
         var file = document.getElementById("Attachment").files[0];
+        //判断文件是否存在
+        var fileNames = [];
+        $(".layui-table a.layui-table-link").each(function () {
+            fileNames.push($(this).text());
+        });
+        if (fileNames.indexOf(file.name) > -1) {
+            layer.msg("该文件已存在！", {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
         var fdata = new FormData();
         fdata.append("file", file);
         fdata.append("orderId", $("#hidOrderId").val());
