@@ -52,7 +52,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Filter
         {
             string cookieVal = dto.ToJson();
             string desCookieVal = DESEncrypt.Encrypt(cookieVal);
-            CookieHelper.SetCookieValue(LoginCookieName, desCookieVal, 30, 1);
+            CookieHelper.SetCookieValue(LoginCookieName, desCookieVal, 8, 2);
         }
 
         /// <summary>
