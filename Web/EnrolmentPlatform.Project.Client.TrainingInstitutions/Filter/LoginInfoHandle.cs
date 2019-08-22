@@ -36,6 +36,8 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter
             {
                 string val = DESEncrypt.Decrypt(cookieValue);
                 loginInfo = val.ToObject<UserLoginDto>();
+                //更新cookie过期时间
+                CookieHelper.SetCookieValue(LoginCookieName, cookieValue, 10, 1);
             }
             if (loginInfo != null && loginInfo.UserId != Guid.Empty)
             {
@@ -52,7 +54,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter
         {
             string cookieVal = dto.ToJson();
             string desCookieVal = DESEncrypt.Encrypt(cookieVal);
-            CookieHelper.SetCookieValue(LoginCookieName, desCookieVal, 8, 2);
+            CookieHelper.SetCookieValue(LoginCookieName, desCookieVal, 10, 1);
         }
 
         /// <summary>
