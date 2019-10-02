@@ -459,7 +459,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string MianKaoJiSuanJiImg { set; get; }
 
         /// <summary>
-        /// 学信网截图
+        /// 教育部学历证书电子备案表
         /// </summary>
         public string XueXinWangImg { set; get; }
 

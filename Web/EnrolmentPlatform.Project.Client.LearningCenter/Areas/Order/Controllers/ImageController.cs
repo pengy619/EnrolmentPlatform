@@ -181,7 +181,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
                     var p1 = GetLocalPic(dto.XueXinWangImg, dto);
                     if (p1 != null)
                     {
-                        dicItem.Add("学信网截图.jpg", p1);
+                        dicItem.Add("教育部学历证书电子备案表.jpg", p1);
                     }
                 }
 

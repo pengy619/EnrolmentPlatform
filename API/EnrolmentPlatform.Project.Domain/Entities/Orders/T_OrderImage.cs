@@ -59,7 +59,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string MianKaoJiSuanJiImg { set; get; }
 
         /// <summary>
-        /// 学信网截图
+        /// 教育部学历证书电子备案表
         /// </summary>
         [DataMember]
         public string XueXinWangImg { set; get; }
