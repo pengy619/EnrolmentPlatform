@@ -282,7 +282,7 @@
             }
 
             if (canDelete == false) {
-                layer.msg('只有草稿和拒绝状态的才可以删除。', {
+                layer.msg('只有待提交和审核不通过的才可以删除。', {
                     icon: 2,
                     time: 2000
                 });
@@ -434,7 +434,7 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                //已报名，草稿，被拒绝可以进行报送
+                //已报名，待提交，被拒绝可以进行报送
                 if (parseInt(checkdata[i].Status) != 4 && parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
                     canSubmit = false;
                 }

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace EnrolmentPlatform.Project.DTO.Enums.Orders
 {
     /// <summary>
-    /// 订单状态（0：草稿, 1：提交 2：已退学，3：已拒绝，4：已报名，5：录取提交，6：录取拒绝，7：已录取）
+    /// 订单状态（0：待提交, 1：提交 2：已退学，3：审核不通过，4：已报名，5：录取提交，6：录取拒绝，7：已录取）
     /// </summary>
     public enum OrderStatusEnum
     {
         /// <summary>
-        /// 草稿
+        /// 待提交
         /// </summary>
-        [Description("草稿")]
+        [Description("待提交")]
         Init = 0,
 
         ///// <summary>
@@ -31,9 +31,9 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         LeaveSchool = 2,
 
         /// <summary>
-        /// 已拒绝
+        /// 审核不通过
         /// </summary>
-        [Description("已拒绝")]
+        [Description("审核不通过")]
         Reject = 3,
 
         /// <summary>

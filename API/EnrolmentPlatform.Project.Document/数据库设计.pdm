@@ -2211,7 +2211,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Creator>pengy</a:Creator>
 <a:ModificationDate>1541342004</a:ModificationDate>
 <a:Modifier>pengy</a:Modifier>
-<a:Comment>1:暂存(草稿) 2:保存(待审核) 3:通过 4:确认</a:Comment>
+<a:Comment>1:暂存(待提交) 2:保存(待审核) 3:通过 4:确认</a:Comment>
 <a:DataType>int</a:DataType>
 <a:Column.Mandatory>1</a:Column.Mandatory>
 </o:Column>
