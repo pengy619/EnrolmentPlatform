@@ -343,7 +343,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     {
                         var entity = this.orderRepository.FindEntityById(item);
                         if (entity == null ||
-                            (entity.Status != (int)OrderStatusEnum.Enroll && entity.Status != (int)OrderStatusEnum.ToLearningCenter))
+                            (entity.Status != (int)OrderStatusEnum.Enroll && entity.Status != (int)OrderStatusEnum.ToLearningCenter && entity.Status != (int)OrderStatusEnum.Audited))
                         {
                             break;
                         }
