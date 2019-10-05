@@ -173,6 +173,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         {
             int reCount = 0;
             param.IsChannel = true;
+            param.Field = "EnrollTime";
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null)
             {

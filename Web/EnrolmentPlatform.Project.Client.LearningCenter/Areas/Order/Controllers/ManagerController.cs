@@ -128,6 +128,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
         {
             int reCount = 0;
             param.ToLearningCenterId = this.SupplierId;
+            param.Field = "ToLearningCenterTime";
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null)
             {

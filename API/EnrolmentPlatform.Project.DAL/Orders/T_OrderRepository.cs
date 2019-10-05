@@ -370,7 +370,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            query = ExtLinq.ApplyOrder(query, req.Field ?? "CreateTime", false);
+            query = query.Skip((req.Page - 1) * req.Limit).Take(req.Limit);
+            return query.ToList();
         }
 
         /// <summary>
