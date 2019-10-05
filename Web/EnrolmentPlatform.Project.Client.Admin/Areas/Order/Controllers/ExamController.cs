@@ -46,25 +46,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         public ActionResult Option(Guid? id)
         {
             //学习中心
-            SupplierSearchDto req = new SupplierSearchDto
-            {
-                Classify = SystemTypeEnum.LearningCenter,
-                Limit = int.MaxValue,
-                Page = 1,
-                Status = 2
-            };
-            var ret = WebApiHelper.Post<HttpResponseMsg>(
-                "/api/Enterprise/GetSupplierPageList",
-                JsonConvert.SerializeObject(req),
-               ConfigurationManager.AppSettings["StaffId"].ToInt());
-            if (ret.Data != null)
-            {
-                var res = ret.Data.ToString().ToObject<GridDataResponse>();
-                if (res != null)
-                {
-                    ViewBag.LearningList = res.Data.ToString().ToList<SupplierListDto>();
-                }
-            }
+            ViewBag.LearningList = EnterpriseService.GetUserList(SystemTypeEnum.LearningCenter);
+            
             return View(id ?? Guid.Empty);
         }
 

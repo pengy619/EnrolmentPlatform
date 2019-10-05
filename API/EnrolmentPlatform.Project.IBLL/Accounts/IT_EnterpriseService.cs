@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Accounts;
+using EnrolmentPlatform.Project.DTO.Enums.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
 
 namespace EnrolmentPlatform.Project.IBLL.Accounts
@@ -78,5 +79,12 @@ namespace EnrolmentPlatform.Project.IBLL.Accounts
         /// <param name="supplierId"></param>
         /// <returns></returns>
         ResultMsg ResetSupplierAccountPassword(Guid supplierId);
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="classify"></param>
+        /// <returns></returns>
+        List<SupplierListDto> GetUserList(SystemTypeEnum classify);
     }
 }

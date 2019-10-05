@@ -166,25 +166,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         public ActionResult ChargeStrategy(Guid schoolId)
         {
             //招生机构
-            SupplierSearchDto req = new SupplierSearchDto
-            {
-                Classify = SystemTypeEnum.TrainingInstitutions,
-                Limit = int.MaxValue,
-                Page = 1,
-                Status = 2
-            };
-            var ret = WebApiHelper.Post<HttpResponseMsg>(
-                "/api/Enterprise/GetSupplierPageList",
-                JsonConvert.SerializeObject(req),
-               ConfigurationManager.AppSettings["StaffId"].ToInt());
-            if (ret.Data != null)
-            {
-                var res = ret.Data.ToString().ToObject<GridDataResponse>();
-                if (res != null)
-                {
-                    ViewBag.InstitutionList = res.Data.ToString().ToList<SupplierListDto>();
-                }
-            }
+            ViewBag.InstitutionList = EnterpriseService.GetUserList(SystemTypeEnum.TrainingInstitutions);
+            
             return View(schoolId);
         }
 

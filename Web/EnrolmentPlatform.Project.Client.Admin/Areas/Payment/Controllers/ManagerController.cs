@@ -36,9 +36,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
         public ActionResult AccountIndex()
         {
             //招生机构
-            ViewBag.TrainingList = GetUserList(SystemTypeEnum.TrainingInstitutions);
+            ViewBag.TrainingList = EnterpriseService.GetUserList(SystemTypeEnum.TrainingInstitutions);
             //学习中心
-            ViewBag.LearningList = GetUserList(SystemTypeEnum.LearningCenter);
+            ViewBag.LearningList = EnterpriseService.GetUserList(SystemTypeEnum.LearningCenter);
             return View();
         }
 
@@ -384,36 +384,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Payment.Controllers
             {
                 return Json(new { ret = false, msg = "系统错误。" });
             }
-        }
-
-        /// <summary>
-        /// 获取用户列表
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private List<SupplierListDto> GetUserList(SystemTypeEnum type)
-        {
-            List<SupplierListDto> list = new List<SupplierListDto>();
-            SupplierSearchDto req = new SupplierSearchDto
-            {
-                Classify = type,
-                Limit = int.MaxValue,
-                Page = 1,
-                Status = 2
-            };
-            var ret = WebApiHelper.Post<HttpResponseMsg>(
-                "/api/Enterprise/GetSupplierPageList",
-                JsonConvert.SerializeObject(req),
-               ConfigurationManager.AppSettings["StaffId"].ToInt());
-            if (ret.Data != null)
-            {
-                var res = ret.Data.ToString().ToObject<GridDataResponse>();
-                if (res != null)
-                {
-                    list = res.Data.ToString().ToList<SupplierListDto>();
-                }
-            }
-            return list;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
@@ -38,7 +39,7 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-       
+
         public GridDataResponse GetSupplierPageList(SupplierSearchDto param)
         {
             return this.repository.GetSupplierPageList(param);
@@ -188,6 +189,21 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
             account.PassWord = Md5.Md5Hash("abc123456" + account.Id.ToString());
             _resultMsg.IsSuccess = accountRepository.UpdateEntity(account, Domain.EFContext.E_DbClassify.Write, "重置密码", true, account.Id.ToString()) > 0;
             return _resultMsg;
+        }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="classify"></param>
+        /// <returns></returns>
+        public List<SupplierListDto> GetUserList(SystemTypeEnum classify)
+        {
+            return repository.LoadEntities(t => t.IsDelete == false && t.Classify == (int)classify && t.Status == 2)
+                .Select(t => new SupplierListDto()
+                {
+                    SupplierId = t.Id,
+                    SupplierName = t.EnterpriseName
+                }).OrderBy(t => t.SupplierName).ToList();
         }
     }
 }

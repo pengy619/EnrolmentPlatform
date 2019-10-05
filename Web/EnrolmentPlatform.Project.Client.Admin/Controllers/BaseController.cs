@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
+using EnrolmentPlatform.Project.IBLL.Accounts;
 using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.IBLL.Systems;
@@ -136,6 +137,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         /// 文件接口
         /// </summary>
         public static IT_FileService FileService = DIContainer.Resolve<IT_FileService>();
+
+        /// <summary>
+        /// 用户接口
+        /// </summary>
+        public static IT_EnterpriseService EnterpriseService = DIContainer.Resolve<IT_EnterpriseService>();
 
         #endregion
 
