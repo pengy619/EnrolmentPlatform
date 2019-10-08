@@ -235,6 +235,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 JiGuan = entity.JiGuan,
                 MinZu = entity.MinZu,
                 Sex = entity.Sex,
+                CreateTime = entity.CreatorTime,
+                CreateUserName = entity.UserName,
                 AssistStatus = entity.AssistStatus
             };
         }

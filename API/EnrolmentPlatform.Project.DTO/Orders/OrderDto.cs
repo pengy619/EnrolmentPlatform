@@ -177,6 +177,22 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户
         /// </summary>
         public string CreateUserName { set; get; }
+
+        /// <summary>
+        /// 报名时间
+        /// </summary>
+        public DateTime CreateTime { set; get; }
+
+        /// <summary>
+        /// 报名时间
+        /// </summary>
+        public string CreateTimeStr
+        {
+            get
+            {
+                return this.CreateTime.ToString("yyyy-MM-dd");
+            }
+        }
     }
 
     /// <summary>
