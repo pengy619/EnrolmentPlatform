@@ -731,5 +731,43 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             return orderRepository.GetOrderStatistics(req);
         }
+
+        /// <summary>
+        /// 协助处理完成
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <returns></returns>
+        public bool AssistDispose(Guid[] ids)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in ids)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null ||
+                            (entity.Status != (int)OrderStatusEnum.Init && entity.Status != (int)OrderStatusEnum.Reject))
+                        {
+                            break;
+                        }
+
+                        entity.AssistStatus = 2;
+                        entity.LastModifyTime = DateTime.Now;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "协助处理完成！", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
     }
 }
