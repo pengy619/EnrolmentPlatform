@@ -552,7 +552,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 //缺异地证明
                 if (req.OrderImageStatus.Value == OrderImageStatusEnum.DefYiDiZhengMing)
                 {
-                    sql.Append(" and im.MianKaoYingYuImg is null and im.MianKaoJiSuanJiImg is null");
+                    sql.Append(" and (im.MianKaoYingYuImg is null and im.MianKaoJiSuanJiImg is null)");
                 }
             }
 
