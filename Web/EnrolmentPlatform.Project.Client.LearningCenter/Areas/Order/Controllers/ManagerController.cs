@@ -143,6 +143,19 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
         }
 
         /// <summary>
+        /// 获得订单统计
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetOrderStatistics(OrderListReqDto param)
+        {
+            param.ToLearningCenterId = this.SupplierId;
+            var data = OrderService.GetOrderStatistics(param);
+            return Json(data);
+        }
+
+        /// <summary>
         /// 报名单拒绝
         /// </summary>
         /// <param name="ids">ID集合</param>

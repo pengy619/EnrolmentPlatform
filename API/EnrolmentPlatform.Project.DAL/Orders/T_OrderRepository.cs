@@ -972,5 +972,137 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             dbContext.SaveChanges();
             return "";
         }
+
+        /// <summary>
+        /// 获得订单统计
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public OrderStatisticsDto GetOrderStatistics(OrderListReqDto req)
+        {
+            if (req.DateTo.HasValue)
+            {
+                req.DateTo = req.DateTo.Value.AddDays(1);
+            }
+
+            StringBuilder sql = new StringBuilder(@"SELECT 
+                        count(1) countAll,
+                        isnull(sum(case when status=0 then 1 else 0 end),0) count0,
+                        isnull(sum(case when status=2 then 1 else 0 end),0) count2,
+                        isnull(sum(case when status=3 then 1 else 0 end),0) count3,
+                        isnull(sum(case when status=4 then 1 else 0 end),0) count4,
+                        isnull(sum(case when status=5 then 1 else 0 end),0) count5,
+                        isnull(sum(case when status=6 then 1 else 0 end),0) count6,
+                        isnull(sum(case when status=7 then 1 else 0 end),0) count7,
+                        isnull(sum(case when status=8 then 1 else 0 end),0) count8
+                        from T_Order AS o
+                        LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
+                        LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id
+                        LEFT JOIN T_Metadata AS m3 ON o.LevelId = m3.Id
+                        where o.IsDelete=0");
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            #region 查询条件
+
+            if (!string.IsNullOrWhiteSpace(req.StudentName))
+            {
+                sql.Append(" and o.StudentName like @StudentName");
+                parameters.Add(new SqlParameter("@StudentName", "%" + req.StudentName + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(req.Phone))
+            {
+                sql.Append(" and o.Phone like @Phone");
+                parameters.Add(new SqlParameter("@Phone", "%" + req.Phone + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(req.IDCard))
+            {
+                sql.Append(" and o.IDCardNo like @IDCard");
+                parameters.Add(new SqlParameter("@IDCard", "%" + req.IDCard + "%"));
+            }
+
+            if (!string.IsNullOrWhiteSpace(req.CreateUserName))
+            {
+                sql.Append(" and o.CreatorAccount like @CreatorAccount");
+                parameters.Add(new SqlParameter("@CreatorAccount", "%" + req.CreateUserName + "%"));
+            }
+
+            if (req.DateFrom.HasValue)
+            {
+                sql.Append(" and o.CreatorTime>=@DateFrom");
+                parameters.Add(new SqlParameter("@DateFrom", req.DateFrom.Value));
+            }
+
+            if (req.DateTo.HasValue)
+            {
+                req.DateTo = req.DateTo.Value.AddDays(1);
+                sql.Append(" and o.CreatorTime<@DateTo");
+                parameters.Add(new SqlParameter("@DateTo", req.DateTo.Value));
+            }
+
+            if (req.QuDaoXueFei.HasValue)
+            {
+                sql.Append(" and o.AllQuDaoAmountPayed=@AllQuDaoAmountPayed");
+                parameters.Add(new SqlParameter("@AllQuDaoAmountPayed", req.QuDaoXueFei.Value));
+            }
+
+            if (req.ZhaoShengXueFei.HasValue)
+            {
+                sql.Append(" and o.AllZSZhongXinAmountPayed=@AllZSZhongXinAmountPayed");
+                parameters.Add(new SqlParameter("@AllZSZhongXinAmountPayed", req.ZhaoShengXueFei.Value));
+            }
+
+            if (req.AllOrderImageUpload.HasValue)
+            {
+                sql.Append(" and o.AllOrderImageUpload=@AllOrderImageUpload");
+                parameters.Add(new SqlParameter("@AllOrderImageUpload", req.AllOrderImageUpload.Value));
+            }
+
+            if (req.FromChannelId.HasValue)
+            {
+                sql.Append(" and o.FromChannelId=@FromChannelId");
+                parameters.Add(new SqlParameter("@FromChannelId", req.FromChannelId.Value));
+            }
+
+            if (req.ToLearningCenterId.HasValue)
+            {
+                sql.Append(" and o.ToLearningCenterId=@ToLearningCenterId");
+                parameters.Add(new SqlParameter("@ToLearningCenterId", req.ToLearningCenterId.Value));
+            }
+
+            if (req.IsChannel.HasValue)
+            {
+                sql.Append(" and ((o.FromChannelId is not null and o.Status!=0) or o.FromChannelId is null)");
+            }
+
+            //学校
+            if (!string.IsNullOrWhiteSpace(req.SchoolName))
+            {
+                sql.Append(" and m2.Name like @SchoolName");
+                parameters.Add(new SqlParameter("@SchoolName", "%" + req.SchoolName + "%"));
+            }
+
+            //层级
+            if (!string.IsNullOrWhiteSpace(req.LevelName))
+            {
+                sql.Append(" and m3.Name like @LevelName");
+                parameters.Add(new SqlParameter("@LevelName", "%" + req.LevelName + "%"));
+            }
+
+            //批次
+            if (!string.IsNullOrWhiteSpace(req.BatchName))
+            {
+                sql.Append(" and m1.Name like @BatchName");
+                parameters.Add(new SqlParameter("@BatchName", "%" + req.BatchName + "%"));
+            }
+
+            #endregion
+
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var dto = dbContext.Database.SqlQuery<OrderStatisticsDto>(sql.ToString(), (SqlParameter[])parameters.ToArray().Clone()).FirstOrDefault();
+            return dto;
+        }
     }
 }

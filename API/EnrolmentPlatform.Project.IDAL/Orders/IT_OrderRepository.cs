@@ -70,5 +70,12 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// <param name="list">报名单列表</param>
         /// <returns></returns>
         string LuQuUpload(List<OrderLuQuUploadDto> list);
+
+        /// <summary>
+        /// 获得订单统计
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        OrderStatisticsDto GetOrderStatistics(OrderListReqDto req);
     }
 }
