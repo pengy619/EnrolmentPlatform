@@ -286,10 +286,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <summary>
         /// 报名提交（直接为已报名）
         /// </summary>
-        /// <param name="orderIdList">orderIdList</param>
-        /// <param name="userId">修改人</param>
+        /// <param name="dto">dto</param>
         /// <returns></returns>
-        public bool SubmitOrder(List<Guid> orderIdList, Guid userId)
+        public bool SubmitOrder(SubmitOrderDto dto)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -297,7 +296,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 var tran = conn.BeginTransaction();
                 try
                 {
-                    foreach (var item in orderIdList)
+                    foreach (var item in dto.IDs)
                     {
                         var entity = this.orderRepository.FindEntityById(item);
                         if (entity == null ||
@@ -306,10 +305,11 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             break;
                         }
 
+                        entity.AssistStatus = dto.AssistStatus;
                         entity.Status = (int)OrderStatusEnum.Enroll;
                         entity.EnrollTime = DateTime.Now;
                         entity.LastModifyTime = DateTime.Now;
-                        entity.LastModifyUserId = userId;
+                        entity.LastModifyUserId = dto.UserId;
                         this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "报名提交", true, entity.Id.ToString());
                     }
 
