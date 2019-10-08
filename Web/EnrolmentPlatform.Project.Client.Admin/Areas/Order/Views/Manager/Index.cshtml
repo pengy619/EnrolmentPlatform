@@ -21,22 +21,26 @@
     <div class="panel">
         <div class="panel-title">
             <div class="layui-form">
+                <input type="hidden" name="Status" id="Status" value="">
                 <div class="layui-form-item flex">
-                    <label class="layui-form-label">启用状态</label>
-                    <div class="layui-input-inline">
-                        <select id="Status" name="Status" style="width:100px;">
-                            <option value="">全部</option>
-                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderStatusEnum, int>())
-                            {
-                                <option value="@item.Key">@item.Value</option>
-                            }
-                        </select>
+                    <label class="layui-form-label">快速查询</label>
+                    <div class="filter-list">
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray actived" onclick="toChang('', this)">全部（<span id="countAll">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('4', this)">已报名（<span id="count4">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('5', this)">已报送（<span id="count5">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('6', this)">已初审（<span id="count6">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('3', this)">审核不通过（<span id="count3">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('7', this)">已录取（<span id="count7">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('8', this)">已毕业（<span id="count8">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('2', this)">已退学（<span id="count2">0</span>）</span>
                     </div>
+                </div>
+                <div class="layui-form-item flex">
                     <label class="layui-form-label">学生姓名</label>
                     <div class="layui-input-inline">
                         <input type="text" id="StudentName" class="layui-input">
                     </div>
-                    <button class="layui-btn layui-btn-warm" type="button" lay-submit="" lay-filter="s">查询</button>
+                    <button class="layui-btn layui-btn-warm" type="button" id="search_btn" lay-submit="" lay-filter="s">查询</button>
                     <button class="layui-btn layui-btn-warm" type="button" id="MoreSearch">更多查询</button>
                 </div>
                 <div class="layui-form-item flex searchMore">
@@ -256,6 +260,24 @@
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }
                 , { title: '操作', toolbar: '#tableTool', width: 168 }
             ]]
+            , done: function () {
+                $.ajax({
+                    url: "@Url.Action("GetOrderStatistics", "Manager")",
+                    data: getSearchData(),
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#countAll").html(data.countAll);
+                        $("#count2").html(data.count2);
+                        $("#count3").html(data.count3);
+                        $("#count4").html(data.count4);
+                        $("#count5").html(data.count5);
+                        $("#count6").html(data.count6);
+                        $("#count7").html(data.count7);
+                        $("#count8").html(data.count8);
+                    }
+                })
+            }
         }
         table.render(tableOptions);
 
@@ -903,5 +925,13 @@
             ToLearningCenterId: $("#ToLearningCenterId").val(),
             BatchName: $("#BatchName").val()
         };
+    }
+
+    //状态查询
+    function toChang(count_type, obj) {
+        $(".count_type").removeClass("actived");
+        $(obj).addClass("actived");
+        $("#Status").val(count_type);
+        $("#search_btn").click();
     }
 </script>

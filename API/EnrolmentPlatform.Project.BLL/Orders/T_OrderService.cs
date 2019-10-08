@@ -718,5 +718,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             return orderRepository.LuQuUpload(list);
         }
+
+        /// <summary>
+        /// 获得订单统计
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public OrderStatisticsDto GetOrderStatistics(OrderListReqDto req)
+        {
+            return orderRepository.GetOrderStatistics(req);
+        }
     }
 }

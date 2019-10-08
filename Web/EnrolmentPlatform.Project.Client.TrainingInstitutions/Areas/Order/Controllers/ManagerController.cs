@@ -143,6 +143,19 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         }
 
         /// <summary>
+        /// 获得订单统计
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetOrderStatistics(OrderListReqDto param)
+        {
+            param.FromChannelId = this.EnterpriseId;
+            var data = OrderService.GetOrderStatistics(param);
+            return Json(data);
+        }
+
+        /// <summary>
         /// 删除报名单
         /// </summary>
         /// <param name="ids">ID集合</param>

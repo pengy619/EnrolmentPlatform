@@ -202,6 +202,7 @@
   <ItemGroup>
     <Content Include="Content\Site.css" />
     <Content Include="Content\Website\css\common.css" />
+    <Content Include="Content\Website\css\dev.css" />
     <Content Include="Content\Website\css\main.css" />
     <Content Include="Content\Website\css\replace.css" />
     <Content Include="Content\Website\css\zss.css" />

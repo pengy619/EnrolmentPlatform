@@ -158,6 +158,19 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
+        /// 获得订单统计
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetOrderStatistics(OrderListReqDto param)
+        {
+            param.IsChannel = true;
+            var data = OrderService.GetOrderStatistics(param);
+            return Json(data);
+        }
+
+        /// <summary>
         /// 删除报名单
         /// </summary>
         /// <param name="ids">ID集合</param>
