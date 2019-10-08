@@ -365,6 +365,18 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 query = query.Where(a => a.BatchName.Contains(req.BatchName));
             }
 
+            if (req.AssistStatus.HasValue)
+            {
+                if (req.AssistStatus.Value != 0)
+                {
+                    query = query.Where(a => a.AssistStatus.Value == (int)req.AssistStatus.Value);
+                }
+                else
+                {
+                    query = query.Where(a => a.AssistStatus.HasValue == false);
+                }
+            }
+
             reCount = query.Count();
             if (reCount == 0)
             {
@@ -474,6 +486,19 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             {
                 sql.Append(" and o.Status=@Status");
                 parameters.Add(new SqlParameter("@Status", req.Status.Value));
+            }
+
+            if (req.AssistStatus.HasValue)
+            {
+                if (req.AssistStatus.Value != 0)
+                {
+                    sql.Append(" and o.AssistStatus=@AssistStatus");
+                    parameters.Add(new SqlParameter("@AssistStatus", req.AssistStatus.Value));
+                }
+                else
+                {
+                    sql.Append(" and o.AssistStatus is null");
+                }
             }
 
             if (req.FromChannelId.HasValue)
