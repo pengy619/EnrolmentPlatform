@@ -343,7 +343,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             TencentNo = a.TencentNo,
                             Email = a.Email,
                             UserName = a.UserName,
-                            Password = a.Password
+                            Password = a.Password,
+                            AssistStatus = a.AssistStatus
                         };
 
             //学校

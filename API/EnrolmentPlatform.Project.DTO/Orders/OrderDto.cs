@@ -84,6 +84,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public int Status { set; get; }
 
         /// <summary>
+        /// 协助状态（1：待处理，2：已处理）
+        /// </summary>
+        public int? AssistStatus { set; get; }
+
+        /// <summary>
         /// 来源机构（没有的话就是渠道添加的）
         /// </summary>
         public Guid? FromChannelId { set; get; }
@@ -222,6 +227,26 @@ namespace EnrolmentPlatform.Project.DTO.Orders
             get
             {
                 return EnumDescriptionHelper.GetDescription((OrderStatusEnum)this.Status);
+            }
+        }
+
+        /// <summary>
+        /// 协助状态（1：待处理，2：已处理）
+        /// </summary>
+        public int? AssistStatus { set; get; }
+
+        /// <summary>
+        /// 协助处理状态名称
+        /// </summary>
+        public string AssistStatusName
+        {
+            get
+            {
+                if (this.AssistStatus.HasValue == true)
+                {
+                    return EnumDescriptionHelper.GetDescription((AssistStatusEnum)this.AssistStatus);
+                }
+                return "不需要";
             }
         }
 
