@@ -390,8 +390,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             StringBuilder sql = new StringBuilder(@"SELECT 
-                        o.CreatorTime AS CreatorTime, 
+                        o.CreatorTime AS CreateTime, 
 	                    o.[CreatorAccount] AS CreateUserName,
+                        o.AssistStatus,
                         o.Id AS OrderId, 
                         o.Status AS[Status],
                         o.StudentName AS StudentName, 
