@@ -54,6 +54,16 @@
                         <input type="text" id="LevelName" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-form-item flex searchMore">
+                    <label class="layui-form-label">报名时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Date" readonly="readonly" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">批次</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="BatchName" class="layui-input">
+                    </div>
+                </div>
                 <div class="layui-form-item searchMore">
                     <label class="layui-form-label">照片全上传</label>
                     <div class="layui-input-inline">
@@ -70,12 +80,6 @@
                                 <option value="@item.Key">@item.Value</option>
                             }
                         </select>
-                    </div>
-                </div>
-                <div class="layui-form-item flex searchMore">
-                    <label class="layui-form-label">报名时间</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="Date" readonly="readonly" class="layui-input">
                     </div>
                 </div>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出照片包</button></a>
@@ -263,7 +267,8 @@
             LevelName: $("#LevelName").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
-            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
+            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val(),
+            BatchName: $("#BatchName").val()
         };
     }
 </script>
