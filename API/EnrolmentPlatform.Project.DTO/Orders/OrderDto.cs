@@ -639,6 +639,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public OrderStatusEnum? Status { set; get; }
 
         /// <summary>
+        /// 协助处理状态
+        /// </summary>
+        public AssistStatusEnum? AssistStatus { set; get; }
+
+        /// <summary>
         /// 资料状态
         /// </summary>
         public OrderImageStatusEnum? OrderImageStatus { set; get; }
