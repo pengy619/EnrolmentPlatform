@@ -108,4 +108,22 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         [Description("尾款")]
         EndPayment = 2,
     }
+
+    /// <summary>
+    /// 协助处理状态
+    /// </summary>
+    public enum AssistStatusEnum
+    {
+        /// <summary>
+        /// 待处理
+        /// </summary>
+        [Description("待处理")]
+        Approval = 1,
+
+        /// <summary>
+        /// 已处理
+        /// </summary>
+        [Description("已处理")]
+        Approved = 2,
+    }
 }

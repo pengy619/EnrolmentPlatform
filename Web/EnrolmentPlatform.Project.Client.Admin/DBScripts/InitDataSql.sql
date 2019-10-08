@@ -315,3 +315,6 @@ GO
 
 --2019-01-20收费策略表增加机构Id
 alter table T_ChargeStrategy Add InstitutionId uniqueidentifier not null default('00000000-0000-0000-0000-000000000000')
+
+--2019-10-8订单号增加协助状态
+alter table T_Order Add AssistStatus int null;
