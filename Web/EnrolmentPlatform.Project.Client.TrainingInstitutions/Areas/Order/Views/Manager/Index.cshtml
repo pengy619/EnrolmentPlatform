@@ -10,6 +10,7 @@
     .layui-table-body {
         overflow-x: auto;
     }
+   .layui-form-radio{margin: 6px 0px 0 0;}
 </style>
 <div class="main-wrap">
     <div class="panel">
@@ -73,6 +74,17 @@
                     <div class="layui-input-inline">
                         <input type="text" id="BatchName" class="layui-input">
                     </div>
+                    <label class="layui-form-label">协助处理</label>
+                    <div class="layui-input-inline">
+                        <select id="AssistStatus" name="AssistStatus" style="width:100px;">
+                            <option value="">全部</option>
+                            <option value="0">不需要</option>
+                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.AssistStatusEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
                 </div>
                 <div class="layui-form-item searchMore">
                     <label class="layui-form-label">照片全上传</label>
@@ -97,6 +109,15 @@
 <div id="audit-btn-modal" style="display:none;">
     <div class="layui-form big-label" style="width:795px; height:250px;overflow-y:auto;overflow-x:hidden;">
         <table class="layui-hide" id="Tb_LogSettingForTable"></table>
+    </div>
+</div>
+<!-- 弹出层（提交：增加待协助处理状态） -->
+<div id="audit-btn-modal3" style="display:none;">
+    <div class="layui-form" style="text-align: center;">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <input type="checkbox" value="1" id="AssistStatus" /><span style=" color:red;">毕业证或异地证明协助处理</span>
+        </div>
+        <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="AssistClick">确定</button>
     </div>
 </div>
 <script type="text/html" id="tableTool">
@@ -142,6 +163,7 @@
                 , { field: 'MajorName', title: '专业', width: 180 }
                 , { title: '电子照', toolbar: '#tableToolImage', width: 100 }
                 , { field: 'StatusName', title: '状态', width: 80 }
+                , { field: 'AssistStatusName', title: '协助处理', width: 90 }
                 , { field: 'XueHao', title: '学号', width: 120 }
                 , { field: 'UserName', title: '用户名', width: 120 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
@@ -234,6 +256,7 @@
         });
 
         //提交
+        var layerIndex = 1;
         form.on('submit(sb)', function (data) {
             //选中行
             var checkdata = table.checkStatus('table').data;
@@ -263,20 +286,71 @@
                 return false;
             }
 
+            layerIndex = layer.open({
+                type: 1,
+                title: "提交渠道中心",
+                area: ["450px", "200px"],
+                content: $('#audit-btn-modal3'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+
+        //提交操作
+        form.on('submit(AssistClick)', function (data) {
             //提交确认
             layer.confirm('确认提交？', {
                 btn: ['确认', '取消']
             }, function (index, layero) {
+
+                //选中行
+                var checkdata = table.checkStatus('table').data;
+                if (checkdata.length == 0) {
+                    layer.msg('请选择需要提交的报名单。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                //选中的ID
+                var canSubmit = true;
+                var arr = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    arr[i] = checkdata[i].OrderId;
+                    if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
+                        canSubmit = false;
+                    }
+                }
+
+                if (canSubmit == false) {
+                    layer.msg('只有待提交状态的才可以提交。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                var dto = {};
+                dto.IDs = arr;
+                if ($("#AssistStatus").prop("checked") == true) {
+                    dto.AssistStatus = 1;
+                }
+                else {
+                    dto.AssistStatus = null;
+                }
                 $.ajax({
                     type: "POST",
                     contentType: "application/json;utf-8",
                     dataType: "json",
                     async: false,
-                    data: JSON.stringify(arr),
+                    data: JSON.stringify(dto),
                     url: '@Url.Action("SubmitOrder", "Manager")',
                     success: function (result) {
                         if (result.ret == 1) {
-                            layer.msg('报名成功。', {
+                            layer.msg('提交成功。', {
                                 icon: 1,
                                 time: 2000
                             }, function () {
@@ -292,6 +366,7 @@
                     }
                 });
                 layer.close(index);
+                layer.close(layerIndex);
             });
         });
 
@@ -396,6 +471,7 @@
 
         return {
             Status: $("#Status").val(),
+            AssistStatus: $("#AssistStatus").val(),
             StudentName: $("#StudentName").val(),
             Phone: $("#Phone").val(),
             IDCard: $("#IDCard").val(),

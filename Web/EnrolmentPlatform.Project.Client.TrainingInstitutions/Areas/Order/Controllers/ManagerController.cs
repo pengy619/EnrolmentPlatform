@@ -177,12 +177,13 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// <summary>
         /// 报名单报名
         /// </summary>
-        /// <param name="ids">ID集合</param>
+        /// <param name="dto">dto</param>
         /// <returns>1：成功，2：错误</returns>
         [HttpPost]
-        public JsonResult SubmitOrder(Guid[] ids)
+        public JsonResult SubmitOrder(SubmitOrderDto dto)
         {
-            var ret = OrderService.SubmitOrder(ids.ToList(),this.UserId);
+            dto.UserId = this.UserId;
+            var ret = OrderService.SubmitOrder(dto);
             if (ret == true)
             {
                 return Json(new { ret = 1 });

@@ -61,10 +61,9 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <summary>
         /// 报名提交（直接为已报名）
         /// </summary>
-        /// <param name="orderIdList">orderIdList</param>
-        /// <param name="userId">修改人</param>
+        /// <param name="dto">dto</param>
         /// <returns></returns>
-        bool SubmitOrder(List<Guid> orderIdList, Guid userId);
+        bool SubmitOrder(SubmitOrderDto dto);
 
         /// <summary>
         /// 拒绝

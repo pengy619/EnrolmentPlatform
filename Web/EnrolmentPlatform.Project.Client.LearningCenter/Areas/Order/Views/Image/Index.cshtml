@@ -10,6 +10,7 @@
     .layui-table-view .layui-table-box td .laytable-cell-1-9 {
         width: 100px !important;
     }
+    .layui-form-radio{margin: 6px 0px 0 0;}
 </style>
 <div class="main-wrap">
     <div class="panel">
@@ -53,18 +54,28 @@
                         <input type="text" id="LevelName" class="layui-input">
                     </div>
                 </div>
+                <div class="layui-form-item searchMore">
+                    <label class="layui-form-label">照片全上传</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="AllOrderImageUpload" value="" title="全部" checked>
+                        <input type="radio" name="AllOrderImageUpload" value="true" title="是">
+                        <input type="radio" name="AllOrderImageUpload" value="false" title="否">
+                    </div>
+                    <label class="layui-form-label">资料状态</label>
+                    <div class="layui-input-inline">
+                        <select id="OrderImageStatus" name="OrderImageStatus" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderImageStatusEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+                </div>
                 <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">报名时间</label>
                     <div class="layui-input-inline">
                         <input type="text" id="Date" readonly="readonly" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item searchMore">
-                    <label class="layui-form-label">照片全上传</label>
-                    <div>
-                        <input type="radio" name="AllOrderImageUpload" value="" title="全部" checked>
-                        <input type="radio" name="AllOrderImageUpload" value="true" title="是">
-                        <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出照片包</button></a>
@@ -244,6 +255,7 @@
 
         return {
             Status: $("#Status").val(),
+            OrderImageStatus: $("#OrderImageStatus").val(),
             StudentName: $("#StudentName").val(),
             Phone: $("#Phone").val(),
             IDCard: $("#IDCard").val(),

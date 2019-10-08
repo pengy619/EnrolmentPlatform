@@ -84,6 +84,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public int Status { set; get; }
 
         /// <summary>
+        /// 协助状态（1：待处理，2：已处理）
+        /// </summary>
+        public int? AssistStatus { set; get; }
+
+        /// <summary>
         /// 来源机构（没有的话就是渠道添加的）
         /// </summary>
         public Guid? FromChannelId { set; get; }
@@ -172,6 +177,22 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户
         /// </summary>
         public string CreateUserName { set; get; }
+
+        /// <summary>
+        /// 报名时间
+        /// </summary>
+        public DateTime CreateTime { set; get; }
+
+        /// <summary>
+        /// 报名时间
+        /// </summary>
+        public string CreateTimeStr
+        {
+            get
+            {
+                return this.CreateTime.ToString("yyyy-MM-dd");
+            }
+        }
     }
 
     /// <summary>
@@ -222,6 +243,26 @@ namespace EnrolmentPlatform.Project.DTO.Orders
             get
             {
                 return EnumDescriptionHelper.GetDescription((OrderStatusEnum)this.Status);
+            }
+        }
+
+        /// <summary>
+        /// 协助状态（1：待处理，2：已处理）
+        /// </summary>
+        public int? AssistStatus { set; get; }
+
+        /// <summary>
+        /// 协助处理状态名称
+        /// </summary>
+        public string AssistStatusName
+        {
+            get
+            {
+                if (this.AssistStatus.HasValue == true)
+                {
+                    return EnumDescriptionHelper.GetDescription((AssistStatusEnum)this.AssistStatus);
+                }
+                return "不需要";
             }
         }
 
@@ -598,6 +639,16 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public OrderStatusEnum? Status { set; get; }
 
         /// <summary>
+        /// 协助处理状态
+        /// </summary>
+        public AssistStatusEnum? AssistStatus { set; get; }
+
+        /// <summary>
+        /// 资料状态
+        /// </summary>
+        public OrderImageStatusEnum? OrderImageStatus { set; get; }
+
+        /// <summary>
         /// 电子照是否上传完成
         /// </summary>
         public bool? AllOrderImageUpload { set; get; }
@@ -853,5 +904,26 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 密码
         /// </summary>
         public string Password { get; set; }
+    }
+
+    /// <summary>
+    /// 提交订单DTO
+    /// </summary>
+    public class SubmitOrderDto
+    {
+        /// <summary>
+        /// 提交的订单ID集合
+        /// </summary>
+        public Guid[] IDs { set; get; }
+
+        /// <summary>
+        /// 协助状态（1：待处理，2：已处理）
+        /// </summary>
+        public int? AssistStatus { set; get; }
+
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        public Guid UserId { set; get; }
     }
 }

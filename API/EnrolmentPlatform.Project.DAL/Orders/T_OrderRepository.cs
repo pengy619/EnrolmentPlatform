@@ -343,7 +343,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             TencentNo = a.TencentNo,
                             Email = a.Email,
                             UserName = a.UserName,
-                            Password = a.Password
+                            Password = a.Password,
+                            AssistStatus = a.AssistStatus
                         };
 
             //学校
@@ -362,6 +363,18 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             if (!string.IsNullOrWhiteSpace(req.BatchName))
             {
                 query = query.Where(a => a.BatchName.Contains(req.BatchName));
+            }
+
+            if (req.AssistStatus.HasValue)
+            {
+                if (req.AssistStatus.Value != 0)
+                {
+                    query = query.Where(a => a.AssistStatus.Value == (int)req.AssistStatus.Value);
+                }
+                else
+                {
+                    query = query.Where(a => a.AssistStatus.HasValue == false);
+                }
             }
 
             reCount = query.Count();
@@ -389,20 +402,25 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             StringBuilder sql = new StringBuilder(@"SELECT 
-                        o.CreatorTime AS CreatorTime, 
+                        o.CreatorTime AS CreateTime, 
 	                    o.[CreatorAccount] AS CreateUserName,
+                        o.AssistStatus,
                         o.Id AS OrderId, 
                         o.Status AS[Status],
                         o.StudentName AS StudentName, 
                         m1.Name as BatchName,
 	                    m2.Name as SchoolName,
 	                    m3.Name as LevelName,
-	                    m4.Name as MajorName
+	                    m4.Name as MajorName,
+                        im.BiYeZhengImg,im.IDCard1,im.IDCard2,
+                        im.LiangCunLanDiImg,im.MianKaoJiSuanJiImg,im.MianKaoYingYuImg,
+                        im.QiTa,im.TouXiang,im.XueXinWangImg
                         from T_Order AS o
                         LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
                         LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id
                         LEFT JOIN T_Metadata AS m3 ON o.LevelId = m3.Id
                         LEFT JOIN T_Metadata AS m4 ON o.MajorId = m4.Id
+                        LEFT JOIN T_OrderImage as im ON o.Id=im.OrderId
                         where o.IsDelete=0");
 
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -470,6 +488,19 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 parameters.Add(new SqlParameter("@Status", req.Status.Value));
             }
 
+            if (req.AssistStatus.HasValue)
+            {
+                if (req.AssistStatus.Value != 0)
+                {
+                    sql.Append(" and o.AssistStatus=@AssistStatus");
+                    parameters.Add(new SqlParameter("@AssistStatus", req.AssistStatus.Value));
+                }
+                else
+                {
+                    sql.Append(" and o.AssistStatus is null");
+                }
+            }
+
             if (req.FromChannelId.HasValue)
             {
                 sql.Append(" and o.FromChannelId=@FromChannelId");
@@ -524,6 +555,34 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 sql.Append(" and o.Id in " + sb.ToString());
             }
 
+            //资料状态
+            if (req.OrderImageStatus.HasValue == true)
+            {
+                //缺毕业证
+                if (req.OrderImageStatus.Value == OrderImageStatusEnum.DefBiYeZheng)
+                {
+                    sql.Append(" and im.BiYeZhengImg is null");
+                }
+
+                //缺电子备案
+                if (req.OrderImageStatus.Value == OrderImageStatusEnum.DefDianZiBeiAn)
+                {
+                    sql.Append(" and im.XueXinWangImg is null");
+                }
+
+                //缺蓝底
+                if (req.OrderImageStatus.Value == OrderImageStatusEnum.DefLanDi)
+                {
+                    sql.Append(" and im.LiangCunLanDiImg is null");
+                }
+
+                //缺异地证明
+                if (req.OrderImageStatus.Value == OrderImageStatusEnum.DefYiDiZhengMing)
+                {
+                    sql.Append(" and (im.MianKaoYingYuImg is null and im.MianKaoJiSuanJiImg is null)");
+                }
+            }
+
             #endregion
 
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
@@ -537,26 +596,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                .OrderByDescending(a => a.CreateTime)
                .Skip((req.Page - 1) * req.Limit)
                .Take(req.Limit).ToList();
-
-            //获得订单图片
-            var idList = list.Select(a => a.OrderId).ToList();
-            var imageList = dbContext.T_OrderImage.Where(a => idList.Contains(a.OrderId)).ToList();
-            foreach (var item in list)
-            {
-                var curImg = imageList.FirstOrDefault(a => a.OrderId == item.OrderId);
-                if (curImg != null)
-                {
-                    item.BiYeZhengImg = curImg.BiYeZhengImg;
-                    item.IDCard1 = curImg.IDCard1;
-                    item.IDCard2 = curImg.IDCard2;
-                    item.LiangCunLanDiImg = curImg.LiangCunLanDiImg;
-                    item.MianKaoJiSuanJiImg = curImg.MianKaoJiSuanJiImg;
-                    item.MianKaoYingYuImg = curImg.MianKaoYingYuImg;
-                    item.QiTa = curImg.QiTa;
-                    item.TouXiang = curImg.TouXiang;
-                    item.XueXinWangImg = curImg.XueXinWangImg;
-                }
-            }
 
             return list;
         }

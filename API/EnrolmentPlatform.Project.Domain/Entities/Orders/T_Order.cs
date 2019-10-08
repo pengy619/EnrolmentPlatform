@@ -95,6 +95,11 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public int Status { set; get; }
 
         /// <summary>
+        /// 协助状态（1：待处理，2：已处理）
+        /// </summary>
+        public int? AssistStatus { set; get; }
+
+        /// <summary>
         /// 报名审核时间
         /// </summary>
         [DataMember]
