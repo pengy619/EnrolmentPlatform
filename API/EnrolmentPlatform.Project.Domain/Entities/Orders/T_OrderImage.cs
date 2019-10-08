@@ -47,13 +47,13 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string BiYeZhengImg { set; get; }
 
         /// <summary>
-        /// 免考英语
+        /// 免考英语（社保/居住证正）
         /// </summary>
         [DataMember]
         public string MianKaoYingYuImg { set; get; }
 
         /// <summary>
-        /// 免考计算机
+        /// 免考计算机（社保/居住证反）
         /// </summary>
         [DataMember]
         public string MianKaoJiSuanJiImg { set; get; }

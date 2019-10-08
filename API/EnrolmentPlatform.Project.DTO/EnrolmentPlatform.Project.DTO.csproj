@@ -55,6 +55,7 @@
     <Compile Include="Basics\SchoolItemDto.cs" />
     <Compile Include="Enums\Basics\MetadataTypeEnum.cs" />
     <Compile Include="Enums\File\FileClassifyEnum.cs" />
+    <Compile Include="Enums\Orders\OrderImageStatusEnum.cs" />
     <Compile Include="Enums\Orders\OrderStatusEnum.cs" />
     <Compile Include="Enums\Systems\AddressClassifyEnum.cs" />
     <Compile Include="Enums\Systems\SMSTemplateEnum.cs" />

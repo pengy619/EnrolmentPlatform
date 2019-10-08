@@ -598,6 +598,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public OrderStatusEnum? Status { set; get; }
 
         /// <summary>
+        /// 资料状态
+        /// </summary>
+        public OrderImageStatusEnum? OrderImageStatus { set; get; }
+
+        /// <summary>
         /// 电子照是否上传完成
         /// </summary>
         public bool? AllOrderImageUpload { set; get; }
