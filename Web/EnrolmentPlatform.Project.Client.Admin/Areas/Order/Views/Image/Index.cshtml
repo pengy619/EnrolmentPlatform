@@ -96,6 +96,7 @@
                         </select>
                     </div>
                 </div>
+                <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="AssistStatusDispose">协助处理完成</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出照片包</button></a>
             </div>
         </div>
@@ -195,6 +196,7 @@
                 , { field: 'SchoolName', title: '院校', width: 150 }
                 , { field: 'LevelName', title: '层次', width: 100 }
                 , { field: 'MajorName', title: '专业', width: 180 }
+                , { field: 'AssistStatusName', title: '协助处理', width: 90 }
                 , { title: '两寸蓝底', toolbar: '#tableToolImage1', width: 90 }
                 , { title: '身份证正面', toolbar: '#tableToolImage2', width: 100 }
                 , { title: '身份证反面', toolbar: '#tableToolImage3', width: 100 }
@@ -219,6 +221,70 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: getSearchData()
+            });
+        });
+
+        //提交操作
+        form.on('submit(AssistStatusDispose)', function (data) {
+            //提交确认
+            layer.confirm('确认处理完成？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+
+                //选中行
+                var checkdata = table.checkStatus('table').data;
+                if (checkdata.length == 0) {
+                    layer.msg('请选择需要协助处理的数据。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                //选中的ID
+                var canSubmit = true;
+                var arr = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    arr[i] = checkdata[i].OrderId;
+                    if (parseInt(checkdata[i].AssistStatus) != 1) {
+                        canSubmit = false;
+                    }
+                }
+
+                if (canSubmit == false) {
+                    layer.msg('只有待处理状态的才可以处理完成。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("AssistDispose", "Image")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('协助处理完成。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+                layer.close(index);
+                layer.close(layerIndex);
             });
         });
     });

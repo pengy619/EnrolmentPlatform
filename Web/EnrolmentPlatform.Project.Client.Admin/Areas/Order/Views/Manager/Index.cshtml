@@ -108,19 +108,6 @@
                         <input type="radio" name="AllOrderImageUpload" value="false" title="否">
                     </div>
                 </div>
-                <div class="layui-form-item searchMore">
-                    <label class="layui-form-label">协助处理</label>
-                    <div class="layui-input-inline">
-                        <select id="AssistStatus" name="AssistStatus" style="width:100px;">
-                            <option value="">全部</option>
-                            <option value="0">不需要</option>
-                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.AssistStatusEnum, int>())
-                            {
-                                <option value="@item.Key">@item.Value</option>
-                            }
-                        </select>
-                    </div>
-                </div>
                 @*<a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn ">新增</a>*@
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="bs">报送</button>
                 <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="by">毕业</button>
