@@ -735,5 +735,24 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 return Json(new { ret = 0, msg = "删除失败。" });
             }
         }
+
+        /// <summary>
+        /// 协助处理完成
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult AssistSubmit(Guid[] ids)
+        {
+            var ret = OrderService.AssistSubmit(ids);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "协助处理提交失败。" });
+            }
+        }
     }
 }

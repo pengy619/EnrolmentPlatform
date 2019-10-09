@@ -205,6 +205,13 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         OrderStatisticsDto GetOrderStatistics(OrderListReqDto req);
 
         /// <summary>
+        /// 协助处理提交
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <returns></returns>
+        bool AssistSubmit(Guid[] ids);
+
+        /// <summary>
         /// 协助处理完成
         /// </summary>
         /// <param name="ids">ids</param>

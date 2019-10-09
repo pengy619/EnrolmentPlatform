@@ -96,6 +96,7 @@
                         </select>
                     </div>
                 </div>
+                <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="AssistStatusSubmit">提交协助处理</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出照片包</button></a>
             </div>
         </div>
@@ -220,6 +221,69 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: getSearchData()
+            });
+        });
+
+        //提交协助处理操作
+        form.on('submit(AssistStatusSubmit)', function (data) {
+            //提交确认
+            layer.confirm('确认提交协助处理？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+
+                //选中行
+                var checkdata = table.checkStatus('table').data;
+                if (checkdata.length == 0) {
+                    layer.msg('请选择需要协助处理的数据。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                //选中的ID
+                var canSubmit = true;
+                var arr = new Array(checkdata.length);
+                for (var i = 0; i < checkdata.length; i++) {
+                    arr[i] = checkdata[i].OrderId;
+                    if (checkdata[i].AssistStatus != null) {
+                        canSubmit = false;
+                    }
+                }
+
+                if (canSubmit == false) {
+                    layer.msg('只有不需要处理状态的才可以提交。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(arr),
+                    url: '@Url.Action("AssistSubmit", "Image")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('协助处理提交成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+                layer.close(index);
             });
         });
     });
