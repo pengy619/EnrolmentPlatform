@@ -127,7 +127,6 @@
                     return false;
                 }
 
-
                 var imgPath = "";
                 if ($(".upload-img-box img").length > 0) {
                     imgPath = $(".upload-img-box img").attr("src");
@@ -135,13 +134,6 @@
 
                 if (imgPath == "") {
                     layer.msg('请选择文章图片！', {
-                        icon: 2,
-                        time: 2000
-                    })
-                    return false;
-                }
-                if (ckb_value.length == 0) {
-                    layer.msg('请选择发布对象', {
                         icon: 2,
                         time: 2000
                     })

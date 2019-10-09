@@ -110,8 +110,9 @@
                         dataType: 'json',
                         data: { idList: ckb_value },
 				        success: function (result) {
-                            if (result.Status) {
-						        table.reload('article-table');
+                            if (result.IsSuccess) {
+                                table.reload('article-table');
+                                layer.msg("删除成功！");
                             }
                             else {
                                 layer.msg(result.Message);
