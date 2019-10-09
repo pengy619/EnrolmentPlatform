@@ -113,7 +113,16 @@
             $(".upload-img-box").empty();
         }
 
+        //初始化
         var form, layer, table; var fileData = null;
+
+        //附件处理
+        var fileStr = '@Html.Raw(Model.FilePath)';
+        if (fileStr) {
+            fileData = JSON.parse(fileStr);
+        }
+
+        //layui
         layui.use(['jquery', 'form', 'layer', 'table'], function () {
             form = layui.form;
             layer = layui.layer;
@@ -181,16 +190,18 @@
             table.on('tool(table)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'delete') {
-                    for (var i = 0; i < fileData.length; i++) {
-                        var curItem = fileData[i];
-                        if (curItem.FileName == data.FileName) {
-                            fileData = fileData.splice(1, 1);
-                            if (fileData.length == 0) {
-                                fileData = null;
+                    if (fileData.length == 1) {
+                        fileData = null;
+                    }
+                    else {
+                        for (var i = 0; i < fileData.length; i++) {
+                            var curItem = fileData[i];
+                            if (curItem.FileName == data.FileName) {
+                                fileData = fileData.splice(1, 1);
                             }
-                            tableReload();
                         }
                     }
+                    tableReload();
                 }
             });
         });
