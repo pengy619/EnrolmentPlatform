@@ -137,8 +137,15 @@
                     Status: $(data.elem).data("status"),
                     Abstract: data.field.abstract
                 };
+
+                //上传的附件
                 if (fileData != null && fileData.length > 0) {
-                    param.FilePath = JSON.stringify(fileData);
+                    var fileList = [];
+                    for (var i = 0; i < fileData.length; i++) {
+                        var item = fileData[i];
+                        fileList.push({ FileName: item.FileName, FilePath: item.FilePath });
+                        param.FilePath = JSON.stringify(fileList);
+                    }
                 }
 
                 if (isSubmit) {
