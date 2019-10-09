@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -101,5 +102,47 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         {
             return ArticleService.GetArticleById(id);
         }
+
+        #region 公告附件
+
+        /// <summary>
+        /// 保存附件
+        /// </summary>
+        /// <param name="orderId">订单ID</param>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult SaveAttachment(HttpPostedFileBase file)
+        {
+            byte[] data;
+            using (Stream inputStream = file.InputStream)
+            {
+                MemoryStream memoryStream = inputStream as MemoryStream;
+                if (memoryStream == null)
+                {
+                    memoryStream = new MemoryStream();
+                    inputStream.CopyTo(memoryStream);
+                }
+                data = memoryStream.ToArray();
+            }
+
+            string fileServerUrl = System.Configuration.ConfigurationManager.AppSettings["FileDoMain"];
+            string fileName = Guid.NewGuid().ToString() + "." + file.FileName.Split('.')[1].ToString();
+            System.Collections.Generic.Dictionary<object, object> parames = new System.Collections.Generic.Dictionary<object, object>();
+            parames.Add("fromType", System.Configuration.ConfigurationManager.AppSettings["FileFrom"]);
+            parames.Add("postFileKey", System.Configuration.ConfigurationManager.AppSettings["PostFileKey"]);
+            var _saveRet = EnrolmentPlatform.Project.Infrastructure.HttpMethods.HttpPost(fileServerUrl + "/UpLoad/Index", parames, fileName, data);
+            EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg _saveResult = Newtonsoft.Json.JsonConvert.DeserializeObject<EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg>(_saveRet);
+            if (_saveResult.IsSuccess == false)
+            {
+                return Json(new { ret = false, msg = _saveResult.Info });
+            }
+
+            //文件完整地址
+            string fullUrl = fileServerUrl + "/" + _saveResult.Info;
+            return Json(new { ret = true, FileName = file.FileName, FilePath = fullUrl });
+        }
+
+        #endregion
     }
 }

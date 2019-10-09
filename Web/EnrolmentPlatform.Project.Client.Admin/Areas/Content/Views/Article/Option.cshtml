@@ -45,21 +45,18 @@
                         <textarea placeholder="字数1~100字以内" class="layui-textarea" name="abstract" maxlength="100">@Model.Abstract</textarea>
                     </div>
                 </div>
-                <div class="layui-form-item required">
-                    <label class="layui-form-label">图片</label>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传附件：</label>
                     <div class="layui-input-block">
-                        <button class="layui-btn layui-btn-primary" id="upload">上传图片</button>
-                        <span>（图片格式为jpg/png/bmp，建议尺寸350*350，最大为2M。）</span>
-                        <div class="upload-img-box">
-                            @if (!string.IsNullOrEmpty(Model.FilePath))
-                            {
-                                <div class="img-item">
-                                    <div class="cover">
-                                        <span class="layui-icon">ဇ</span>
-                                    </div>
-                                    <img src="@Model.FilePath" alt="">
-                                </div>
-                            }
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="text">
+                                <input id="Attachment" type="file" />
+                                <input id="Button10" style="width: 50px;height: 30px;" type="button" onclick="postFiles()" value="上传" />
+                                附件格式（xls/xlsx/doc/docx），建议尺寸小于2M。
+                            </span>
+                        </div>
+                        <div class="upload-img-box" style="width:500px;">
+                            <table id="table" lay-filter="table"></table>
                         </div>
                     </div>
                 </div>
@@ -75,7 +72,9 @@
         </div>
     </div>
 </div>
-
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除</a>
+</script>
 @section scripts{
     @Html.RenderTextAreaEditorScripts()
     <script>
@@ -114,26 +113,16 @@
             $(".upload-img-box").empty();
         }
 
-        layui.use(['jquery', 'form'], function () {
-            var $ = layui.$;
-            var form = layui.form;
+        var form, layer, table; var fileData = null;
+        layui.use(['jquery', 'form', 'layer', 'table'], function () {
+            form = layui.form;
+            layer = layui.layer;
+            table = layui.table;
+            tableReload();
 
             form.on('submit(save)', function (data) {
                 if ($.trim(editor.html()) == "") {
                     layer.msg('文章正文不能为空！', {
-                        icon: 2,
-                        time: 2000
-                    })
-                    return false;
-                }
-
-                var imgPath = "";
-                if ($(".upload-img-box img").length > 0) {
-                    imgPath = $(".upload-img-box img").attr("src");
-                }
-
-                if (imgPath == "") {
-                    layer.msg('请选择文章图片！', {
                         icon: 2,
                         time: 2000
                     })
@@ -146,9 +135,12 @@
                     ClassifyId: data.field.classifyId,
                     Content: editor.html(),
                     Status: $(data.elem).data("status"),
-                    Abstract: data.field.abstract,
-                    FilePath: imgPath
+                    Abstract: data.field.abstract
                 };
+                if (fileData != null && fileData.length > 0) {
+                    param.FilePath = JSON.stringify(fileData);
+                }
+
                 if (isSubmit) {
                     isSubmit = false;
                     $.ajax({
@@ -177,6 +169,97 @@
                     });
                 }
             });
+
+            //监听工具条
+            table.on('tool(table)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'delete') {
+                    for (var i = 0; i < fileData.length; i++) {
+                        var curItem = fileData[i];
+                        if (curItem.FileName == data.FileName) {
+                            fileData = fileData.splice(1, 1);
+                            if (fileData.length == 0) {
+                                fileData = null;
+                            }
+                            tableReload();
+                        }
+                    }
+                }
+            });
         });
+
+         //上传附件
+        function postFiles() {
+            if ($("#Attachment").val() == "") {
+                layer.msg("请选择上传文件！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var file = document.getElementById("Attachment").files[0];
+            //判断文件是否存在
+            var fileNames = [];
+            $(".layui-table a.layui-table-link").each(function () {
+                fileNames.push($(this).text());
+            });
+            if (fileNames.indexOf(file.name) > -1) {
+                layer.msg("该文件已存在！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var fdata = new FormData();
+            fdata.append("file", file);
+            $.ajax({
+                url: "@Url.Action("SaveAttachment", "Article")",
+                data: fdata,
+                type: "POST",
+                async: false,
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    if (data.ret == false) {
+                        layer.msg(data.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                    else {
+                        layer.msg("上传成功！", {
+                            icon: 1,
+                            time: 2000
+                        });
+                        var item = {};
+                        item.FileName = data.FileName;
+                        item.FilePath = data.FilePath;
+                        if (fileData == null) {
+                            fileData = [];
+                        }
+                        fileData.push(item);
+                        tableReload();
+                        $("#Attachment").val("");
+                    }
+                },
+                error: function (e) {
+                    layer.msg("上传失败！", {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+            });
+        }
+
+        function tableReload() {
+            table.render({
+                elem: '#table'
+                , data: fileData //数据
+                , cols: [[
+                    { field: 'FileName', title: '文件名', templet: '<div><a href="{{d.FilePath}}" target="_blank" class="layui-table-link">{{d.FileName}}</a></div>' }
+                    , { title: '操作', toolbar: '#tableTool', width: 80 }
+                ]]
+            });
+        }
     </script>
 }
