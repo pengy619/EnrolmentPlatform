@@ -537,6 +537,13 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 parameters.Add(new SqlParameter("@LevelName", "%" + req.LevelName + "%"));
             }
 
+            //批次
+            if (!string.IsNullOrWhiteSpace(req.BatchName))
+            {
+                sql.Append(" and m1.Name like @BatchName");
+                parameters.Add(new SqlParameter("@BatchName", "%" + req.BatchName + "%"));
+            }
+
             //查找订单id集合
             if (req.OrderIds != null && req.OrderIds.Count > 0)
             {
@@ -1101,7 +1108,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             #endregion
 
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var dto = dbContext.Database.SqlQuery<OrderStatisticsDto>(sql.ToString(), (SqlParameter[])parameters.ToArray().Clone()).FirstOrDefault();
+            var dto = dbContext.Database.SqlQuery<OrderStatisticsDto>(sql.ToString(), parameters.ToArray()).FirstOrDefault();
             return dto;
         }
     }
