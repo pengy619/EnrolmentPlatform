@@ -185,6 +185,9 @@
     <Compile Include="Areas\Account\Controllers\SupplierController.cs" />
     <Compile Include="Areas\Basic\BasicAreaRegistration.cs" />
     <Compile Include="Areas\Basic\Controllers\MetadataController.cs" />
+    <Compile Include="Areas\Content\ContentAreaRegistration.cs" />
+    <Compile Include="Areas\Content\Controllers\ArticleCategoryController.cs" />
+    <Compile Include="Areas\Content\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Order\Controllers\ExamController.cs" />
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
@@ -626,6 +629,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Account\Models\" />
     <Folder Include="Areas\Basic\Models\" />
+    <Folder Include="Areas\Content\Models\" />
     <Folder Include="Areas\Order\Models\" />
     <Folder Include="Areas\Setting\Models\" />
     <Folder Include="Content\Upload\OrderImage\" />
@@ -726,6 +730,10 @@
     <Content Include="Areas\Payment\Views\Manager\UserPaymentRecord.cshtml" />
     <Content Include="Areas\Payment\Views\web.config" />
     <Content Include="Areas\Payment\Views\Manager\OrgPaymentIndex.cshtml" />
+    <Content Include="Areas\Content\Views\ArticleCategory\Index.cshtml" />
+    <Content Include="Areas\Content\Views\Article\Detail.cshtml" />
+    <Content Include="Areas\Content\Views\Article\Index.cshtml" />
+    <Content Include="Areas\Content\Views\Article\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />
