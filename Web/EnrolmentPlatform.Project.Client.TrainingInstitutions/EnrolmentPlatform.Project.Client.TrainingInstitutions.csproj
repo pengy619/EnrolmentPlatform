@@ -185,6 +185,7 @@
     <Compile Include="Areas\Setting\Controllers\LogController.cs" />
     <Compile Include="Areas\Setting\Controllers\RolesController.cs" />
     <Compile Include="Areas\Setting\SettingAreaRegistration.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />

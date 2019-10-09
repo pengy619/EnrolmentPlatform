@@ -20,13 +20,13 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">身份证号</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="IDCardNo" value='@((dto!=null) ? dto.IDCardNo : "")'>
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required|identity" id="IDCardNo" value='@((dto!=null) ? dto.IDCardNo : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">手机号</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="Phone" value='@((dto!=null) ? dto.Phone : "")'>
+                    <input type="text" class="layui-input" maxlength="20" lay-verify="required|phone" id="Phone" value='@((dto!=null) ? dto.Phone : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">

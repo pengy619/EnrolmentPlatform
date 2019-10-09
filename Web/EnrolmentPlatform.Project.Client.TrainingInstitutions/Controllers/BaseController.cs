@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using EnrolmentPlatform.Project.BLL.Orders;
 using EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
+using EnrolmentPlatform.Project.IBLL.Accounts;
 using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.IBLL.Systems;
@@ -42,6 +43,18 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
             get
             {
                 return this.LoginInfo.EnterpriseId;
+            }
+        }
+
+        /// <summary>
+        /// 机构名称
+        /// </summary>
+        public string EnterpriseName
+        {
+            get
+            {
+                var enterprise = DIContainer.Resolve<IT_EnterpriseService>().GetSupplierInfo(this.EnterpriseId);
+                return enterprise?.EnterpriseName;
             }
         }
 

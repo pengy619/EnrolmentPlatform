@@ -217,10 +217,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             //当前订单信息
             order.FromTypeName = "机构";
             order.FromChannelId = this.EnterpriseId;
-            //如果没有填写招生老师
+            //如果没有填写招生老师（主账号取机构名,子账号取用户名）
             if (string.IsNullOrWhiteSpace(order.CreateUserName))
             {
-                order.CreateUserName = this.UserName;
+                order.CreateUserName = this.IsMaster ? this.EnterpriseName : this.UserName;
             }
             order.UserId = this.UserId;
 
@@ -231,7 +231,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             }
             else
             {
-                ret= OrderService.UpdateOrder(order);
+                ret = OrderService.UpdateOrder(order);
             }
 
             //1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入
