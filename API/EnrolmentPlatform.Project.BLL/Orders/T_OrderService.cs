@@ -308,7 +308,6 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             break;
                         }
 
-                        entity.AssistStatus = dto.AssistStatus;
                         entity.Status = (int)OrderStatusEnum.Enroll;
                         entity.EnrollTime = DateTime.Now;
                         entity.LastModifyTime = DateTime.Now;
