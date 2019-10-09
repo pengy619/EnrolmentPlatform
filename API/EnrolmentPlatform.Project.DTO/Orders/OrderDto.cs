@@ -917,11 +917,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public Guid[] IDs { set; get; }
 
         /// <summary>
-        /// 协助状态（1：待处理，2：已处理）
-        /// </summary>
-        public int? AssistStatus { set; get; }
-
-        /// <summary>
         /// 用户ID
         /// </summary>
         public Guid UserId { set; get; }
