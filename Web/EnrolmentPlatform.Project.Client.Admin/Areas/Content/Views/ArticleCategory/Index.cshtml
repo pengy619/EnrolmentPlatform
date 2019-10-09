@@ -88,6 +88,7 @@
                         success: function (result) {
                             if (result.IsSuccess) {
                                 table.reload('table');
+                                layer.msg("删除成功！");
                             }
                             else {
                                 layer.msg(result.Info);
