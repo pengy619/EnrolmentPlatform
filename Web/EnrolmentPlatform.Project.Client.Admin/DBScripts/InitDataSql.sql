@@ -318,3 +318,49 @@ alter table T_ChargeStrategy Add InstitutionId uniqueidentifier not null default
 
 --2019-10-8订单号增加协助状态
 alter table T_Order Add AssistStatus int null;
+
+--2019-10-9增加新闻公告栏目表
+CREATE TABLE [dbo].[T_ArticleCategory](
+	[Id] [uniqueidentifier] NOT NULL,
+	[CateName] [varchar](200) NULL,
+	[Remark] [nvarchar](max) NULL,
+	[Status] [int] NOT NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+--2019-10-9增加新闻公告表
+CREATE TABLE [dbo].[T_Article](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Title] [nvarchar](200) NULL,
+	[Content] [text] NULL,
+	[Abstract] [varchar](1000) NULL,
+	[FilePath] [varchar](max) NULL,
+	[Status] [int] NOT NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+	[ClassifyId] [uniqueidentifier] NULL,
+ CONSTRAINT [PK_dbo.T_Article] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
