@@ -10,7 +10,6 @@
     .layui-table-body {
         overflow-x: auto;
     }
-   .layui-form-radio{margin: 6px 0px 0 0;}
 </style>
 <div class="main-wrap">
     <div class="panel">
@@ -234,39 +233,38 @@
 
         //提交
         form.on('submit(sb)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要提交的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].OrderId;
+                if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有待提交状态的才可以提交。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
             //提交确认
             layer.confirm('确认提交？', {
                 btn: ['确认', '取消']
             }, function (index, layero) {
-
-                //选中行
-                var checkdata = table.checkStatus('table').data;
-                if (checkdata.length == 0) {
-                    layer.msg('请选择需要提交的报名单。', {
-                        icon: 2,
-                        time: 2000
-                    });
-                    return false;
-                }
-
-                //选中的ID
-                var canSubmit = true;
-                var arr = new Array(checkdata.length);
-                for (var i = 0; i < checkdata.length; i++) {
-                    arr[i] = checkdata[i].OrderId;
-                    if (parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
-                        canSubmit = false;
-                    }
-                }
-
-                if (canSubmit == false) {
-                    layer.msg('只有待提交状态的才可以提交。', {
-                        icon: 2,
-                        time: 2000
-                    });
-                    return false;
-                }
-
                 var dto = {};
                 dto.IDs = arr;
                 $.ajax({
