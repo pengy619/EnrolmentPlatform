@@ -22,8 +22,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         public ActionResult Index()
         {
             //内容栏目
-            ViewBag.ArticleCategories = GetArticleCategoryList();
-
+            ViewBag.ArticleCategories = ArticleCategoryService.GetArticleCategoryList().ToList();
             return View();
         }
 
@@ -33,13 +32,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// <param name="param"></param>
         /// <returns></returns>
         [ValidateInput(false)]
-        public async Task<string> ArticleList(ArticleSearchDto param)
+        public string ArticleList(ArticleSearchDto param)
         {
-            var data = await WebApiHelper.PostAsync<HttpResponseMsg>(
-                "/api/Article/GetArticlePageList",
-                JsonConvert.SerializeObject(param),
-               ConfigurationManager.AppSettings["StaffId"].ToInt());
-            return data.Data.ToString();
+            var grd = ArticleService.GetArticlePageList(param);
+            return grd.ToJson();
         }
 
         /// <summary>
@@ -47,13 +43,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// </summary>
         /// <param name="productIds"></param>
         /// <returns></returns>
-        public async Task<ActionResult> DeleteArticles(List<Guid> idList)
+        [HttpPost]
+        public JsonResult DeleteArticles(List<Guid> idList)
         {
-            var data = await WebApiHelper.PostAsync<HttpResponseMsg>(
-                "/api/Article/DeleteArticles",
-                JsonConvert.SerializeObject(idList),
-               ConfigurationManager.AppSettings["StaffId"].ToInt());
-            return Json(new { Status = data.IsSuccess, Message = data.Info });
+            var ret = ArticleService.DeleteArticles(idList);
+            return Json(ret);
         }
 
         /// <summary>
@@ -63,7 +57,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         public ActionResult Option(Guid? id)
         {
             //内容栏目
-            ViewBag.ArticleCategories = GetArticleCategoryList();
+            ViewBag.ArticleCategories = ArticleCategoryService.GetArticleCategoryList().ToList();
 
             ArticleDto dto = new ArticleDto();
             if (id.HasValue)
@@ -80,13 +74,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public async Task<ActionResult> AddOrEditArticle(ArticleDto dto)
+        public JsonResult AddOrEditArticle(ArticleDto dto)
         {
             dto.CreatorUserId = this.UserId;
             dto.CreatorAccount = this.UserAccount;
-            var ret = await WebApiHelper.PostAsync<HttpResponseMsg>("/api/Article/AddOrEditArticle",
-                JsonConvert.SerializeObject(dto),
-                ConfigurationManager.AppSettings["StaffId"].ToInt());
+            var ret = ArticleService.AddOrEditArticle(dto);
             return Json(ret);
         }
 
@@ -107,31 +99,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// <returns></returns>
         private ArticleDto GetArticleInfo(Guid id)
         {
-            ArticleDto dto = new ArticleDto();
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("id", id.ToString());
-            Tuple<string, string> parameters = WebApiHelper.GetQueryString(param);
-            var ret = WebApiHelper.Get<HttpResponseMsg>(
-                "/api/Article/GetArticleById", parameters.Item1, parameters.Item2,
-                ConfigurationManager.AppSettings["StaffId"].ToInt());
-            if (ret.IsSuccess)
-            {
-                dto = ret.Data.ToString().ToObject<ArticleDto>();
-            }
-            return dto;
-        }
-
-        private List<ArticleCategoryDto> GetArticleCategoryList()
-        {
-            List<ArticleCategoryDto> list = new List<ArticleCategoryDto>();
-            var ret = WebApiHelper.Get<HttpResponseMsg>(
-                "/api/ArticleCategory/GetArticleCategoryList", "", "",
-                ConfigurationManager.AppSettings["StaffId"].ToInt());
-            if (ret.IsSuccess)
-            {
-                list = ret.Data.ToString().ToList<ArticleCategoryDto>();
-            }
-            return list;
+            return ArticleService.GetArticleById(id);
         }
     }
 }

@@ -219,6 +219,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="Content\website\css\common.css" />
     <Content Include="Content\website\css\dev.css" />
     <Content Include="Content\website\css\main.css" />
@@ -734,6 +735,7 @@
     <Content Include="Areas\Content\Views\Article\Detail.cshtml" />
     <Content Include="Areas\Content\Views\Article\Index.cshtml" />
     <Content Include="Areas\Content\Views\Article\Option.cshtml" />
+    <Content Include="Areas\Content\Views\web.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />

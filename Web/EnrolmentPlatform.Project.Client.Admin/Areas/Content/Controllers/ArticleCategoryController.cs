@@ -27,13 +27,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// 栏目列表
         /// </summary>
         /// <returns></returns>
-        public async Task<string> ArticleCategoryList(GridDataRequest req)
+        public string ArticleCategoryList(GridDataRequest req)
         {
-            var data = await WebApiHelper.PostAsync<HttpResponseMsg>(
-                "/api/ArticleCategory/GetArticleCategoryPageList",
-                JsonConvert.SerializeObject(req),
-               ConfigurationManager.AppSettings["StaffId"].ToInt());
-            return data.Data.ToString();
+            var grd= ArticleCategoryService.GetArticleCategoryPageList(req);
+            return grd.ToJson();
         }
 
         /// <summary>
@@ -42,13 +39,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> AddArticleCategory(ArticleCategoryDto dto)
+        public JsonResult AddArticleCategory(ArticleCategoryDto dto)
         {
             dto.CreatorUserId = this.UserId;
             dto.CreatorAccount = this.UserAccount;
-            var ret = await WebApiHelper.PostAsync<HttpResponseMsg>("/api/ArticleCategory/AddArticleCategory",
-                JsonConvert.SerializeObject(dto),
-                ConfigurationManager.AppSettings["StaffId"].ToInt());
+            var ret = ArticleCategoryService.AddArticleCategory(dto);
             return Json(ret);
         }
 
@@ -58,11 +53,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> UpdateArticleCategory(ArticleCategoryDto dto)
+        public JsonResult UpdateArticleCategory(ArticleCategoryDto dto)
         {
-            var ret = await WebApiHelper.PostAsync<HttpResponseMsg>("/api/ArticleCategory/UpdateArticleCategory",
-                JsonConvert.SerializeObject(dto),
-                ConfigurationManager.AppSettings["StaffId"].ToInt());
+            var ret = ArticleCategoryService.UpdateArticleCategory(dto);
             return Json(ret);
         }
 
@@ -72,11 +65,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> DeleteArticleCategory(Guid categoryId)
+        public JsonResult DeleteArticleCategory(Guid categoryId)
         {
-            var ret = await WebApiHelper.PostAsync<HttpResponseMsg>("/api/ArticleCategory/DeleteArticleCategory",
-                JsonConvert.SerializeObject(categoryId),
-                ConfigurationManager.AppSettings["StaffId"].ToInt());
+            var ret = ArticleCategoryService.DeleteArticleCategory(categoryId);
             return Json(ret);
         }
     }
