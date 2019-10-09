@@ -733,6 +733,43 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 协助处理提交
+        /// </summary>
+        /// <param name="ids">ids</param>
+        /// <returns></returns>
+        public bool AssistSubmit(Guid[] ids)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in ids)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.AssistStatus.HasValue == true)
+                        {
+                            break;
+                        }
+
+                        entity.AssistStatus = 1;
+                        entity.LastModifyTime = DateTime.Now;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "提交协助处理！", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
         /// 协助处理完成
         /// </summary>
         /// <param name="ids">ids</param>
