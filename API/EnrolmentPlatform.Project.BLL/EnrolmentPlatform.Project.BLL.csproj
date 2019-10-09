@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\T_EnterpriseService.cs" />
+    <Compile Include="Articles\T_ArticleCategoryService.cs" />
+    <Compile Include="Articles\T_ArticleService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Basics\T_ChargeStrategyService.cs" />
     <Compile Include="Basics\T_SchoolLevelMajorService.cs" />

@@ -34,6 +34,10 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
         public DbSet<T_SchoolLevelMajor> T_SchoolLevelMajor { get; set; }
         public DbSet<T_ChargeStrategy> T_ChargeStrategy { set; get; }
 
+        //新闻公告
+        public DbSet<T_Article> T_Article { get; set; }
+        public DbSet<T_ArticleCategory> T_ArticleCategory { get; set; }
+
         //订单
         public DbSet<T_Order> T_Order { get; set; }
         public DbSet<T_OrderAmount> T_OrderAmount { get; set; }

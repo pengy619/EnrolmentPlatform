@@ -49,10 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\EnterpriseDto.cs" />
+    <Compile Include="Articles\ArticleCategoryDto.cs" />
+    <Compile Include="Articles\ArticleDto.cs" />
     <Compile Include="Basics\ChargeStrategyDto.cs" />
     <Compile Include="Basics\MetadataDto.cs" />
     <Compile Include="Basics\SchoolConfigDto.cs" />
     <Compile Include="Basics\SchoolItemDto.cs" />
+    <Compile Include="Enums\Article\ArticleStatusEnum.cs" />
     <Compile Include="Enums\Basics\MetadataTypeEnum.cs" />
     <Compile Include="Enums\File\FileClassifyEnum.cs" />
     <Compile Include="Enums\Orders\OrderImageStatusEnum.cs" />
