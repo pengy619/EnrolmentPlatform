@@ -1,4 +1,4 @@
-﻿using EnrolmentPlatform.Project.DTO.Enums.Article;
+﻿using EnrolmentPlatform.Project.DTO.Enums;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 using System;

@@ -1,6 +1,6 @@
 ﻿using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
-using EnrolmentPlatform.Project.DTO.Enums.Article;
+using EnrolmentPlatform.Project.DTO.Enums;
 using EnrolmentPlatform.Project.IDAL.Articles;
 using EnrolmentPlatform.Project.Infrastructure;
 using System;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnrolmentPlatform.Project.DTO.Enums.Article
+namespace EnrolmentPlatform.Project.DTO.Enums
 {
     /// <summary>
     /// 文章状态枚举
