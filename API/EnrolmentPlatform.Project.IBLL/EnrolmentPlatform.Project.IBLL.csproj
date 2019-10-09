@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Accounts\IT_AccountBasicService.cs" />
     <Compile Include="Accounts\IT_EnterpriseService.cs" />
+    <Compile Include="Articles\IT_ArticleCategoryService.cs" />
+    <Compile Include="Articles\IT_ArticleService.cs" />
     <Compile Include="Basics\IT_ChargeStrategyService.cs" />
     <Compile Include="Basics\IT_SchoolLevelMajorService.cs" />
     <Compile Include="Basics\IT_MetadataService.cs" />

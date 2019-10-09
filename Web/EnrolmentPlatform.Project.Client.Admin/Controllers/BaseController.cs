@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.Admin.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.IBLL.Accounts;
+using EnrolmentPlatform.Project.IBLL.Articles;
 using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.IBLL.Systems;
@@ -142,6 +143,16 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         /// 用户接口
         /// </summary>
         public static IT_EnterpriseService EnterpriseService = DIContainer.Resolve<IT_EnterpriseService>();
+
+        /// <summary>
+        /// 文章栏目接口
+        /// </summary>
+        public static IT_ArticleCategoryService ArticleCategoryService = DIContainer.Resolve<IT_ArticleCategoryService>();
+
+        /// <summary>
+        /// 文章接口
+        /// </summary>
+        public static IT_ArticleService ArticleService = DIContainer.Resolve<IT_ArticleService>();
 
         #endregion
 

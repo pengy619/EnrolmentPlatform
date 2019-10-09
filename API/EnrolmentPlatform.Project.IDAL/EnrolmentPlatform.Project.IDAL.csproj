@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Accounts\IT_EnterpriseRepository.cs" />
     <Compile Include="Accounts\IT_AccountBasicRepository.cs" />
+    <Compile Include="Articles\IT_ArticleCategoryRepository.cs" />
+    <Compile Include="Articles\IT_ArticleRepository.cs" />
     <Compile Include="Basics\IT_SchoolLevelMajorRepository.cs" />
     <Compile Include="Basics\IT_MetadataRepository.cs" />
     <Compile Include="Basics\IT_ChargeStrategyRepository.cs" />

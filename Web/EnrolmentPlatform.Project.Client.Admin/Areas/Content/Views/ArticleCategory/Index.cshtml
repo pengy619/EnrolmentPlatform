@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "栏目管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-body">
+            <button class="layui-btn layui-btn-warm layui-btn-sm" id="table-add">添加</button>
+            <table id="table" lay-filter="demo"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    var isSubmit = true;
+    layui.use(['jquery', 'table'], function () {
+        var table = layui.table;
+        var layer = layui.layer;
+        var $ = layui.$;
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , skin: 'line'
+            , limit: 20
+            , url: '@Url.Action("ArticleCategoryList", "ArticleCategory")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'CategoryName', title: '栏目名称' }
+                , { title: '操作', toolbar: '#tableTool', width: 150 }
+            ]]
+        }
+        table.render(tableOptions);
+
+        $('#table-add').click(function () {
+            layer.prompt({ title: '请输入栏目名称' }, function (value, index, elem) {
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("AddArticleCategory", "ArticleCategory")",
+                        type: "post",
+                        data: { CategoryName: value },
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 1000
+                                }, function () {
+                                    table.reload('table');
+                                    layer.close(index);
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        },
+                        error: function (res) {
+                            layer.msg("操作失败", {
+                                icon: 2
+                                , time: 2000
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        table.on('tool(demo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('您确定要删除该栏目吗？', function (index) {
+                    var ajaxOption = {
+                        url: "@Url.Action("DeleteArticleCategory", "ArticleCategory")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { categoryId: data.CategoryId },
+                        success: function (result) {
+                            if (result.IsSuccess) {
+                                table.reload('table');
+                                layer.msg("删除成功！");
+                            }
+                            else {
+                                layer.msg(result.Info);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
+                    $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.prompt({
+                    value: data.CategoryName,
+                    title: '请输入栏目名称',
+                }, function (value, index, elem) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: "@Url.Action("UpdateArticleCategory", "ArticleCategory")",
+                            type: "post",
+                            data: { CategoryId: data.CategoryId, CategoryName: value },
+                            dataType: "json",
+                            success: function (res) {
+                                if (res.IsSuccess) {
+                                    layer.msg("保存成功", {
+                                        icon: 1
+                                        , time: 1000
+                                    }, function () {
+                                        table.reload('table');
+                                        layer.close(index);
+                                    });
+                                } else {
+                                    layer.msg(res.Info, {
+                                        icon: 2
+                                        , time: 2000
+                                    });
+                                }
+                            },
+                            complete: function () {
+                                isSubmit = true;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

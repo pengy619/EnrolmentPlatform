@@ -1,0 +1,283 @@
+﻿@model ArticleDto
+@{
+    ViewBag.Title = Model.ArticleId.IsEmpty() ? "发布内容" : "编辑内容";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var categories = ViewBag.ArticleCategories as List<ArticleCategoryDto>;
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            @(ViewBag.Title)
+        </div>
+        <div class="panel-body">
+            <div class="layui-form margin-top-10">
+                <div class="layui-form-item input-inline-400 required">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="title" id="title" value="@Model.Title" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400 required">
+                    <label class="layui-form-label">栏目</label>
+                    <div class="layui-input-inline">
+                        <select name="classifyId" id="classifyId" lay-verify="required">
+                            <option value=""></option>
+                            @foreach (var item in categories)
+                            {
+                                <option value="@item.CategoryId" @(Model.ClassifyId.Equals(item.CategoryId) ? "selected=selected" : "")>@item.CategoryName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item required">
+                    <label class="layui-form-label">正文</label>
+                    <div class="layui-input-block" style="width:800px;">
+                        <textarea class="layui-textarea" name="content" id="content" style="display: none">
+                            @Html.Raw(Model.Content)
+                        </textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">摘要</label>
+                    <div class="layui-input-block" style="width:800px;">
+                        <textarea placeholder="字数1~100字以内" class="layui-textarea" name="abstract" maxlength="100">@Model.Abstract</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传附件：</label>
+                    <div class="layui-input-block">
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="text">
+                                <input id="Attachment" type="file" />
+                                <input id="Button10" style="width: 50px;height: 30px;" type="button" onclick="postFiles()" value="上传" />
+                                附件格式（xls/xlsx/doc/docx），建议尺寸小于2M。
+                            </span>
+                        </div>
+                        <div class="upload-img-box" style="width:500px;">
+                            <table id="table" lay-filter="table"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item input-inline-400">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-normal" data-status="@((int)ArticleStatusEnum.Draft)" lay-submit="" lay-filter="save">保存草稿</button>
+                        <button class="layui-btn" data-status="@((int)ArticleStatusEnum.Publish)" lay-submit="" lay-filter="save">发布</button>
+                        @*<button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="preview">预览</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除</a>
+</script>
+@section scripts{
+    @Html.RenderTextAreaEditorScripts()
+    <script>
+        var isSubmit = true;
+        var editor;
+        $("#content").createEditor({ width: "100%", height: 300 }, function (e) {
+            editor = e;
+        });
+
+        $("#upload").click(function () {
+            editor.loadPlugin('image', function () {
+                editor.plugin.imageDialog({
+                    showRemote: false,
+                    clickFn: function (url, title, width, height, border, align) {
+                        LoadImgBox(url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+
+        //加载图片
+        function LoadImgBox(url) {
+            $(".upload-img-box").empty();
+            var html = "<div class=\"img-item\">" +
+                "<div class=\"cover\">" +
+                "<span class=\"layui-icon\" onclick=\"deletePic(this)\">ဇ</span>" +
+                "</div>" +
+                "<img src=\"" + url + "\" alt=\"\">" +
+                "</div>";
+            $(".upload-img-box").html(html);
+        }
+
+        //移除图片
+        function deletePic(obj) {
+            $(".upload-img-box").empty();
+        }
+
+        //初始化
+        var form, layer, table; var fileData = null;
+
+        //附件处理
+        var fileStr = '@Html.Raw(Model.FilePath)';
+        if (fileStr) {
+            fileData = JSON.parse(fileStr);
+        }
+
+        //layui
+        layui.use(['jquery', 'form', 'layer', 'table'], function () {
+            form = layui.form;
+            layer = layui.layer;
+            table = layui.table;
+            tableReload();
+
+            form.on('submit(save)', function (data) {
+                if ($.trim(editor.html()) == "") {
+                    layer.msg('文章正文不能为空！', {
+                        icon: 2,
+                        time: 2000
+                    })
+                    return false;
+                }
+
+                var param = {
+                    ArticleId: "@Model.ArticleId",
+                    Title: data.field.title,
+                    ClassifyId: data.field.classifyId,
+                    Content: editor.html(),
+                    Status: $(data.elem).data("status"),
+                    Abstract: data.field.abstract
+                };
+
+                //上传的附件
+                if (fileData != null && fileData.length > 0) {
+                    var fileList = [];
+                    for (var i = 0; i < fileData.length; i++) {
+                        var item = fileData[i];
+                        fileList.push({ FileName: item.FileName, FilePath: item.FilePath });
+                        param.FilePath = JSON.stringify(fileList);
+                    }
+                }
+
+                if (isSubmit) {
+                    isSubmit = false;
+                    $.ajax({
+                        url: "@Url.Action("AddOrEditArticle", "Article")",
+                        type: "post",
+                        data: param,
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.IsSuccess) {
+                                layer.msg("保存成功", {
+                                    icon: 1
+                                    , time: 1000
+                                }, function () {
+                                    location.href = "@Url.Action("Index", "Article")";
+                                });
+                            } else {
+                                layer.msg(res.Info, {
+                                    icon: 2
+                                    , time: 2000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            isSubmit = true;
+                        }
+                    });
+                }
+            });
+
+            //监听工具条
+            table.on('tool(table)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'delete') {
+                    if (fileData.length == 1) {
+                        fileData = null;
+                    }
+                    else {
+                        for (var i = 0; i < fileData.length; i++) {
+                            var curItem = fileData[i];
+                            if (curItem.FileName == data.FileName) {
+                                fileData = fileData.splice(1, 1);
+                            }
+                        }
+                    }
+                    tableReload();
+                }
+            });
+        });
+
+         //上传附件
+        function postFiles() {
+            if ($("#Attachment").val() == "") {
+                layer.msg("请选择上传文件！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var file = document.getElementById("Attachment").files[0];
+            //判断文件是否存在
+            var fileNames = [];
+            $(".layui-table a.layui-table-link").each(function () {
+                fileNames.push($(this).text());
+            });
+            if (fileNames.indexOf(file.name) > -1) {
+                layer.msg("该文件已存在！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+            var fdata = new FormData();
+            fdata.append("file", file);
+            $.ajax({
+                url: "@Url.Action("SaveAttachment", "Article")",
+                data: fdata,
+                type: "POST",
+                async: false,
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    if (data.ret == false) {
+                        layer.msg(data.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                    else {
+                        layer.msg("上传成功！", {
+                            icon: 1,
+                            time: 2000
+                        });
+                        var item = {};
+                        item.FileName = data.FileName;
+                        item.FilePath = data.FilePath;
+                        if (fileData == null) {
+                            fileData = [];
+                        }
+                        fileData.push(item);
+                        tableReload();
+                        $("#Attachment").val("");
+                    }
+                },
+                error: function (e) {
+                    layer.msg("上传失败！", {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+            });
+        }
+
+        function tableReload() {
+            table.render({
+                elem: '#table'
+                , data: fileData //数据
+                , cols: [[
+                    { field: 'FileName', title: '文件名', templet: '<div><a href="{{d.FilePath}}" target="_blank" class="layui-table-link">{{d.FileName}}</a></div>' }
+                    , { title: '操作', toolbar: '#tableTool', width: 80 }
+                ]]
+            });
+        }
+    </script>
+}
