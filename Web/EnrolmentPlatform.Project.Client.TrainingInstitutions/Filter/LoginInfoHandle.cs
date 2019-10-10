@@ -181,7 +181,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter
              a.Action.ToLower() == actionName) == true)
             {
                 // 直接返首页
-                return Guid.Parse("5E8A0889-3CC5-472D-8AF7-0EEBCE809FDC");
+                return Guid.Parse("957B76C4-3307-4CDE-8C00-F9D1B92B8614");
             }
 
             List<RolePermissionDto> permissionList = GetAllPermissionList();
@@ -195,7 +195,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter
             if (firstItem == null)
             {
                 // 直接返首页
-                return Guid.Parse("5E8A0889-3CC5-472D-8AF7-0EEBCE809FDC");
+                return Guid.Parse("957B76C4-3307-4CDE-8C00-F9D1B92B8614");
             }
 
             return firstItem.Id;
