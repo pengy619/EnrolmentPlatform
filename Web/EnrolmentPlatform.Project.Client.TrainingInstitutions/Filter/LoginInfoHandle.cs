@@ -127,7 +127,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter
              a.Action.ToLower() == actionName) == true)
             {
                 // 直接返首页
-                return Guid.Parse("D55D324E-2C9C-4836-A7F1-D3B652C55568");
+                return Guid.Parse("D4C204C9-F9D6-4AA8-BD64-110AAE1E8FAC");
             }
 
             List<RolePermissionDto> permissionList = GetAllPermissionList();
