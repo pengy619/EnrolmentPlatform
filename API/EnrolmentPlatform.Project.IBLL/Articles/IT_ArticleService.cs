@@ -41,5 +41,12 @@ namespace EnrolmentPlatform.Project.IBLL.Articles
         /// <param name="idList"></param>
         /// <returns></returns>
         ResultMsg DeleteArticles(List<Guid> idList);
+
+        /// <summary>
+        /// 批量发布文章
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <returns></returns>
+        ResultMsg PublishArticles(List<Guid> idList);
     }
 }

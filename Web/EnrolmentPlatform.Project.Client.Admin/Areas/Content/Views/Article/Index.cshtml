@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <a href="@Url.Action("Option","Article",new { area="Content",parentId=7 })" class="layui-btn layui-btn-warm layui-btn-sm">发布</a>
+            <a href="javascript:void(0)" class="layui-btn layui-btn-warm layui-btn-sm" data-type="publish">发布</a>
             <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="delete">删除</button>
             <table id="article-table" lay-filter="table"></table>
         </div>
@@ -122,6 +122,60 @@
                         }
                     }
                     $.ajax(ajaxOption);
+                    layer.close(index);
+                });
+            },
+            publish: function () {
+                var checkStatus = table.checkStatus('article-table')
+                    , data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg('请选择需要发布的内容。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                var canSubmit = true;
+                for (var i = 0; i < checkdata.length; i++) {
+                    arr[i] = checkdata[i].ArticleId;
+                    if (parseInt(checkdata[i].Status) != 0) {
+                        canSubmit = false;
+                    }
+                }
+
+                if (canSubmit == false) {
+                    layer.msg('只有草稿状态的才可以发布。', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return false;
+                }
+
+                layer.confirm('您确定要发布选中的内容吗？', function (index) {
+                    var ckb_value = [];
+                    for (var i = 0; i < data.length; i++) {
+                        ckb_value.push(data[i].ArticleId);
+                    }
+                    var ajaxOption = {
+                        url: "@Url.Action("PublishArticles", "Article")",
+                        type: 'Post',
+                        async: false,
+                        dataType: 'json',
+                        data: { idList: ckb_value },
+				        success: function (result) {
+                            if (result.IsSuccess) {
+                                table.reload('article-table');
+                                layer.msg("发布成功！");
+                            }
+                            else {
+                                layer.msg(result.Message);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    }
                     layer.close(index);
                 });
             }

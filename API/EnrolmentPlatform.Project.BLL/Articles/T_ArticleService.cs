@@ -92,5 +92,26 @@ namespace EnrolmentPlatform.Project.BLL.Articles
             _resultMsg.IsSuccess = result > 0;
             return _resultMsg;
         }
+
+        /// <summary>
+        /// 批量发布文章
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <returns></returns>
+        public ResultMsg PublishArticles(List<Guid> idList)
+        {
+            ResultMsg _resultMsg = new ResultMsg();
+            var list = CurrentRepository.LoadEntities(t => idList.Contains(t.Id)).ToList();
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    item.Status = (int)ArticleStatusEnum.Publish;
+                }
+                this.UpdateEntities(list, Domain.EFContext.E_DbClassify.Write, "", false);
+            }
+            _resultMsg.IsSuccess = true;
+            return _resultMsg;
+        }
     }
 }

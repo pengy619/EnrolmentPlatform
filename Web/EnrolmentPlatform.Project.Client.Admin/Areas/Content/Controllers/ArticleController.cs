@@ -52,6 +52,18 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Content.Controllers
         }
 
         /// <summary>
+        /// 发布文章
+        /// </summary>
+        /// <param name="productIds"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult PublishArticles(List<Guid> idList)
+        {
+            var ret = ArticleService.PublishArticles(idList);
+            return Json(ret);
+        }
+
+        /// <summary>
         /// 内容添加修改
         /// </summary>
         /// <returns></returns>
