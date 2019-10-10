@@ -8,6 +8,7 @@ using EnrolmentPlatform.Project.BLL.Orders;
 using EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter;
 using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.IBLL.Accounts;
+using EnrolmentPlatform.Project.IBLL.Articles;
 using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.IBLL.Systems;
@@ -154,6 +155,16 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
         /// 文件接口
         /// </summary>
         public static IT_FileService FileService = DIContainer.Resolve<IT_FileService>();
+
+        /// <summary>
+        /// 文章栏目接口
+        /// </summary>
+        public static IT_ArticleCategoryService ArticleCategoryService = DIContainer.Resolve<IT_ArticleCategoryService>();
+
+        /// <summary>
+        /// 文章接口
+        /// </summary>
+        public static IT_ArticleService ArticleService = DIContainer.Resolve<IT_ArticleService>();
 
         #endregion
 

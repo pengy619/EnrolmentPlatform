@@ -1,0 +1,54 @@
+﻿@model ArticleDto
+@{
+    ViewBag.Title = "内容详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="article-warp">
+        <div class="article-box">
+            <div class="article-title">
+                @Model.Title
+                <small>@Model.CreatorTime.ToDateString() @Model.ClassifyName</small>
+                <hr>
+            </div>
+            <div class="article-content">
+                @Html.Raw(Model.Content)
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.FilePath))
+            {
+                <div class="upload-img-box" style="width:300px;padding-top: 20px;padding-left: 30px;">
+                    <span style="color:orange;">下面是附件列表</span>
+                    <table id="table" lay-filter="table"></table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/html" id="tableTool">
+    <div><a class="layui-btn layui-btn-primary layui-btn-xs" href="{{d.FilePath}}">下载</a></div>
+</script>
+<script type="text/javascript">
+    //初始化
+    var form, layer, table; var fileData = null;
+    layui.use(['jquery', 'form', 'layer', 'table'], function () {
+        form = layui.form;
+        layer = layui.layer;
+        table = layui.table;
+
+        //附件处理
+        var fileStr = '@Html.Raw(Model.FilePath)';
+        if (fileStr) {
+            fileData = JSON.parse(fileStr);
+        }
+
+        table.render({
+            elem: '#table'
+            , data: fileData //数据
+            , cols: [[
+                { field: 'FileName', title: '文件名', templet: '<div>{{d.FileName}}</div>' }
+                , { title: '操作', toolbar: '#tableTool', width: 80 }
+            ]]
+        });
+    });
+</script>

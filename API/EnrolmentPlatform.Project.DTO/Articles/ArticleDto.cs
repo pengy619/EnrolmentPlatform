@@ -138,6 +138,11 @@ namespace EnrolmentPlatform.Project.DTO
         }
 
         public string DateStr { get; set; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public ArticleStatusEnum? Status { set; get; }
     }
 
     /// <summary>

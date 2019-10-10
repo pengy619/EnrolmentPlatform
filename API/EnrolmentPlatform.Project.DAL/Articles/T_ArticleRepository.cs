@@ -62,6 +62,7 @@ namespace EnrolmentPlatform.Project.DAL.Articles
                                && (!(param.Title == null || param.Title.Trim() == string.Empty) ? a.Title.Contains(param.Title) : true)
                                && (param.StartDate.HasValue ? a.CreatorTime >= param.StartDate.Value : true)
                                && (param.EndDate.HasValue ? a.CreatorTime < param.EndDate.Value : true)
+                               && (param.Status.HasValue ? a.Status == (int)param.Status.Value : true)
                                select new ArticleDto
                                {
                                    ArticleId = a.Id,

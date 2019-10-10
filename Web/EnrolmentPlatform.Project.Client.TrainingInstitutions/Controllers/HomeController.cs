@@ -18,8 +18,44 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
 {
     public class HomeController : BaseController
     {
-  
-        
+        #region 新闻公告
+
+        /// <summary>
+        /// 新闻公告列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Index()
+        {
+            //内容栏目
+            ViewBag.ArticleCategories = ArticleCategoryService.GetArticleCategoryList().ToList();
+            return View();
+        }
+
+        /// <summary>
+        /// 文章列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public string ArticleList(ArticleSearchDto param)
+        {
+            param.Status = ArticleStatusEnum.Publish;
+            var grd = ArticleService.GetArticlePageList(param);
+            return grd.ToJson();
+        }
+
+        /// <summary>
+        /// 内容详情
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Detail(Guid id)
+        {
+            var dto = ArticleService.GetArticleById(id);
+            return View(dto);
+        }
+
+        #endregion
+
         /// <summary>
         /// 没有权限
         /// </summary>
