@@ -137,9 +137,10 @@
                 }
 
                 var canSubmit = true;
-                for (var i = 0; i < checkdata.length; i++) {
-                    arr[i] = checkdata[i].ArticleId;
-                    if (parseInt(checkdata[i].Status) != 0) {
+                var arr = [];
+                for (var i = 0; i < data.length; i++) {
+                    arr[i] = data[i].ArticleId;
+                    if (parseInt(data[i].Status) != 0) {
                         canSubmit = false;
                     }
                 }
@@ -153,16 +154,12 @@
                 }
 
                 layer.confirm('您确定要发布选中的内容吗？', function (index) {
-                    var ckb_value = [];
-                    for (var i = 0; i < data.length; i++) {
-                        ckb_value.push(data[i].ArticleId);
-                    }
                     var ajaxOption = {
                         url: "@Url.Action("PublishArticles", "Article")",
                         type: 'Post',
                         async: false,
                         dataType: 'json',
-                        data: { idList: ckb_value },
+                        data: { idList: arr },
 				        success: function (result) {
                             if (result.IsSuccess) {
                                 table.reload('article-table');
@@ -176,6 +173,7 @@
                             layer.msg("系统出现异常，请联系管理员！");
                         }
                     }
+                    $.ajax(ajaxOption);
                     layer.close(index);
                 });
             }
