@@ -42,7 +42,7 @@
 
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href='@Url.Action("Detail", "Article")?id={{d.ArticleId}}' target="_blank" lay-event="detail">详情</a>
 </script>
 <script>
     layui.use(['jquery', 'table', 'laydate'], function () {
@@ -189,8 +189,6 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if (layEvent === 'edit') {
                 location.href = "@Url.Action("Option", "Article")?id=" + data.ArticleId;
-            } else if (layEvent === 'detail') {
-                location.href = "@Url.Action("Detail", "Article")?id=" + data.ArticleId;
             }
         })
     })

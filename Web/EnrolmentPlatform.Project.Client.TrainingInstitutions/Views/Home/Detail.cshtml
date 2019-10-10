@@ -3,7 +3,42 @@
     ViewBag.Title = "内容详情";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style type="text/css">
+    .article-warp {
+        padding: 20px 0;
+    }
+    .article-warp .article-box {
+        max-width: 980px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        margin: 0px auto;
+        padding: 20px;
+        -webkit-box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1);
+    }
+    .article-warp .article-box .article-title {
+        font-size: 24px;
+        text-align: center;
+    }
+    .article-warp .article-box .article-title small {
+        display: block;
+        font-size: 14px;
+        margin: 5px 0;
+        color: #999;
+    }
+    .article-warp .article-box .article-content {
+        text-indent: 2em;
+        line-height: 28px;
+    }
+    .article-warp .article-box .article-content img {
+        display: inline-block;
+        max-width: 800px;
+        margin: 10px 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+</style>
 <div class="main-wrap">
     <div class="article-warp">
         <div class="article-box">
