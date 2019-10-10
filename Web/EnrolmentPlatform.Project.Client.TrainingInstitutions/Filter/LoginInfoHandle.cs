@@ -141,7 +141,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Filter
             if (firstItem == null)
             {
                 // 直接返首页
-                return Guid.Parse("C073E363-0784-43B1-BB47-F46EF4C21683");
+                return Guid.Parse("D4C204C9-F9D6-4AA8-BD64-110AAE1E8FAC");
             }
 
             return firstItem.Id;
