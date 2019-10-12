@@ -365,7 +365,7 @@ CREATE TABLE [dbo].[T_Article](
 
 GO
 
---2019-10-12 增加公告菜单
+--2019-10-12增加公告菜单
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'78703df5-beb9-45ed-9b35-1e0a4f503838', N'内容管理', 2, N'', N'', N'', NULL, 1, N'd1c8d096-706f-44fd-b24d-057754b99fe9', 3, N'icon-msnui-website')
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'e34234ed-a41c-4fd5-9536-d9d062c9b2a9', N'内容管理', 3, N'Content', N'Article', N'Index', NULL, 1, N'78703df5-beb9-45ed-9b35-1e0a4f503838', 1, NULL)
@@ -396,3 +396,8 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 GO
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'4224e663-31d3-4905-9000-a6e77a1a76f5', N'公告详情', 4, N'', N'Home', N'Detail', NULL, 5, N'957b76c4-3307-4cde-8c00-f9d1b92b8614', 4, NULL)
 GO
+
+--2019-10-12报名表增加所读专业、是否电大毕业、毕业时间
+alter table T_Order Add SuoDuZhuanYe nvarchar(max) null;
+alter table T_Order Add IsTvUniversity bit not null default 0;
+alter table T_Order Add GraduationTime datetime null;

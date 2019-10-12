@@ -242,5 +242,23 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public string GongZuoDanWei { set; get; }
+
+        /// <summary>
+        /// 所读专业
+        /// </summary>
+        [DataMember]
+        public string SuoDuZhuanYe { get; set; }
+
+        /// <summary>
+        /// 是否电大毕业
+        /// </summary>
+        [DataMember]
+        public bool IsTvUniversity { get; set; }
+
+        /// <summary>
+        /// 毕业时间
+        /// </summary>
+        [DataMember]
+        public DateTime? GraduationTime { get; set; }
     }
 }

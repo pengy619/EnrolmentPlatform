@@ -74,7 +74,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 HighesDegree = dto.HighesDegree,
                 JiGuan = dto.JiGuan,
                 MinZu = dto.MinZu,
-                Sex = dto.Sex
+                Sex = dto.Sex,
+                SuoDuZhuanYe = dto.SuoDuZhuanYe,
+                IsTvUniversity = dto.IsTvUniversity,
+                GraduationTime = dto.GraduationTime
             };
 
             //添加订单
@@ -252,6 +255,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             entity.JiGuan = dto.JiGuan;
             entity.MinZu = dto.MinZu;
             entity.Sex = dto.Sex;
+            entity.SuoDuZhuanYe = dto.SuoDuZhuanYe;
+            entity.IsTvUniversity = dto.IsTvUniversity;
+            entity.GraduationTime = dto.GraduationTime;
             if (!string.IsNullOrWhiteSpace(dto.CreateUserName))
             {
                 entity.CreatorAccount = dto.CreateUserName;

@@ -193,6 +193,21 @@ namespace EnrolmentPlatform.Project.DTO.Orders
                 return this.CreateTime.ToString("yyyy-MM-dd");
             }
         }
+
+        /// <summary>
+        /// 所读专业
+        /// </summary>
+        public string SuoDuZhuanYe { get; set; }
+
+        /// <summary>
+        /// 是否电大毕业
+        /// </summary>
+        public bool IsTvUniversity { get; set; }
+
+        /// <summary>
+        /// 毕业时间
+        /// </summary>
+        public DateTime? GraduationTime { get; set; }
     }
 
     /// <summary>
