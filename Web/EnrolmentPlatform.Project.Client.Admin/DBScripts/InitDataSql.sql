@@ -364,3 +364,35 @@ CREATE TABLE [dbo].[T_Article](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
+
+--2019-10-12 增加公告菜单
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'78703df5-beb9-45ed-9b35-1e0a4f503838', N'内容管理', 2, N'', N'', N'', NULL, 1, N'd1c8d096-706f-44fd-b24d-057754b99fe9', 3, N'icon-msnui-website')
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'e34234ed-a41c-4fd5-9536-d9d062c9b2a9', N'内容管理', 3, N'Content', N'Article', N'Index', NULL, 1, N'78703df5-beb9-45ed-9b35-1e0a4f503838', 1, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'b5662d43-f6cf-488d-965f-0ee828b7dce6', N'发布', 4, N'Content', N'Article', N'Option', NULL, 1, N'e34234ed-a41c-4fd5-9536-d9d062c9b2a9', 1, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'c0a1be65-8d8b-4722-b74a-1e574faed3f3', N'删除', 4, N'Content', N'Article', N'DeleteArticles', NULL, 1, N'e34234ed-a41c-4fd5-9536-d9d062c9b2a9', 2, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'93b85199-7b64-4ba4-88c0-c66279d38fc8', N'编辑', 4, N'Content', N'Article', N'Option', NULL, 1, N'e34234ed-a41c-4fd5-9536-d9d062c9b2a9', 3, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'16e2d7df-1208-478c-9369-9867cd031fe3', N'详情', 4, N'Content', N'Article', N'Detail', NULL, 1, N'e34234ed-a41c-4fd5-9536-d9d062c9b2a9', 4, NULL)
+GO
+
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'216cb216-302e-49f3-b684-59ebe9f8d602', N'栏目管理', 3, N'Content', N'ArticleCategory', N'Index', NULL, 1, N'78703df5-beb9-45ed-9b35-1e0a4f503838', 2, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'056ae737-a583-4beb-8e5a-52d72cba7f5f', N'添加', 4, N'Content', N'ArticleCategory', N'AddArticleCategory', NULL, 1, N'216cb216-302e-49f3-b684-59ebe9f8d602', 1, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'f542b717-f22f-4841-bbfb-829dc91b27de', N'删除', 4, N'Content', N'ArticleCategory', N'DeleteArticleCategory', NULL, 1, N'216cb216-302e-49f3-b684-59ebe9f8d602', 2, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'1a494863-70bc-472b-8eb1-13d745395351', N'编辑', 4, N'Content', N'ArticleCategory', N'UpdateArticleCategory', NULL, 1, N'216cb216-302e-49f3-b684-59ebe9f8d602', 3, NULL)
+GO
+
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'd4c204c9-f9d6-4aa8-bd64-110aae1e8fac', N'首页', 1, N'', N'', N'', NULL, 5, N'00000000-0000-0000-0000-000000000000', 1, N'icon-shouye')
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'957b76c4-3307-4cde-8c00-f9d1b92b8614', N'公告列表', 3, N'', N'Home', N'Index', NULL, 5, N'd4c204c9-f9d6-4aa8-bd64-110aae1e8fac', 1, N'icon-xiaoxi')
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'a4153d13-8c66-4b99-bcff-136e751fca46', N'公告列表', 4, N' ', N'Home', N'ArticleList', NULL, 5, N'957b76c4-3307-4cde-8c00-f9d1b92b8614', 1, NULL)
+GO
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'4224e663-31d3-4905-9000-a6e77a1a76f5', N'公告详情', 4, N'', N'Home', N'Detail', NULL, 5, N'957b76c4-3307-4cde-8c00-f9d1b92b8614', 4, NULL)
+GO
