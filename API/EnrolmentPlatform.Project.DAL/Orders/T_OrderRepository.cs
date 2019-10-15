@@ -330,7 +330,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         LastModifyTime = DateTime.Now,
                         LastModifyUserId = dto.UserId,
                         Unix = DateTime.Now.ConvertDateTimeInt(),
-
                     };
                     dbContext.T_OrderApproval.Add(curApproval);
                 }

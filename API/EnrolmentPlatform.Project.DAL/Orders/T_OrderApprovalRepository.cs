@@ -86,6 +86,23 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     orderImage.XueXinWangImg = orderImageUpdateInfo.XueXinWangImg;
                     dbContext.Entry(orderImage).State = EntityState.Modified;
                 }
+
+                //4.先删除原有的订单附件
+                dbContext.T_File.RemoveRange(dbContext.T_File.Where(a => a.ForeignKeyId == approval.OrderId));
+
+                //5.添加附件至附件表
+                var approvalFiles = dbContext.T_File.Where(a => a.ForeignKeyId == approval.Id).ToList();
+                foreach (var item in approvalFiles)
+                {
+                    dbContext.T_File.Add(new Domain.Entities.T_File()
+                    {
+                        ForeignKeyId = approval.OrderId,
+                        FilePath = item.FilePath,
+                        FileName = item.FileName,
+                        CreatorUserId = approval.CreatorUserId,
+                        CreatorAccount = approval.CreatorAccount
+                    });
+                }
             }
             else
             {
@@ -98,6 +115,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             dbContext.ModuleKey = approvalId.ToString();
             dbContext.LogChangesDuringSave = true;
             dbContext.BusinessName = "订单修改审核";
+            dbContext.SaveChanges();
             return new ResultMsg() { IsSuccess = true };
         }
 
