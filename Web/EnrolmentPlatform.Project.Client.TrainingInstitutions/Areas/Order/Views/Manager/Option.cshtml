@@ -146,6 +146,10 @@
                 {
                     <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
                 }
+                @if (dto != null && (Request.QueryString["action"] == "1" && dto.Status != (int)OrderStatusEnum.Init && dto.Status != (int)OrderStatusEnum.Reject))
+                {
+                    <button class="layui-btn " lay-submit="" lay-filter="updateApply">继续下一步</button>
+                }
                 <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
             </div>
         </div>
@@ -156,9 +160,8 @@
     layui.use(['jquery', 'form', 'layer'], function () {
         var form = layui.form, layer = layui.layer;
 
-        //提交
-        form.on('submit(s)', function (data) {
-            //提交
+        //获得dto
+        function getDto() {
             var dto = {};
             dto.OrderId = $("#hidOrderId").val();
             dto.StudentName = $.trim($("#StudentName").val());
@@ -180,6 +183,13 @@
             dto.Address = $("#Address").val();
             dto.GongZuoDanWei = $("#GongZuoDanWei").val();
             dto.CreateUserName = $("#ZhaoShengLaoShi").val();
+            return dto;
+        }
+
+        //提交
+        form.on('submit(s)', function (data) {
+            //提交
+            var dto = getDto();
 
             $.ajax({
                 type: "POST",
