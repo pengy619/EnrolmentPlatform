@@ -126,4 +126,34 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         [Description("已处理")]
         Approved = 2,
     }
+
+    /// <summary>
+    /// 订单审批状态（0：草稿，1：待审核，2：审核通过，3：审核失败）
+    /// </summary>
+    public enum OrderApprovalStatusEnum
+    {
+        /// <summary>
+        /// 草稿
+        /// </summary>
+        [Description("草稿")]
+        Init = 0,
+
+        /// <summary>
+        /// 待审核
+        /// </summary>
+        [Description("待审核")]
+        Approval = 1,
+
+        /// <summary>
+        /// 审核通过
+        /// </summary>
+        [Description("审核通过")]
+        Approved = 2,
+
+        /// <summary>
+        /// 审核失败
+        /// </summary>
+        [Description("审核失败")]
+        Faild = 3
+    }
 }

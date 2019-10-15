@@ -274,7 +274,68 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 //提交修改申请
                 businessName = "提交修改申请";
 
+                #region 提交修改申请
 
+                //如果存在草稿的审核则修改原来草稿审批
+                var curApproval = dbContext.T_OrderApproval.FirstOrDefault(a => a.OrderId == dto.OrderId.Value && a.ApprovalStatus == (int)OrderApprovalStatusEnum.Init);
+                if (curApproval != null)
+                {
+                    curApproval.Address = dto.Address;
+                    curApproval.BiYeZhengBianHao = dto.BiYeZhengBianHao;
+                    curApproval.Email = dto.Email;
+                    curApproval.GongZuoDanWei = dto.GongZuoDanWei;
+                    curApproval.GraduateSchool = dto.GraduateSchool;
+                    curApproval.HighesDegree = dto.HighesDegree;
+                    curApproval.IDCardNo = dto.IDCardNo;
+                    curApproval.JiGuan = dto.JiGuan;
+                    curApproval.MinZu = dto.MinZu;
+                    curApproval.Phone = dto.Phone;
+                    curApproval.Remark = dto.Remark;
+                    curApproval.Sex = dto.Sex;
+                    curApproval.StudentName = dto.StudentName;
+                    curApproval.TencentNo = dto.TencentNo;
+                    curApproval.ZhaoShengLaoShi = dto.CreateUserName;
+                    dbContext.Entry(entity).State = EntityState.Modified;
+                }
+                else
+                {
+                    //否则新增审批
+                    curApproval = new T_OrderApproval()
+                    {
+                        Address = dto.Address,
+                        ApprovalStatus = (int)OrderApprovalStatusEnum.Init,
+                        BiYeZhengBianHao = dto.BiYeZhengBianHao,
+                        Email = dto.Email,
+                        GongZuoDanWei = dto.GongZuoDanWei,
+                        GraduateSchool = dto.GraduateSchool,
+                        HighesDegree = dto.HighesDegree,
+                        Id = Guid.NewGuid(),
+                        IDCardNo = dto.IDCardNo,
+                        JiGuan = dto.JiGuan,
+                        MinZu = dto.MinZu,
+                        OrderId = dto.OrderId.Value,
+                        Phone = dto.Phone,
+                        Remark = dto.Remark,
+                        Sex = dto.Sex,
+                        StudentName = dto.StudentName,
+                        TencentNo = dto.TencentNo,
+                        ZhaoShengLaoShi = dto.CreateUserName,
+
+                        CreatorAccount = dto.CreateUserName,
+                        CreatorTime = DateTime.Now,
+                        CreatorUserId = dto.UserId,
+                        DeleteTime = DateTime.MaxValue,
+                        DeleteUserId = Guid.Empty,
+                        IsDelete = false,
+                        LastModifyTime = DateTime.Now,
+                        LastModifyUserId = dto.UserId,
+                        Unix = DateTime.Now.ConvertDateTimeInt(),
+
+                    };
+                    dbContext.T_OrderApproval.Add(curApproval);
+                }
+
+                #endregion
             }
 
             dbContext.ModuleKey = dto.OrderId.Value.ToString();

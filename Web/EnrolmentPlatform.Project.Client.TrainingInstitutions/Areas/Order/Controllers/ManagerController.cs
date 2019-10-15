@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers;
 using EnrolmentPlatform.Project.DTO;
+using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 using NPOI.HSSF.UserModel;
@@ -107,10 +108,20 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// <returns></returns>
         public ActionResult Option(Guid? orderId)
         {
+            bool updateApply = false;
             if (orderId.HasValue)
             {
-                ViewBag.OrderInfo = OrderService.GetOrder(orderId.Value);
+                var orderInfo = OrderService.GetOrder(orderId.Value);
+                updateApply = (orderInfo != null && Request.QueryString["action"] == "1" && orderInfo.Status != (int)OrderStatusEnum.Init && orderInfo.Status != (int)OrderStatusEnum.Reject);
+                //如果是修改申请
+                if (updateApply == true)
+                {
+                    //需要显示最新修改申请为草稿的信息
+                }
+                ViewBag.OrderInfo = orderInfo;
             }
+
+            ViewBag.UpdateApply = updateApply;
 
             //批次
             ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);

@@ -6,7 +6,7 @@
     List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> schoolList = ViewBag.SchoolList;
 
     //修改申请
-    bool updateApply = (dto != null && Request.QueryString["action"] == "1" && dto.Status != (int)OrderStatusEnum.Init && dto.Status != (int)OrderStatusEnum.Reject);
+    bool updateApply = ViewBag.UpdateApply;
 }
 <div class="main-wrap">
     <div class="panel layui-form">
