@@ -77,8 +77,10 @@
     <Compile Include="Basics\T_MetadataRepository.cs" />
     <Compile Include="Basics\T_ChargeStrategyRepository.cs" />
     <Compile Include="DbContextFactory.cs" />
+    <Compile Include="Orders\T_OrderApprovalRepository.cs" />
     <Compile Include="Orders\T_ExamInfoRepository.cs" />
     <Compile Include="Orders\T_OrderAmountRepository.cs" />
+    <Compile Include="Orders\T_OrderImageApprovalRepository.cs" />
     <Compile Include="Orders\T_OrderImageRepository.cs" />
     <Compile Include="Orders\T_ExamRepository.cs" />
     <Compile Include="Orders\T_OrderRepository.cs" />

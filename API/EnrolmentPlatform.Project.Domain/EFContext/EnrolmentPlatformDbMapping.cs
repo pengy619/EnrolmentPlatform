@@ -47,6 +47,10 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
         public DbSet<T_Exam> T_Exam { get; set; }
         public DbSet<T_ExamInfo> T_ExamInfo { get; set; }
 
+        //订单审核
+        public DbSet<T_OrderApproval> T_OrderApproval { get; set; }
+        public DbSet<T_OrderImageApproval> T_OrderImageApproval { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

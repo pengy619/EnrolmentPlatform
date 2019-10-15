@@ -68,6 +68,8 @@
     <Compile Include="Basics\T_SchoolLevelMajorService.cs" />
     <Compile Include="Basics\T_MetadataService.cs" />
     <Compile Include="Orders\T_ExamService.cs" />
+    <Compile Include="Orders\T_OrderApprovalService.cs" />
+    <Compile Include="Orders\T_OrderImageApprovalService.cs" />
     <Compile Include="Orders\T_OrderService.cs" />
     <Compile Include="Orders\T_PaymentInfoService.cs" />
     <Compile Include="Orders\T_PaymentRecordService.cs" />
