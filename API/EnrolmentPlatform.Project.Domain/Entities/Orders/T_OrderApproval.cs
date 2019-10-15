@@ -113,10 +113,15 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string Remark { set; get; }
 
         /// <summary>
+        /// 所有图片是否都上传完成
+        /// </summary>
+        public bool AllOrderImageUpload { set; get; }
+
+        /// <summary>
         /// 审批状态（0：草稿，1：待审核，2：审核通过，3：审核失败）
         /// </summary>
         [DataMember]
-        public int? ApprovalStatus { set; get; }
+        public int ApprovalStatus { set; get; }
 
         /// <summary>
         /// 审批备注

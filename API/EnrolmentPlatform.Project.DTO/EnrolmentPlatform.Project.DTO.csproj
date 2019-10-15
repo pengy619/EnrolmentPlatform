@@ -66,6 +66,7 @@
     <Compile Include="Enums\Systems\SystemMessageEnum.cs" />
     <Compile Include="Orders\ExamDto.cs" />
     <Compile Include="Orders\OrderAmountDto.cs" />
+    <Compile Include="Orders\OrderApprovalDto.cs" />
     <Compile Include="Orders\OrderDto.cs" />
     <Compile Include="Orders\OrderImageDto.cs" />
     <Compile Include="Orders\OrderStatisticsDto.cs" />
