@@ -4,6 +4,9 @@
     OrderDto dto = ViewBag.OrderInfo;
     List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> batchList = ViewBag.BatchList;
     List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> schoolList = ViewBag.SchoolList;
+
+    //修改申请
+    bool updateApply = (dto != null && Request.QueryString["action"] == "1" && dto.Status != (int)OrderStatusEnum.Init && dto.Status != (int)OrderStatusEnum.Reject);
 }
 <div class="main-wrap">
     <div class="panel layui-form">
@@ -44,7 +47,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
                 <div class="layui-input-inline">
-                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required">
+                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" @(updateApply?"disabled":"") lay-verify="required">
                         <option value=""></option>
                         @foreach (var item in schoolList)
                         {
@@ -54,13 +57,13 @@
                 </div>
                 <label class="layui-form-label">层次</label>
                 <div class="layui-input-inline">
-                    <select id="LevelId" name="LevelId" lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required">
+                    <select id="LevelId" name="LevelId" lay-filter="LevelId" @(updateApply?"disabled":"") LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required">
                         <option value=""></option>
                     </select>
                 </div>
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-inline">
-                    <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required">
+                    <select id="MajorId" name="MajorId" @(updateApply?"disabled":"") MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required">
                         <option value=""></option>
                     </select>
                 </div>
@@ -68,7 +71,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">批次</label>
                 <div class="layui-input-inline">
-                    <select id="BatchId" name="BatchId" lay-verify="required">
+                    <select id="BatchId" name="BatchId" @(updateApply?"disabled":"") lay-verify="required">
                         <option value=""></option>
                         @foreach (var item in batchList)
                         {
@@ -146,7 +149,7 @@
                 {
                     <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
                 }
-                @if (dto != null && (Request.QueryString["action"] == "1" && dto.Status != (int)OrderStatusEnum.Init && dto.Status != (int)OrderStatusEnum.Reject))
+                @if (updateApply)
                 {
                     <button class="layui-btn " lay-submit="" lay-filter="updateApply">继续下一步</button>
                 }

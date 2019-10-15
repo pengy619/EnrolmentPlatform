@@ -165,109 +165,121 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return 3;
             }
 
-            #region 如果修改了学校、层次、专业，需重新计算订单价格
-            if (dto.SchoolId != entity.SchoolId || dto.LevelId != entity.LevelId || dto.MajorId != entity.MajorId)
+            //修改
+            string businessName = "修改报名单";
+            if (dto.Status == (int)OrderStatusEnum.Init || dto.Status == (int)OrderStatusEnum.Reject)
             {
-                //价格策略检查
-                var nowDate = DateTime.Now.Date;
-                var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-                && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
-                && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                if (chargeStrategy == null)
+                #region 如果修改了学校、层次、专业，需重新计算订单价格
+                if (dto.SchoolId != entity.SchoolId || dto.LevelId != entity.LevelId || dto.MajorId != entity.MajorId)
                 {
-                    //找不到当前时间段的价格策略
-                    return 2;
-                }
-
-                //删除价格
-                var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == dto.OrderId.Value).ToList();
-                if (priceList != null && priceList.Count > 0)
-                {
-                    foreach (var item in priceList)
+                    //价格策略检查
+                    var nowDate = DateTime.Now.Date;
+                    var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+                    && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
+                    && nowDate >= a.StartDate && nowDate <= a.EndDate);
+                    if (chargeStrategy == null)
                     {
-                        dbContext.T_OrderAmount.Remove(item);
+                        //找不到当前时间段的价格策略
+                        return 2;
                     }
+
+                    //删除价格
+                    var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == dto.OrderId.Value).ToList();
+                    if (priceList != null && priceList.Count > 0)
+                    {
+                        foreach (var item in priceList)
+                        {
+                            dbContext.T_OrderAmount.Remove(item);
+                        }
+                    }
+
+                    //添加订单（招生机构）金额数据
+                    var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+                    && a.MajorId == dto.MajorId && a.InstitutionId == entity.FromChannelId
+                    && nowDate >= a.StartDate && nowDate <= a.EndDate);
+                    dbContext.T_OrderAmount.Add(new T_OrderAmount()
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = dto.OrderId.Value,
+                        TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge,
+                        ApprovalAmount = 0,
+                        PayedAmount = 0,
+                        PaymentSource = 1,
+                        CreatorAccount = dto.UserName,
+                        CreatorTime = DateTime.Now,
+                        CreatorUserId = dto.UserId,
+                        DeleteTime = DateTime.MaxValue,
+                        DeleteUserId = Guid.Empty,
+                        IsDelete = false,
+                        LastModifyTime = DateTime.Now,
+                        LastModifyUserId = dto.UserId,
+                        Unix = DateTime.Now.ConvertDateTimeInt()
+                    });
+
+                    //添加订单（学院中心）金额数据
+                    dbContext.T_OrderAmount.Add(new T_OrderAmount()
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = dto.OrderId.Value,
+                        TotalAmount = chargeStrategy.CenterCharge,
+                        ApprovalAmount = 0,
+                        PayedAmount = 0,
+                        PaymentSource = 2,
+                        CreatorAccount = dto.UserName,
+                        CreatorTime = DateTime.Now,
+                        CreatorUserId = dto.UserId,
+                        DeleteTime = DateTime.MaxValue,
+                        DeleteUserId = Guid.Empty,
+                        IsDelete = false,
+                        LastModifyTime = DateTime.Now,
+                        LastModifyUserId = dto.UserId,
+                        Unix = DateTime.Now.ConvertDateTimeInt()
+                    });
                 }
+                #endregion
 
-                //添加订单（招生机构）金额数据
-                var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-                && a.MajorId == dto.MajorId && a.InstitutionId == entity.FromChannelId
-                && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                dbContext.T_OrderAmount.Add(new T_OrderAmount()
+                #region 更新订单信息
+                entity.StudentName = dto.StudentName;
+                entity.IDCardNo = dto.IDCardNo;
+                entity.Phone = dto.Phone;
+                entity.TencentNo = dto.TencentNo;
+                entity.Email = dto.Email;
+                entity.SchoolId = dto.SchoolId;
+                entity.LevelId = dto.LevelId;
+                entity.MajorId = dto.MajorId;
+                entity.BatchId = dto.BatchId;
+                entity.Remark = dto.Remark;
+                entity.LastModifyUserId = dto.UserId;
+                entity.LastModifyTime = DateTime.Now;
+                entity.Address = dto.Address;
+                entity.BiYeZhengBianHao = dto.BiYeZhengBianHao;
+                entity.GongZuoDanWei = dto.GongZuoDanWei;
+                entity.GraduateSchool = dto.GraduateSchool;
+                entity.HighesDegree = dto.HighesDegree;
+                entity.JiGuan = dto.JiGuan;
+                entity.MinZu = dto.MinZu;
+                entity.Sex = dto.Sex;
+                entity.SuoDuZhuanYe = dto.SuoDuZhuanYe;
+                entity.IsTvUniversity = dto.IsTvUniversity;
+                entity.GraduationTime = dto.GraduationTime;
+                if (!string.IsNullOrWhiteSpace(dto.CreateUserName))
                 {
-                    Id = Guid.NewGuid(),
-                    OrderId = dto.OrderId.Value,
-                    TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge,
-                    ApprovalAmount = 0,
-                    PayedAmount = 0,
-                    PaymentSource = 1,
-                    CreatorAccount = dto.UserName,
-                    CreatorTime = DateTime.Now,
-                    CreatorUserId = dto.UserId,
-                    DeleteTime = DateTime.MaxValue,
-                    DeleteUserId = Guid.Empty,
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.UserId,
-                    Unix = DateTime.Now.ConvertDateTimeInt()
-                });
-
-                //添加订单（学院中心）金额数据
-                dbContext.T_OrderAmount.Add(new T_OrderAmount()
-                {
-                    Id = Guid.NewGuid(),
-                    OrderId = dto.OrderId.Value,
-                    TotalAmount = chargeStrategy.CenterCharge,
-                    ApprovalAmount = 0,
-                    PayedAmount = 0,
-                    PaymentSource = 2,
-                    CreatorAccount = dto.UserName,
-                    CreatorTime = DateTime.Now,
-                    CreatorUserId = dto.UserId,
-                    DeleteTime = DateTime.MaxValue,
-                    DeleteUserId = Guid.Empty,
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.UserId,
-                    Unix = DateTime.Now.ConvertDateTimeInt()
-                });
+                    entity.CreatorAccount = dto.CreateUserName;
+                }
+                dbContext.Entry(entity).State = EntityState.Modified;
+                #endregion
             }
-            #endregion
-
-            #region 更新订单信息
-            entity.StudentName = dto.StudentName;
-            entity.IDCardNo = dto.IDCardNo;
-            entity.Phone = dto.Phone;
-            entity.TencentNo = dto.TencentNo;
-            entity.Email = dto.Email;
-            entity.SchoolId = dto.SchoolId;
-            entity.LevelId = dto.LevelId;
-            entity.MajorId = dto.MajorId;
-            entity.BatchId = dto.BatchId;
-            entity.Remark = dto.Remark;
-            entity.LastModifyUserId = dto.UserId;
-            entity.LastModifyTime = DateTime.Now;
-            entity.Address = dto.Address;
-            entity.BiYeZhengBianHao = dto.BiYeZhengBianHao;
-            entity.GongZuoDanWei = dto.GongZuoDanWei;
-            entity.GraduateSchool = dto.GraduateSchool;
-            entity.HighesDegree = dto.HighesDegree;
-            entity.JiGuan = dto.JiGuan;
-            entity.MinZu = dto.MinZu;
-            entity.Sex = dto.Sex;
-            entity.SuoDuZhuanYe = dto.SuoDuZhuanYe;
-            entity.IsTvUniversity = dto.IsTvUniversity;
-            entity.GraduationTime = dto.GraduationTime;
-            if (!string.IsNullOrWhiteSpace(dto.CreateUserName))
+            else
             {
-                entity.CreatorAccount = dto.CreateUserName;
+                //提交修改申请
+                businessName = "提交修改申请";
+
+
             }
-            dbContext.Entry(entity).State = EntityState.Modified;
-            #endregion
 
             dbContext.ModuleKey = dto.OrderId.Value.ToString();
             dbContext.LogChangesDuringSave = true;
-            dbContext.BusinessName = "修改报名单";
+            dbContext.BusinessName = businessName;
             return dbContext.SaveChanges() > 0 ? 1 : 3;
         }
 
