@@ -299,7 +299,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 }
                 else
                 {
-                    //否则新增审批
+                    //1.否则新增审批
                     curApproval = new T_OrderApproval()
                     {
                         Address = dto.Address,
@@ -332,6 +332,51 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         Unix = DateTime.Now.ConvertDateTimeInt(),
                     };
                     dbContext.T_OrderApproval.Add(curApproval);
+
+                    //2.把订单原有的照片复制到审批表
+                    var orderImage = dbContext.T_OrderImage.FirstOrDefault(a => a.OrderId == dto.OrderId.Value);
+                    if (orderImage != null)
+                    {
+                        dbContext.T_OrderImageApproval.Add(new T_OrderImageApproval()
+                        {
+                            Id = Guid.NewGuid(),
+                            OrderApprovalId = curApproval.Id,
+                            BiYeZhengImg = orderImage.BiYeZhengImg,
+                            OrderId = dto.OrderId.Value,
+                            IDCard1 = orderImage.IDCard1,
+                            IDCard2 = orderImage.IDCard2,
+                            LiangCunLanDiImg = orderImage.LiangCunLanDiImg,
+                            MianKaoJiSuanJiImg = orderImage.MianKaoJiSuanJiImg,
+                            MianKaoYingYuImg = orderImage.MianKaoYingYuImg,
+                            QiTa = orderImage.QiTa,
+                            TouXiang = orderImage.TouXiang,
+                            XueXinWangImg = orderImage.XueXinWangImg,
+
+                            CreatorAccount = dto.CreateUserName,
+                            CreatorTime = DateTime.Now,
+                            CreatorUserId = dto.UserId,
+                            DeleteTime = DateTime.MaxValue,
+                            DeleteUserId = Guid.Empty,
+                            IsDelete = false,
+                            LastModifyTime = DateTime.Now,
+                            LastModifyUserId = dto.UserId,
+                            Unix = DateTime.Now.ConvertDateTimeInt()
+                        });
+                    }
+
+                    //3.把原有的附件表复制到审核表
+                    var orderFiles = dbContext.T_File.Where(a => a.ForeignKeyId == dto.OrderId.Value).ToList();
+                    foreach (var item in orderFiles)
+                    {
+                        dbContext.T_File.Add(new Domain.Entities.T_File()
+                        {
+                            ForeignKeyId = curApproval.Id,
+                            FilePath = item.FilePath,
+                            FileName = item.FileName,
+                            CreatorUserId = curApproval.CreatorUserId,
+                            CreatorAccount = curApproval.CreatorAccount
+                        });
+                    }
                 }
 
                 #endregion
