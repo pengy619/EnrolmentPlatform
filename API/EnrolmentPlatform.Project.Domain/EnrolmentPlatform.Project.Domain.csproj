@@ -66,7 +66,9 @@
     <Compile Include="Entities\Orders\T_ExamInfo.cs" />
     <Compile Include="Entities\Orders\T_Order.cs" />
     <Compile Include="Entities\Orders\T_OrderAmount.cs" />
+    <Compile Include="Entities\Orders\T_OrderApproval.cs" />
     <Compile Include="Entities\Orders\T_OrderImage.cs" />
+    <Compile Include="Entities\Orders\T_OrderImageApproval.cs" />
     <Compile Include="Entities\Orders\T_PaymentInfo.cs" />
     <Compile Include="Entities\Orders\T_PaymentRecord.cs" />
     <Compile Include="Entities\Systems\T_File.cs" />
