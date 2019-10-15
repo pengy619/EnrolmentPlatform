@@ -117,6 +117,22 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 if (updateApply == true)
                 {
                     //需要显示最新修改申请为草稿的信息
+                    var orderApproval = OrderApprovalService.GetOrderApplyApprovalInfo(orderId.Value);
+                    orderInfo.Address = orderApproval.Address;
+                    orderInfo.BiYeZhengBianHao = orderApproval.BiYeZhengBianHao;
+                    orderInfo.CreateUserName = orderApproval.ZhaoShengLaoShi;
+                    orderInfo.Email = orderApproval.Email;
+                    orderInfo.GongZuoDanWei = orderApproval.GongZuoDanWei;
+                    orderInfo.GraduateSchool = orderApproval.GraduateSchool;
+                    orderInfo.HighesDegree = orderApproval.HighesDegree;
+                    orderInfo.IDCardNo = orderApproval.IDCardNo;
+                    orderInfo.JiGuan = orderApproval.JiGuan;
+                    orderInfo.MinZu = orderApproval.MinZu;
+                    orderInfo.Phone = orderApproval.Phone;
+                    orderInfo.Remark = orderApproval.Remark;
+                    orderInfo.Sex = orderApproval.Sex;
+                    orderInfo.StudentName = orderApproval.StudentName;
+                    orderInfo.TencentNo = orderApproval.TencentNo;
                 }
                 ViewBag.OrderInfo = orderInfo;
             }

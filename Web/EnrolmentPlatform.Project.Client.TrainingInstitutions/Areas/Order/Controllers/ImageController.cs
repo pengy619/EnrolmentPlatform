@@ -57,7 +57,22 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 ViewBag.BiYeInfo = biyeInfo;
 
                 //照片信息
-                ViewBag.ImageDto = OrderService.FindOrderImage(orderId.Value);
+                var imageDto = OrderService.FindOrderImage(orderId.Value);
+                var orderImage = OrderApprovalService.GetOrderImageApplyApprovalInfo(orderId.Value);
+                if (orderImage != null)
+                {
+                    imageDto.BiYeZhengImg = orderImage.BiYeZhengImg;
+                    imageDto.IDCard1 = orderImage.IDCard1;
+                    imageDto.IDCard2 = orderImage.IDCard2;
+                    imageDto.LiangCunLanDiImg = orderImage.LiangCunLanDiImg;
+                    imageDto.MianKaoJiSuanJiImg = orderImage.MianKaoJiSuanJiImg;
+                    imageDto.MianKaoYingYuImg = orderImage.MianKaoYingYuImg;
+                    imageDto.QiTa = orderImage.QiTa;
+                    imageDto.TouXiang = orderImage.TouXiang;
+                    imageDto.XueXinWangImg = orderImage.XueXinWangImg;
+                }
+
+                ViewBag.ImageDto = imageDto;
             }
             else
             {
