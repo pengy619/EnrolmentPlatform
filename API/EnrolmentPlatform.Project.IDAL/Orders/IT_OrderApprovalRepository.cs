@@ -21,6 +21,20 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         ResultMsg Approval(Guid approvalId, bool approved, string comment);
 
         /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        ResultMsg Delete(List<Guid> approvalIdList);
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        ResultMsg Submit(List<Guid> approvalIdList);
+
+        /// <summary>
         /// 根据订单ID获得待审核的订单修改申请
         /// </summary>
         /// <param name="req">req</param>

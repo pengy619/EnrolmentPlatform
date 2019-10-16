@@ -120,6 +120,65 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         }
 
         /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        public ResultMsg Delete(List<Guid> approvalIdList)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id));
+            foreach (var item in approvals)
+            {
+                if (item.ApprovalStatus != (int)OrderApprovalStatusEnum.Init && item.ApprovalStatus != (int)OrderApprovalStatusEnum.Faild)
+                {
+                    return new ResultMsg() { IsSuccess=false, Info="当前状态不允许删除。" };
+                }
+            }
+
+            //1.删除图片
+            var images = dbContext.T_OrderImageApproval.Where(a => approvalIdList.Contains(a.OrderApprovalId));
+            dbContext.T_OrderImageApproval.RemoveRange(images);
+
+            //2.删除审批
+            dbContext.T_OrderApproval.RemoveRange(approvals);
+
+            //3.删除附件
+            var files = dbContext.T_File.Where(a => approvalIdList.Contains(a.ForeignKeyId));
+            dbContext.T_File.RemoveRange(files);
+
+            dbContext.LogChangesDuringSave = false;
+            dbContext.SaveChanges();
+            return new ResultMsg() { IsSuccess = true };
+        }
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        public ResultMsg Submit(List<Guid> approvalIdList)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id));
+            foreach (var item in approvals)
+            {
+                if (item.ApprovalStatus != (int)OrderApprovalStatusEnum.Init)
+                {
+                    return new ResultMsg() { IsSuccess = false, Info = "当前状态不允许提交。" };
+                }
+            }
+
+            foreach (var item in approvals)
+            {
+                item.ApprovalStatus = (int)OrderApprovalStatusEnum.Approval;
+                dbContext.Entry(item).State = EntityState.Modified;
+            }
+            dbContext.SaveChanges();
+            return new ResultMsg() { IsSuccess = true };
+        }
+
+        /// <summary>
         /// 根据订单ID获得待审核的订单修改申请
         /// </summary>
         /// <param name="req">req</param>

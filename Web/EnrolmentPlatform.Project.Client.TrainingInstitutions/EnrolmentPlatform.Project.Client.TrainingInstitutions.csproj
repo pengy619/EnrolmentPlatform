@@ -178,6 +178,7 @@
     <Compile Include="Areas\Order\Controllers\ExamController.cs" />
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
+    <Compile Include="Areas\Order\Controllers\OrderUpdateApprovalController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
     <Compile Include="Areas\Payment\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Payment\PaymentAreaRegistration.cs" />
@@ -688,6 +689,9 @@
     <Content Include="Areas\Payment\Views\Manager\PaymentDetail.cshtml" />
     <Content Include="Areas\Order\Views\Exam\Index.cshtml" />
     <Content Include="Areas\Order\Views\Exam\Option.cshtml" />
+    <Content Include="Areas\Order\Views\OrderUpdateApproval\Index.cshtml" />
+    <Content Include="Areas\Order\Views\OrderUpdateApproval\OrderInfo.cshtml" />
+    <Content Include="Areas\Order\Views\OrderUpdateApproval\OrderImageInfo.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />

@@ -90,6 +90,26 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        public ResultMsg Delete(List<Guid> approvalIdList)
+        {
+            return this.orderApprovalRepository.Delete(approvalIdList);
+        }
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        public ResultMsg Submit(List<Guid> approvalIdList)
+        {
+            return this.orderApprovalRepository.Submit(approvalIdList);
+        }
+
+        /// <summary>
         /// 审批
         /// </summary>
         /// <param name="approvalId">approvalId</param>
@@ -106,9 +126,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public OrderApprovalDto GetOrderUpdateApprovalList(OrderUpdateApprovalReq req, out int reCount)
+        public List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req, out int reCount)
         {
-            return this.GetOrderUpdateApprovalList(req, out reCount);
+            return this.orderApprovalRepository.GetOrderUpdateApprovalList(req, out reCount);
         }
     }
 }

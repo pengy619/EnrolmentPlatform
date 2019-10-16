@@ -34,10 +34,24 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         ResultMsg Approval(Guid approvalId, bool approved, string comment);
 
         /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        ResultMsg Delete(List<Guid> approvalIdList);
+
+        /// <summary>
+        /// 提交
+        /// </summary>
+        /// <param name="approvalIdList">approvalIdList</param>
+        /// <returns></returns>
+        ResultMsg Submit(List<Guid> approvalIdList);
+
+        /// <summary>
         /// 根据订单ID获得待审核的订单修改申请
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        OrderApprovalDto GetOrderUpdateApprovalList(OrderUpdateApprovalReq req, out int reCount);
+        List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req, out int reCount);
     }
 }
