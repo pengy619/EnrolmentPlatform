@@ -146,6 +146,7 @@
     </div>
 </div>
 <input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
+<input type="hidden" id="hidOrderApprovalId" value="@ViewBag.OrderApprovalId" />
 <script>
     layui.use(['jquery', 'form', 'layer'], function () {
         var form = layui.form, layer = layui.layer;
@@ -154,15 +155,12 @@
         function getDto() {
             var dto = {};
             dto.OrderId = $("#hidOrderId").val();
+            dto.ApprovalId = $("#hidOrderApprovalId").val();
             dto.StudentName = $.trim($("#StudentName").val());
             dto.IDCardNo = $.trim($("#IDCardNo").val());
             dto.Phone = $("#Phone").val();
             dto.TencentNo = $("#TencentNo").val();
             dto.Email = $("#Email").val();
-            dto.SchoolId = $("#SchoolId").val();
-            dto.LevelId = $("#LevelId").val();
-            dto.MajorId = $("#MajorId").val();
-            dto.BatchId = $("#BatchId").val();
             dto.Remark = $("#Remark").val();
             dto.Sex = $("#Sex").val();
             dto.MinZu = $("#MinZu").val();
@@ -172,12 +170,12 @@
             dto.BiYeZhengBianHao = $("#BiYeZhengBianHao").val();
             dto.Address = $("#Address").val();
             dto.GongZuoDanWei = $("#GongZuoDanWei").val();
-            dto.CreateUserName = $("#ZhaoShengLaoShi").val();
+            dto.ZhaoShengLaoShi = $("#ZhaoShengLaoShi").val();
             return dto;
         }
 
         //提交
-        form.on('submit(s)', function (data) {
+        form.on('submit(updateApply)', function (data) {
             //提交
             var dto = getDto();
 
@@ -187,14 +185,14 @@
                 dataType: "json",
                 async: false,
                 data: JSON.stringify(dto),
-                url: '@Url.Action("SaveOrder", "Manager")',
+                url: '@Url.Action("Save", "OrderUpdateApproval")',
                 success: function (result) {
                     if (result.ret == true) {
                         layer.msg('保存成功。', {
                             icon: 1,
                             time: 2000
                         }, function () {
-                            window.location.href = '@Url.Action("Index", "Manager")';
+                            window.location.href = '@Url.Action("OrderImageInfo", "OrderUpdateApproval")?action=@Request.QueryString["action"]&approvalId=' + result.data;
                         });
                     }
                     else {
@@ -244,7 +242,7 @@
                 dataType: "json",
                 async: false,
                 data: JSON.stringify(data),
-                url: '@Url.Action("GetLevelData", "Manager")',
+                url: '@Url.Action("GetLevelData", "OrderUpdateApproval")',
                 success: function (result) {
                     if (result && result.length > 0) {
                         if (type == 1) {

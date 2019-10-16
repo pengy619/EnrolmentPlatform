@@ -1,9 +1,11 @@
 ﻿using EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Orders;
+using EnrolmentPlatform.Project.DTO.Systems;
 using EnrolmentPlatform.Project.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -90,6 +92,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 orderInfo.Sex = orderApproval.Sex;
                 orderInfo.StudentName = orderApproval.StudentName;
                 orderInfo.TencentNo = orderApproval.TencentNo;
+                ViewBag.OrderApprovalId = orderApproval.ApprovalId.Value;
             }
 
             //订单信息
@@ -104,9 +107,55 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// <summary>
         /// 订单图片信息
         /// </summary>
+        /// <param name="approvalId">approvalId</param>
+        /// <param name="action">action</param>
         /// <returns></returns>
-        public ActionResult OrderImageInfo()
+        public ActionResult OrderImageInfo(Guid approvalId, string action)
         {
+            var approval = OrderApprovalService.GetOrderApplyApprovalInfo(approvalId);
+            if (approval == null)
+            {
+                return RedirectToAction("Index", "OrderUpdateApproval");
+            }
+
+            //报名单信息
+            var orderInfo = OrderService.GetOrder(approval.OrderId);
+            orderInfo.Address = approval.Address;
+            orderInfo.BiYeZhengBianHao = approval.BiYeZhengBianHao;
+            orderInfo.CreateUserName = approval.ZhaoShengLaoShi;
+            orderInfo.Email = approval.Email;
+            orderInfo.GongZuoDanWei = approval.GongZuoDanWei;
+            orderInfo.GraduateSchool = approval.GraduateSchool;
+            orderInfo.HighesDegree = approval.HighesDegree;
+            orderInfo.IDCardNo = approval.IDCardNo;
+            orderInfo.JiGuan = approval.JiGuan;
+            orderInfo.MinZu = approval.MinZu;
+            orderInfo.Phone = approval.Phone;
+            orderInfo.Remark = approval.Remark;
+            orderInfo.Sex = approval.Sex;
+            orderInfo.StudentName = approval.StudentName;
+            orderInfo.TencentNo = approval.TencentNo;
+            ViewBag.OrderApprovalId = approval.ApprovalId.Value;
+            ViewBag.OrderInfo = orderInfo;
+            ViewBag.ApprovalInfo = approval;
+
+            //批次
+            var batchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            ViewBag.BatchName = batchList.Find(a => a.Id == orderInfo.BatchId).Name;
+
+            //学校
+            var schoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
+            //层级
+            var levelList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Level);
+            //专业
+            var majorList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Major);
+            var biyeInfo = schoolList.Find(a => a.Id == orderInfo.SchoolId).Name + " " + levelList.Find(a => a.Id == orderInfo.LevelId).Name
+                + " " + majorList.Find(a => a.Id == orderInfo.MajorId).Name;
+            ViewBag.BiYeInfo = biyeInfo;
+
+            //照片信息
+            ViewBag.ImageDto = OrderApprovalService.GetOrderImageApplyApprovalInfo(approval.ApprovalId.Value);
+            ViewBag.ApprovalId = approvalId;
             return View();
         }
 
@@ -160,11 +209,11 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             var ret = OrderApprovalService.Save(dto);
             if (ret.IsSuccess == true)
             {
-                return Json(new { ret = 1 });
+                return Json(new { ret = true, data = ret.Data.ToString() });
             }
             else
             {
-                return Json(new { ret = 0, msg = ret.Info });
+                return Json(new { ret = false, msg = ret.Info });
             }
         }
 
@@ -179,5 +228,178 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             var list = LevelService.FindSubItemById(parentId);
             return Json(list);
         }
+
+        #region 图片处理
+
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="approvalId">订单审批ID</param>
+        /// <param name="type">类型</param>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        public JsonResult SaveImage(Guid approvalId, int type, HttpPostedFileBase file)
+        {
+            byte[] data;
+            using (Stream inputStream = file.InputStream)
+            {
+                MemoryStream memoryStream = inputStream as MemoryStream;
+                if (memoryStream == null)
+                {
+                    memoryStream = new MemoryStream();
+                    inputStream.CopyTo(memoryStream);
+                }
+                data = memoryStream.ToArray();
+            }
+
+            string fileServerUrl = System.Configuration.ConfigurationManager.AppSettings["FileDoMain"];
+            string fileName = Guid.NewGuid().ToString() + "." + file.FileName.Split('.')[1].ToString();
+            System.Collections.Generic.Dictionary<object, object> parames = new System.Collections.Generic.Dictionary<object, object>();
+            parames.Add("fromType", System.Configuration.ConfigurationManager.AppSettings["FileFrom"]);
+            parames.Add("postFileKey", System.Configuration.ConfigurationManager.AppSettings["PostFileKey"]);
+            var _saveRet = EnrolmentPlatform.Project.Infrastructure.HttpMethods.HttpPost(fileServerUrl + "/UpLoad/Index", parames, fileName, data);
+            EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg _saveResult = Newtonsoft.Json.JsonConvert.DeserializeObject<EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg>(_saveRet);
+            if (_saveResult.IsSuccess == false)
+            {
+                return Json(new { ret = false, msg = _saveResult.Info });
+            }
+
+            //图片完整地址
+            string fullUrl = fileServerUrl + "/" + _saveResult.Info;
+
+            //修改报名单图片
+            OrderApprovalImgDto imageDto = OrderApprovalService.GetOrderImageApplyApprovalInfo(approvalId);
+            if (type == 1)
+            {
+                imageDto.IDCard1 = fullUrl;
+            }
+            else if (type == 2)
+            {
+                imageDto.IDCard2 = fullUrl;
+            }
+            else if (type == 3)
+            {
+                imageDto.LiangCunLanDiImg = fullUrl;
+            }
+            else if (type == 4)
+            {
+                imageDto.BiYeZhengImg = fullUrl;
+            }
+            else if (type == 5)
+            {
+                imageDto.MianKaoYingYuImg = fullUrl;
+            }
+            else if (type == 6)
+            {
+                imageDto.MianKaoJiSuanJiImg = fullUrl;
+            }
+            else if (type == 7)
+            {
+                imageDto.XueXinWangImg = fullUrl;
+            }
+            else if (type == 8)
+            {
+                imageDto.TouXiang = fullUrl;
+            }
+            else if (type == 9)
+            {
+                imageDto.QiTa = fullUrl;
+            }
+
+            if (OrderApprovalService.SaveImage(imageDto).IsSuccess == true)
+            {
+
+                //处理上传图片
+                return Json(new { ret = true, msg = "上传成功！", url = fullUrl });
+            }
+            else
+            {
+                return Json(new { ret = false, msg = "上传失败！" });
+            }
+        }
+
+        /// <summary>
+        /// 保存附件
+        /// </summary>
+        /// <param name="approvalId">订单审批ID</param>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        public JsonResult SaveAttachment(Guid approvalId, HttpPostedFileBase file)
+        {
+            byte[] data;
+            using (Stream inputStream = file.InputStream)
+            {
+                MemoryStream memoryStream = inputStream as MemoryStream;
+                if (memoryStream == null)
+                {
+                    memoryStream = new MemoryStream();
+                    inputStream.CopyTo(memoryStream);
+                }
+                data = memoryStream.ToArray();
+            }
+
+            string fileServerUrl = System.Configuration.ConfigurationManager.AppSettings["FileDoMain"];
+            string fileName = Guid.NewGuid().ToString() + "." + file.FileName.Split('.')[1].ToString();
+            System.Collections.Generic.Dictionary<object, object> parames = new System.Collections.Generic.Dictionary<object, object>();
+            parames.Add("fromType", System.Configuration.ConfigurationManager.AppSettings["FileFrom"]);
+            parames.Add("postFileKey", System.Configuration.ConfigurationManager.AppSettings["PostFileKey"]);
+            var _saveRet = EnrolmentPlatform.Project.Infrastructure.HttpMethods.HttpPost(fileServerUrl + "/UpLoad/Index", parames, fileName, data);
+            EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg _saveResult = Newtonsoft.Json.JsonConvert.DeserializeObject<EnrolmentPlatform.Project.Infrastructure.HttpResponseMsg>(_saveRet);
+            if (_saveResult.IsSuccess == false)
+            {
+                return Json(new { ret = false, msg = _saveResult.Info });
+            }
+
+            //文件完整地址
+            string fullUrl = fileServerUrl + "/" + _saveResult.Info;
+
+            //保存文件
+            var ret = FileService.AddFile(new FileDto
+            {
+                ForeignKeyId = approvalId,
+                FilePath = fullUrl,
+                FileName = file.FileName,
+                CreatorUserId = this.UserId,
+                CreatorAccount = this.UserAccount
+            });
+            return Json(new { ret = ret.IsSuccess, msg = ret.Info });
+        }
+
+        /// <summary>
+        /// 文件列表
+        /// </summary>
+        /// <param name="approvalId"></param>
+        /// <returns></returns>
+        public string FileList(Guid approvalId)
+        {
+            List<FileDto> list = FileService.GetFileList(approvalId);
+            GridDataResponse grid = new GridDataResponse
+            {
+                Count = list.Count,
+                Data = list
+            };
+            return grid.ToJson();
+        }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult DeleteFile(Guid id)
+        {
+            var ret = FileService.DeleteFileById(id);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "删除失败。" });
+            }
+        }
+
+        #endregion
     }
 }

@@ -19,6 +19,13 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         ResultMsg Save(OrderApprovalDto dto);
 
         /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        ResultMsg SaveImage(OrderApprovalImgDto dto);
+
+        /// <summary>
         /// 审批
         /// </summary>
         /// <param name="approvalId">approvalId</param>
