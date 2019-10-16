@@ -17,6 +17,16 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         private IT_OrderImageApprovalRepository orderImageApprovalRepository = DIContainer.Resolve<IT_OrderImageApprovalRepository>();
 
         /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public ResultMsg Save(OrderApprovalDto dto)
+        {
+            return this.orderApprovalRepository.Save(dto);
+        }
+
+        /// <summary>
         /// 根据订单ID获得待审核的订单修改申请
         /// </summary>
         /// <param name="orderId"></param>

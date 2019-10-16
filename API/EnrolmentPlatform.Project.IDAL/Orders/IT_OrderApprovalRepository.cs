@@ -12,6 +12,13 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
     public interface IT_OrderApprovalRepository : IBaseRepository<T_OrderApproval>
     {
         /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        ResultMsg Save(OrderApprovalDto dto);
+
+        /// <summary>
         /// 审批
         /// </summary>
         /// <param name="approvalId">approvalId</param>

@@ -11,6 +11,13 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
     public interface IT_OrderApprovalService
     {
         /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        ResultMsg Save(OrderApprovalDto dto);
+
+        /// <summary>
         /// 根据订单ID获得待审核的订单修改申请
         /// </summary>
         /// <param name="orderId"></param>

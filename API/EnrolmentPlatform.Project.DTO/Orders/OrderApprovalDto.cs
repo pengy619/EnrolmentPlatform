@@ -13,7 +13,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// <summary>
         /// 审批ID
         /// </summary>
-        public Guid ApprovalId { set; get; }
+        public Guid? ApprovalId { set; get; }
 
         /// <summary>
         /// 订单ID
@@ -89,6 +89,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 招生老师
         /// </summary>
         public string ZhaoShengLaoShi { set; get; }
+
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        public Guid UserId { set; get; }
 
         /// <summary>
         /// 备注

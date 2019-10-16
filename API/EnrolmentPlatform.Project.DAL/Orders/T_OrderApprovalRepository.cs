@@ -17,6 +17,129 @@ namespace EnrolmentPlatform.Project.DAL.Orders
     public class T_OrderApprovalRepository : BaseRepository<T_OrderApproval>, IT_OrderApprovalRepository
     {
         /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public ResultMsg Save(OrderApprovalDto dto)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            //如果存在草稿的审核则修改原来草稿审批
+            if (dto.ApprovalId.HasValue == true)
+            {
+                var curApproval = dbContext.T_OrderApproval.FirstOrDefault(a => a.Id == dto.ApprovalId.Value);
+                if (curApproval.ApprovalStatus != (int)OrderApprovalStatusEnum.Init)
+                {
+                    return new ResultMsg() { IsSuccess=false, Info="当前状态不允许修改。" };
+                }
+                curApproval.Address = dto.Address;
+                curApproval.BiYeZhengBianHao = dto.BiYeZhengBianHao;
+                curApproval.Email = dto.Email;
+                curApproval.GongZuoDanWei = dto.GongZuoDanWei;
+                curApproval.GraduateSchool = dto.GraduateSchool;
+                curApproval.HighesDegree = dto.HighesDegree;
+                curApproval.IDCardNo = dto.IDCardNo;
+                curApproval.JiGuan = dto.JiGuan;
+                curApproval.MinZu = dto.MinZu;
+                curApproval.Phone = dto.Phone;
+                curApproval.Remark = dto.Remark;
+                curApproval.Sex = dto.Sex;
+                curApproval.StudentName = dto.StudentName;
+                curApproval.TencentNo = dto.TencentNo;
+                curApproval.ZhaoShengLaoShi = dto.ZhaoShengLaoShi;
+                dbContext.Entry(curApproval).State = EntityState.Modified;
+            }
+            else
+            {
+                //1.否则新增审批
+                var approval = new T_OrderApproval()
+                {
+                    Address = dto.Address,
+                    ApprovalStatus = (int)OrderApprovalStatusEnum.Init,
+                    BiYeZhengBianHao = dto.BiYeZhengBianHao,
+                    Email = dto.Email,
+                    GongZuoDanWei = dto.GongZuoDanWei,
+                    GraduateSchool = dto.GraduateSchool,
+                    HighesDegree = dto.HighesDegree,
+                    Id = Guid.NewGuid(),
+                    IDCardNo = dto.IDCardNo,
+                    JiGuan = dto.JiGuan,
+                    MinZu = dto.MinZu,
+                    OrderId = dto.OrderId,
+                    Phone = dto.Phone,
+                    Remark = dto.Remark,
+                    Sex = dto.Sex,
+                    StudentName = dto.StudentName,
+                    TencentNo = dto.TencentNo,
+                    ZhaoShengLaoShi = dto.ZhaoShengLaoShi,
+
+                    CreatorAccount = dto.ZhaoShengLaoShi,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = dto.UserId,
+                    DeleteTime = DateTime.MaxValue,
+                    DeleteUserId = Guid.Empty,
+                    IsDelete = false,
+                    LastModifyTime = DateTime.Now,
+                    LastModifyUserId = dto.UserId,
+                    Unix = DateTime.Now.ConvertDateTimeInt(),
+                };
+                dto.ApprovalId = approval.Id;
+                dbContext.T_OrderApproval.Add(approval);
+
+                //2.把订单原有的照片复制到审批表
+                var orderImage = dbContext.T_OrderImage.FirstOrDefault(a => a.OrderId == dto.OrderId);
+                if (orderImage != null)
+                {
+                    dbContext.T_OrderImageApproval.Add(new T_OrderImageApproval()
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderApprovalId = approval.Id,
+                        BiYeZhengImg = orderImage.BiYeZhengImg,
+                        OrderId = dto.OrderId,
+                        IDCard1 = orderImage.IDCard1,
+                        IDCard2 = orderImage.IDCard2,
+                        LiangCunLanDiImg = orderImage.LiangCunLanDiImg,
+                        MianKaoJiSuanJiImg = orderImage.MianKaoJiSuanJiImg,
+                        MianKaoYingYuImg = orderImage.MianKaoYingYuImg,
+                        QiTa = orderImage.QiTa,
+                        TouXiang = orderImage.TouXiang,
+                        XueXinWangImg = orderImage.XueXinWangImg,
+
+                        CreatorAccount = dto.ZhaoShengLaoShi,
+                        CreatorTime = DateTime.Now,
+                        CreatorUserId = dto.UserId,
+                        DeleteTime = DateTime.MaxValue,
+                        DeleteUserId = Guid.Empty,
+                        IsDelete = false,
+                        LastModifyTime = DateTime.Now,
+                        LastModifyUserId = dto.UserId,
+                        Unix = DateTime.Now.ConvertDateTimeInt()
+                    });
+                }
+
+                //3.把原有的附件表复制到审核表
+                var orderFiles = dbContext.T_File.Where(a => a.ForeignKeyId == dto.OrderId).ToList();
+                foreach (var item in orderFiles)
+                {
+                    dbContext.T_File.Add(new Domain.Entities.T_File()
+                    {
+                        ForeignKeyId = approval.Id,
+                        FilePath = item.FilePath,
+                        FileName = item.FileName,
+                        CreatorUserId = approval.CreatorUserId,
+                        CreatorAccount = approval.CreatorAccount
+                    });
+                }
+            }
+
+            dbContext.ModuleKey = dto.ApprovalId.Value.ToString();
+            dbContext.LogChangesDuringSave = true;
+            dbContext.BusinessName = "订单修改提交";
+            dbContext.SaveChanges();
+            return new ResultMsg() { IsSuccess = true };
+        }
+
+        /// <summary>
         /// 审批
         /// </summary>
         /// <param name="approvalId">approvalId</param>

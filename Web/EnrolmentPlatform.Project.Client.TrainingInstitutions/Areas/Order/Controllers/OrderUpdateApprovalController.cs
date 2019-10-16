@@ -65,7 +65,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// 删除报名单
         /// </summary>
         /// <param name="ids">ID集合</param>
-        /// <returns>1：成功，2：错误</returns>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult Delete(Guid[] ids)
         {
@@ -84,7 +84,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// 提交
         /// </summary>
         /// <param name="ids">ID集合</param>
-        /// <returns>1：成功，2：错误</returns>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult Submit(Guid[] ids)
         {
@@ -95,7 +95,27 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             }
             else
             {
-                return Json(new { ret = 0, msg = "提交失败。" });
+                return Json(new { ret = 0, msg = ret.Info });
+            }
+        }
+
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="ids">ID集合</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult Save(OrderApprovalDto dto)
+        {
+            dto.UserId = this.UserId;
+            var ret = OrderApprovalService.Save(dto);
+            if (ret.IsSuccess == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = ret.Info });
             }
         }
     }

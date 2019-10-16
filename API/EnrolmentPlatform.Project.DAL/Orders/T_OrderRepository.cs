@@ -165,226 +165,114 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return 3;
             }
 
-            //修改
-            string businessName = "修改报名单";
-            if (dto.Status == (int)OrderStatusEnum.Init || dto.Status == (int)OrderStatusEnum.Reject)
+            if (dto.Status != (int)OrderStatusEnum.Init && dto.Status != (int)OrderStatusEnum.Reject)
             {
-                #region 如果修改了学校、层次、专业，需重新计算订单价格
-                if (dto.SchoolId != entity.SchoolId || dto.LevelId != entity.LevelId || dto.MajorId != entity.MajorId)
-                {
-                    //价格策略检查
-                    var nowDate = DateTime.Now.Date;
-                    var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-                    && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
-                    && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                    if (chargeStrategy == null)
-                    {
-                        //找不到当前时间段的价格策略
-                        return 2;
-                    }
-
-                    //删除价格
-                    var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == dto.OrderId.Value).ToList();
-                    if (priceList != null && priceList.Count > 0)
-                    {
-                        foreach (var item in priceList)
-                        {
-                            dbContext.T_OrderAmount.Remove(item);
-                        }
-                    }
-
-                    //添加订单（招生机构）金额数据
-                    var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-                    && a.MajorId == dto.MajorId && a.InstitutionId == entity.FromChannelId
-                    && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                    dbContext.T_OrderAmount.Add(new T_OrderAmount()
-                    {
-                        Id = Guid.NewGuid(),
-                        OrderId = dto.OrderId.Value,
-                        TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge,
-                        ApprovalAmount = 0,
-                        PayedAmount = 0,
-                        PaymentSource = 1,
-                        CreatorAccount = dto.UserName,
-                        CreatorTime = DateTime.Now,
-                        CreatorUserId = dto.UserId,
-                        DeleteTime = DateTime.MaxValue,
-                        DeleteUserId = Guid.Empty,
-                        IsDelete = false,
-                        LastModifyTime = DateTime.Now,
-                        LastModifyUserId = dto.UserId,
-                        Unix = DateTime.Now.ConvertDateTimeInt()
-                    });
-
-                    //添加订单（学院中心）金额数据
-                    dbContext.T_OrderAmount.Add(new T_OrderAmount()
-                    {
-                        Id = Guid.NewGuid(),
-                        OrderId = dto.OrderId.Value,
-                        TotalAmount = chargeStrategy.CenterCharge,
-                        ApprovalAmount = 0,
-                        PayedAmount = 0,
-                        PaymentSource = 2,
-                        CreatorAccount = dto.UserName,
-                        CreatorTime = DateTime.Now,
-                        CreatorUserId = dto.UserId,
-                        DeleteTime = DateTime.MaxValue,
-                        DeleteUserId = Guid.Empty,
-                        IsDelete = false,
-                        LastModifyTime = DateTime.Now,
-                        LastModifyUserId = dto.UserId,
-                        Unix = DateTime.Now.ConvertDateTimeInt()
-                    });
-                }
-                #endregion
-
-                #region 更新订单信息
-                entity.StudentName = dto.StudentName;
-                entity.IDCardNo = dto.IDCardNo;
-                entity.Phone = dto.Phone;
-                entity.TencentNo = dto.TencentNo;
-                entity.Email = dto.Email;
-                entity.SchoolId = dto.SchoolId;
-                entity.LevelId = dto.LevelId;
-                entity.MajorId = dto.MajorId;
-                entity.BatchId = dto.BatchId;
-                entity.Remark = dto.Remark;
-                entity.LastModifyUserId = dto.UserId;
-                entity.LastModifyTime = DateTime.Now;
-                entity.Address = dto.Address;
-                entity.BiYeZhengBianHao = dto.BiYeZhengBianHao;
-                entity.GongZuoDanWei = dto.GongZuoDanWei;
-                entity.GraduateSchool = dto.GraduateSchool;
-                entity.HighesDegree = dto.HighesDegree;
-                entity.JiGuan = dto.JiGuan;
-                entity.MinZu = dto.MinZu;
-                entity.Sex = dto.Sex;
-                entity.SuoDuZhuanYe = dto.SuoDuZhuanYe;
-                entity.IsTvUniversity = dto.IsTvUniversity;
-                entity.GraduationTime = dto.GraduationTime;
-                if (!string.IsNullOrWhiteSpace(dto.CreateUserName))
-                {
-                    entity.CreatorAccount = dto.CreateUserName;
-                }
-                dbContext.Entry(entity).State = EntityState.Modified;
-                #endregion
+                return 3;
             }
-            else
+
+            #region 如果修改了学校、层次、专业，需重新计算订单价格
+            if (dto.SchoolId != entity.SchoolId || dto.LevelId != entity.LevelId || dto.MajorId != entity.MajorId)
             {
-                //提交修改申请
-                businessName = "提交修改申请";
-
-                #region 提交修改申请
-
-                //如果存在草稿的审核则修改原来草稿审批
-                var curApproval = dbContext.T_OrderApproval.FirstOrDefault(a => a.OrderId == dto.OrderId.Value && a.ApprovalStatus == (int)OrderApprovalStatusEnum.Init);
-                if (curApproval != null)
+                //价格策略检查
+                var nowDate = DateTime.Now.Date;
+                var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+                && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
+                && nowDate >= a.StartDate && nowDate <= a.EndDate);
+                if (chargeStrategy == null)
                 {
-                    curApproval.Address = dto.Address;
-                    curApproval.BiYeZhengBianHao = dto.BiYeZhengBianHao;
-                    curApproval.Email = dto.Email;
-                    curApproval.GongZuoDanWei = dto.GongZuoDanWei;
-                    curApproval.GraduateSchool = dto.GraduateSchool;
-                    curApproval.HighesDegree = dto.HighesDegree;
-                    curApproval.IDCardNo = dto.IDCardNo;
-                    curApproval.JiGuan = dto.JiGuan;
-                    curApproval.MinZu = dto.MinZu;
-                    curApproval.Phone = dto.Phone;
-                    curApproval.Remark = dto.Remark;
-                    curApproval.Sex = dto.Sex;
-                    curApproval.StudentName = dto.StudentName;
-                    curApproval.TencentNo = dto.TencentNo;
-                    curApproval.ZhaoShengLaoShi = dto.CreateUserName;
-                    dbContext.Entry(entity).State = EntityState.Modified;
+                    //找不到当前时间段的价格策略
+                    return 2;
                 }
-                else
+
+                //删除价格
+                var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == dto.OrderId.Value).ToList();
+                if (priceList != null && priceList.Count > 0)
                 {
-                    //1.否则新增审批
-                    curApproval = new T_OrderApproval()
+                    foreach (var item in priceList)
                     {
-                        Address = dto.Address,
-                        ApprovalStatus = (int)OrderApprovalStatusEnum.Init,
-                        BiYeZhengBianHao = dto.BiYeZhengBianHao,
-                        Email = dto.Email,
-                        GongZuoDanWei = dto.GongZuoDanWei,
-                        GraduateSchool = dto.GraduateSchool,
-                        HighesDegree = dto.HighesDegree,
-                        Id = Guid.NewGuid(),
-                        IDCardNo = dto.IDCardNo,
-                        JiGuan = dto.JiGuan,
-                        MinZu = dto.MinZu,
-                        OrderId = dto.OrderId.Value,
-                        Phone = dto.Phone,
-                        Remark = dto.Remark,
-                        Sex = dto.Sex,
-                        StudentName = dto.StudentName,
-                        TencentNo = dto.TencentNo,
-                        ZhaoShengLaoShi = dto.CreateUserName,
-
-                        CreatorAccount = dto.CreateUserName,
-                        CreatorTime = DateTime.Now,
-                        CreatorUserId = dto.UserId,
-                        DeleteTime = DateTime.MaxValue,
-                        DeleteUserId = Guid.Empty,
-                        IsDelete = false,
-                        LastModifyTime = DateTime.Now,
-                        LastModifyUserId = dto.UserId,
-                        Unix = DateTime.Now.ConvertDateTimeInt(),
-                    };
-                    dbContext.T_OrderApproval.Add(curApproval);
-
-                    //2.把订单原有的照片复制到审批表
-                    var orderImage = dbContext.T_OrderImage.FirstOrDefault(a => a.OrderId == dto.OrderId.Value);
-                    if (orderImage != null)
-                    {
-                        dbContext.T_OrderImageApproval.Add(new T_OrderImageApproval()
-                        {
-                            Id = Guid.NewGuid(),
-                            OrderApprovalId = curApproval.Id,
-                            BiYeZhengImg = orderImage.BiYeZhengImg,
-                            OrderId = dto.OrderId.Value,
-                            IDCard1 = orderImage.IDCard1,
-                            IDCard2 = orderImage.IDCard2,
-                            LiangCunLanDiImg = orderImage.LiangCunLanDiImg,
-                            MianKaoJiSuanJiImg = orderImage.MianKaoJiSuanJiImg,
-                            MianKaoYingYuImg = orderImage.MianKaoYingYuImg,
-                            QiTa = orderImage.QiTa,
-                            TouXiang = orderImage.TouXiang,
-                            XueXinWangImg = orderImage.XueXinWangImg,
-
-                            CreatorAccount = dto.CreateUserName,
-                            CreatorTime = DateTime.Now,
-                            CreatorUserId = dto.UserId,
-                            DeleteTime = DateTime.MaxValue,
-                            DeleteUserId = Guid.Empty,
-                            IsDelete = false,
-                            LastModifyTime = DateTime.Now,
-                            LastModifyUserId = dto.UserId,
-                            Unix = DateTime.Now.ConvertDateTimeInt()
-                        });
-                    }
-
-                    //3.把原有的附件表复制到审核表
-                    var orderFiles = dbContext.T_File.Where(a => a.ForeignKeyId == dto.OrderId.Value).ToList();
-                    foreach (var item in orderFiles)
-                    {
-                        dbContext.T_File.Add(new Domain.Entities.T_File()
-                        {
-                            ForeignKeyId = curApproval.Id,
-                            FilePath = item.FilePath,
-                            FileName = item.FileName,
-                            CreatorUserId = curApproval.CreatorUserId,
-                            CreatorAccount = curApproval.CreatorAccount
-                        });
+                        dbContext.T_OrderAmount.Remove(item);
                     }
                 }
 
-                #endregion
+                //添加订单（招生机构）金额数据
+                var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
+                && a.MajorId == dto.MajorId && a.InstitutionId == entity.FromChannelId
+                && nowDate >= a.StartDate && nowDate <= a.EndDate);
+                dbContext.T_OrderAmount.Add(new T_OrderAmount()
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = dto.OrderId.Value,
+                    TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge,
+                    ApprovalAmount = 0,
+                    PayedAmount = 0,
+                    PaymentSource = 1,
+                    CreatorAccount = dto.UserName,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = dto.UserId,
+                    DeleteTime = DateTime.MaxValue,
+                    DeleteUserId = Guid.Empty,
+                    IsDelete = false,
+                    LastModifyTime = DateTime.Now,
+                    LastModifyUserId = dto.UserId,
+                    Unix = DateTime.Now.ConvertDateTimeInt()
+                });
+
+                //添加订单（学院中心）金额数据
+                dbContext.T_OrderAmount.Add(new T_OrderAmount()
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = dto.OrderId.Value,
+                    TotalAmount = chargeStrategy.CenterCharge,
+                    ApprovalAmount = 0,
+                    PayedAmount = 0,
+                    PaymentSource = 2,
+                    CreatorAccount = dto.UserName,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = dto.UserId,
+                    DeleteTime = DateTime.MaxValue,
+                    DeleteUserId = Guid.Empty,
+                    IsDelete = false,
+                    LastModifyTime = DateTime.Now,
+                    LastModifyUserId = dto.UserId,
+                    Unix = DateTime.Now.ConvertDateTimeInt()
+                });
             }
+            #endregion
+
+            #region 更新订单信息
+            entity.StudentName = dto.StudentName;
+            entity.IDCardNo = dto.IDCardNo;
+            entity.Phone = dto.Phone;
+            entity.TencentNo = dto.TencentNo;
+            entity.Email = dto.Email;
+            entity.SchoolId = dto.SchoolId;
+            entity.LevelId = dto.LevelId;
+            entity.MajorId = dto.MajorId;
+            entity.BatchId = dto.BatchId;
+            entity.Remark = dto.Remark;
+            entity.LastModifyUserId = dto.UserId;
+            entity.LastModifyTime = DateTime.Now;
+            entity.Address = dto.Address;
+            entity.BiYeZhengBianHao = dto.BiYeZhengBianHao;
+            entity.GongZuoDanWei = dto.GongZuoDanWei;
+            entity.GraduateSchool = dto.GraduateSchool;
+            entity.HighesDegree = dto.HighesDegree;
+            entity.JiGuan = dto.JiGuan;
+            entity.MinZu = dto.MinZu;
+            entity.Sex = dto.Sex;
+            entity.SuoDuZhuanYe = dto.SuoDuZhuanYe;
+            entity.IsTvUniversity = dto.IsTvUniversity;
+            entity.GraduationTime = dto.GraduationTime;
+            if (!string.IsNullOrWhiteSpace(dto.CreateUserName))
+            {
+                entity.CreatorAccount = dto.CreateUserName;
+            }
+            dbContext.Entry(entity).State = EntityState.Modified;
+            #endregion
 
             dbContext.ModuleKey = dto.OrderId.Value.ToString();
             dbContext.LogChangesDuringSave = true;
-            dbContext.BusinessName = businessName;
+            dbContext.BusinessName = "修改报名单";
             return dbContext.SaveChanges() > 0 ? 1 : 3;
         }
 
