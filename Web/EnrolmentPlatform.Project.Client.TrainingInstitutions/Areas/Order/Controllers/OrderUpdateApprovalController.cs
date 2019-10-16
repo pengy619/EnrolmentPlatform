@@ -120,7 +120,6 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
 
             //报名单信息
             var orderInfo = OrderService.GetOrder(approval.OrderId);
-            orderInfo = OrderService.GetOrder(approval.OrderId);
             orderInfo.Address = approval.Address;
             orderInfo.BiYeZhengBianHao = approval.BiYeZhengBianHao;
             orderInfo.CreateUserName = approval.ZhaoShengLaoShi;
@@ -138,6 +137,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             orderInfo.TencentNo = approval.TencentNo;
             ViewBag.OrderApprovalId = approval.ApprovalId.Value;
             ViewBag.OrderInfo = orderInfo;
+            ViewBag.ApprovalInfo = approval;
 
             //批次
             var batchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);

@@ -2,6 +2,7 @@
     ViewBag.Title = "订单图片信息";
     Layout = "~/Views/Shared/_Layout.cshtml";
     OrderDto dto = ViewBag.OrderInfo;
+    OrderApprovalDto approvalDto = ViewBag.ApprovalInfo;
     OrderApprovalImgDto imageDto = ViewBag.ImageDto;
     Guid approvalId = ViewBag.ApprovalId;
 }
@@ -199,6 +200,15 @@
                 <div class="row" style="width: 500px;">
                     <table id="table" lay-filter="table"></table>
                 </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="margin-top-10">
+                @if (Request.QueryString["action"] == "update" && approvalDto.ApprovalStatus == (int)OrderApprovalStatusEnum.Init)
+                {
+                <button class="layui-btn layui-btn-warm"  lay-submit="" lay-filter="sb">提交审核</button>
+                }
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","OrderUpdateApproval")'">返回</button>
             </div>
         </div>
     </div>
