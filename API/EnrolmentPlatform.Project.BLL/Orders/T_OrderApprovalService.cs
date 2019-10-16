@@ -27,6 +27,16 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public ResultMsg SaveImage(OrderApprovalImgDto dto)
+        {
+            return this.orderApprovalRepository.SaveImage(dto);
+        }
+
+        /// <summary>
         /// 根据订单ID获得待审核的订单修改申请
         /// </summary>
         /// <param name="orderId"></param>

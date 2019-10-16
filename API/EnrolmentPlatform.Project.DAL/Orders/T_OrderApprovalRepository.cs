@@ -140,6 +140,38 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         }
 
         /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public ResultMsg SaveImage(OrderApprovalImgDto dto)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+
+            //修改订单图片信息
+            var imageApproval = dbContext.T_OrderImageApproval.Where(a => a.OrderApprovalId == dto.ApprovalId).FirstOrDefault();
+            if (imageApproval == null)
+            {
+                return new ResultMsg() { IsSuccess = false, Info = "找不到订单图片审批信息。" };
+            }
+            imageApproval.BiYeZhengImg = dto.BiYeZhengImg;
+            imageApproval.IDCard1 = dto.IDCard1;
+            imageApproval.IDCard2 = dto.IDCard2;
+            imageApproval.LiangCunLanDiImg = dto.LiangCunLanDiImg;
+            imageApproval.MianKaoJiSuanJiImg = dto.MianKaoJiSuanJiImg;
+            imageApproval.MianKaoYingYuImg = dto.MianKaoYingYuImg;
+            imageApproval.QiTa = dto.QiTa;
+            imageApproval.TouXiang = dto.TouXiang;
+            imageApproval.XueXinWangImg = dto.XueXinWangImg;
+            dbContext.Entry(imageApproval).State = EntityState.Modified;
+
+            dbContext.ModuleKey = dto.ApprovalId.ToString();
+            dbContext.LogChangesDuringSave = false;
+            dbContext.SaveChanges();
+            return new ResultMsg() { IsSuccess = true, Data = dto.ApprovalId };
+        }
+
+        /// <summary>
         /// 审批
         /// </summary>
         /// <param name="approvalId">approvalId</param>
