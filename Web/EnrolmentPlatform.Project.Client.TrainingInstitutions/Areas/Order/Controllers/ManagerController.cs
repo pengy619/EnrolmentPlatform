@@ -122,7 +122,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     var orderApproval = OrderApprovalService.GetOrderApplyApprovalInfoByOrderId(orderId.Value);
                     if (orderApproval != null)
                     {
-                        ViewBag.ApprovalId = orderApproval.ApprovalId;
+                        ViewBag.ApprovalId = orderApproval.ApprovalId.Value.ToString();
                     }
                 }
             }
