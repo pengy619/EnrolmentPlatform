@@ -119,7 +119,11 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 if (updateApply == true)
                 {
                     //查看是否有在审核的订单修改审核
-
+                    var orderApproval = OrderApprovalService.GetOrderApplyApprovalInfoByOrderId(orderId.Value);
+                    if (orderApproval != null)
+                    {
+                        ViewBag.ApprovalId = orderApproval.ApprovalId;
+                    }
                 }
             }
 
