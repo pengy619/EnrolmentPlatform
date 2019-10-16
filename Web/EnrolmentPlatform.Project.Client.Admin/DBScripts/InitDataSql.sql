@@ -401,3 +401,77 @@ GO
 alter table T_Order Add SuoDuZhuanYe nvarchar(max) null;
 alter table T_Order Add IsTvUniversity bit not null default 0;
 alter table T_Order Add GraduationTime datetime null;
+
+--2019-10-16新增订单审核表
+CREATE TABLE [dbo].[T_OrderApproval](
+	[Id] [uniqueidentifier] NOT NULL,
+	[OrderId] [uniqueidentifier] NOT NULL,
+	[StudentName] [nvarchar](max) NULL,
+	[IDCardNo] [nvarchar](max) NULL,
+	[Phone] [nvarchar](max) NULL,
+	[TencentNo] [nvarchar](max) NULL,
+	[Email] [nvarchar](max) NULL,
+	[Sex] [nvarchar](max) NULL,
+	[MinZu] [nvarchar](max) NULL,
+	[JiGuan] [nvarchar](max) NULL,
+	[HighesDegree] [nvarchar](max) NULL,
+	[GraduateSchool] [nvarchar](max) NULL,
+	[BiYeZhengBianHao] [nvarchar](max) NULL,
+	[Address] [nvarchar](max) NULL,
+	[GongZuoDanWei] [nvarchar](max) NULL,
+	[ZhaoShengLaoShi] [nvarchar](max) NULL,
+	[Remark] [nvarchar](max) NULL,
+	[AllOrderImageUpload] [bit] NOT NULL,
+	[ApprovalStatus] [int] NOT NULL,
+	[ApprovalComment] [nvarchar](max) NULL,
+
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL
+ CONSTRAINT [PK_dbo.T_OrderApproval] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+--2019-10-16新增订单图片审核表
+CREATE TABLE [dbo].[T_OrderImageApproval](
+	[Id] [uniqueidentifier] NOT NULL,
+	[OrderId] [uniqueidentifier] NOT NULL,
+	[OrderApprovalId] [uniqueidentifier] NOT NULL,
+	[IDCard1] [nvarchar](max) NULL,
+	[IDCard2] [nvarchar](max) NULL,
+	[LiangCunLanDiImg] [nvarchar](max) NULL,
+	[BiYeZhengImg] [nvarchar](max) NULL,
+	[MianKaoYingYuImg] [nvarchar](max) NULL,
+	[MianKaoJiSuanJiImg] [nvarchar](max) NULL,
+	[XueXinWangImg] [nvarchar](max) NULL,
+	[QiTa] [nvarchar](max) NULL,
+	[TouXiang] [nvarchar](max) NULL,
+
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_dbo.T_OrderImageApproval] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
