@@ -37,7 +37,6 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// <returns></returns>
         public ActionResult Option(Guid? orderId)
         {
-            bool updateApply = false;
             if (orderId.HasValue)
             {
                 //报名单信息
