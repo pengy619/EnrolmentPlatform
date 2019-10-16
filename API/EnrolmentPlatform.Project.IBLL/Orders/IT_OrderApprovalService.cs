@@ -22,14 +22,21 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        OrderApprovalDto GetOrderApplyApprovalInfo(Guid orderId);
+        OrderApprovalDto GetOrderApplyApprovalInfoByOrderId(Guid orderId);
 
         /// <summary>
-        /// 根据订单ID获得待审核的订单图片修改申请
+        /// 根据ID获得待审核的订单修改申请
         /// </summary>
-        /// <param name="orderId"></param>
+        /// <param name="approvalId"></param>
         /// <returns></returns>
-        OrderApprovalImgDto GetOrderImageApplyApprovalInfo(Guid orderId);
+        OrderApprovalDto GetOrderApplyApprovalInfo(Guid approvalId);
+
+        /// <summary>
+        /// 根据ID获得待审核的订单图片修改申请
+        /// </summary>
+        /// <param name="approvalId"></param>
+        /// <returns></returns>
+        OrderApprovalImgDto GetOrderImageApplyApprovalInfo(Guid approvalId);
 
         /// <summary>
         /// 审批

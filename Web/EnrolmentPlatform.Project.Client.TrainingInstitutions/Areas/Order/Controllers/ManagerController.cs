@@ -114,6 +114,13 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 var orderInfo = OrderService.GetOrder(orderId.Value);
                 updateApply = (orderInfo != null && Request.QueryString["action"] == "1" && orderInfo.Status != (int)OrderStatusEnum.Init && orderInfo.Status != (int)OrderStatusEnum.Reject);
                 ViewBag.OrderInfo = orderInfo;
+
+                //如果是修改审核
+                if (updateApply == true)
+                {
+                    //查看是否有在审核的订单修改审核
+
+                }
             }
 
             ViewBag.UpdateApply = updateApply;

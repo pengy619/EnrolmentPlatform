@@ -31,7 +31,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public OrderApprovalDto GetOrderApplyApprovalInfo(Guid orderId)
+        public OrderApprovalDto GetOrderApplyApprovalInfoByOrderId(Guid orderId)
         {
             var entity = this.orderApprovalRepository.LoadEntities(a => a.IsDelete == false && a.OrderId == orderId && a.ApprovalStatus == (int)OrderApprovalStatusEnum.Init)
                 .FirstOrDefault();
@@ -64,20 +64,49 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
-        /// 根据订单ID获得待审核的订单图片修改申请
+        /// 根据ID获得待审核的订单修改申请
         /// </summary>
-        /// <param name="orderId"></param>
+        /// <param name="approvalId"></param>
         /// <returns></returns>
-        public OrderApprovalImgDto GetOrderImageApplyApprovalInfo(Guid orderId)
+        public OrderApprovalDto GetOrderApplyApprovalInfo(Guid approvalId)
         {
-            var entity = this.orderApprovalRepository.LoadEntities(a => a.IsDelete == false && a.OrderId == orderId && a.ApprovalStatus == (int)OrderApprovalStatusEnum.Init)
-                .FirstOrDefault();
+            var entity = this.orderApprovalRepository.LoadEntities(a => a.Id == approvalId).FirstOrDefault();
             if (entity == null)
             {
                 return null;
             }
+            return new OrderApprovalDto()
+            {
+                ApprovalId = entity.Id,
+                Address = entity.Address,
+                ApprovalComment = entity.ApprovalComment,
+                ApprovalStatus = entity.ApprovalStatus,
+                BiYeZhengBianHao = entity.BiYeZhengBianHao,
+                Email = entity.Email,
+                GongZuoDanWei = entity.GongZuoDanWei,
+                GraduateSchool = entity.GraduateSchool,
+                HighesDegree = entity.HighesDegree,
+                IDCardNo = entity.IDCardNo,
+                JiGuan = entity.JiGuan,
+                MinZu = entity.MinZu,
+                OrderId = entity.OrderId,
+                Phone = entity.Phone,
+                Remark = entity.Remark,
+                Sex = entity.Sex,
+                StudentName = entity.StudentName,
+                TencentNo = entity.TencentNo,
+                ZhaoShengLaoShi = entity.ZhaoShengLaoShi
+            };
+        }
 
-            var imageEntity = this.orderImageApprovalRepository.FindEntityById(entity.Id);
+        /// <summary>
+        /// 根据ID获得待审核的订单图片修改申请
+        /// </summary>
+        /// <param name="approvalId"></param>
+        /// <returns></returns>
+        public OrderApprovalImgDto GetOrderImageApplyApprovalInfo(Guid approvalId)
+        {
+            var imageEntity = this.orderImageApprovalRepository.LoadEntities(a => a.OrderApprovalId == approvalId).FirstOrDefault();
             if (imageEntity == null)
             {
                 return null;
