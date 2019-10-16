@@ -5,6 +5,7 @@
     OrderApprovalDto approvalDto = ViewBag.ApprovalInfo;
     OrderApprovalImgDto imageDto = ViewBag.ImageDto;
     Guid approvalId = ViewBag.ApprovalId;
+    bool canUpdate = (Request.QueryString["action"] == "update" && approvalDto.ApprovalStatus == (int)OrderApprovalStatusEnum.Init);
 }
 <style type="text/css">
     .info-cell .row .item .label {
@@ -192,8 +193,8 @@
                     <div class="item" style="margin-left: 0px;">
                         <span class="label">上传附件：</span>
                         <span class="text">
-                            <input id="Attachment" type="file" />
-                            <input id="Button10" style="width: 50px;height: 30px;" type="button" onclick="postFiles()" value="上传" />
+                            <input id="Attachment" type="file" class="orderFile" />
+                            <input id="Button10" style="width: 50px;height: 30px;" class="orderFileBtn" type="button" onclick="postFiles()" value="上传" />
                         </span>
                     </div>
                 </div>
@@ -203,8 +204,8 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="margin-top-10">
-                @if (Request.QueryString["action"] == "update" && approvalDto.ApprovalStatus == (int)OrderApprovalStatusEnum.Init)
+            <div class="margin-top-10" style=" text-align:center;">
+                @if (canUpdate)
                 {
                 <button class="layui-btn layui-btn-warm"  lay-submit="" lay-filter="sb">提交审核</button>
                 }
@@ -232,6 +233,11 @@
                 , { title: '操作', toolbar: '#tableTool', width: 80 }
             ]]
         });
+
+        if ("@canUpdate".toLowerCase() != "true") {
+            $(".orderFileBtn").hide();
+            $(".orderFile").hide();
+        }
 
         //监听工具条
         table.on('tool(table)', function (obj) {
