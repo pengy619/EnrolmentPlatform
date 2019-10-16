@@ -90,6 +90,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 orderInfo.Sex = orderApproval.Sex;
                 orderInfo.StudentName = orderApproval.StudentName;
                 orderInfo.TencentNo = orderApproval.TencentNo;
+                ViewBag.OrderApprovalId = orderApproval.ApprovalId.Value;
             }
 
             //订单信息
@@ -160,11 +161,11 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             var ret = OrderApprovalService.Save(dto);
             if (ret.IsSuccess == true)
             {
-                return Json(new { ret = 1 });
+                return Json(new { ret = true, data = ret.Data.ToString() });
             }
             else
             {
-                return Json(new { ret = 0, msg = ret.Info });
+                return Json(new { ret = false, msg = ret.Info });
             }
         }
 

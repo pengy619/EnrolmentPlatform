@@ -136,7 +136,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             dbContext.LogChangesDuringSave = true;
             dbContext.BusinessName = "订单修改提交";
             dbContext.SaveChanges();
-            return new ResultMsg() { IsSuccess = true };
+            return new ResultMsg() { IsSuccess = true, Data = dto.ApprovalId.Value };
         }
 
         /// <summary>
