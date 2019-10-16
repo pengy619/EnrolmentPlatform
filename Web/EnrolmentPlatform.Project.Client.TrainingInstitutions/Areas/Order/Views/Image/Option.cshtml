@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     OrderDto dto = ViewBag.OrderInfo;
     OrderImageDto imageDto = ViewBag.ImageDto;
+    var canUpdate = (dto.Status==(int)OrderStatusEnum.Init|| dto.Status == (int)OrderStatusEnum.Reject);
 }
 <style type="text/css">
     .info-cell .row .item .label{
@@ -183,8 +184,8 @@
                     <div class="item" style="margin-left: 0px;">
                         <span class="label">上传附件：</span>
                         <span class="text">
-                            <input id="Attachment" type="file" />
-                            <input id="Button10" style="width: 50px;height: 30px;" type="button" onclick="postFiles()" value="上传" />
+                            <input id="Attachment" type="file" class="orderFile" />
+                            <input id="Button10" style="width: 50px;height: 30px;" class="orderFileBtn" type="button" onclick="postFiles()" value="上传" />
                         </span>
                     </div>
                 </div>
@@ -197,7 +198,7 @@
 </div>
 <input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs orderFileBtn" lay-event="delete">删除</a>
 </script>
 <script type="text/javascript">
     var form, layer, table;
@@ -214,6 +215,12 @@
                 , { title: '操作', toolbar: '#tableTool', width: 80 }
             ]]
         });
+
+        //显示图片是否操作
+        if ("@canUpdate".toLowerCase() != "true") {
+            $(".orderFileBtn").hide();
+            $(".orderFile").hide();
+        }
 
         //监听工具条
         table.on('tool(table)', function (obj) {

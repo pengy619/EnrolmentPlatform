@@ -216,7 +216,7 @@
 </div>
 <input type="hidden" id="hidApprovalId" value='@approvalId' />
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs orderFileBtn" lay-event="delete">删除</a>
 </script>
 <script type="text/javascript">
     var form, layer, table;
@@ -234,6 +234,7 @@
             ]]
         });
 
+        //显示图片是否操作
         if ("@canUpdate".toLowerCase() != "true") {
             $(".orderFileBtn").hide();
             $(".orderFile").hide();
