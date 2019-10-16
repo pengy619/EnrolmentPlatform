@@ -7,6 +7,7 @@
 
     //修改申请
     bool updateApply = ViewBag.UpdateApply;
+    string approvalId = ViewBag.ApprovalId;
 }
 <div class="main-wrap">
     <div class="panel layui-form">
@@ -47,7 +48,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
                 <div class="layui-input-inline">
-                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" @(updateApply?"disabled":"") lay-verify="required">
+                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required">
                         <option value=""></option>
                         @foreach (var item in schoolList)
                         {
@@ -57,13 +58,13 @@
                 </div>
                 <label class="layui-form-label">层次</label>
                 <div class="layui-input-inline">
-                    <select id="LevelId" name="LevelId" lay-filter="LevelId" @(updateApply?"disabled":"") LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required">
+                    <select id="LevelId" name="LevelId" lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required">
                         <option value=""></option>
                     </select>
                 </div>
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-inline">
-                    <select id="MajorId" name="MajorId" @(updateApply?"disabled":"") MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required">
+                    <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required">
                         <option value=""></option>
                     </select>
                 </div>
@@ -71,7 +72,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">批次</label>
                 <div class="layui-input-inline">
-                    <select id="BatchId" name="BatchId" @(updateApply?"disabled":"") lay-verify="required">
+                    <select id="BatchId" name="BatchId" lay-verify="required">
                         <option value=""></option>
                         @foreach (var item in batchList)
                         {
@@ -151,7 +152,14 @@
                 }
                 @if (updateApply)
                 {
-                    <button class="layui-btn " lay-submit="" lay-filter="updateApply">继续下一步</button>
+                    if (string.IsNullOrEmpty(approvalId))
+                    {
+                        <button class="layui-btn " type="button" onclick="javascript: window.location.href = '/Order/OrderUpdateApproval/OrderInfo?orderId=@dto.OrderId.Value';">去发起修改审核</button>
+                    }
+                    else
+                    {
+                        <button class="layui-btn layui-btn-warm" type="button" onclick="javascript: window.location.href = '/Order/OrderUpdateApproval/OrderInfo?action=update&approvalId=@approvalId';">已存在未提交的修改记录，去修改</button>
+                    }
                 }
                 <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
             </div>
