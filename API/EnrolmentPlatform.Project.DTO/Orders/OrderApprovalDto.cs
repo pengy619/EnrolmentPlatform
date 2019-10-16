@@ -248,6 +248,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
     public class OrderUpdateApprovalReq : GridDataRequest
     {
         /// <summary>
+        /// 状态
+        /// </summary>
+        public OrderApprovalStatusEnum? Status { set; get; }
+
+        /// <summary>
         /// 学生姓名
         /// </summary>
         public string StudentName { set; get; }

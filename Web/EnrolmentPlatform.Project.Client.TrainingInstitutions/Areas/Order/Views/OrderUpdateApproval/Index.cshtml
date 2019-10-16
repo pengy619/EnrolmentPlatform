@@ -101,7 +101,7 @@
                     dataType: "json",
                     async: false,
                     data: JSON.stringify(arr),
-                    url: '@Url.Action("Delete", "Manager")',
+                    url: '@Url.Action("Delete", "OrderUpdateApproval")',
                     success: function (result) {
                         if (result.ret == 1) {
                             layer.msg('删除成功。', {
@@ -166,7 +166,7 @@
                     dataType: "json",
                     async: false,
                     data: JSON.stringify(dto),
-                    url: '@Url.Action("SubmitOrder", "Manager")',
+                    url: '@Url.Action("Submit", "OrderUpdateApproval")',
                     success: function (result) {
                         if (result.ret == 1) {
                             layer.msg('提交成功。', {
@@ -238,26 +238,12 @@
 
     //获得查询条件
     function getSearchData() {
-        var dateArr = $("#Date").val();
-        var dateFrom = "";
-        var dateTo = "";
-        if ($.trim(dateArr) != "") {
-            dateFrom = dateArr.split(' - ')[0];
-            dateTo = dateArr.split(' - ')[1];
-        }
-
         return {
             Status: $("#Status").val(),
             StudentName: $("#StudentName").val(),
+            SchoolName: $("#SchoolName").val(),
             Phone: $("#Phone").val(),
             IDCard: $("#IDCard").val(),
-            CreateUserName: $("#CreateUserName").val(),
-            SchoolName: $("#SchoolName").val(),
-            LevelName: $("#LevelName").val(),
-            DateFrom: dateFrom,
-            DateTo: dateTo,
-            BatchName: $("#BatchName").val(),
-            AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val()
         };
     }
 </script>

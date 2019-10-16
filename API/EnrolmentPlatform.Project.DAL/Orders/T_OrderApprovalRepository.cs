@@ -187,12 +187,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req,out int reCount)
         {
             StringBuilder sql = new StringBuilder(@"SELECT 
-                        o.Id AS OrderId, 
-                        o.CreatorTime AS CreateTime, 
-	                    o.[CreatorAccount] AS CreateUserName,
-                        o.ApprovalStatus,
-                        o.StudentName,
-                        o.IDCardNo,
+                        a.Id AS OrderId, 
+                        a.CreatorTime AS CreateTime, 
+	                    a.[CreatorAccount] AS CreateUserName,
+                        a.ApprovalStatus,
+                        a.StudentName,
+                        a.IDCardNo,
                         m1.Name as BatchName,
 	                    m2.Name as SchoolName,
 	                    m3.Name as LevelName,
@@ -210,13 +210,13 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             if (!string.IsNullOrWhiteSpace(req.IDCard))
             {
-                sql.Append(" and o.IDCard like @IDCard");
+                sql.Append(" and a.IDCard like @IDCard");
                 parameters.Add(new SqlParameter("@IDCard", "%" + req.IDCard + "%"));
             }
 
             if (!string.IsNullOrWhiteSpace(req.Phone))
             {
-                sql.Append(" and o.Phone like @Phone");
+                sql.Append(" and a.Phone like @Phone");
                 parameters.Add(new SqlParameter("@Phone", "%" + req.Phone + "%"));
             }
 
@@ -228,7 +228,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             if (!string.IsNullOrWhiteSpace(req.StudentName))
             {
-                sql.Append(" and o.StudentName like @StudentName");
+                sql.Append(" and a.StudentName like @StudentName");
                 parameters.Add(new SqlParameter("@StudentName", "%" + req.StudentName + "%"));
             }
 
@@ -236,6 +236,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             {
                 sql.Append(" and o.FromChannelId=@FromChannelId");
                 parameters.Add(new SqlParameter("@FromChannelId", req.FromChannelId.Value));
+            }
+
+            if (req.Status.HasValue)
+            {
+                sql.Append(" and a.ApprovalStatus=@ApprovalStatus");
+                parameters.Add(new SqlParameter("@ApprovalStatus", req.Status.Value));
             }
 
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
