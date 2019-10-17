@@ -48,9 +48,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// 订单信息
         /// </summary>
         /// <param name="approvalId">approvalId</param>
-        /// <param name="action">action</param>
         /// <returns></returns>
-        public ActionResult OrderInfo(Guid approvalId, string action)
+        public ActionResult OrderInfo(Guid approvalId)
         {
             var orderApproval = OrderApprovalService.GetOrderApplyApprovalInfo(approvalId);
             if (orderApproval == null)
@@ -92,9 +91,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// 订单图片信息
         /// </summary>
         /// <param name="approvalId">approvalId</param>
-        /// <param name="action">action</param>
         /// <returns></returns>
-        public ActionResult OrderImageInfo(Guid approvalId, string action)
+        public ActionResult OrderImageInfo(Guid approvalId)
         {
             var approval = OrderApprovalService.GetOrderApplyApprovalInfo(approvalId);
             if (approval == null)

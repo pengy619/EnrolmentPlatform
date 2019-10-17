@@ -222,27 +222,6 @@
         });
     });
 
-    //加载日志
-    function reloadLog(orderId) {
-        table.render({
-            elem: '#Tb_LogSettingForTable'
-            , url: '@Url.Action("LogSettingForTable","Home",new { area=""})'
-            , cellMinWidth: 180 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , cols: [[
-                { field: 'BusinessName', width: 480, title: '日志内容' }
-                , { field: 'CreatorTime', width: 170, title: '操作时间' }
-                , { field: 'CreatorAccount', width: 120, title: '操作人' }
-            ]],
-            where: { Key: orderId }
-        });
-        layer.open({
-            type: 1,
-            title:"操作日志",
-            area: ["800px", "300px"],
-            content: $('#audit-btn-modal')
-        });
-    }
-
     //更多查询
     var dis = true;
     $("#MoreSearch").click(function () {

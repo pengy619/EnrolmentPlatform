@@ -5,7 +5,6 @@
     OrderApprovalDto approvalDto = ViewBag.ApprovalInfo;
     OrderApprovalImgDto imageDto = ViewBag.ImageDto;
     Guid approvalId = ViewBag.ApprovalId;
-    bool canUpdate = (Request.QueryString["action"] == "update" && approvalDto.ApprovalStatus == (int)OrderApprovalStatusEnum.Init);
 }
 <style type="text/css">
     .info-cell .row .item .label {
@@ -205,22 +204,12 @@
         </div>
         <div class="panel-body">
             <div class="margin-top-10" style=" text-align:center;">
-                @if (canUpdate)
-                {
-                <button class="layui-btn layui-btn-warm"  lay-submit="" lay-filter="sb">提交审核</button>
-                }
                 <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","OrderUpdateApproval")'">返回</button>
             </div>
         </div>
     </div>
 </div>
 <input type="hidden" id="hidApprovalId" value='@approvalId' />
-<script type="text/html" id="tableTool">
-    @if (canUpdate == true)
-    {
-    <a class="layui-btn layui-btn-primary layui-btn-xs orderFileBtn" lay-event="delete">删除</a>
-    }
-</script>
 <script type="text/javascript">
     var form, layer, table;
     layui.use(['jquery', 'form', 'layer', 'table'], function () {
@@ -233,190 +222,11 @@
             , url: "@Url.Action("FileList", "OrderUpdateApproval", new { approvalId = approvalId })" //数据
             , cols: [[
                 { field: 'FileName', title: '文件名', templet: '<div><a href="{{d.FilePath}}" target="_blank" class="layui-table-link">{{d.FileName}}</a></div>' }
-                , { title: '操作', toolbar: '#tableTool', width: 80 }
             ]]
-        });
-
-        //显示图片是否操作
-        if ("@canUpdate".toLowerCase() != "true") {
-            $(".orderFileBtn").hide();
-            $(".orderFile").hide();
-        }
-
-        //提交
-        form.on('submit(sb)', function (data) {
-            //提交确认
-            layer.confirm('确认提交？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                var dto = {};
-                dto.IDs = [];
-                dto.IDs.push('@approvalId');
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(dto),
-                    url: '@Url.Action("Submit", "OrderUpdateApproval")',
-                    success: function (result) {
-                        if (result.ret == 1) {
-                            layer.msg('提交成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                window.location.href = '/Order/OrderUpdateApproval/Index';
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
-                });
-                layer.close(index);
-            });
-        });
-
-        //监听工具条
-        table.on('tool(table)', function (obj) {
-            var data = obj.data;
-            if (obj.event === 'delete') {
-                layer.confirm('您确定要删除该文件吗？', function (index) {
-                    $.ajax({
-                        url: '@Url.Action("DeleteFile", "OrderUpdateApproval")',
-                        data: { id: data.Id },
-                        dataType: 'json',
-                        type: 'post',
-                        success: function (result) {
-                            if (result.ret == 1) {
-                                layer.msg('删除成功。', {
-                                    icon: 1,
-                                    time: 1000
-                                }, function () {
-                                    table.reload("table");
-                                });
-                            }
-                            else {
-                                layer.msg(result.msg, {
-                                    icon: 2,
-                                    time: 2000
-                                });
-                            }
-                        }
-                    });
-                    layer.close(index);
-                });
-            }
         });
 
         $(".orderImg").click(function () {
             window.open($(this).attr("src"));
         });
     });
-
-    //上传文件
-    function postFile(type) {
-        if ($("#File" + type).val() == "") {
-            layer.msg("请选择上传文件！", {
-                icon: 2,
-                time: 2000
-            });
-            return false;
-        }
-        var file = document.getElementById("File" + type).files[0];
-        var fdata = new FormData();
-        fdata.append("file", file);
-        fdata.append("type", type);
-        fdata.append("approvalId", $("#hidApprovalId").val());
-        $.ajax({
-            url: "@Url.Action("SaveImage", "OrderUpdateApproval")",
-            data: fdata,
-            type: "POST",
-            async: false,
-            processData: false,//用于对data参数进行序列化处理 这里必须false
-            contentType: false, //必须
-            success: function (data) {
-                if (data.ret == false) {
-                    layer.msg(data.msg, {
-                        icon: 2,
-                        time: 2000
-                    });
-                }
-                else {
-                    layer.msg("上传成功！", {
-                        icon: 1,
-                        time: 2000
-                    });
-                    $("#image" + type).attr("src", data.url);
-                    $("#File" + type).val("");
-                }
-            },
-            error: function (e) {
-                layer.msg("上传失败！", {
-                    icon: 2,
-                    time: 2000
-                });
-            }
-        });
-    }
-
-    //上传附件
-    function postFiles() {
-        if ($("#Attachment").val() == "") {
-            layer.msg("请选择上传文件！", {
-                icon: 2,
-                time: 2000
-            });
-            return false;
-        }
-        var file = document.getElementById("Attachment").files[0];
-        //判断文件是否存在
-        var fileNames = [];
-        $(".layui-table a.layui-table-link").each(function () {
-            fileNames.push($(this).text());
-        });
-        if (fileNames.indexOf(file.name) > -1) {
-            layer.msg("该文件已存在！", {
-                icon: 2,
-                time: 2000
-            });
-            return false;
-        }
-        var fdata = new FormData();
-        fdata.append("file", file);
-        fdata.append("approvalId", $("#hidApprovalId").val());
-        $.ajax({
-            url: "@Url.Action("SaveAttachment", "OrderUpdateApproval")",
-            data: fdata,
-            type: "POST",
-            async: false,
-            processData: false,//用于对data参数进行序列化处理 这里必须false
-            contentType: false, //必须
-            success: function (data) {
-                if (data.ret == false) {
-                    layer.msg(data.msg, {
-                        icon: 2,
-                        time: 2000
-                    });
-                }
-                else {
-                    layer.msg("上传成功！", {
-                        icon: 1,
-                        time: 2000
-                    });
-                    table.reload('table');
-                    $("#Attachment").val("");
-                }
-            },
-            error: function (e) {
-                layer.msg("上传失败！", {
-                    icon: 2,
-                    time: 2000
-                });
-            }
-        });
-    }
 </script>
