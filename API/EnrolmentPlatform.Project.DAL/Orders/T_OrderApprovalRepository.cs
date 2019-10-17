@@ -411,6 +411,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 sql.Append(" and o.FromChannelId=@FromChannelId");
                 parameters.Add(new SqlParameter("@FromChannelId", req.FromChannelId.Value));
             }
+            else
+            {
+                sql.Append(" and a.ApprovalStatus>0");
+            }
 
             if (req.Status.HasValue)
             {
