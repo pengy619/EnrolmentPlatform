@@ -167,13 +167,13 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <summary>
         /// 审批
         /// </summary>
-        /// <param name="approvalId">approvalId</param>
+        /// <param name="approvalIdList">approvalIdList</param>
         /// <param name="approved">approved</param>
         /// <param name="comment">comment</param>
         /// <returns></returns>
-        public ResultMsg Approval(Guid approvalId,bool approved,string comment)
+        public ResultMsg Approval(List<Guid> approvalIdList, bool approved, string comment)
         {
-            return this.orderApprovalRepository.Approval(approvalId, approved, comment);
+            return this.orderApprovalRepository.Approval(approvalIdList, approved, comment);
         }
 
         /// <summary>

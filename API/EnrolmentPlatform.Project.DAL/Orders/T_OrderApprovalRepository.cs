@@ -140,7 +140,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             dbContext.ModuleKey = dto.ApprovalId.Value.ToString();
             dbContext.LogChangesDuringSave = false;
-            dbContext.BusinessName = "订单修改提交";
             dbContext.SaveChanges();
             return new ResultMsg() { IsSuccess = true, Data = dto.ApprovalId.Value };
         }
@@ -180,15 +179,15 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         /// <summary>
         /// 审批
         /// </summary>
-        /// <param name="approvalId">approvalId</param>
+        /// <param name="approvalIdList">approvalIdList</param>
         /// <param name="approved">approved</param>
         /// <param name="comment">comment</param>
         /// <returns></returns>
-        public ResultMsg Approval(Guid approvalId, bool approved, string comment)
+        public ResultMsg Approval(List<Guid> approvalIdList, bool approved, string comment)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var approval = dbContext.T_OrderApproval.FirstOrDefault(a => a.Id == approvalId);
-            if (approval == null)
+            var approvalList = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id)).ToList();
+            if (approvalList == null && approvalList.Count != approvalIdList.Count)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "找不到审批信息" };
             }
@@ -196,89 +195,99 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             //审核通过
             if (approved == true)
             {
-                var order = dbContext.T_Order.FirstOrDefault(a => a.Id == approval.OrderId);
-                if (order == null)
+                var approvalOrderIdList = approvalList.Select(a => a.OrderId).ToList();
+                var orderList = dbContext.T_Order.Where(a => approvalOrderIdList.Contains(a.Id)).ToList();
+                if (orderList == null || orderList.Count != approvalIdList.Count)
                 {
                     return new ResultMsg() { IsSuccess = false, Info = "找不到订单信息" };
                 }
 
-                var orderImage = dbContext.T_OrderImage.FirstOrDefault(a => a.OrderId == approval.OrderId);
-                if (orderImage == null)
+                var orderImageList = dbContext.T_OrderImage.Where(a => approvalOrderIdList.Contains(a.Id)).ToList();
+                if (orderImageList == null || orderImageList.Count != approvalIdList.Count)
                 {
                     return new ResultMsg() { IsSuccess = false, Info = "找不到订单图片信息" };
                 }
 
-                //1.修改审核信息
-                approval.ApprovalStatus = (int)OrderApprovalStatusEnum.Approved;
-                approval.ApprovalComment = comment;
-                dbContext.Entry(approval).State = EntityState.Modified;
-
-                //2.修改订单基础信息
-                order.Address = approval.Address;
-                order.AllOrderImageUpload = approval.AllOrderImageUpload;
-                order.BiYeZhengBianHao = approval.BiYeZhengBianHao;
-                order.CreatorAccount = approval.ZhaoShengLaoShi;
-                order.Email = approval.Email;
-                order.GongZuoDanWei = approval.GongZuoDanWei;
-                order.GraduateSchool = approval.GraduateSchool;
-                order.HighesDegree = approval.HighesDegree;
-                order.IDCardNo = approval.IDCardNo;
-                order.JiGuan = approval.JiGuan;
-                order.MinZu = approval.MinZu;
-                order.Phone = approval.Phone;
-                order.Remark = approval.Remark;
-                order.Sex = approval.Sex;
-                order.StudentName = approval.StudentName;
-                order.TencentNo = approval.TencentNo;
-                order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
-                order.IsTvUniversity = approval.IsTvUniversity;
-                order.GraduationTime = approval.GraduationTime;
-                dbContext.Entry(order).State = EntityState.Modified;
-
-                //3.修改订单照片信息
-                var orderImageUpdateInfo = dbContext.T_OrderImageApproval.FirstOrDefault(a => a.OrderApprovalId == approvalId);
-                if (orderImageUpdateInfo != null)
+                //循环处理
+                foreach (var approval in approvalList)
                 {
-                    orderImage.BiYeZhengImg = orderImageUpdateInfo.BiYeZhengImg;
-                    orderImage.IDCard1 = orderImageUpdateInfo.IDCard1;
-                    orderImage.IDCard2 = orderImageUpdateInfo.IDCard2;
-                    orderImage.LiangCunLanDiImg = orderImageUpdateInfo.LiangCunLanDiImg;
-                    orderImage.MianKaoJiSuanJiImg = orderImageUpdateInfo.MianKaoJiSuanJiImg;
-                    orderImage.MianKaoYingYuImg = orderImageUpdateInfo.MianKaoYingYuImg;
-                    orderImage.QiTa = orderImageUpdateInfo.QiTa;
-                    orderImage.TouXiang = orderImageUpdateInfo.TouXiang;
-                    orderImage.XueXinWangImg = orderImageUpdateInfo.XueXinWangImg;
-                    dbContext.Entry(orderImage).State = EntityState.Modified;
-                }
+                    var order = orderList.FirstOrDefault(a => a.Id == approval.OrderId);
+                    var orderImage = orderImageList.FirstOrDefault(a => a.OrderId == approval.OrderId);
+                    
+                    //1.修改审核信息
+                    approval.ApprovalStatus = (int)OrderApprovalStatusEnum.Approved;
+                    approval.ApprovalComment = comment;
+                    dbContext.Entry(approval).State = EntityState.Modified;
 
-                //4.先删除原有的订单附件
-                dbContext.T_File.RemoveRange(dbContext.T_File.Where(a => a.ForeignKeyId == approval.OrderId));
+                    //2.修改订单基础信息
+                    order.Address = approval.Address;
+                    order.AllOrderImageUpload = approval.AllOrderImageUpload;
+                    order.BiYeZhengBianHao = approval.BiYeZhengBianHao;
+                    order.CreatorAccount = approval.ZhaoShengLaoShi;
+                    order.Email = approval.Email;
+                    order.GongZuoDanWei = approval.GongZuoDanWei;
+                    order.GraduateSchool = approval.GraduateSchool;
+                    order.HighesDegree = approval.HighesDegree;
+                    order.IDCardNo = approval.IDCardNo;
+                    order.JiGuan = approval.JiGuan;
+                    order.MinZu = approval.MinZu;
+                    order.Phone = approval.Phone;
+                    order.Remark = approval.Remark;
+                    order.Sex = approval.Sex;
+                    order.StudentName = approval.StudentName;
+                    order.TencentNo = approval.TencentNo;
+                    order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
+                    order.IsTvUniversity = approval.IsTvUniversity;
+                    order.GraduationTime = approval.GraduationTime;
+                    dbContext.Entry(order).State = EntityState.Modified;
 
-                //5.添加附件至附件表
-                var approvalFiles = dbContext.T_File.Where(a => a.ForeignKeyId == approval.Id).ToList();
-                foreach (var item in approvalFiles)
-                {
-                    dbContext.T_File.Add(new Domain.Entities.T_File()
+                    //3.修改订单照片信息
+                    var orderImageUpdateInfo = dbContext.T_OrderImageApproval.FirstOrDefault(a => a.OrderApprovalId == approval.Id);
+                    if (orderImageUpdateInfo != null)
                     {
-                        ForeignKeyId = approval.OrderId,
-                        FilePath = item.FilePath,
-                        FileName = item.FileName,
-                        CreatorUserId = approval.CreatorUserId,
-                        CreatorAccount = approval.CreatorAccount
-                    });
+                        orderImage.BiYeZhengImg = orderImageUpdateInfo.BiYeZhengImg;
+                        orderImage.IDCard1 = orderImageUpdateInfo.IDCard1;
+                        orderImage.IDCard2 = orderImageUpdateInfo.IDCard2;
+                        orderImage.LiangCunLanDiImg = orderImageUpdateInfo.LiangCunLanDiImg;
+                        orderImage.MianKaoJiSuanJiImg = orderImageUpdateInfo.MianKaoJiSuanJiImg;
+                        orderImage.MianKaoYingYuImg = orderImageUpdateInfo.MianKaoYingYuImg;
+                        orderImage.QiTa = orderImageUpdateInfo.QiTa;
+                        orderImage.TouXiang = orderImageUpdateInfo.TouXiang;
+                        orderImage.XueXinWangImg = orderImageUpdateInfo.XueXinWangImg;
+                        dbContext.Entry(orderImage).State = EntityState.Modified;
+                    }
+
+                    //4.先删除原有的订单附件
+                    dbContext.T_File.RemoveRange(dbContext.T_File.Where(a => a.ForeignKeyId == approval.OrderId));
+
+                    //5.添加附件至附件表
+                    var approvalFiles = dbContext.T_File.Where(a => a.ForeignKeyId == approval.Id).ToList();
+                    foreach (var item in approvalFiles)
+                    {
+                        dbContext.T_File.Add(new Domain.Entities.T_File()
+                        {
+                            ForeignKeyId = approval.OrderId,
+                            FilePath = item.FilePath,
+                            FileName = item.FileName,
+                            CreatorUserId = approval.CreatorUserId,
+                            CreatorAccount = approval.CreatorAccount
+                        });
+                    }
                 }
             }
             else
             {
-                //修改审核信息
-                approval.ApprovalStatus = (int)OrderApprovalStatusEnum.Faild;
-                approval.ApprovalComment = comment;
-                dbContext.Entry(approval).State = EntityState.Modified;
+                //循环处理
+                foreach (var approval in approvalList)
+                {
+                    //修改审核信息
+                    approval.ApprovalStatus = (int)OrderApprovalStatusEnum.Faild;
+                    approval.ApprovalComment = comment;
+                    dbContext.Entry(approval).State = EntityState.Modified;
+                }
             }
 
-            dbContext.ModuleKey = approvalId.ToString();
-            dbContext.LogChangesDuringSave = true;
-            dbContext.BusinessName = "订单修改审核";
+            dbContext.LogChangesDuringSave = false;
             dbContext.SaveChanges();
             return new ResultMsg() { IsSuccess = true };
         }

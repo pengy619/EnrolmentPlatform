@@ -154,6 +154,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         /// </summary>
         public static IT_ArticleService ArticleService = DIContainer.Resolve<IT_ArticleService>();
 
+        /// <summary>
+        /// 订单审批接口
+        /// </summary>
+        public static IT_OrderApprovalService OrderApprovalService = DIContainer.Resolve<IT_OrderApprovalService>();
+
         #endregion
 
         #region NPOI模板导出
