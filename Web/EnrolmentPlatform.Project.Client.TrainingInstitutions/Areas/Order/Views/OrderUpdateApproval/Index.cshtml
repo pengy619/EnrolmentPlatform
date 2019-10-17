@@ -7,12 +7,35 @@
         <div class="panel-title">
             <div class="layui-form">
                 <div class="layui-form-item flex">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <select id="Status" name="Status" style="width:100px;">
+                            <option value="">全部</option>
+                            @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderApprovalStatusEnum, int>())
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
                     <label class="layui-form-label">学生姓名</label>
                     <div class="layui-input-inline">
                         <input type="text" id="StudentName" class="layui-input">
                     </div>
+                    <label class="layui-form-label">身份证号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="IDCard" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item flex">
+                    <label class="layui-form-label">学生电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Phone" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">报考学校</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="SchoolName" class="layui-input">
+                    </div>
                     <button class="layui-btn layui-btn-warm" type="button" id="search_btn" lay-submit="" lay-filter="s">查询</button>
-                    <button class="layui-btn layui-btn-warm" type="button" id="MoreSearch">更多查询</button>
                 </div>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
