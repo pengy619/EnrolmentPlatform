@@ -202,7 +202,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     return new ResultMsg() { IsSuccess = false, Info = "找不到订单信息" };
                 }
 
-                var orderImageList = dbContext.T_OrderImage.Where(a => approvalOrderIdList.Contains(a.Id)).ToList();
+                var orderImageList = dbContext.T_OrderImage.Where(a => approvalOrderIdList.Contains(a.OrderId)).ToList();
                 if (orderImageList == null || orderImageList.Count != approvalIdList.Count)
                 {
                     return new ResultMsg() { IsSuccess = false, Info = "找不到订单图片信息" };
