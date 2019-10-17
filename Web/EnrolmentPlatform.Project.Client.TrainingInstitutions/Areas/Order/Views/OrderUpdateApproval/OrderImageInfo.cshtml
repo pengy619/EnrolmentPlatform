@@ -240,6 +240,43 @@
             $(".orderFile").hide();
         }
 
+        //提交
+        form.on('submit(sb)', function (data) {
+            //提交确认
+            layer.confirm('确认提交？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                var dto = {};
+                dto.IDs = [];
+                dto.IDs.push('@approvalId');
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(dto),
+                    url: '@Url.Action("Submit", "OrderUpdateApproval")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('提交成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        });
+
         //监听工具条
         table.on('tool(table)', function (obj) {
             var data = obj.data;
