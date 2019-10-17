@@ -139,7 +139,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             dbContext.ModuleKey = dto.ApprovalId.Value.ToString();
-            dbContext.LogChangesDuringSave = true;
+            dbContext.LogChangesDuringSave = false;
             dbContext.BusinessName = "订单修改提交";
             dbContext.SaveChanges();
             return new ResultMsg() { IsSuccess = true, Data = dto.ApprovalId.Value };
@@ -351,7 +351,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req,out int reCount)
         {
             StringBuilder sql = new StringBuilder(@"SELECT 
-                        a.Id AS OrderId, 
+                        a.Id AS ApprovalId
+                        a.OrderId AS OrderId, 
                         a.CreatorTime AS CreateTime, 
 	                    a.[CreatorAccount] AS CreateUserName,
                         a.ApprovalStatus,
