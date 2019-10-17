@@ -351,7 +351,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req,out int reCount)
         {
             StringBuilder sql = new StringBuilder(@"SELECT 
-                        a.Id AS ApprovalId
+                        a.Id AS ApprovalId,
                         a.OrderId AS OrderId, 
                         a.CreatorTime AS CreateTime, 
 	                    a.[CreatorAccount] AS CreateUserName,
