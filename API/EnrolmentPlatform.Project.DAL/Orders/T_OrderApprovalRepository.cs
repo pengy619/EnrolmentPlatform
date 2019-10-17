@@ -270,7 +270,15 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             FilePath = item.FilePath,
                             FileName = item.FileName,
                             CreatorUserId = approval.CreatorUserId,
-                            CreatorAccount = approval.CreatorAccount
+                            CreatorAccount = approval.CreatorAccount,
+
+                            CreatorTime = DateTime.Now,
+                            DeleteTime = DateTime.MaxValue,
+                            DeleteUserId = Guid.Empty,
+                            IsDelete = false,
+                            LastModifyTime = DateTime.Now,
+                            LastModifyUserId = approval.CreatorUserId,
+                            Unix = DateTime.Now.ConvertDateTimeInt(),
                         });
                     }
                 }
