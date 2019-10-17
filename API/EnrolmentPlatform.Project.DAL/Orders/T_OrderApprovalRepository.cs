@@ -291,7 +291,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public ResultMsg Delete(List<Guid> approvalIdList)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id));
+            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id)).ToList();
             foreach (var item in approvals)
             {
                 if (item.ApprovalStatus != (int)OrderApprovalStatusEnum.Init && item.ApprovalStatus != (int)OrderApprovalStatusEnum.Faild)
@@ -324,7 +324,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public ResultMsg Submit(List<Guid> approvalIdList)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id));
+            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id)).ToList();
             foreach (var item in approvals)
             {
                 if (item.ApprovalStatus != (int)OrderApprovalStatusEnum.Init)
