@@ -13,7 +13,10 @@
                             <option value="">全部</option>
                             @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderApprovalStatusEnum, int>())
                             {
+                                if (item.Key != 0)
+                                {
                                 <option value="@item.Key">@item.Value</option>
+                                }
                             }
                         </select>
                     </div>
