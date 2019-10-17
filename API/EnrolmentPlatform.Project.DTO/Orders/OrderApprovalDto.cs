@@ -190,6 +190,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
     public class OrderUpdateApprovalListDto
     {
         /// <summary>
+        /// 订单审核ID
+        /// </summary>
+        public Guid ApprovalId { set; get; }
+
+        /// <summary>
         /// 订单ID
         /// </summary>
         public Guid OrderId { set; get; }

@@ -139,7 +139,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             dbContext.ModuleKey = dto.ApprovalId.Value.ToString();
-            dbContext.LogChangesDuringSave = true;
+            dbContext.LogChangesDuringSave = false;
             dbContext.BusinessName = "订单修改提交";
             dbContext.SaveChanges();
             return new ResultMsg() { IsSuccess = true, Data = dto.ApprovalId.Value };
@@ -291,7 +291,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public ResultMsg Delete(List<Guid> approvalIdList)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id));
+            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id)).ToList();
             foreach (var item in approvals)
             {
                 if (item.ApprovalStatus != (int)OrderApprovalStatusEnum.Init && item.ApprovalStatus != (int)OrderApprovalStatusEnum.Faild)
@@ -324,7 +324,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public ResultMsg Submit(List<Guid> approvalIdList)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id));
+            var approvals = dbContext.T_OrderApproval.Where(a => approvalIdList.Contains(a.Id)).ToList();
             foreach (var item in approvals)
             {
                 if (item.ApprovalStatus != (int)OrderApprovalStatusEnum.Init)
@@ -351,7 +351,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req,out int reCount)
         {
             StringBuilder sql = new StringBuilder(@"SELECT 
-                        a.Id AS OrderId, 
+                        a.Id AS ApprovalId,
+                        a.OrderId AS OrderId, 
                         a.CreatorTime AS CreateTime, 
 	                    a.[CreatorAccount] AS CreateUserName,
                         a.ApprovalStatus,
@@ -374,8 +375,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             if (!string.IsNullOrWhiteSpace(req.IDCard))
             {
-                sql.Append(" and a.IDCard like @IDCard");
-                parameters.Add(new SqlParameter("@IDCard", "%" + req.IDCard + "%"));
+                sql.Append(" and a.IDCardNo like @IDCardNo");
+                parameters.Add(new SqlParameter("@IDCardNo", "%" + req.IDCard + "%"));
             }
 
             if (!string.IsNullOrWhiteSpace(req.Phone))

@@ -198,7 +198,10 @@
 </div>
 <input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs orderFileBtn" lay-event="delete">删除</a>
+    @if (canUpdate == true)
+    {
+        <a class="layui-btn layui-btn-primary layui-btn-xs orderFileBtn" lay-event="delete">删除</a>
+    }
 </script>
 <script type="text/javascript">
     var form, layer, table;

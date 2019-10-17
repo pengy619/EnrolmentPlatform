@@ -156,7 +156,14 @@
         <div class="panel-body">
             <textarea name="Remark" placeholder="请输入内容" id="Remark" class="layui-textarea">@((dto != null) ? dto.Remark : "")</textarea>
             <div class="margin-top-10">
-                <button class="layui-btn " lay-submit="" lay-filter="updateApply">保存并继续下一步</button>
+                @if (Request.QueryString["action"] == "update")
+                {
+                    <button class="layui-btn " lay-submit="" lay-filter="updateApply">保存并继续下一步</button>
+                }
+                else
+                {
+                    <button class="layui-btn " type="button" onclick="javascript: window.location.href = '/Order/OrderUpdateApproval/OrderImageInfo?action=view&approvalId=@ViewBag.OrderApprovalId';">查看图片</button>
+                }
                 <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","OrderUpdateApproval")'">返回</button>
             </div>
         </div>

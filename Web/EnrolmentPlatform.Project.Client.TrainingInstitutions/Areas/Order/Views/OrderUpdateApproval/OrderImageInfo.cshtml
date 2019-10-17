@@ -216,7 +216,10 @@
 </div>
 <input type="hidden" id="hidApprovalId" value='@approvalId' />
 <script type="text/html" id="tableTool">
+    @if (canUpdate == true)
+    {
     <a class="layui-btn layui-btn-primary layui-btn-xs orderFileBtn" lay-event="delete">删除</a>
+    }
 </script>
 <script type="text/javascript">
     var form, layer, table;
@@ -262,7 +265,7 @@
                                 icon: 1,
                                 time: 2000
                             }, function () {
-                                table.reload("table");
+                                window.location.href = '/Order/OrderUpdateApproval/Index';
                             });
                         }
                         else {
