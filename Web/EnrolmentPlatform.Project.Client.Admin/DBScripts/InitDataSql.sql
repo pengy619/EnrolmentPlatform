@@ -475,3 +475,8 @@ CREATE TABLE [dbo].[T_OrderImageApproval](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
+
+--2019-10-17报名审批表增加所读专业、是否电大毕业、毕业时间
+alter table [T_OrderApproval] Add SuoDuZhuanYe nvarchar(max) null;
+alter table [T_OrderApproval] Add IsTvUniversity bit not null default 0;
+alter table [T_OrderApproval] Add GraduationTime datetime null;
