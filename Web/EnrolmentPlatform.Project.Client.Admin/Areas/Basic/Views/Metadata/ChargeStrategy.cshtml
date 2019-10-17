@@ -39,7 +39,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">选择机构：</label>
         <div class="layui-input-inline">
-            <select id="InstitutionId" name="InstitutionId" lay-filter="institution">
+            <select id="InstitutionId" name="InstitutionId" lay-filter="institution" lay-search>
                 <option value=""></option>
                 @foreach (var item in institutionList)
                 {

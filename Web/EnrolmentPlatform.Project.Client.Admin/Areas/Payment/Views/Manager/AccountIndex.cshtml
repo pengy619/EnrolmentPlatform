@@ -62,7 +62,7 @@
                 <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">来源（机构）</label>
                     <div class="layui-input-inline">
-                        <select id="FromChannelId" name="FromChannelId" style="width:100px;">
+                        <select id="FromChannelId" name="FromChannelId" style="width:100px;" lay-search>
                             <option value="">全部</option>
                             @foreach (var item in trainingList)
                             {
@@ -72,7 +72,7 @@
                     </div>
                     <label class="layui-form-label">去向（学院中心）</label>
                     <div class="layui-input-inline">
-                        <select id="ToLearningCenterId" name="ToLearningCenterId" style="width:100px;">
+                        <select id="ToLearningCenterId" name="ToLearningCenterId" style="width:100px;" lay-search>
                             <option value="">全部</option>
                             @foreach (var item in learningList)
                             {

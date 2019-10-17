@@ -77,7 +77,7 @@
                 <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">来源（机构）</label>
                     <div class="layui-input-inline">
-                        <select id="FromChannelId" name="FromChannelId" style="width:100px;">
+                        <select id="FromChannelId" name="FromChannelId" style="width:100px;" lay-search>
                             <option value="">全部</option>
                             @foreach (var item in trainingList)
                             {
@@ -87,7 +87,7 @@
                     </div>
                     <label class="layui-form-label">去向（学院中心）</label>
                     <div class="layui-input-inline">
-                        <select id="ToLearningCenterId" name="ToLearningCenterId" style="width:100px;">
+                        <select id="ToLearningCenterId" name="ToLearningCenterId" style="width:100px;" lay-search>
                             <option value="">全部</option>
                             @foreach (var item in learningList)
                             {
@@ -138,7 +138,7 @@
         <div class="layui-form-item required" style="padding-top: 20px;">
             <label class="layui-form-label">学院中心</label>
             <div class="layui-input-inline">
-                <select id="LearningCenter" name="LearningCenter">
+                <select id="LearningCenter" name="LearningCenter" lay-search>
                     @if (learningList != null && learningList.Count > 0)
                     {
                         foreach (var item in learningList)
@@ -170,7 +170,7 @@
         <div class="layui-form-item required" style="padding-top: 20px;">
             <label class="layui-form-label">招生机构</label>
             <div class="layui-input-inline">
-                <select id="trainingModify" name="trainingModify">
+                <select id="trainingModify" name="trainingModify" lay-search>
                     @if (trainingList != null && trainingList.Count > 0)
                     {
                         foreach (var item in trainingList)
