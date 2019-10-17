@@ -91,6 +91,21 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string ZhaoShengLaoShi { set; get; }
 
         /// <summary>
+        /// 所读专业
+        /// </summary>
+        public string SuoDuZhuanYe { get; set; }
+
+        /// <summary>
+        /// 是否电大毕业
+        /// </summary>
+        public bool IsTvUniversity { get; set; }
+
+        /// <summary>
+        /// 毕业时间
+        /// </summary>
+        public DateTime? GraduationTime { get; set; }
+
+        /// <summary>
         /// 用户ID
         /// </summary>
         public Guid UserId { set; get; }

@@ -47,6 +47,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 curApproval.StudentName = dto.StudentName;
                 curApproval.TencentNo = dto.TencentNo;
                 curApproval.ZhaoShengLaoShi = dto.ZhaoShengLaoShi;
+                curApproval.SuoDuZhuanYe = dto.SuoDuZhuanYe;
+                curApproval.IsTvUniversity = dto.IsTvUniversity;
+                curApproval.GraduationTime = dto.GraduationTime;
                 dbContext.Entry(curApproval).State = EntityState.Modified;
             }
             else
@@ -72,6 +75,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     StudentName = dto.StudentName,
                     TencentNo = dto.TencentNo,
                     ZhaoShengLaoShi = dto.ZhaoShengLaoShi,
+                    SuoDuZhuanYe = dto.SuoDuZhuanYe,
+                    IsTvUniversity = dto.IsTvUniversity,
+                    GraduationTime = dto.GraduationTime,
 
                     CreatorAccount = dto.ZhaoShengLaoShi,
                     CreatorTime = DateTime.Now,
@@ -224,6 +230,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 order.Sex = approval.Sex;
                 order.StudentName = approval.StudentName;
                 order.TencentNo = approval.TencentNo;
+                order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
+                order.IsTvUniversity = approval.IsTvUniversity;
+                order.GraduationTime = approval.GraduationTime;
                 dbContext.Entry(order).State = EntityState.Modified;
 
                 //3.修改订单照片信息

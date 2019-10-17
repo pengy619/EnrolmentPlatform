@@ -107,6 +107,24 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string ZhaoShengLaoShi { set; get; }
 
         /// <summary>
+        /// 所读专业
+        /// </summary>
+        [DataMember]
+        public string SuoDuZhuanYe { get; set; }
+
+        /// <summary>
+        /// 是否电大毕业
+        /// </summary>
+        [DataMember]
+        public bool IsTvUniversity { get; set; }
+
+        /// <summary>
+        /// 毕业时间
+        /// </summary>
+        [DataMember]
+        public DateTime? GraduationTime { get; set; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         [DataMember]
@@ -115,6 +133,7 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// <summary>
         /// 所有图片是否都上传完成
         /// </summary>
+        [DataMember]
         public bool AllOrderImageUpload { set; get; }
 
         /// <summary>

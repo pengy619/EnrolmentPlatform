@@ -92,6 +92,9 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 orderInfo.Sex = orderApproval.Sex;
                 orderInfo.StudentName = orderApproval.StudentName;
                 orderInfo.TencentNo = orderApproval.TencentNo;
+                orderInfo.SuoDuZhuanYe = orderApproval.SuoDuZhuanYe;
+                orderInfo.IsTvUniversity = orderApproval.IsTvUniversity;
+                orderInfo.GraduationTime = orderApproval.GraduationTime;
                 ViewBag.OrderApprovalId = orderApproval.ApprovalId.Value;
             }
 
@@ -135,6 +138,9 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             orderInfo.Sex = approval.Sex;
             orderInfo.StudentName = approval.StudentName;
             orderInfo.TencentNo = approval.TencentNo;
+            orderInfo.SuoDuZhuanYe = approval.SuoDuZhuanYe;
+            orderInfo.IsTvUniversity = approval.IsTvUniversity;
+            orderInfo.GraduationTime = approval.GraduationTime;
             ViewBag.OrderApprovalId = approval.ApprovalId.Value;
             ViewBag.OrderInfo = orderInfo;
             ViewBag.ApprovalInfo = approval;

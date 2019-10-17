@@ -69,7 +69,10 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 Sex = entity.Sex,
                 StudentName = entity.StudentName,
                 TencentNo = entity.TencentNo,
-                ZhaoShengLaoShi = entity.ZhaoShengLaoShi
+                ZhaoShengLaoShi = entity.ZhaoShengLaoShi,
+                SuoDuZhuanYe = entity.SuoDuZhuanYe,
+                IsTvUniversity = entity.IsTvUniversity,
+                GraduationTime = entity.GraduationTime
             };
         }
 
@@ -105,7 +108,10 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 Sex = entity.Sex,
                 StudentName = entity.StudentName,
                 TencentNo = entity.TencentNo,
-                ZhaoShengLaoShi = entity.ZhaoShengLaoShi
+                ZhaoShengLaoShi = entity.ZhaoShengLaoShi,
+                SuoDuZhuanYe = entity.SuoDuZhuanYe,
+                IsTvUniversity = entity.IsTvUniversity,
+                GraduationTime = entity.GraduationTime
             };
         }
 
