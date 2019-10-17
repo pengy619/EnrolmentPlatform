@@ -389,5 +389,14 @@
         form.on('select(select_Province)', function (data) {
             LoadAddressByParentId(data.value);
         });
+
+        //最高学历如果选择 中专或大专 必须填写所读专业
+        form.on('select(select_Degree)', function (data) {
+            if (data.value == "职高中专技校等同等学历" || data.value == "大专") {
+                $("#SuoDuZhuanYe").attr("lay-verify", "required");
+            } else {
+                $("#SuoDuZhuanYe").removeAttr("lay-verify");
+            }
+        });
     });
 </script> 

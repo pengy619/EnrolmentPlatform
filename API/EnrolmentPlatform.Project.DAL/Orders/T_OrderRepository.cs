@@ -165,10 +165,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return 3;
             }
 
-            if (dto.Status != (int)OrderStatusEnum.Init && dto.Status != (int)OrderStatusEnum.Reject)
-            {
-                return 3;
-            }
+            //if (dto.Status != (int)OrderStatusEnum.Init && dto.Status != (int)OrderStatusEnum.Reject)
+            //{
+            //    return 3;
+            //}
 
             #region 如果修改了学校、层次、专业，需重新计算订单价格
             if (dto.SchoolId != entity.SchoolId || dto.LevelId != entity.LevelId || dto.MajorId != entity.MajorId)

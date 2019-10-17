@@ -149,7 +149,7 @@
                 </div>
                 <label class="layui-form-label">毕业时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="GraduationTime" value='@((dto!=null && dto.GraduationTime.HasValue) ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
+                    <input type="text" class="layui-input" id="GraduationTime" readonly value='@((dto!=null && dto.GraduationTime.HasValue) ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
                 </div>
                 <label class="layui-form-label">招生老师</label>
                 <div class="layui-input-inline">
