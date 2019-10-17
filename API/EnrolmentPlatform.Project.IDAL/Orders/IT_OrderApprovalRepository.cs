@@ -28,11 +28,11 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// <summary>
         /// 审批
         /// </summary>
-        /// <param name="approvalId">approvalId</param>
+        /// <param name="approvalIdList">approvalIdList</param>
         /// <param name="approved">approved</param>
         /// <param name="comment">comment</param>
         /// <returns></returns>
-        ResultMsg Approval(Guid approvalId, bool approved, string comment);
+        ResultMsg Approval(List<Guid> approvalIdList, bool approved, string comment);
 
         /// <summary>
         /// 删除

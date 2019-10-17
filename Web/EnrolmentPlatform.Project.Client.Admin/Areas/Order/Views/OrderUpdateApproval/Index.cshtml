@@ -13,7 +13,10 @@
                             <option value="">全部</option>
                             @foreach (var item in EnrolmentPlatform.Project.Infrastructure.EnumHelper.EnumDescriptionHelper.GetAllItemValueList<EnrolmentPlatform.Project.DTO.Enums.Orders.OrderApprovalStatusEnum, int>())
                             {
+                                if (item.Key != 0)
+                                {
                                 <option value="@item.Key">@item.Value</option>
+                                }
                             }
                         </select>
                     </div>
@@ -37,8 +40,8 @@
                     </div>
                     <button class="layui-btn layui-btn-warm" type="button" id="search_btn" lay-submit="" lay-filter="s">查询</button>
                 </div>
-                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
-                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="approved">审核通过</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="faild">审核拒绝</button>
             </div>
         </div>
         <div class="panel-body">
@@ -46,11 +49,20 @@
         </div>
     </div>
 </div>
+<!-- 弹出层（拒绝确认） -->
+<div id="audit-btn-modal3" style="display:none;">
+    <div class="layui-form" style="text-align: center;">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">拒绝理由</label>
+            <div class="layui-input-inline">
+                <textarea name="rejectReason" placeholder="请输入拒绝理由" style="width:250px;" id="rejectReason" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="rejectc">确定</button>
+    </div>
+</div>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("OrderInfo","OrderUpdateApproval",new {Area="Order"}))?action=view&approvalId={{d.ApprovalId}}'>查看</a>
-    {{# if(d.ApprovalStatus==0){ }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("OrderInfo","OrderUpdateApproval",new {Area="Order"}))?action=update&approvalId={{d.ApprovalId}}'>编辑</a>
-    {{# } }}
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("OrderInfo","OrderUpdateApproval",new {Area="Order"}))?approvalId={{d.ApprovalId}}'>查看</a>
 </script>
 <script type="text/javascript">
     var table, layer, laydate, form;
@@ -83,133 +95,6 @@
         };
         table.render(tableOptions);
 
-        //删除
-        form.on('submit(d)', function (data) {
-            //选中行
-            var checkdata = table.checkStatus('table').data;
-            if (checkdata.length == 0) {
-                layer.msg('请选择需要删除的报名单修改申请。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //删除处理
-            var canDelete = true;
-            var arr = new Array(checkdata.length);
-            for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].ApprovalId;
-                if (parseInt(checkdata[i].ApprovalStatus) != 0 && parseInt(checkdata[i].ApprovalStatus) != 3) {
-                    canDelete = false;
-                }
-            }
-
-            if (canDelete == false) {
-                layer.msg('只有待提交和审核不通过的才可以删除。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //删除确认
-            layer.confirm('确认删除？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(arr),
-                    url: '@Url.Action("Delete", "OrderUpdateApproval")',
-                    success: function (result) {
-                        if (result.ret == 1) {
-                            layer.msg('删除成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                table.reload("table");
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
-                });
-
-                layer.close(index);
-            });
-        });
-
-        //提交
-        form.on('submit(sb)', function (data) {
-            //选中行
-            var checkdata = table.checkStatus('table').data;
-            if (checkdata.length == 0) {
-                layer.msg('请选择需要提交的报名单。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //选中的ID
-            var canSubmit = true;
-            var arr = new Array(checkdata.length);
-            for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].ApprovalId;
-                if (parseInt(checkdata[i].ApprovalStatus) != 0) {
-                    canSubmit = false;
-                }
-            }
-
-            if (canSubmit == false) {
-                layer.msg('只有待提交状态的才可以提交。', {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-
-            //提交确认
-            layer.confirm('确认提交？', {
-                btn: ['确认', '取消']
-            }, function (index, layero) {
-                var dto = {};
-                dto.IDs = arr;
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;utf-8",
-                    dataType: "json",
-                    async: false,
-                    data: JSON.stringify(dto),
-                    url: '@Url.Action("Submit", "OrderUpdateApproval")',
-                    success: function (result) {
-                        if (result.ret == 1) {
-                            layer.msg('提交成功。', {
-                                icon: 1,
-                                time: 2000
-                            }, function () {
-                                table.reload("table");
-                            });
-                        }
-                        else {
-                            layer.msg(result.msg, {
-                                icon: 2,
-                                time: 2000
-                            });
-                        }
-                    }
-                });
-                layer.close(index);
-            });
-        });
-
         //查询
         form.on('submit(s)', function (data) {
             //执行重载
@@ -218,6 +103,111 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: getSearchData()
+            });
+        });
+
+        //拒绝提示
+        form.on('submit(faild)', function (data) {
+            var ret = checkBaosong();
+            if (ret.result == false) {
+                return false;
+            }
+
+            layerIndex2 = layer.open({
+                type: 1,
+                title: "输入拒绝理由",
+                area: ["450px", "200px"],
+                content: $('#audit-btn-modal3'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+
+        //拒绝校验
+        function checkReject() {
+            var ret = {};
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要拒绝的资料修改。', {
+                    icon: 2,
+                    time: 2000
+                });
+                ret.result = false;
+                return ret;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].ApprovalId;
+                //已报名可以进行拒绝
+                if (parseInt(checkdata[i].ApprovalStatus) != 1) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有已提交的才能进行拒绝。', {
+                    icon: 2,
+                    time: 2000
+                });
+                ret.result = false;
+                return ret;
+            }
+
+            ret.result = true;
+            ret.arr = arr;
+            return ret;
+        }
+
+        var layerIndex2 = 2;
+        //拒绝确认
+        form.on('submit(rejectc)', function (data) {
+            var ret = checkReject();
+            if (ret.result == false) {
+                return false;
+            }
+
+            var dto = {};
+            dto.ids = ret.arr;
+            dto.comment = $.trim($("#rejectReason").val());
+            if (dto.comment == "") {
+                layer.msg('请输入拒绝理由！', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            dto.approved = false;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;utf-8",
+                dataType: "json",
+                async: false,
+                data: JSON.stringify(dto),
+                url: '@Url.Action("Approval", "OrderUpdateApproval")',
+                success: function (result) {
+                    if (result.ret == 1) {
+                        layer.msg('拒绝成功。', {
+                            icon: 1,
+                            time: 2000
+                        }, function () {
+                            layer.close(layerIndex2);
+                            table.reload("table");
+                        });
+                    }
+                    else {
+                        layer.msg(result.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                }
             });
         });
     });

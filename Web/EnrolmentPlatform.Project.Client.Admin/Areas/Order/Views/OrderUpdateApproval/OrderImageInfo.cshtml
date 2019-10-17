@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "订单图片信息";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    OrderDto dto = ViewBag.OrderInfo;
+    OrderApprovalDto approvalDto = ViewBag.ApprovalInfo;
+    OrderApprovalImgDto imageDto = ViewBag.ImageDto;
+    Guid approvalId = ViewBag.ApprovalId;
+}
+<style type="text/css">
+    .info-cell .row .item .label {
+        margin-right: 10px;
+    }
+
+    .info-cell .row .item {
+        margin-left: 25px;
+    }
+
+        .info-cell .row .item .orderImg {
+            width: 150px;
+            border: 1px solid #808080;
+            cursor: pointer;
+            height: 168px;
+        }
+
+        .info-cell .row .item .imgDiv {
+            width: 250px;
+            height: 175px;
+        }
+
+    .info-cell .orderrow .label {
+        height: 170px;
+    }
+
+    .info-cell .orderrow .orderFile {
+        width: 100px;
+        height: 30px;
+    }
+
+    .info-cell .orderrow .orderFileBtn {
+        width: 50px;
+        height: 30px;
+    }
+
+    .info-cell .orderrow .uploadDiv {
+        margin-top: 2px;
+    }
+</style>
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-title">
+            @(ViewBag.Title)
+        </div>
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row">
+                    <div class="item" style="margin-left:0px;">
+                        <span class="label">学生姓名：</span>
+                        <span class="text">@((dto != null) ? dto.StudentName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">身份证号：</span>
+                        <span class="text">@((dto != null) ? dto.IDCardNo : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">招生老师：</span>
+                        <span class="text">@((dto != null) ? dto.UserName : "")</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">批次信息：</span>
+                        <span class="text">@ViewBag.BatchName</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">学籍信息：</span>
+                        <span class="text">@ViewBag.BiYeInfo</span>
+                    </div>
+                </div>
+                <div class="row orderrow">
+                    <div class="item" style="margin-left: 0px;">
+                        <span class="label" style="width:90px;">身份证正面：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1)?imageDto.IDCard1:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File1" class="orderFile" type="file" />
+                                <input id="Button1" class="orderFileBtn" type="button" onclick="postFile(1)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="label">身份证反面：</span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2)?imageDto.IDCard2:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File2" class="orderFile" type="file" />
+                                <input id="Button2" class="orderFileBtn" type="button" onclick="postFile(2)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="label">两寸蓝底：</span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File3" class="orderFile" type="file" />
+                                <input id="Button3" class="orderFileBtn" type="button" onclick="postFile(3)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="row orderrow">
+                    <div class="item" style="margin-left: 0px;">
+                        <span class="label">毕业证：</span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg)?imageDto.BiYeZhengImg:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File4" class="orderFile" type="file" />
+                                <input id="Button4" class="orderFileBtn" type="button" onclick="postFile(4)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="label" style="width:102px;">社保/居住证正：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File5" class="orderFile" type="file" />
+                                <input id="Button5" class="orderFileBtn" type="button" onclick="postFile(5)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="label">社保/居住证反：</span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg)?imageDto.MianKaoJiSuanJiImg:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File6" class="orderFile" type="file" />
+                                <input id="Button6" class="orderFileBtn" type="button" onclick="postFile(6)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="row orderrow">
+                    <div class="item" style="margin-left: 0px;">
+                        <span class="label" style="width:90px;">教育部学历证书电子备案表：</span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg)?imageDto.XueXinWangImg:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File7" class="orderFile" type="file" />
+                                <input id="Button7" class="orderFileBtn" type="button" onclick="postFile(7)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="label">录取通知书：</span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang)?imageDto.TouXiang:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File8" class="orderFile" type="file" />
+                                <input id="Button8" class="orderFileBtn" type="button" onclick="postFile(8)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="label">其他：</span>
+                        <span class="text">
+                            <div class="imgDiv">
+                                <img id="image9" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.QiTa)?imageDto.QiTa:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <input id="File9" class="orderFile" type="file" />
+                                <input id="Button9" class="orderFileBtn" type="button" onclick="postFile(9)" value="上传" />
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item" style="margin-left: 0px;">
+                        <span class="label">上传附件：</span>
+                        <span class="text">
+                            <input id="Attachment" type="file" class="orderFile" />
+                            <input id="Button10" style="width: 50px;height: 30px;" class="orderFileBtn" type="button" onclick="postFiles()" value="上传" />
+                        </span>
+                    </div>
+                </div>
+                <div class="row" style="width: 500px;">
+                    <table id="table" lay-filter="table"></table>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="margin-top-10" style=" text-align:center;">
+                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","OrderUpdateApproval")'">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidApprovalId" value='@approvalId' />
+<script type="text/javascript">
+    var form, layer, table;
+    layui.use(['jquery', 'form', 'layer', 'table'], function () {
+        form = layui.form;
+        layer = layui.layer;
+        table = layui.table;
+
+        table.render({
+            elem: '#table'
+            , url: "@Url.Action("FileList", "OrderUpdateApproval", new { approvalId = approvalId })" //数据
+            , cols: [[
+                { field: 'FileName', title: '文件名', templet: '<div><a href="{{d.FilePath}}" target="_blank" class="layui-table-link">{{d.FileName}}</a></div>' }
+            ]]
+        });
+
+        $(".orderImg").click(function () {
+            window.open($(this).attr("src"));
+        });
+    });
+</script>
