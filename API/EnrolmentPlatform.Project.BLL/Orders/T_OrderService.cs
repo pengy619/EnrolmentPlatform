@@ -37,7 +37,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public int AddOrder(OrderDto dto)
         {
             var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.BatchId == dto.BatchId && a.SchoolId == dto.SchoolId && a.IDCardNo == dto.IDCardNo
-            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+            && a.Status != (int)OrderStatusEnum.LeaveSchool && a.FromChannelId == dto.FromChannelId) > 0;
             if (exisit == true)
             {
                 //同一批次重复录入
@@ -61,13 +61,13 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
         public int UpdateOrder(OrderDto dto)
         {
-            var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.SchoolId == dto.SchoolId && a.IDCardNo == dto.IDCardNo
-            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
-            if (exisit == true)
-            {
-                //同一批次重复录入
-                return 4;
-            }
+            //var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.SchoolId == dto.SchoolId && a.IDCardNo == dto.IDCardNo
+            //&& a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+            //if (exisit == true)
+            //{
+            //    //同一批次重复录入
+            //    return 4;
+            //}
 
             try
             {
@@ -306,6 +306,13 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             (entity.Status != (int)OrderStatusEnum.Init && entity.Status != (int)OrderStatusEnum.Reject))
                         {
                             break;
+                        }
+                        var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.Id != entity.Id && a.BatchId == entity.BatchId && a.SchoolId == entity.SchoolId && a.IDCardNo == entity.IDCardNo
+                        && a.Status != (int)OrderStatusEnum.LeaveSchool && a.Status != (int)OrderStatusEnum.Init && a.Status != (int)OrderStatusEnum.Reject) > 0;
+                        if (exisit == true)
+                        {
+                            //同一批次重复录入
+                            return false;
                         }
 
                         entity.Status = (int)OrderStatusEnum.Enroll;

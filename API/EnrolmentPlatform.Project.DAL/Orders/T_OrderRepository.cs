@@ -154,7 +154,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         /// 修改报名单
         /// </summary>
         /// <param name="dto"></param>
-        /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
+        /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败</returns>
         public int UpdateOrder(OrderDto dto)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
