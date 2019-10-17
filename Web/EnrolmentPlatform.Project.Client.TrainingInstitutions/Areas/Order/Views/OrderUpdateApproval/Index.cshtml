@@ -76,7 +76,7 @@
             var canDelete = true;
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].OrderId;
+                arr[i] = checkdata[i].ApprovalId;
                 if (parseInt(checkdata[i].ApprovalStatus) != 0 && parseInt(checkdata[i].ApprovalStatus) != 3) {
                     canDelete = false;
                 }
@@ -139,7 +139,7 @@
             var canSubmit = true;
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
-                arr[i] = checkdata[i].OrderId;
+                arr[i] = checkdata[i].ApprovalId;
                 if (parseInt(checkdata[i].ApprovalStatus) != 0) {
                     canSubmit = false;
                 }
