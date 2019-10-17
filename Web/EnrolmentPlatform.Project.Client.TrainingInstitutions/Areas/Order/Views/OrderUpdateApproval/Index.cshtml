@@ -24,9 +24,9 @@
     </div>
 </div>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("OrderInfo","OrderUpdateApproval",new {Area="Order"}))?action=view&approvalId={{d.OrderId}}'>查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("OrderInfo","OrderUpdateApproval",new {Area="Order"}))?action=view&approvalId={{d.ApprovalId}}'>查看</a>
     {{# if(d.ApprovalStatus==0){ }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("OrderInfo","OrderUpdateApproval",new {Area="Order"}))?action=update&approvalId={{d.OrderId}}'>编辑</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("OrderInfo","OrderUpdateApproval",new {Area="Order"}))?action=update&approvalId={{d.ApprovalId}}'>编辑</a>
     {{# } }}
 </script>
 <script type="text/javascript">
