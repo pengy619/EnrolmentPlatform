@@ -482,7 +482,7 @@ alter table [T_OrderApproval] Add IsTvUniversity bit not null default 0;
 alter table [T_OrderApproval] Add GraduationTime datetime null;
 
 --2019-10-18报名审批表增加报考院校、层次、专业、批次
-alter table [T_OrderApproval] Add SchoolId [uniqueidentifier] not null;
-alter table [T_OrderApproval] Add LevelId [uniqueidentifier] not null;
-alter table [T_OrderApproval] Add MajorId [uniqueidentifier] not null;
-alter table [T_OrderApproval] Add BatchId [uniqueidentifier] not null;
+alter table [T_OrderApproval] Add SchoolId uniqueidentifier not null;
+alter table [T_OrderApproval] Add LevelId uniqueidentifier not null;
+alter table [T_OrderApproval] Add MajorId uniqueidentifier not null;
+alter table [T_OrderApproval] Add BatchId uniqueidentifier not null;
