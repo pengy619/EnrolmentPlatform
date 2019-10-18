@@ -24,6 +24,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         public ResultMsg Save(OrderApprovalDto dto)
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            T_Order order = dbContext.T_Order.FirstOrDefault(a => a.Id == dto.OrderId);
+            if (order == null)
+            {
+                return new ResultMsg() { IsSuccess = false, Info = "找不到订单信息。" };
+            }
+
             //如果存在草稿的审核则修改原来草稿审批
             if (dto.ApprovalId.HasValue == true)
             {
@@ -50,6 +56,11 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 curApproval.SuoDuZhuanYe = dto.SuoDuZhuanYe;
                 curApproval.IsTvUniversity = dto.IsTvUniversity;
                 curApproval.GraduationTime = dto.GraduationTime;
+                curApproval.BatchId = dto.BatchId;
+                curApproval.LevelId = dto.LevelId;
+                curApproval.MajorId = dto.MajorId;
+                curApproval.SchoolId = dto.SchoolId;
+                curApproval.AllOrderImageUpload = order.AllOrderImageUpload;
                 dbContext.Entry(curApproval).State = EntityState.Modified;
             }
             else
@@ -78,6 +89,11 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     SuoDuZhuanYe = dto.SuoDuZhuanYe,
                     IsTvUniversity = dto.IsTvUniversity,
                     GraduationTime = dto.GraduationTime,
+                    SchoolId = dto.SchoolId,
+                    MajorId = dto.MajorId,
+                    LevelId = dto.LevelId,
+                    BatchId = dto.BatchId,
+                    AllOrderImageUpload = order.AllOrderImageUpload,
 
                     CreatorAccount = dto.ZhaoShengLaoShi,
                     CreatorTime = DateTime.Now,
@@ -380,12 +396,11 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 	                    m3.Name as LevelName,
 	                    m4.Name as MajorName
                         from T_OrderApproval AS a 
-                        LEFT JOIN T_Order AS o ON A.OrderId=o.Id
-                        LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
-                        LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id
-                        LEFT JOIN T_Metadata AS m3 ON o.LevelId = m3.Id
-                        LEFT JOIN T_Metadata AS m4 ON o.MajorId = m4.Id
-                        LEFT JOIN T_OrderImage as im ON o.Id=im.OrderId
+                        LEFT JOIN T_Order AS o ON a.OrderId=o.Id
+                        LEFT JOIN T_Metadata AS m1 ON a.BatchId = m1.Id
+                        LEFT JOIN T_Metadata AS m2 ON a.SchoolId = m2.Id
+                        LEFT JOIN T_Metadata AS m3 ON a.LevelId = m3.Id
+                        LEFT JOIN T_Metadata AS m4 ON a.MajorId = m4.Id
                         where o.IsDelete=0");
 
             List<SqlParameter> parameters = new List<SqlParameter>();

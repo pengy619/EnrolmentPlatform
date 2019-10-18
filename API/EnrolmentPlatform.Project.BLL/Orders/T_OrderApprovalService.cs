@@ -72,7 +72,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 ZhaoShengLaoShi = entity.ZhaoShengLaoShi,
                 SuoDuZhuanYe = entity.SuoDuZhuanYe,
                 IsTvUniversity = entity.IsTvUniversity,
-                GraduationTime = entity.GraduationTime
+                GraduationTime = entity.GraduationTime,
+                BatchId = entity.BatchId,
+                LevelId = entity.LevelId,
+                MajorId = entity.MajorId,
+                SchoolId = entity.SchoolId,
+                UserId = entity.CreatorUserId
             };
         }
 
