@@ -76,6 +76,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             orderInfo.SuoDuZhuanYe = orderApproval.SuoDuZhuanYe;
             orderInfo.IsTvUniversity = orderApproval.IsTvUniversity;
             orderInfo.GraduationTime = orderApproval.GraduationTime;
+            orderInfo.SchoolId = orderApproval.SchoolId;
+            orderInfo.LevelId = orderApproval.LevelId;
+            orderInfo.MajorId = orderApproval.MajorId;
+            orderInfo.BatchId = orderApproval.BatchId;
             ViewBag.OrderApprovalId = orderApproval.ApprovalId.Value;
 
             //订单信息

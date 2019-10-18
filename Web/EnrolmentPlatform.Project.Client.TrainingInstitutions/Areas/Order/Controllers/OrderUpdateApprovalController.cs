@@ -95,6 +95,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 orderInfo.SuoDuZhuanYe = orderApproval.SuoDuZhuanYe;
                 orderInfo.IsTvUniversity = orderApproval.IsTvUniversity;
                 orderInfo.GraduationTime = orderApproval.GraduationTime;
+                orderInfo.SchoolId = orderApproval.SchoolId;
+                orderInfo.LevelId = orderApproval.LevelId;
+                orderInfo.MajorId = orderApproval.MajorId;
+                orderInfo.BatchId = orderApproval.BatchId;
                 ViewBag.OrderApprovalId = orderApproval.ApprovalId.Value;
             }
 
