@@ -128,6 +128,14 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         bool Leave(List<Guid> orderIdList, Guid userId);
 
         /// <summary>
+        /// 渠道操作退学
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        bool ChannelLeave(List<Guid> orderIdList, Guid userId);
+
+        /// <summary>
         /// 初审
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
