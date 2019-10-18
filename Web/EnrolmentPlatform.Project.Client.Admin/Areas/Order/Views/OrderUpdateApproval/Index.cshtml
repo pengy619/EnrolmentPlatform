@@ -108,7 +108,7 @@
 
         //拒绝提示
         form.on('submit(faild)', function (data) {
-            var ret = checkBaosong();
+            var ret = checkReject();
             if (ret.result == false) {
                 return false;
             }
@@ -116,7 +116,7 @@
             layerIndex2 = layer.open({
                 type: 1,
                 title: "输入拒绝理由",
-                area: ["450px", "200px"],
+                area: ["450px", "250px"],
                 content: $('#audit-btn-modal3'),
                 yes: function (index, layero) {
                     //事件
@@ -151,7 +151,7 @@
             }
 
             if (canSubmit == false) {
-                layer.msg('只有已提交的才能进行拒绝。', {
+                layer.msg('只有待审核的才能进行拒绝。', {
                     icon: 2,
                     time: 2000
                 });
@@ -208,6 +208,72 @@
                         });
                     }
                 }
+            });
+        });
+
+        //审核通过
+        form.on('submit(approved)', function (data) {
+            //选中行
+            var checkdata = table.checkStatus('table').data;
+            if (checkdata.length == 0) {
+                layer.msg('请选择需要审核的报名单。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //选中的ID
+            var canSubmit = true;
+            var arr = new Array(checkdata.length);
+            for (var i = 0; i < checkdata.length; i++) {
+                arr[i] = checkdata[i].ApprovalId;
+                if (parseInt(checkdata[i].ApprovalStatus) != 1) {
+                    canSubmit = false;
+                }
+            }
+
+            if (canSubmit == false) {
+                layer.msg('只有待审核状态的才可以审核通过。', {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            //审核通过确认
+            layer.confirm('审核通过？', {
+                btn: ['确认', '取消']
+            }, function (index, layero) {
+                var dto = {};
+                dto.ids = arr;
+                dto.approved = true;
+                dto.comment = "";
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(dto),
+                    url: '@Url.Action("Approval", "OrderUpdateApproval")',
+                    success: function (result) {
+                        if (result.ret == 1) {
+                            layer.msg('审核成功。', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                table.reload("table");
+                            });
+                        }
+                        else {
+                            layer.msg(result.msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+                layer.close(index);
             });
         });
     });
