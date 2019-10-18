@@ -606,6 +606,53 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
+        /// 渠道操作退学
+        /// </summary>
+        /// <param name="orderIdList">orderIdList</param>
+        /// <param name="userId">修改人</param>
+        /// <returns></returns>
+        public bool ChannelLeave(List<Guid> orderIdList, Guid userId)
+        {
+            using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
+            {
+                conn.Open();
+                var tran = conn.BeginTransaction();
+                try
+                {
+                    foreach (var item in orderIdList)
+                    {
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.Status == (int)OrderStatusEnum.Graduated || entity.Status == (int)OrderStatusEnum.LeaveSchool)
+                        {
+                            return false;
+                        }
+                        //录取状态退学直接更改状态为退学，其他状态点击退学直接回到草稿状态
+                        if (entity.Status == (int)OrderStatusEnum.Join)
+                        {
+                            entity.Status = (int)OrderStatusEnum.LeaveSchool;
+                            entity.LeaveTime = DateTime.Now;
+                        }
+                        else
+                        {
+                            entity.Status = (int)OrderStatusEnum.Init;
+                        }
+                        entity.LastModifyTime = DateTime.Now;
+                        entity.LastModifyUserId = userId;
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "渠道退学", true, entity.Id.ToString());
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
         /// 初审
         /// </summary>
         /// <param name="orderIdList">orderIdList</param>
