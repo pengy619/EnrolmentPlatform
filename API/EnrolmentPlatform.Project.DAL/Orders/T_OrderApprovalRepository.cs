@@ -229,35 +229,13 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 {
                     var order = orderList.FirstOrDefault(a => a.Id == approval.OrderId);
                     var orderImage = orderImageList.FirstOrDefault(a => a.OrderId == approval.OrderId);
-                    
+
                     //1.修改审核信息
                     approval.ApprovalStatus = (int)OrderApprovalStatusEnum.Approved;
                     approval.ApprovalComment = comment;
                     dbContext.Entry(approval).State = EntityState.Modified;
 
-                    //2.修改订单基础信息
-                    order.Address = approval.Address;
-                    order.AllOrderImageUpload = approval.AllOrderImageUpload;
-                    order.BiYeZhengBianHao = approval.BiYeZhengBianHao;
-                    order.CreatorAccount = approval.ZhaoShengLaoShi;
-                    order.Email = approval.Email;
-                    order.GongZuoDanWei = approval.GongZuoDanWei;
-                    order.GraduateSchool = approval.GraduateSchool;
-                    order.HighesDegree = approval.HighesDegree;
-                    order.IDCardNo = approval.IDCardNo;
-                    order.JiGuan = approval.JiGuan;
-                    order.MinZu = approval.MinZu;
-                    order.Phone = approval.Phone;
-                    order.Remark = approval.Remark;
-                    order.Sex = approval.Sex;
-                    order.StudentName = approval.StudentName;
-                    order.TencentNo = approval.TencentNo;
-                    order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
-                    order.IsTvUniversity = approval.IsTvUniversity;
-                    order.GraduationTime = approval.GraduationTime;
-                    dbContext.Entry(order).State = EntityState.Modified;
-
-                    //3.修改订单照片信息
+                    //2.修改订单照片信息
                     var orderImageUpdateInfo = dbContext.T_OrderImageApproval.FirstOrDefault(a => a.OrderApprovalId == approval.Id);
                     if (orderImageUpdateInfo != null)
                     {
@@ -273,10 +251,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         dbContext.Entry(orderImage).State = EntityState.Modified;
                     }
 
-                    //4.先删除原有的订单附件
+                    //3.先删除原有的订单附件
                     dbContext.T_File.RemoveRange(dbContext.T_File.Where(a => a.ForeignKeyId == approval.OrderId));
 
-                    //5.添加附件至附件表
+                    //4.添加附件至附件表
                     var approvalFiles = dbContext.T_File.Where(a => a.ForeignKeyId == approval.Id).ToList();
                     foreach (var item in approvalFiles)
                     {
@@ -297,6 +275,59 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Unix = DateTime.Now.ConvertDateTimeInt(),
                         });
                     }
+
+                    //5.金额处理
+                    if (order.SchoolId != approval.SchoolId || order.LevelId != approval.LevelId || order.MajorId != approval.MajorId)
+                    {
+                        //基础收费策略
+                        var nowDate = DateTime.Now.Date;
+                        var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == approval.SchoolId && a.LevelId == approval.LevelId
+                        && a.MajorId == approval.MajorId && a.InstitutionId == Guid.Empty
+                        && nowDate >= a.StartDate && nowDate <= a.EndDate);
+                        if (chargeStrategy == null)
+                        {
+                            //找不到当前时间段的价格策略
+                            return new ResultMsg() { IsSuccess = false, Info = "找不到当前时间段的价格策略" };
+                        }
+
+                        //特定收费策略
+                        var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == approval.SchoolId
+                        && a.LevelId == approval.LevelId && a.MajorId == approval.MajorId && a.InstitutionId == order.FromChannelId.Value
+                        && nowDate >= a.StartDate && nowDate <= a.EndDate);
+
+                        if (insChargeStrategy != null)
+                        {
+                            var jigou = dbContext.T_OrderAmount.FirstOrDefault(a => a.OrderId == approval.OrderId && a.PaymentSource == 1);
+                            jigou.TotalAmount = insChargeStrategy.InstitutionCharge;
+                            dbContext.Entry(jigou).State = EntityState.Modified;
+
+                            var xueyuan = dbContext.T_OrderAmount.FirstOrDefault(a => a.OrderId == approval.OrderId && a.PaymentSource == 2);
+                            xueyuan.TotalAmount = chargeStrategy.CenterCharge;
+                            dbContext.Entry(xueyuan).State = EntityState.Modified;
+                        }
+                    }
+
+                    //6.修改订单基础信息
+                    order.Address = approval.Address;
+                    order.AllOrderImageUpload = approval.AllOrderImageUpload;
+                    order.BiYeZhengBianHao = approval.BiYeZhengBianHao;
+                    order.CreatorAccount = approval.ZhaoShengLaoShi;
+                    order.Email = approval.Email;
+                    order.GongZuoDanWei = approval.GongZuoDanWei;
+                    order.GraduateSchool = approval.GraduateSchool;
+                    order.HighesDegree = approval.HighesDegree;
+                    order.IDCardNo = approval.IDCardNo;
+                    order.JiGuan = approval.JiGuan;
+                    order.MinZu = approval.MinZu;
+                    order.Phone = approval.Phone;
+                    order.Remark = approval.Remark;
+                    order.Sex = approval.Sex;
+                    order.StudentName = approval.StudentName;
+                    order.TencentNo = approval.TencentNo;
+                    order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
+                    order.IsTvUniversity = approval.IsTvUniversity;
+                    order.GraduationTime = approval.GraduationTime;
+                    dbContext.Entry(order).State = EntityState.Modified;
                 }
             }
             else
