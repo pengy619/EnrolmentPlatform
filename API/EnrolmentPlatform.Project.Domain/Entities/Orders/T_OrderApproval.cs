@@ -113,6 +113,30 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string SuoDuZhuanYe { get; set; }
 
         /// <summary>
+        /// 报考院校Id
+        /// </summary>
+        [DataMember]
+        public Guid SchoolId { get; set; }
+
+        /// <summary>
+        /// 层次Id
+        /// </summary>
+        [DataMember]
+        public Guid LevelId { get; set; }
+
+        /// <summary>
+        /// 专业Id
+        /// </summary>
+        [DataMember]
+        public Guid MajorId { get; set; }
+
+        /// <summary>
+        /// 批次Id
+        /// </summary>
+        [DataMember]
+        public Guid BatchId { get; set; }
+
+        /// <summary>
         /// 是否电大毕业
         /// </summary>
         [DataMember]
