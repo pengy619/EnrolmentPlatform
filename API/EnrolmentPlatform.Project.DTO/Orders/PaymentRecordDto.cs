@@ -272,6 +272,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 机构名称
         /// </summary>
         public string OrgName { set; get; }
+
+        /// <summary>
+        /// 用户Id(用于子账号数据隔离)
+        /// </summary>
+        public Guid? UserId { set; get; }
     }
 
     /// <summary>

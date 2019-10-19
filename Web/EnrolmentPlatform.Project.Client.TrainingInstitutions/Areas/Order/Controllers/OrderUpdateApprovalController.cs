@@ -32,6 +32,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             int reCount = 0;
             param.FromChannelId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             List<OrderUpdateApprovalListDto> list = OrderApprovalService.GetOrderUpdateApprovalList(param, out reCount);
             if (list == null)
             {

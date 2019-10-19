@@ -307,7 +307,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from fftemp in ftemp.DefaultIfEmpty()
                         join g in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals g.Id into gtemp
                         from ggtemp in gtemp.DefaultIfEmpty()
-                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
+                        where a.IsDelete == false && (req.UserId.HasValue ? a.CreatorUserId == req.UserId.Value : true) &&
+                        (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
                         (noCreateName || a.CreatorAccount.Contains(req.CreateUserName)) &&
@@ -437,6 +438,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             List<SqlParameter> parameters = new List<SqlParameter>();
 
             #region 查询条件
+
+            if (req.UserId.HasValue)
+            {
+                sql.Append(" and o.CreatorUserId=@UserId");
+                parameters.Add(new SqlParameter("@UserId", req.UserId.Value));
+            }
 
             if (!string.IsNullOrWhiteSpace(req.StudentName))
             {
@@ -653,7 +660,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ggtemp in gtemp.DefaultIfEmpty()
                         join h in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals h.Id into htemp
                         from hhtemp in htemp.DefaultIfEmpty()
-                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
+                        where a.IsDelete == false && (req.UserId.HasValue ? a.CreatorUserId == req.UserId.Value : true) &&
+                        (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
                         (noBatchName || bbtemp.Name.Contains(req.BatchName)) &&
@@ -1022,6 +1030,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             List<SqlParameter> parameters = new List<SqlParameter>();
 
             #region 查询条件
+
+            if (req.UserId.HasValue)
+            {
+                sql.Append(" and o.CreatorUserId=@UserId");
+                parameters.Add(new SqlParameter("@UserId", req.UserId.Value));
+            }
 
             if (!string.IsNullOrWhiteSpace(req.StudentName))
             {

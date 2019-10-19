@@ -107,6 +107,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
         {
             int reCount = 0;
             param.FromChannelId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             List<OrderPaymentListDto> list = OrderService.GetStudentPaymentList(param, ref reCount);
             if (list == null)
             {
@@ -130,6 +134,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
             int reCount = 0;
             param.PaymentSource = 1;
             param.PaymentSourceId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             List<PaymentRecordListDto> list = PaymentRecordService.GetPagedList(param, ref reCount);
             if (list == null)
             {
@@ -154,6 +162,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Payment.Co
             param.FromChannelId = this.EnterpriseId;
             param.Page = 1;
             param.Limit = int.MaxValue;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             List<OrderPaymentListDto> list = OrderService.GetStudentPaymentList(param, ref reCount);
             if (list == null || list.Count == 0)
             {

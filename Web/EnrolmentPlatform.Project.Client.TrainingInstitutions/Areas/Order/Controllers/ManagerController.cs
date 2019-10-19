@@ -36,6 +36,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             param.Page = 1;
             param.FromChannelId = this.EnterpriseId;
             param.Limit = int.MaxValue;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null || list.Count == 0)
             {
@@ -146,6 +150,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             int reCount = 0;
             param.FromChannelId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
             if (list == null)
             {
@@ -168,6 +176,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         public JsonResult GetOrderStatistics(OrderListReqDto param)
         {
             param.FromChannelId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             var data = OrderService.GetOrderStatistics(param);
             return Json(data);
         }

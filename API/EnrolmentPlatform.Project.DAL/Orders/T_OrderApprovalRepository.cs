@@ -436,6 +436,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             List<SqlParameter> parameters = new List<SqlParameter>();
 
+            if (req.UserId.HasValue)
+            {
+                sql.Append(" and a.CreatorUserId=@UserId");
+                parameters.Add(new SqlParameter("@UserId", req.UserId.Value));
+            }
+
             if (!string.IsNullOrWhiteSpace(req.IDCard))
             {
                 sql.Append(" and a.IDCardNo like @IDCardNo");

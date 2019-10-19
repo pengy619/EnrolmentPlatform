@@ -321,5 +321,10 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 招生机构ID
         /// </summary>
         public Guid? FromChannelId { set; get; }
+
+        /// <summary>
+        /// 用户Id(用于子账号数据隔离)
+        /// </summary>
+        public Guid? UserId { set; get; }
     }
 }
