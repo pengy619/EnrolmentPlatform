@@ -861,5 +861,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 }
             }
         }
+
+        /// <summary>
+        /// 初审上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        public string AuditUpload(List<OrderAuditUploadDto> list)
+        {
+            return orderRepository.AuditUpload(list);
+        }
     }
 }

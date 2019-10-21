@@ -1136,5 +1136,55 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             var dto = dbContext.Database.SqlQuery<OrderStatisticsDto>(sql.ToString(), parameters.ToArray()).FirstOrDefault();
             return dto;
         }
+
+        /// <summary>
+        /// 初审上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        public string AuditUpload(List<OrderAuditUploadDto> list)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var mdata = dbContext.T_Metadata.ToList();
+            //所有批次
+            var batchList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Batch).ToList();
+            //所有学校
+            var schoolList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.School).ToList();
+            //所有层次
+            var levelList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Level).ToList();
+            //所有专业
+            var majorList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Major).ToList();
+
+            //数据校验
+            for (int i = 0; i < list.Count; i++)
+            {
+                var dto = list[i];
+                var batch = batchList.FirstOrDefault(a => a.Name == dto.BatchName);
+                if (batch == null) { return "第" + (i + 2).ToString() + "行的批次在系统不存在！"; }
+
+                var school = schoolList.FirstOrDefault(a => a.Name == dto.SchoolName);
+                if (school == null) { return "第" + (i + 2).ToString() + "行的学校在系统不存在！"; }
+
+                var level = levelList.FirstOrDefault(a => a.Name == dto.LevelName);
+                if (level == null) { return "第" + (i + 2).ToString() + "行的层次在系统不存在！"; }
+
+                var majar = majorList.FirstOrDefault(a => a.Name == dto.MajorName);
+                if (majar == null) { return "第" + (i + 2).ToString() + "行的专业在系统不存在！"; }
+
+                var order = dbContext.T_Order.FirstOrDefault(a => a.StudentName == dto.StudentName && a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
+                  && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id && a.IsDelete == false);
+                if (order == null)
+                {
+                    return "第" + (i + 2).ToString() + "行的数据在系统不存在！";
+                }
+                if (order.Status != (int)OrderStatusEnum.ToLearningCenter)
+                    continue;
+
+                order.Status = (int)OrderStatusEnum.Audited;
+                dbContext.Entry(order).State = EntityState.Modified;
+            }
+            dbContext.SaveChanges();
+            return "";
+        }
     }
 }

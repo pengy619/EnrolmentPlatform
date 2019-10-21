@@ -225,5 +225,12 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="ids">ids</param>
         /// <returns></returns>
         bool AssistDispose(Guid[] ids);
+
+        /// <summary>
+        /// 初审上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        string AuditUpload(List<OrderAuditUploadDto> list);
     }
 }
