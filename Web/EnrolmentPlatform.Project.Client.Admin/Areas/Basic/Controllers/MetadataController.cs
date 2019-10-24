@@ -171,6 +171,17 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             return View(schoolId);
         }
 
+        /// <summary>
+        /// 库存设置
+        /// </summary>
+        /// <param name="schoolId">schoolId</param>
+        /// <returns></returns>
+        public ActionResult StockSetting(Guid schoolId)
+        {
+            ViewBag.SchoolId = schoolId;
+            return View();
+        }
+
         public JsonResult GetTreeData(Guid schoolId)
         {
             var allItem = SchoolConfigService.GetAllList().ToList();
