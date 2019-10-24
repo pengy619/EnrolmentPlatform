@@ -307,7 +307,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from fftemp in ftemp.DefaultIfEmpty()
                         join g in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals g.Id into gtemp
                         from ggtemp in gtemp.DefaultIfEmpty()
-                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
+                        where a.IsDelete == false && (req.UserId.HasValue ? a.CreatorUserId == req.UserId.Value : true) &&
+                        (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
                         (noCreateName || a.CreatorAccount.Contains(req.CreateUserName)) &&
@@ -437,6 +438,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             List<SqlParameter> parameters = new List<SqlParameter>();
 
             #region 查询条件
+
+            if (req.UserId.HasValue)
+            {
+                sql.Append(" and o.CreatorUserId=@UserId");
+                parameters.Add(new SqlParameter("@UserId", req.UserId.Value));
+            }
 
             if (!string.IsNullOrWhiteSpace(req.StudentName))
             {
@@ -653,7 +660,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ggtemp in gtemp.DefaultIfEmpty()
                         join h in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals h.Id into htemp
                         from hhtemp in htemp.DefaultIfEmpty()
-                        where a.IsDelete == false && (noStudentName || a.StudentName.Contains(req.StudentName)) &&
+                        where a.IsDelete == false && (req.UserId.HasValue ? a.CreatorUserId == req.UserId.Value : true) &&
+                        (noStudentName || a.StudentName.Contains(req.StudentName)) &&
                         (noPhone || a.Phone.Contains(req.Phone)) &&
                         (noIdCard || a.IDCardNo.Contains(req.IDCard)) &&
                         (noBatchName || bbtemp.Name.Contains(req.BatchName)) &&
@@ -1023,6 +1031,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             #region 查询条件
 
+            if (req.UserId.HasValue)
+            {
+                sql.Append(" and o.CreatorUserId=@UserId");
+                parameters.Add(new SqlParameter("@UserId", req.UserId.Value));
+            }
+
             if (!string.IsNullOrWhiteSpace(req.StudentName))
             {
                 sql.Append(" and o.StudentName like @StudentName");
@@ -1121,6 +1135,56 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
             var dto = dbContext.Database.SqlQuery<OrderStatisticsDto>(sql.ToString(), parameters.ToArray()).FirstOrDefault();
             return dto;
+        }
+
+        /// <summary>
+        /// 初审上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        public string AuditUpload(List<OrderAuditUploadDto> list)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var mdata = dbContext.T_Metadata.ToList();
+            //所有批次
+            var batchList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Batch).ToList();
+            //所有学校
+            var schoolList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.School).ToList();
+            //所有层次
+            var levelList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Level).ToList();
+            //所有专业
+            var majorList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Major).ToList();
+
+            //数据校验
+            for (int i = 0; i < list.Count; i++)
+            {
+                var dto = list[i];
+                var batch = batchList.FirstOrDefault(a => a.Name == dto.BatchName);
+                if (batch == null) { return "第" + (i + 2).ToString() + "行的批次在系统不存在！"; }
+
+                var school = schoolList.FirstOrDefault(a => a.Name == dto.SchoolName);
+                if (school == null) { return "第" + (i + 2).ToString() + "行的学校在系统不存在！"; }
+
+                var level = levelList.FirstOrDefault(a => a.Name == dto.LevelName);
+                if (level == null) { return "第" + (i + 2).ToString() + "行的层次在系统不存在！"; }
+
+                var majar = majorList.FirstOrDefault(a => a.Name == dto.MajorName);
+                if (majar == null) { return "第" + (i + 2).ToString() + "行的专业在系统不存在！"; }
+
+                var order = dbContext.T_Order.FirstOrDefault(a => a.StudentName == dto.StudentName && a.IDCardNo == dto.IDCardNo && a.BatchId == batch.Id
+                  && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id && a.IsDelete == false);
+                if (order == null)
+                {
+                    return "第" + (i + 2).ToString() + "行的数据在系统不存在！";
+                }
+                if (order.Status != (int)OrderStatusEnum.ToLearningCenter)
+                    continue;
+
+                order.Status = (int)OrderStatusEnum.Audited;
+                dbContext.Entry(order).State = EntityState.Modified;
+            }
+            dbContext.SaveChanges();
+            return "";
         }
     }
 }

@@ -77,5 +77,12 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// <param name="req"></param>
         /// <returns></returns>
         OrderStatisticsDto GetOrderStatistics(OrderListReqDto req);
+
+        /// <summary>
+        /// 初审上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <returns></returns>
+        string AuditUpload(List<OrderAuditUploadDto> list);
     }
 }

@@ -707,6 +707,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学院中心
         /// </summary>
         public string ToLearningCenterName { set; get; }
+
+        /// <summary>
+        /// 用户Id(用于子账号数据隔离)
+        /// </summary>
+        public Guid? UserId { set; get; }
     }
 
     /// <summary>
@@ -935,5 +940,41 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 用户ID
         /// </summary>
         public Guid UserId { set; get; }
+    }
+
+    /// <summary>
+    /// 初审导入DTO
+    /// </summary>
+    public class OrderAuditUploadDto
+    {
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        public string StudentName { set; get; }
+
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string IDCardNo { set; get; }
+
+        /// <summary>
+        /// 报名批次
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
+        /// 报考学校
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 报读层次
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 报读专业
+        /// </summary>
+        public string MajorName { set; get; }
     }
 }

@@ -94,6 +94,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             req.Page = 1;
             req.FromChannelId = this.EnterpriseId;
             req.Limit = int.MaxValue;
+            if (this.IsMaster == false)
+            {
+                req.UserId = this.UserId;
+            }
             int reCount = 0;
             List<OrderImageListDto> orderList = OrderService.GetStudentImageList(req,ref reCount);
             if (orderList == null || orderList.Count == 0)
@@ -556,6 +560,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             int reCount = 0;
             param.FromChannelId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
             List<OrderImageListDto> list = OrderService.GetStudentImageList(param, ref reCount);
             if (list == null)
             {
