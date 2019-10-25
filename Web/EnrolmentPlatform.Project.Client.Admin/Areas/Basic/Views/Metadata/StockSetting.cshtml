@@ -121,7 +121,7 @@
                         type: 'post',
                         async: false,
                         dataType: 'json',
-                        data: { id: data.Id },
+                        data: { id: data.StockSettingId },
                         success: function (result) {
                             if (result == true) {
                                 table.reload('chargetable');
