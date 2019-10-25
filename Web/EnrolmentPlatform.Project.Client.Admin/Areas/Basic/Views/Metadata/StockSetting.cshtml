@@ -174,11 +174,7 @@
                             icon: 1,
                             time: 1200
                         }, function () {
-                            if ($("#InstitutionId").val() == "") {
-                                table.reload('chargetable');
-                            } else {
-                                table.reload('chargetable1');
-                            }
+                            table.reload('chargetable');
                             layer.closeAll();
                         });
                     }
