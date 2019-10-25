@@ -124,6 +124,7 @@
                         data: { id: data.StockSettingId },
                         success: function (result) {
                             if (result.IsSuccess) {
+                                layer.msg("删除成功！");
                                 table.reload('chargetable');
                             }
                             else {
