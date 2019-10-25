@@ -507,3 +507,32 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'af48a028-50c3-487f-8560-f0558dc52e5c', N'文件列表', 4, N'Order', N'OrderUpdateApproval', N'FileList', NULL, 1, N'8ae51667-e6da-4894-abbf-a5b925367c62', 6, NULL)
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'ecd8f08d-ca5b-4896-aae3-f490dfc9cb29', N'保存图片', 4, N'Order', N'OrderUpdateApproval', N'SaveImage', NULL, 5, N'3febb225-6858-481f-a26c-995421e8217d', 8, NULL)
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'bd99b441-433d-4cf1-a6dd-f4f382be49b1', N'删除报名单', 4, N'Order', N'OrderUpdateApproval', N'Delete', NULL, 5, N'3febb225-6858-481f-a26c-995421e8217d', 4, NULL)
+
+--2019-10-25新增库存设置
+CREATE TABLE [dbo].[T_StockSetting](
+	[Id] [uniqueidentifier] NOT NULL,
+	[SchoolId] [uniqueidentifier] NOT NULL,
+	[LevelId] [uniqueidentifier] NOT NULL,
+	[MajorId] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](100) not NULL,
+	[StartDate] [datetime] not NULL,
+	[EndDate] [datetime] not NULL,
+	[Inventory] [int] not NULL,
+	[UsedInventory] [int] not NULL,
+
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_dbo.T_StockSetting] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO

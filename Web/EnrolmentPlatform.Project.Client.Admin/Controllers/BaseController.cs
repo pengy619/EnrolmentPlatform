@@ -130,6 +130,11 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         public static IT_ChargeStrategyService ChargeStrategyService = DIContainer.Resolve<IT_ChargeStrategyService>();
 
         /// <summary>
+        /// 库存设置接口
+        /// </summary>
+        public static IT_StockSettingService StockSettingService = DIContainer.Resolve<IT_StockSettingService>();
+
+        /// <summary>
         /// 考试接口
         /// </summary>
         public static IT_ExamService ExamService = DIContainer.Resolve<IT_ExamService>();

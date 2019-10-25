@@ -171,17 +171,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             return View(schoolId);
         }
 
-        /// <summary>
-        /// 库存设置
-        /// </summary>
-        /// <param name="schoolId">schoolId</param>
-        /// <returns></returns>
-        public ActionResult StockSetting(Guid schoolId)
-        {
-            ViewBag.SchoolId = schoolId;
-            return View();
-        }
-
         public JsonResult GetTreeData(Guid schoolId)
         {
             var allItem = SchoolConfigService.GetAllList().ToList();
@@ -205,6 +194,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
                             }).ToList();
             return Json(listtree, JsonRequestBehavior.AllowGet);
         }
+
+        #region 收费策略
 
         /// <summary>
         /// 通用费用策略列表
@@ -252,5 +243,66 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             var ret = ChargeStrategyService.Delete(id);
             return Json(ret);
         }
+
+        #endregion
+
+        #region 库存设置
+
+        /// <summary>
+        /// 库存设置
+        /// </summary>
+        /// <param name="schoolId">schoolId</param>
+        /// <returns></returns>
+        public ActionResult StockSetting(Guid schoolId)
+        {
+            ViewBag.SchoolId = schoolId;
+            return View();
+        }
+
+        /// <summary>
+        /// 库存设置列表
+        /// </summary>
+        /// <returns></returns>
+        public string StockSettingList(StockSettingSearchDto req)
+        {
+            var data = StockSettingService.GetList(req);
+            return data.ToJson();
+        }
+
+        /// <summary>
+        /// 保存库存设置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult SaveStockSetting(StockSettingDto dto)
+        {
+            dto.UserId = this.UserId;
+            dto.UserName = this.UserUser;
+            ResultMsg msg = null;
+            if (dto.StockSettingId.HasValue == true)
+            {
+                msg = StockSettingService.Update(dto);
+            }
+            else
+            {
+                msg = StockSettingService.Add(dto);
+            }
+            return Json(msg);
+        }
+
+        /// <summary>
+        /// 删除库存设置
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteStockSetting(Guid id)
+        {
+            var ret = StockSettingService.Delete(id);
+            return Json(ret);
+        }
+        #endregion
     }
 }

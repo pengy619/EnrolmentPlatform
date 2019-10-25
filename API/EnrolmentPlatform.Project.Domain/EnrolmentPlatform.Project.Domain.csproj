@@ -62,6 +62,7 @@
     <Compile Include="Entities\Basics\T_ChargeStrategy.cs" />
     <Compile Include="Entities\Basics\T_Metadata.cs" />
     <Compile Include="Entities\Basics\T_SchoolLevelMajor.cs" />
+    <Compile Include="Entities\Basics\T_StockSetting.cs" />
     <Compile Include="Entities\Orders\T_Exam.cs" />
     <Compile Include="Entities\Orders\T_ExamInfo.cs" />
     <Compile Include="Entities\Orders\T_Order.cs" />

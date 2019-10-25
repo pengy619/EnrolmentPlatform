@@ -52,6 +52,7 @@
     <Compile Include="Basics\IT_ChargeStrategyService.cs" />
     <Compile Include="Basics\IT_SchoolLevelMajorService.cs" />
     <Compile Include="Basics\IT_MetadataService.cs" />
+    <Compile Include="Basics\IT_StockSettingService.cs" />
     <Compile Include="IBaseService.cs" />
     <Compile Include="Orders\IT_ExamService.cs" />
     <Compile Include="Orders\IT_OrderApprovalService.cs" />

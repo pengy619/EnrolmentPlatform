@@ -55,6 +55,7 @@
     <Compile Include="Basics\MetadataDto.cs" />
     <Compile Include="Basics\SchoolConfigDto.cs" />
     <Compile Include="Basics\SchoolItemDto.cs" />
+    <Compile Include="Basics\StockSettingDto.cs" />
     <Compile Include="Enums\Article\ArticleStatusEnum.cs" />
     <Compile Include="Enums\Basics\MetadataTypeEnum.cs" />
     <Compile Include="Enums\File\FileClassifyEnum.cs" />

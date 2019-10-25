@@ -51,6 +51,7 @@
     <Compile Include="Basics\IT_SchoolLevelMajorRepository.cs" />
     <Compile Include="Basics\IT_MetadataRepository.cs" />
     <Compile Include="Basics\IT_ChargeStrategyRepository.cs" />
+    <Compile Include="Basics\IT_StockSettingRepository.cs" />
     <Compile Include="IBaseRepository.cs" />
     <Compile Include="IDbContextFactory.cs" />
     <Compile Include="Orders\IT_ExamInfoRepository.cs" />
