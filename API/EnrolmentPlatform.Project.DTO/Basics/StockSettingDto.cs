@@ -47,6 +47,28 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         public DateTime EndDate { get; set; }
 
         /// <summary>
+        /// 开始时间Str
+        /// </summary>		
+        public string StartDateStr
+        {
+            get
+            {
+                return this.StartDate.ToString("yyyy-MM-dd");
+            }
+        }
+
+        /// <summary>
+        /// 截止时间Str
+        /// </summary>		
+        public string EndDateStr
+        {
+            get
+            {
+                return this.EndDate.ToString("yyyy-MM-dd");
+            }
+        }
+
+        /// <summary>
         /// 库存
         /// </summary>		
         public int Inventory { get; set; }
