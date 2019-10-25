@@ -123,7 +123,7 @@
                         dataType: 'json',
                         data: { id: data.StockSettingId },
                         success: function (result) {
-                            if (result == true) {
+                            if (result.IsSuccess) {
                                 table.reload('chargetable');
                             }
                             else {
