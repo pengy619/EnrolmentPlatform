@@ -31,7 +31,7 @@
     </div>
 </div>
 <form class="layui-form margin-top-20" id="from_Add" style="display:none;">
-    <input type="hidden" id="StockSettingId " name="StockSettingId" value="">
+    <input type="hidden" id="StockSettingId" name="StockSettingId" value="">
     <input type="hidden" id="SchoolId" name="SchoolId" value="@ViewBag.SchoolId">
     <input type="hidden" id="LevelId" name="LevelId" value="">
     <input type="hidden" id="MajorId" name="MajorId" value="">
@@ -164,7 +164,6 @@
                 });
                 return false;
             }
-            alert(JSON.stringify(data.field));
             $.ajax({
                 url: '@Url.Action("SaveStockSetting", "Metadata")',
                 type: 'post',
