@@ -32,41 +32,19 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         public Guid MajorId { set; get; }
 
         /// <summary>
+        /// 批次ID
+        /// </summary>
+        public Guid BatchId { set; get; }
+
+        /// <summary>
+        /// 批次名称
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
         /// 策略名称
         /// </summary>		
         public string Name { get; set; }
-
-        /// <summary>
-        /// 开始时间
-        /// </summary>		
-        public DateTime StartDate { get; set; }
-
-        /// <summary>
-        /// 截止时间
-        /// </summary>		
-        public DateTime EndDate { get; set; }
-
-        /// <summary>
-        /// 开始时间Str
-        /// </summary>		
-        public string StartDateStr
-        {
-            get
-            {
-                return this.StartDate.ToString("yyyy-MM-dd");
-            }
-        }
-
-        /// <summary>
-        /// 截止时间Str
-        /// </summary>		
-        public string EndDateStr
-        {
-            get
-            {
-                return this.EndDate.ToString("yyyy-MM-dd");
-            }
-        }
 
         /// <summary>
         /// 库存
@@ -119,5 +97,97 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 专业ID
         /// </summary>
         public Guid MajorId { set; get; }
+    }
+
+    /// <summary>
+    /// 库存查询Dto
+    /// </summary>
+    public class StockListSearchDto : GridDataRequest
+    {
+        /// <summary>
+        /// 学校名称
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 层次名称
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 专业名称
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
+        /// 批次名称
+        /// </summary>
+        public string BatchName { set; get; }
+    }
+
+    /// <summary>
+    /// 库存设置DTO
+    /// </summary>
+    public class StockListDto
+    {
+        /// <summary>
+        /// 库存ID
+        /// </summary>		
+        public Guid? StockSettingId { get; set; }
+
+        /// <summary>
+        /// 学校Id
+        /// </summary>		
+        public Guid SchoolId { get; set; }
+
+        /// <summary>
+        /// 学校名称
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 层次ID
+        /// </summary>
+        public Guid LevelId { set; get; }
+
+        /// <summary>
+        /// 层次名称
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 专业ID
+        /// </summary>
+        public Guid MajorId { set; get; }
+
+        /// <summary>
+        /// 专业名称
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
+        /// 批次名称
+        /// </summary>
+        public Guid BatchId { set; get; }
+
+        /// <summary>
+        /// 批次名称
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
+        /// 策略名称
+        /// </summary>		
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 库存
+        /// </summary>		
+        public int Inventory { get; set; }
+
+        /// <summary>
+        /// 已用库存
+        /// </summary>		
+        public int UsedInventory { get; set; }
     }
 }
