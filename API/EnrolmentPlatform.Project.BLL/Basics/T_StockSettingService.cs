@@ -63,7 +63,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         {
             //检查时间段是否有重复
             var exisitCount = this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
-                 && ((a.StartDate >= dto.StartDate && a.StartDate <= dto.EndDate) || (a.EndDate >= dto.StartDate && a.EndDate <= dto.EndDate)))
+                 && ((dto.StartDate >= a.StartDate && dto.StartDate <= a.EndDate) || (dto.EndDate >= a.StartDate && dto.EndDate <= a.EndDate)))
                  .Count();
             if (exisitCount > 0)
             {
@@ -101,7 +101,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         {
             //检查时间段是否有重复
             var exisitCount = this.stockSettingRepository.LoadEntities(a =>a.Id!=dto.StockSettingId &&  a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
-                 && ((a.StartDate >= dto.StartDate && a.StartDate <= dto.EndDate) || (a.EndDate >= dto.StartDate && a.EndDate <= dto.EndDate)))
+                 && ((dto.StartDate >= a.StartDate && dto.StartDate <= a.EndDate) || (dto.EndDate >= a.StartDate && dto.EndDate <= a.EndDate)))
                  .Count();
             if (exisitCount > 0)
             {
