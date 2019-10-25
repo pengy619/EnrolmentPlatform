@@ -38,6 +38,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                         join b in this.metadataRepository.LoadEntities(a => true) on a.SchoolId equals b.Id
                         join c in this.metadataRepository.LoadEntities(a => true) on a.LevelId equals c.Id
                         join d in this.metadataRepository.LoadEntities(a => true) on a.MajorId equals d.Id
+                        join e in this.metadataRepository.LoadEntities(a => true) on a.BatchId equals e.Id
                         select new StockListDto()
                         {
                             SchoolId = a.SchoolId,
@@ -46,6 +47,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                             SchoolName = b.Name,
                             LevelName = c.Name,
                             MajorName = d.Name,
+                            BatchName = e.Name,
+                            BatchId =a.BatchId,
                             Name = a.Name,
                             StockSettingId = a.Id,
                             UsedInventory = a.UsedInventory,
