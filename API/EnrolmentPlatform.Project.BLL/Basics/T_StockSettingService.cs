@@ -61,6 +61,16 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <returns></returns>
         public ResultMsg Add(StockSettingDto dto)
         {
+            //检查时间段是否有重复
+            var exisitCount = this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
+                 && ((a.StartDate >= dto.StartDate && a.StartDate <= dto.EndDate) || (a.EndDate >= dto.StartDate && a.EndDate <= dto.EndDate)))
+                 .Count();
+            if (exisitCount > 0)
+            {
+                return new ResultMsg() { IsSuccess = false, Info = "该时间段有重复！" };
+            }
+
+            //新增
             ResultMsg result = new ResultMsg();
             result.IsSuccess = this.stockSettingRepository.AddEntity(new Domain.Entities.T_StockSetting()
             {
@@ -89,12 +99,24 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <returns></returns>
         public ResultMsg Update(StockSettingDto dto)
         {
-            ResultMsg result = new ResultMsg();
+            //检查时间段是否有重复
+            var exisitCount = this.stockSettingRepository.LoadEntities(a =>a.Id!=dto.StockSettingId &&  a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
+                 && ((a.StartDate >= dto.StartDate && a.StartDate <= dto.EndDate) || (a.EndDate >= dto.StartDate && a.EndDate <= dto.EndDate)))
+                 .Count();
+            if (exisitCount > 0)
+            {
+                return new ResultMsg() { IsSuccess = false, Info = "该时间段有重复！" };
+            }
+
+            //查找需要修改的库存设置信息
             var stockSetting = this.stockSettingRepository.FindEntityById(dto.StockSettingId.Value);
             if (stockSetting == null)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "找不到库存设置信息。" };
             }
+
+            //修改
+            ResultMsg result = new ResultMsg();
             stockSetting.LastModifyUserId = dto.UserId;
             stockSetting.LastModifyTime = DateTime.Now;
             stockSetting.Name = dto.Name;
@@ -141,7 +163,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Delete(Guid stockId)
         {
             ResultMsg result = new ResultMsg();
-            var stockSetting = this.stockSettingRepository.FindEntityById(dto.StockSettingId);
+            var stockSetting = this.stockSettingRepository.FindEntityById(stockId);
             if (stockSetting == null)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "找不到库存设置信息。" };
