@@ -32,22 +32,16 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         public Guid MajorId { set; get; }
 
         /// <summary>
+        /// 批次ID
+        /// </summary>
+        [DataMember]
+        public Guid BatchId { set; get; }
+
+        /// <summary>
         /// 策略名称
         /// </summary>		
         [DataMember]
         public string Name { get; set; }
-
-        /// <summary>
-        /// 开始时间
-        /// </summary>		
-        [DataMember]
-        public DateTime StartDate { get; set; }
-
-        /// <summary>
-        /// 截止时间
-        /// </summary>		
-        [DataMember]
-        public DateTime EndDate { get; set; }
 
         /// <summary>
         /// 库存

@@ -514,9 +514,8 @@ CREATE TABLE [dbo].[T_StockSetting](
 	[SchoolId] [uniqueidentifier] NOT NULL,
 	[LevelId] [uniqueidentifier] NOT NULL,
 	[MajorId] [uniqueidentifier] NOT NULL,
+	[BatchId] [uniqueidentifier] NOT NULL,
 	[Name] [nvarchar](100) not NULL,
-	[StartDate] [datetime] not NULL,
-	[EndDate] [datetime] not NULL,
 	[Inventory] [int] not NULL,
 	[UsedInventory] [int] not NULL,
 

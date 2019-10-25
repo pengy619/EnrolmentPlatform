@@ -18,38 +18,90 @@ namespace EnrolmentPlatform.Project.BLL.Basics
     public class T_StockSettingService : IT_StockSettingService, IInterceptorLogic
     {
         private IT_StockSettingRepository stockSettingRepository;
+        private IT_MetadataRepository metadataRepository;
 
         public T_StockSettingService()
         {
             this.stockSettingRepository = DIContainer.Resolve<IT_StockSettingRepository>();
+            this.metadataRepository = DIContainer.Resolve<IT_MetadataRepository>();
         }
 
         /// <summary>
-        /// 获得列表
+        /// 获得库存列表
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public GridDataResponse GetStockList(StockListSearchDto dto)
+        {
+            GridDataResponse grd = new GridDataResponse();
+            var query = from a in this.stockSettingRepository.LoadEntities(a => true)
+                        join b in this.metadataRepository.LoadEntities(a => true) on a.SchoolId equals b.Id
+                        join c in this.metadataRepository.LoadEntities(a => true) on a.LevelId equals c.Id
+                        join d in this.metadataRepository.LoadEntities(a => true) on a.MajorId equals d.Id
+                        select new StockListDto()
+                        {
+                            SchoolId = a.SchoolId,
+                            LevelId = a.LevelId,
+                            MajorId = a.MajorId,
+                            SchoolName = b.Name,
+                            LevelName = c.Name,
+                            MajorName = d.Name,
+                            Name = a.Name,
+                            StockSettingId = a.Id,
+                            UsedInventory = a.UsedInventory,
+                            Inventory = a.Inventory,
+                        };
+
+            if (!string.IsNullOrWhiteSpace(dto.SchoolName))
+            {
+                query = query.Where(a => a.SchoolName.Contains(dto.SchoolName));
+            }
+            if (!string.IsNullOrWhiteSpace(dto.LevelName))
+            {
+                query = query.Where(a => a.LevelName.Contains(dto.LevelName));
+            }
+            if (!string.IsNullOrWhiteSpace(dto.MajorName))
+            {
+                query = query.Where(a => a.MajorName.Contains(dto.MajorName));
+            }
+
+            grd.Count = query.Count();
+            if (grd.Count > 0)
+            {
+                grd.Data = query.OrderBy(a => a.BatchName).Skip((dto.Page - 1) * dto.Limit).Take(dto.Limit).ToList();
+            }
+            return grd;
+        }
+
+        /// <summary>
+        /// 获得库存设置列表
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
         public GridDataResponse GetList(StockSettingSearchDto dto)
         {
             GridDataResponse grd = new GridDataResponse();
-            var query = this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId
-              && a.LevelId == dto.LevelId
-              && a.MajorId == dto.MajorId);
+            var query = from a in this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId)
+                        join b in this.metadataRepository.LoadEntities(a => true) on a.BatchId equals b.Id
+                        select new StockSettingDto()
+                        {
+                            StockSettingId = a.Id,
+                            BatchId = a.BatchId,
+                            BatchName = b.Name,
+                            LevelId = a.LevelId,
+                            MajorId = a.MajorId,
+                            SchoolId = a.SchoolId,
+                            UserId = a.CreatorUserId,
+                            UserName = a.CreatorAccount,
+                            Name = a.Name,
+                            Inventory = a.Inventory,
+                            UsedInventory = a.UsedInventory
+                        };
+
             grd.Count = query.Count();
             if (grd.Count > 0)
             {
-                grd.Data = query.Select(a => new StockSettingDto()
-                {
-                    StockSettingId = a.Id,
-                    StartDate = a.StartDate,
-                    EndDate = a.EndDate,
-                    LevelId = a.LevelId,
-                    MajorId = a.MajorId,
-                    SchoolId = a.SchoolId,
-                    Name = a.Name,
-                    Inventory = a.Inventory,
-                    UsedInventory = a.UsedInventory
-                }).OrderBy(a => a.StartDate).Skip((dto.Page - 1) * dto.Limit).Take(dto.Limit).ToList();
+                grd.Data = query.OrderBy(a => a.BatchName).Skip((dto.Page - 1) * dto.Limit).Take(dto.Limit).ToList();
             }
             return grd;
         }
@@ -62,8 +114,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Add(StockSettingDto dto)
         {
             //检查时间段是否有重复
-            var exisitCount = this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
-                 && ((dto.StartDate >= a.StartDate && dto.StartDate <= a.EndDate) || (dto.EndDate >= a.StartDate && dto.EndDate <= a.EndDate)))
+            var exisitCount = this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId)
                  .Count();
             if (exisitCount > 0)
             {
@@ -78,8 +129,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 Name = dto.Name,
                 Inventory = dto.Inventory,
                 UsedInventory = 0,
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
+                BatchId = dto.BatchId,
                 SchoolId = dto.SchoolId,
                 LevelId = dto.LevelId,
                 MajorId = dto.MajorId,
@@ -100,9 +150,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Update(StockSettingDto dto)
         {
             //检查时间段是否有重复
-            var exisitCount = this.stockSettingRepository.LoadEntities(a =>a.Id!=dto.StockSettingId &&  a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
-                 && ((dto.StartDate >= a.StartDate && dto.StartDate <= a.EndDate) || (dto.EndDate >= a.StartDate && dto.EndDate <= a.EndDate)))
-                 .Count();
+            var exisitCount = this.stockSettingRepository.LoadEntities(a =>a.Id!=dto.StockSettingId &&  a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId).Count();
             if (exisitCount > 0)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "该时间段有重复！" };
@@ -120,8 +168,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
             stockSetting.LastModifyUserId = dto.UserId;
             stockSetting.LastModifyTime = DateTime.Now;
             stockSetting.Name = dto.Name;
-            stockSetting.StartDate = dto.StartDate;
-            stockSetting.EndDate = dto.EndDate;
+            stockSetting.BatchId = dto.BatchId;
             stockSetting.Inventory = dto.Inventory;
             result.IsSuccess = this.stockSettingRepository.UpdateEntity(stockSetting) > 0;
             return result;
@@ -142,8 +189,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
             return new StockSettingDto()
             {
                 StockSettingId = stockSetting.Id,
-                StartDate = stockSetting.StartDate,
-                EndDate = stockSetting.EndDate,
+                BatchId=stockSetting.BatchId,
                 LevelId = stockSetting.LevelId,
                 MajorId = stockSetting.MajorId,
                 SchoolId = stockSetting.SchoolId,
