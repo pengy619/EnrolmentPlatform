@@ -117,8 +117,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Add(StockSettingDto dto)
         {
             //检查时间段是否有重复
-            var exisitCount = this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId)
-                 .Count();
+            var exisitCount = this.stockSettingRepository.LoadEntities(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId
+                && a.BatchId == dto.BatchId).Count();
             if (exisitCount > 0)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "该时间段有重复！" };
@@ -153,7 +153,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Update(StockSettingDto dto)
         {
             //检查时间段是否有重复
-            var exisitCount = this.stockSettingRepository.LoadEntities(a =>a.Id!=dto.StockSettingId &&  a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId).Count();
+            var exisitCount = this.stockSettingRepository.LoadEntities(a => a.Id != dto.StockSettingId && a.SchoolId == dto.SchoolId
+                && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId && a.BatchId == dto.BatchId).Count();
             if (exisitCount > 0)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "该时间段有重复！" };

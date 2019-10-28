@@ -90,9 +90,9 @@
                 , url: url
                 , page: true //开启分页
                 , cols: [[ //标题栏
-                    { title: '专业库存列表', colspan: 6 } //rowspan即纵向跨越的单元格数
+                    { title: '专业库存列表', colspan: 5 } //rowspan即纵向跨越的单元格数
                 ], [ //标题栏
-                    { field: 'Name', width: 177, title: '库存名称' }
+                    { field: 'Name', width: 282, title: '库存名称' }
                     , { field: 'BatchName', width: 102, title: '批次名称' }
                     , { field: 'Inventory', width: 90, title: '库存数量' }
                     , { field: 'UsedInventory', width: 90, title: '已用库存' }
@@ -136,6 +136,7 @@
                 $("#UsedInventory").text(data.UsedInventory);
                 $("#LevelId").val(data.LevelId);
                 $("#MajorId").val(data.MajorId);
+                form.render();
                 layer.open({
                     type: 1
                     , area: ['380px', '460px']
