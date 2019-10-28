@@ -288,6 +288,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             dto.UserId = this.UserId;
             dto.UserName = this.UserUser;
             ResultMsg msg = null;
+            if (dto.BatchId == Guid.Empty||dto.SchoolId==Guid.Empty || dto.LevelId==Guid.Empty|| dto.MajorId==Guid.Empty)
+            {
+                return Json(new ResultMsg() { IsSuccess=false, Info = "数据错误。" });
+            }
             if (dto.StockSettingId.HasValue == true)
             {
                 msg = StockSettingService.Update(dto);

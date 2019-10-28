@@ -148,13 +148,6 @@
 
         //提交表单
         form.on('submit(save)', function (data) {
-            if (Date.parse(data.field.StartDate) > Date.parse(data.field.EndDate)) {
-                layer.msg("开始时间不能大于截至时间", {
-                    icon: 2,
-                    time: 1200
-                });
-                return false;
-            }
             data.field.BatchName = $("#BatchId").find("option:selected").text();
             $.ajax({
                 url: '@Url.Action("SaveStockSetting", "Metadata")',
