@@ -256,6 +256,13 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         public ActionResult StockSetting(Guid schoolId)
         {
             ViewBag.SchoolId = schoolId;
+            var res = MetadataService.GetPagedList(new MetadataSearchDto()
+            {
+                Type = MetadataTypeEnum.Batch,
+                Limit = Int32.MaxValue,
+                Page = 1
+            });
+            ViewBag.BatchList = (List<MetadataDto>)res.Data;
             return View();
         }
 

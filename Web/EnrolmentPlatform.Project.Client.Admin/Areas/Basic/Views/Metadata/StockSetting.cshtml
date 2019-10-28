@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "设置招生库存";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> institutionList = ViewBag.InstitutionList;
+    List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> batchList = ViewBag.BatchList;
 }
 <link href="~/Content/website/js/jsTree/style.min.css" rel="stylesheet" />
 <script src="~/Content/website/js/jsTree/jstree.min.js"></script>
@@ -42,15 +42,15 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">开始时间：</label>
+        <label class="layui-form-label">报名批次：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="StartDate" name="StartDate" lay-verify="required">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">截至时间：</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="EndDate" name="EndDate" lay-verify="required">
+            <select id="BatchId" name="BatchId" lay-filter="BatchId" lay-search>
+                <option value=""></option>
+                @foreach (var item in batchList)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
@@ -80,16 +80,7 @@
     layui.use(['table', 'jquery', 'laydate', "form"], function () {
         var table = layui.table;
         var $ = layui.$;
-        var laydate = layui.laydate;
         var form = layui.form;
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#StartDate' //指定元素
-        });
-        laydate.render({
-            elem: '#EndDate' //指定元素
-        });
 
         //实例表格
         function RenderTable(levelId, majorId) {
@@ -100,10 +91,9 @@
                 , page: true //开启分页
                 , cols: [[ //标题栏
                     { title: '专业库存列表', colspan: 6 } //rowspan即纵向跨越的单元格数
-                    ], [ //标题栏
-                     { field: 'Name', width: 177, title: '库存名称' }
-                    , { field: 'StartDateStr', width: 102, title: '开始时间' }
-                    , { field: 'EndDateStr', width: 102, title: '截至时间' }
+                ], [ //标题栏
+                    { field: 'Name', width: 177, title: '库存名称' }
+                    , { field: 'BatchName', width: 102, title: '批次名称' }
                     , { field: 'Inventory', width: 90, title: '库存数量' }
                     , { field: 'UsedInventory', width: 90, title: '已用库存' }
                     , { title: '操作', width: 120, templet: '#operat' }
@@ -139,10 +129,9 @@
                 });
             }
             if (obj.event === 'edit') {
-                $("#Name ").val(data.Name);
+                $("#Name").val(data.Name);
                 $("#StockSettingId ").val(data.StockSettingId);
-                $("#EndDate").val(data.EndDateStr);
-                $("#StartDate").val(data.StartDateStr);
+                $("#BatchId").val(data.BatchId);
                 $("#Inventory").val(data.Inventory);
                 $("#UsedInventory").text(data.UsedInventory);
                 $("#LevelId").val(data.LevelId);
@@ -165,6 +154,7 @@
                 });
                 return false;
             }
+            data.field.BatchName = $("#BatchId").find("option:selected").text();
             $.ajax({
                 url: '@Url.Action("SaveStockSetting", "Metadata")',
                 type: 'post',
@@ -208,8 +198,7 @@
                             $("#MajorId").val(obj.li_attr.itemId);
                             $("#StockSettingId ").val("");
                             $("#Name ").val("");
-                            $("#EndDate").val("");
-                            $("#StartDate").val("");
+                            $("#BatchId").val("");
                             $("#Inventory").val("");
                             $("#UsedInventory").text("0");
                             layer.open({
