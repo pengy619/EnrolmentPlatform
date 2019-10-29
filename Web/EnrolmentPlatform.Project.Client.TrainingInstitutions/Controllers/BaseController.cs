@@ -171,6 +171,11 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
         /// </summary>
         public static IT_OrderApprovalService OrderApprovalService = DIContainer.Resolve<IT_OrderApprovalService>();
 
+        /// <summary>
+        /// 库存设置接口
+        /// </summary>
+        public static IT_StockSettingService StockSettingService = DIContainer.Resolve<IT_StockSettingService>();
+
         #endregion
 
         #region NPOI模板导出

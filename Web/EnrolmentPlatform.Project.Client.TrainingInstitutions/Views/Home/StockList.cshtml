@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "剩余库存列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">学校名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="SchoolName" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">层次名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="LevelName" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">专业名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="MajorName" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">批次名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="BatchName" autocomplete="off" class="layui-input">
+                    </div>
+                    <button type="button" class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="exam-table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', 'layer'], function () {
+        var table = layui.table;
+
+        //实例表格
+        var tableOptions = {
+            elem: '#exam-table'
+            , url: '@Url.Action("StockList", "Home")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { type: 'numbers', title: '序号' }
+                , { field: 'SchoolName', title: '学校名称' }
+                , { field: 'LevelName', title: '层次名称' }
+                , { field: 'MajorName', title: '专业名称' }
+                , { field: 'BatchName', title: '批次名称' }
+                , { field: 'Inventory', title: '库存数量' }
+                , { field: 'UsedInventory', title: '已用库存' }
+                , { field: 'ResidueInventory', title: '剩余库存' }
+                , { field: 'ResiduePercent', title: '剩余百分比' }
+            ]]
+        }
+        table.render(tableOptions);
+
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('exam-table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        SchoolName: $('#SchoolName').val(),
+                        LevelName: $('#LevelName').val(),
+                        MajorName: $('#MajorName').val(),
+                        BatchName: $('#BatchName').val(),
+                    }
+                });
+            }
+        };
+
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
