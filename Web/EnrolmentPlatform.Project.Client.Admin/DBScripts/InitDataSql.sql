@@ -535,3 +535,7 @@ CREATE TABLE [dbo].[T_StockSetting](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+
+--2019-10-29新增库存菜单
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'65afd0b6-8df7-4cd8-815e-6386b9f7392c', N'剩余库存列表', 3, N'', N'Home', N'StockList', NULL, 5, N'd4c204c9-f9d6-4aa8-bd64-110aae1e8fac', 2, N'icon-zhanghuzichan');
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'73abe294-94d1-436a-a690-7e2179ae90df', N'获得库存信息', 4, N'', N'Home', N'StockList', NULL, 5, N'65afd0b6-8df7-4cd8-815e-6386b9f7392c', 1, NULL);
