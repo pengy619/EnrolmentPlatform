@@ -15,6 +15,13 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
     public interface IT_StockSettingService
     {
         /// <summary>
+        /// 获得库存列表
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        GridDataResponse GetStockList(StockListSearchDto dto);
+
+        /// <summary>
         /// 获得列表
         /// </summary>
         /// <param name="dto">dto</param>

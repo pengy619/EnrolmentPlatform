@@ -67,6 +67,10 @@ namespace EnrolmentPlatform.Project.BLL.Basics
             {
                 query = query.Where(a => a.MajorName.Contains(dto.MajorName));
             }
+            if (!string.IsNullOrWhiteSpace(dto.BatchName))
+            {
+                query = query.Where(a => a.BatchName.Contains(dto.BatchName));
+            }
 
             grd.Count = query.Count();
             if (grd.Count > 0)
