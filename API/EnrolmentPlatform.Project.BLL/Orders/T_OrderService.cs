@@ -9,6 +9,7 @@ using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.IBLL.Orders;
 using EnrolmentPlatform.Project.IDAL;
+using EnrolmentPlatform.Project.IDAL.Basics;
 using EnrolmentPlatform.Project.IDAL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 
@@ -19,6 +20,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         private IT_OrderRepository orderRepository;
         private IT_OrderImageRepository orderImageRepository;
         private IT_OrderAmountRepository orderAmountRepository;
+        private IT_StockSettingRepository stockSettingRepository;
         protected IDbContextFactory _dbContextFactory;
 
         public T_OrderService()
@@ -26,6 +28,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
             this.orderImageRepository = DIContainer.Resolve<IT_OrderImageRepository>();
             this.orderAmountRepository = DIContainer.Resolve<IT_OrderAmountRepository>();
+            this.stockSettingRepository = DIContainer.Resolve<IT_StockSettingRepository>();
             this._dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
         }
 
@@ -294,7 +297,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
-        public bool SubmitOrder(SubmitOrderDto dto)
+        public ResultMsg SubmitOrder(SubmitOrderDto dto)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -308,16 +311,32 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         if (entity == null ||
                             (entity.Status != (int)OrderStatusEnum.Init && entity.Status != (int)OrderStatusEnum.Reject))
                         {
-                            break;
+                            throw new Exception("提交的订单数据错误。");
                         }
+
+                        //校验同一批次重复录入
                         var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.Id != entity.Id && a.BatchId == entity.BatchId && a.SchoolId == entity.SchoolId && a.IDCardNo == entity.IDCardNo
                         && a.Status != (int)OrderStatusEnum.LeaveSchool && a.Status != (int)OrderStatusEnum.Init && a.Status != (int)OrderStatusEnum.Reject) > 0;
                         if (exisit == true)
                         {
                             //同一批次重复录入
-                            return false;
+                            throw new Exception(entity.StudentName + "订单的批次录入重复。");
                         }
 
+                        //校验是否有库存
+                        var stock = this.stockSettingRepository.LoadEntities(a => a.SchoolId == entity.SchoolId && a.LevelId == entity.LevelId
+                          && a.MajorId == entity.MajorId && a.BatchId == entity.BatchId).FirstOrDefault();
+                        if (stock == null || stock.UsedInventory >= stock.Inventory)
+                        {
+                            throw new Exception(entity.StudentName + "订单的没有库存。");
+                        }
+
+                        //1.修改库存
+                        stock.UsedInventory = stock.UsedInventory + 1;
+                        stock.LastModifyTime = DateTime.Now;
+                        this.stockSettingRepository.UpdateEntity(stock);
+
+                        //2.修改报名单状态
                         entity.Status = (int)OrderStatusEnum.Enroll;
                         entity.EnrollTime = DateTime.Now;
                         entity.LastModifyTime = DateTime.Now;
@@ -326,12 +345,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     }
 
                     tran.Commit();
-                    return true;
+                    return new ResultMsg() { IsSuccess = true };
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    return false;
+                    return new ResultMsg() { IsSuccess = false, Info = ex.Message };
                 }
             }
         }
@@ -360,6 +379,20 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             break;
                         }
 
+                        //库存处理
+                        var stock = this.stockSettingRepository.LoadEntities(a => a.SchoolId == entity.SchoolId && a.LevelId == entity.LevelId
+                          && a.MajorId == entity.MajorId && a.BatchId == entity.BatchId).FirstOrDefault();
+
+                        //如果有库存
+                        if (stock != null)
+                        {
+                            //需要修改已用库存
+                            stock.UsedInventory = stock.UsedInventory - 1;
+                            stock.LastModifyTime = DateTime.Now;
+                            this.stockSettingRepository.UpdateEntity(stock);
+                        }
+
+                        //修改订单状态
                         entity.Status = (int)OrderStatusEnum.Reject;
                         entity.ToLearningCenterId = null;
                         entity.LastModifyTime = DateTime.Now;
