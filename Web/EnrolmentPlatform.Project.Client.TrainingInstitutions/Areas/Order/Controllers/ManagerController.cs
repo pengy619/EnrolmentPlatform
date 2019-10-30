@@ -344,7 +344,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                         dto.GraduationTime = row.GetCell(20).DateCellValue;
                     }
                     dto.CreateUserName = row.GetCell(21).ToString().Trim();
-                    dto.Remark = row.GetCell(22).ToString().Trim();
+                    if (row.GetCell(22) != null)
+                    {
+                        dto.Remark = row.GetCell(22).ToString().Trim();
+                    }
 
                     if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
                         && string.IsNullOrWhiteSpace(dto.Phone) && string.IsNullOrWhiteSpace(dto.TencentNo)
