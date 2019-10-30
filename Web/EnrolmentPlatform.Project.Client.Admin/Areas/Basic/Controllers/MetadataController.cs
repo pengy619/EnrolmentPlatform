@@ -315,5 +315,19 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             return Json(ret);
         }
         #endregion
+
+        #region 自定义字段设置
+
+        /// <summary>
+        /// 自定义字段
+        /// </summary>
+        /// <param name="schoolId">schoolId</param>
+        /// <returns></returns>
+        public ActionResult CustomerField(Guid schoolId)
+        {
+            return View();
+        }
+
+        #endregion
     }
 }
