@@ -187,7 +187,29 @@ namespace EnrolmentPlatform.Project.DTO.Basics
 
         /// <summary>
         /// 已用库存
-        /// </summary>		
+        /// </summary>
         public int UsedInventory { get; set; }
+
+        /// <summary>
+        /// 剩余库存
+        /// </summary>
+        public int ResidueInventory
+        {
+            get
+            {
+                return this.Inventory - this.UsedInventory;
+            }
+        }
+
+        /// <summary>
+        /// 剩余百分比
+        /// </summary>
+        public string ResiduePercent
+        {
+            get
+            {
+                return ((Convert.ToDecimal(this.ResidueInventory) / Convert.ToDecimal(this.Inventory)) * 100).ToString("0.00") + "%";
+            }
+        }
     }
 }

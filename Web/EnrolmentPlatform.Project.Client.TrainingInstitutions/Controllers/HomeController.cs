@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 using EnrolmentPlatform.Project.DTO.Enums;
 using EnrolmentPlatform.Project.DTO.Enums.Systems;
+using EnrolmentPlatform.Project.DTO.Basics;
 
 namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
 {
@@ -52,6 +53,31 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
         {
             var dto = ArticleService.GetArticleById(id);
             return View(dto);
+        }
+
+        #endregion
+
+        #region 库存列表
+
+        /// <summary>
+        /// 剩余库存列表
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public ActionResult StockList(StockListSearchDto dto)
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 获得库存信息
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public string GetStockList(StockListSearchDto dto)
+        {
+            var res = StockSettingService.GetStockList(dto);
+            return res.ToJson();
         }
 
         #endregion

@@ -213,13 +213,13 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             dto.UserId = this.UserId;
             var ret = OrderService.SubmitOrder(dto);
-            if (ret == true)
+            if (ret.IsSuccess)
             {
                 return Json(new { ret = 1 });
             }
             else
             {
-                return Json(new { ret = 0, msg = "报名失败。" });
+                return Json(new { ret = 0, msg = ret.Info });
             }
         }
 

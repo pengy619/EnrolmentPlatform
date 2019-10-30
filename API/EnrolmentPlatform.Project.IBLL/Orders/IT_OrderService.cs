@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EnrolmentPlatform.Project.DTO.Orders;
+using EnrolmentPlatform.Project.Infrastructure;
 
 namespace EnrolmentPlatform.Project.IBLL.Orders
 {
@@ -63,7 +64,7 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
-        bool SubmitOrder(SubmitOrderDto dto);
+        ResultMsg SubmitOrder(SubmitOrderDto dto);
 
         /// <summary>
         /// 拒绝
