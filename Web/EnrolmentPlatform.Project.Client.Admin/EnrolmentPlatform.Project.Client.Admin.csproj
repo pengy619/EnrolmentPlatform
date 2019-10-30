@@ -741,6 +741,7 @@
     <Content Include="Areas\Order\Views\OrderUpdateApproval\OrderImageInfo.cshtml" />
     <Content Include="Areas\Order\Views\OrderUpdateApproval\OrderInfo.cshtml" />
     <Content Include="Areas\Basic\Views\Metadata\StockSetting.cshtml" />
+    <Content Include="Areas\Basic\Views\Metadata\CustomerField.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />

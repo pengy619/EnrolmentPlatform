@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "自定义字段";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-wrap">
+    <div class="layui-form">
+        <div class="panel">
+            <div class="panel-title">
+                基础信息
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">字段名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="EnterpriseName" autocomplete="off" class="layui-input" lay-verify="required" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item required">
+                        <label class="layui-form-label">字段类型</label>
+                        <div class="layui-input-inline">
+                            <select id="CustomerFieldType" name="CustomerFieldType" lay-verify="required">
+                                <option value=""></option>
+                                <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Text)">文本</option>
+                                <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)">选择框</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item required" id="divSelectItems">
+                        <label class="layui-form-label">字段选项</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="SelectItems" name="SelectItems" autocomplete="off" class="layui-input" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-title">
+                其它信息
+            </div>
+            <div class="panel-body">
+                <div class="layui-form">
+                    <table id="FieldTable" lay-filter="field"></table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+            <a href="@Url.Action("SchoolManage", "Metadata")" class="layui-btn layui-btn-primary">取消</a>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidSchoolId" value="@ViewBag.SchoolId" />
+<script type="text/javascript">
+    layui.use(['table', 'jquery', 'laydate', "form"], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        var form = layui.form;
+
+        //选择机构
+        form.on("select(institution)", function (data) {
+            if (data.value != "") {
+                $("#divCenterCharge").addClass("layui-hide");
+                $("#CenterCharge").removeAttr("lay-verify");
+                $("#CenterCharge").val("");
+            } else {
+                $("#divCenterCharge").removeClass("layui-hide");
+                $("#CenterCharge").attr("lay-verify", "required|number");
+            }
+        });
+
+        //提交表单
+        form.on('submit(save)', function (data) {
+
+        });
+    });
+</script>

@@ -57,6 +57,7 @@
     <Compile Include="Basics\SchoolItemDto.cs" />
     <Compile Include="Basics\StockSettingDto.cs" />
     <Compile Include="Enums\Article\ArticleStatusEnum.cs" />
+    <Compile Include="Enums\Basics\CustomerFieldTypeEnum.cs" />
     <Compile Include="Enums\Basics\MetadataTypeEnum.cs" />
     <Compile Include="Enums\File\FileClassifyEnum.cs" />
     <Compile Include="Enums\Orders\OrderImageStatusEnum.cs" />

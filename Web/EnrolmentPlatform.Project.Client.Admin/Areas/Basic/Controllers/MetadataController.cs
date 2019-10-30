@@ -325,6 +325,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         /// <returns></returns>
         public ActionResult CustomerField(Guid schoolId)
         {
+            ViewBag.SchoolId = schoolId;
             return View();
         }
 

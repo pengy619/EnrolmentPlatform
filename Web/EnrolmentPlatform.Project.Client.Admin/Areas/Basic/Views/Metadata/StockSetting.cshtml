@@ -44,7 +44,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">报名批次：</label>
         <div class="layui-input-inline">
-            <select id="BatchId" name="BatchId" lay-filter="BatchId" lay-search>
+            <select id="BatchId" name="BatchId" lay-filter="BatchId" lay-search lay-verify="required">
                 <option value=""></option>
                 @foreach (var item in batchList)
                 {
