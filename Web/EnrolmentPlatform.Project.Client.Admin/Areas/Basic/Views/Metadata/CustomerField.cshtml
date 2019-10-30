@@ -19,17 +19,18 @@
                     <div class="layui-form-item required">
                         <label class="layui-form-label">字段类型</label>
                         <div class="layui-input-inline">
-                            <select id="CustomerFieldType" name="CustomerFieldType" lay-verify="required">
+                            <select id="CustomerFieldType" name="CustomerFieldType" lay-filter="CustomerFieldType"  lay-verify="required">
                                 <option value=""></option>
                                 <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Text)">文本</option>
                                 <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)">选择框</option>
                             </select>
                         </div>
                     </div>
-                    <div class="layui-form-item required" id="divSelectItems">
+                    <div class="layui-form-item required" id="divSelectItems" style="display:none;">
                         <label class="layui-form-label">字段选项</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="SelectItems" name="SelectItems" autocomplete="off" class="layui-input" value="">
+                            <textarea name="SelectItems" id="SelectItems" placeholder="请输入内容" class="layui-textarea"></textarea>
+                            每个选项请用|分割，如：男|女
                         </div>
                     </div>
                 </div>
@@ -59,15 +60,16 @@
         var form = layui.form;
 
         //选择机构
-        form.on("select(institution)", function (data) {
-            if (data.value != "") {
-                $("#divCenterCharge").addClass("layui-hide");
-                $("#CenterCharge").removeAttr("lay-verify");
-                $("#CenterCharge").val("");
-            } else {
-                $("#divCenterCharge").removeClass("layui-hide");
-                $("#CenterCharge").attr("lay-verify", "required|number");
+        form.on("select(CustomerFieldType)", function (data) {
+            if (data.value == "@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)") {
+                $("#divSelectItems").show();
+                $("#SelectItems").attr("lay-verify", "required");
             }
+            else {
+                $("#divSelectItems").hide();
+                $("#SelectItems").removeAttr("lay-verify");
+            }
+            form.render();
         });
 
         //提交表单
