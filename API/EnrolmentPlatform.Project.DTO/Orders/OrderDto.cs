@@ -820,6 +820,21 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string GongZuoDanWei { set; get; }
 
         /// <summary>
+        /// 所读专业
+        /// </summary>
+        public string SuoDuZhuanYe { get; set; }
+
+        /// <summary>
+        /// 是否电大毕业
+        /// </summary>
+        public string IsTvUniversity { get; set; }
+
+        /// <summary>
+        /// 毕业时间
+        /// </summary>
+        public DateTime? GraduationTime { get; set; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         public string Remark { set; get; }
@@ -976,5 +991,23 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 报读专业
         /// </summary>
         public string MajorName { set; get; }
+    }
+
+    /// <summary>
+    /// 机构订单导入DTO
+    /// </summary>
+    public class JiGouOrderUploadDto
+    {
+        public List<OrderUploadDto> OrderUploadList { get; set; }
+
+        /// <summary>
+        /// 机构Id
+        /// </summary>
+        public Guid FromChannelId { set; get; }
+
+        /// <summary>
+        /// 创建用户Id
+        /// </summary>
+        public Guid CreatorUserId { set; get; }
     }
 }

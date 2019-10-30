@@ -1186,5 +1186,176 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             dbContext.SaveChanges();
             return "";
         }
+
+        /// <summary>
+        /// 机构上传报名单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public string JiGouUpload(JiGouOrderUploadDto dto)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var mdata = dbContext.T_Metadata.ToList();
+            //所有批次
+            var batchList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Batch).ToList();
+            //所有学校
+            var schoolList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.School).ToList();
+            //所有层次
+            var levelList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Level).ToList();
+            //所有专业
+            var majorList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Major).ToList();
+
+            //数据新增
+            List<T_Order> orderList = new List<T_Order>();
+            List<T_OrderAmount> orderAmountList = new List<T_OrderAmount>();
+            for (int i = 0; i < dto.OrderUploadList.Count; i++)
+            {
+                var item = dto.OrderUploadList[i];
+                var batch = batchList.FirstOrDefault(a => a.Name == item.BatchName);
+                if (batch == null) { return "第" + (i + 1).ToString() + "行的批次在系统不存在！"; }
+
+                var school = schoolList.FirstOrDefault(a => a.Name == item.SchoolName);
+                if (school == null) { return "第" + (i + 1).ToString() + "行的学校在系统不存在！"; }
+
+                var majar = majorList.FirstOrDefault(a => a.Name == item.MajorName);
+                if (majar == null) { return "第" + (i + 1).ToString() + "行的专业在系统不存在！"; }
+
+                var level = levelList.FirstOrDefault(a => a.Name == item.LevelName);
+                if (level == null) { return "第" + (i + 1).ToString() + "行的层次在系统不存在！"; }
+
+                //价格策略检查
+                var nowDate = item.CreateDate ?? DateTime.Now;
+                var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == school.Id && a.LevelId == level.Id
+                && a.MajorId == majar.Id && a.InstitutionId == Guid.Empty
+                && nowDate >= a.StartDate && nowDate <= a.EndDate);
+                if (chargeStrategy == null)
+                {
+                    //找不到当前时间段的价格策略
+                    return "第" + (i + 1).ToString() + "行的报名时间匹配不到价格策略！"; ;
+                }
+
+                #region 新增数据处理
+
+                T_Order order = new T_Order()
+                {
+                    Id = Guid.NewGuid(),
+                    BatchId = batch.Id,
+                    AllOrderImageUpload = false,
+                    AllQuDaoAmountPayed = false,
+                    AllZSZhongXinAmountPayed = false,
+                    Email = item.Email,
+                    StudentName = item.StudentName,
+                    IDCardNo = item.IDCardNo,
+                    Phone = item.Phone,
+                    TencentNo = item.TencentNo,
+                    SchoolId = school.Id,
+                    LevelId = level.Id,
+                    MajorId = majar.Id,
+                    Remark = item.Remark,
+                    Status = (int)OrderStatusEnum.Init,
+                    FromTypeName = "机构",
+                    FromChannelId = dto.FromChannelId,
+                    CreatorAccount = item.CreateUserName,
+                    CreatorTime = nowDate,
+                    CreatorUserId = dto.CreatorUserId,
+                    DeleteTime = DateTime.MaxValue,
+                    DeleteUserId = Guid.Empty,
+                    IsDelete = false,
+                    LastModifyTime = DateTime.Now,
+                    LastModifyUserId = Guid.Empty,
+                    Unix = DateTime.Now.ConvertDateTimeInt(),
+                    Address = item.Address,
+                    BiYeZhengBianHao = item.BiYeZhengBianHao,
+                    GongZuoDanWei = item.GongZuoDanWei,
+                    GraduateSchool = item.GraduateSchool,
+                    HighesDegree = item.HighesDegree,
+                    JiGuan = item.JiGuan,
+                    MinZu = item.MinZu,
+                    Sex = item.Sex,
+                    Native = item.JiGuan,
+                    WorkUnit = item.GongZuoDanWei,
+                    EnrollAddress = item.Address,
+                    SuoDuZhuanYe = item.SuoDuZhuanYe,
+                    IsTvUniversity = item.IsTvUniversity == "是" ? true : false,
+                    GraduationTime = item.GraduationTime
+                };
+
+                var exisit = dbContext.T_Order.Count(a => a.IsDelete == false && a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
+            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+                if (exisit == true)
+                {
+                    //同一批次重复录入
+                    return "第" + (i + 1).ToString() + "行的数据重复录入！";
+                }
+
+                var exisit2 = orderList.Count(a => a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo) > 0;
+                if (exisit2 == true)
+                {
+                    //同一批次重复录入
+                    return "第" + (i + 1).ToString() + "行的数据重复录入！";
+                }
+
+                orderList.Add(order);
+                
+                //添加订单（招生机构）金额数据
+                var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == school.Id && a.LevelId == level.Id
+                && a.MajorId == majar.Id && a.InstitutionId == dto.FromChannelId
+                && nowDate >= a.StartDate && nowDate <= a.EndDate);
+                T_OrderAmount jgAmount = new T_OrderAmount()
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = order.Id,
+                    TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge, //如果机构未设置费用策略则取通用的
+                    ApprovalAmount = 0,
+                    PayedAmount = 0,
+                    PaymentSource = 1,
+                    CreatorAccount = item.CreateUserName,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = dto.CreatorUserId,
+                    DeleteTime = DateTime.MaxValue,
+                    DeleteUserId = Guid.Empty,
+                    IsDelete = false,
+                    LastModifyTime = DateTime.Now,
+                    LastModifyUserId = dto.CreatorUserId,
+                    Unix = DateTime.Now.ConvertDateTimeInt()
+                };
+
+                orderAmountList.Add(jgAmount);
+
+                #endregion
+            }
+
+            //新增订单
+            foreach (var item in orderList)
+            {
+                dbContext.T_Order.Add(item);
+
+                //添加订单图片数据
+                dbContext.T_OrderImage.Add(new T_OrderImage()
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = item.Id,
+                    CreatorAccount = item.UserName,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = item.CreatorUserId,
+                    DeleteTime = DateTime.MaxValue,
+                    DeleteUserId = Guid.Empty,
+                    IsDelete = false,
+                    LastModifyTime = DateTime.Now,
+                    LastModifyUserId = item.CreatorUserId,
+                    Unix = DateTime.Now.ConvertDateTimeInt()
+                });
+            }
+
+            //新增订单金额
+            foreach (var item in orderAmountList)
+            {
+                dbContext.T_OrderAmount.Add(item);
+            }
+
+            dbContext.LogChangesDuringSave = false;
+            dbContext.SaveChanges();
+            return "";
+        }
     }
 }

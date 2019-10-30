@@ -232,5 +232,12 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="list">报名单列表</param>
         /// <returns></returns>
         string AuditUpload(List<OrderAuditUploadDto> list);
+
+        /// <summary>
+        /// 机构上传报名单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        string JiGouUpload(JiGouOrderUploadDto dto);
     }
 }

@@ -278,5 +278,126 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             }
             return Json(new { ret = true });
         }
+
+        /// <summary>
+        /// 导入报名单
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        public JsonResult Upload(HttpPostedFileBase file)
+        {
+            //没有文件
+            if (string.IsNullOrWhiteSpace(file.FileName))
+            {
+                return Json(new { ret = false, msg = "请上传文件！" });
+            }
+
+            string strFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+            //验证是否是.xls文件
+            if (strFileExtension != ".xls" && strFileExtension != ".xlsx")
+            {
+                return Json(new { ret = false, msg = "文件格式错误！" });
+            }
+
+            //上传的excel文件
+            IWorkbook hssfworkbook = WorkbookFactory.Create(file.InputStream);
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
+            if (sheet.LastRowNum < 1)
+            {
+                return Json(new { ret = false, msg = "没有任何数据！" });
+            }
+
+            //订单上传数据
+            List<OrderUploadDto> list = new List<OrderUploadDto>();
+            for (var i = 1; i <= sheet.LastRowNum; i++)
+            {
+                try
+                {
+                    IRow row = sheet.GetRow(i);
+                    OrderUploadDto dto = new OrderUploadDto();
+                    dto.StudentName = row.GetCell(0).ToString().Trim();
+                    dto.IDCardNo = row.GetCell(1).ToString().Trim();
+                    dto.Phone = row.GetCell(2).ToString().Trim();
+                    dto.TencentNo = row.GetCell(3).ToString().Trim();
+                    dto.Email = row.GetCell(4).ToString().Trim();
+                    dto.BatchName = row.GetCell(5).ToString().Trim();
+                    dto.SchoolName = row.GetCell(6).ToString().Trim();
+                    dto.LevelName = row.GetCell(7).ToString().Trim();
+                    dto.MajorName = row.GetCell(8).ToString().Trim();
+                    if (row.GetCell(9) != null && !string.IsNullOrEmpty(row.GetCell(9).ToString()))
+                    {
+                        dto.CreateDate = row.GetCell(9).DateCellValue;
+                    }
+                    dto.Sex = row.GetCell(10).ToString().Trim();
+                    dto.MinZu = row.GetCell(11).ToString().Trim();
+                    dto.JiGuan = row.GetCell(12).ToString().Trim();
+                    dto.HighesDegree = row.GetCell(13).ToString().Trim();
+                    dto.SuoDuZhuanYe = row.GetCell(14).ToString().Trim();
+                    dto.GraduateSchool = row.GetCell(15).ToString().Trim();
+                    dto.BiYeZhengBianHao = row.GetCell(16).ToString().Trim();
+                    dto.Address = row.GetCell(17).ToString().Trim();
+                    dto.GongZuoDanWei = row.GetCell(18).ToString().Trim();
+                    dto.IsTvUniversity = row.GetCell(19).ToString().Trim();
+                    if (row.GetCell(20) != null && !string.IsNullOrEmpty(row.GetCell(20).ToString()))
+                    {
+                        dto.GraduationTime = row.GetCell(20).DateCellValue;
+                    }
+                    dto.CreateUserName = row.GetCell(21).ToString().Trim();
+                    dto.Remark = row.GetCell(22).ToString().Trim();
+
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
+                        && string.IsNullOrWhiteSpace(dto.Phone) && string.IsNullOrWhiteSpace(dto.TencentNo)
+                        && string.IsNullOrWhiteSpace(dto.Email) && string.IsNullOrWhiteSpace(dto.BatchName)
+                        && string.IsNullOrWhiteSpace(dto.SchoolName) && string.IsNullOrWhiteSpace(dto.LevelName)
+                        && string.IsNullOrWhiteSpace(dto.MajorName)
+                        && string.IsNullOrWhiteSpace(dto.Sex) && string.IsNullOrWhiteSpace(dto.MinZu)
+                        && string.IsNullOrWhiteSpace(dto.JiGuan) && string.IsNullOrWhiteSpace(dto.HighesDegree)
+                        && string.IsNullOrWhiteSpace(dto.GraduateSchool) && string.IsNullOrWhiteSpace(dto.BiYeZhengBianHao)
+                        && string.IsNullOrWhiteSpace(dto.Address) && string.IsNullOrWhiteSpace(dto.GongZuoDanWei))
+                    {
+                        continue;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) || string.IsNullOrWhiteSpace(dto.IDCardNo)
+                        || string.IsNullOrWhiteSpace(dto.Phone) || string.IsNullOrWhiteSpace(dto.TencentNo)
+                        || string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.BatchName)
+                        || string.IsNullOrWhiteSpace(dto.SchoolName) || string.IsNullOrWhiteSpace(dto.LevelName)
+                        || string.IsNullOrWhiteSpace(dto.MajorName)
+                        || string.IsNullOrWhiteSpace(dto.Sex) || string.IsNullOrWhiteSpace(dto.MinZu)
+                        || string.IsNullOrWhiteSpace(dto.JiGuan) || string.IsNullOrWhiteSpace(dto.HighesDegree)
+                        || string.IsNullOrWhiteSpace(dto.GraduateSchool) || string.IsNullOrWhiteSpace(dto.BiYeZhengBianHao)
+                        || string.IsNullOrWhiteSpace(dto.Address) || string.IsNullOrWhiteSpace(dto.GongZuoDanWei))
+                    {
+                        return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据填写不完整！" });
+                    }
+
+                    //如果没有填写招生老师（主账号取机构名,子账号取用户名）
+                    if (string.IsNullOrWhiteSpace(dto.CreateUserName))
+                    {
+                        dto.CreateUserName = this.IsMaster ? this.EnterpriseName : this.UserName;
+                    }
+
+                    list.Add(dto);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据错误！" });
+                }
+            }
+
+            string msg = OrderService.JiGouUpload(new JiGouOrderUploadDto
+            {
+                OrderUploadList = list,
+                FromChannelId = this.EnterpriseId,
+                CreatorUserId = this.UserId
+            });
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                return Json(new { ret = false, msg = msg });
+            }
+
+            return Json(new { ret = true });
+        }
     }
 }

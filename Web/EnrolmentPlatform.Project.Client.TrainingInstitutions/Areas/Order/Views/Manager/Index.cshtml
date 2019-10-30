@@ -83,7 +83,9 @@
                 <a href="@Url.Action("Option","Manager",new { area="Order"})" class="layui-btn layui-btn-normal">新增</a>
                 <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="sb">提交</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="d">删除</button>
-                <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出</button></a>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="upload">订单导入</button>
+                <a href="javascript:exportOpreation();" id="export" class="layui-btn layui-btn-primary">导出</a>
+                <a href="/Temp/student.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;">导入模板下载</a>
             </div>
         </div>
         <div class="panel-body">
@@ -95,6 +97,18 @@
 <div id="audit-btn-modal" style="display:none;">
     <div class="layui-form big-label" style="width:795px; height:250px;overflow-y:auto;overflow-x:hidden;">
         <table class="layui-hide" id="Tb_LogSettingForTable"></table>
+    </div>
+</div>
+<!-- 导入报名单 -->
+<div id="audit-btn-modalupload" style="display:none;">
+    <div class="layui-form">
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">文件</label>
+            <div class="layui-input-inline">
+                <input type="file" name="uploadFile" id="uploadFile" style="width:200px;" />
+            </div>
+            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadConfirm">确定</button>
+        </div>
     </div>
 </div>
 <script type="text/html" id="tableTool">
@@ -305,6 +319,65 @@
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: getSearchData()
+            });
+        });
+
+        //报名单导入
+        var orderuploadIndex = 0;
+        form.on('submit(upload)', function (data) {
+            orderuploadIndex = layer.open({
+                type: 1,
+                title: "导入报名单",
+                area: ["450px", "200px"],
+                content: $('#audit-btn-modalupload'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+        form.on('submit(uploadConfirm)', function (data) {
+            //上传文件检查
+            if ($("#uploadFile").val() == "") {
+                layer.msg("请选择上传文件！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            var file = document.getElementById("uploadFile").files[0];
+            var fdata = new FormData();
+            fdata.append("file", file);
+            $.ajax({
+                url: "@Url.Action("Upload", "Manager")",
+                data: fdata,
+                type: "POST",
+                async: false,
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    if (data.ret == false) {
+                        layer.msg(data.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                    else {
+                        layer.msg("导入成功！", {
+                            icon: 1,
+                            time: 2000
+                        });
+                        layer.close(orderuploadIndex);
+                        table.reload("table");
+                    }
+                },
+                error: function (e) {
+                    layer.msg("导入失败！", {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
             });
         });
     });

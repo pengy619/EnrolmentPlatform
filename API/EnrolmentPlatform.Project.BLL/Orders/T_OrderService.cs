@@ -871,5 +871,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             return orderRepository.AuditUpload(list);
         }
+
+        /// <summary>
+        /// 机构上传报名单
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public string JiGouUpload(JiGouOrderUploadDto dto)
+        {
+            return orderRepository.JiGouUpload(dto);
+        }
     }
 }
