@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.Entity.Core.Objects;
 using System.Collections.Generic;
 using EnrolmentPlatform.Project.Domain.Entities.Orders;
+using EnrolmentPlatform.Project.Domain.Entities.Basics;
 
 namespace EnrolmentPlatform.Project.Domain.EFContext
 {
@@ -34,6 +35,7 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
         public DbSet<T_SchoolLevelMajor> T_SchoolLevelMajor { get; set; }
         public DbSet<T_ChargeStrategy> T_ChargeStrategy { set; get; }
         public DbSet<T_StockSetting> T_StockSetting { set; get; }
+        public DbSet<T_CustomerField> T_CustomerField { set; get; }
 
         //新闻公告
         public DbSet<T_Article> T_Article { get; set; }

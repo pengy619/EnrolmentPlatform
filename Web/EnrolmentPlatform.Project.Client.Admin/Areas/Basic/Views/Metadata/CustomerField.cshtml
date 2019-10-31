@@ -97,7 +97,7 @@
         form.on('submit(save)', function (data) {
             data.field.Id = $("#hidId").val();
             $.ajax({
-                url: '@Url.Action("SaveStockSetting", "Metadata")',
+                url: '@Url.Action("SaveCustomerField", "Metadata")',
                 type: 'post',
                 data: data.field,
                 dataType: "json",
