@@ -341,6 +341,51 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 自定义字段列表
+        /// </summary>
+        /// <returns></returns>
+        public string CustomerFieldList(GetAllListSearchDto req)
+        {
+            var data = CustomerFieldService.GetList(req);
+            return data.ToJson();
+        }
+
+        /// <summary>
+        /// 删除自定义字段
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteCustomerField(Guid id)
+        {
+            var ret = CustomerFieldService.Delete(id);
+            return Json(ret);
+        }
+
+        /// <summary>
+        /// 保存自定义字段
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult SaveCustomerField(CustomerFieldDto dto)
+        {
+            dto.UserId = this.UserId;
+            dto.UserName = this.UserUser;
+            ResultMsg msg = null;
+            if (dto.Id.HasValue == true)
+            {
+                msg = CustomerFieldService.Update(dto);
+            }
+            else
+            {
+                msg = CustomerFieldService.Add(dto);
+            }
+            return Json(msg);
+        }
+
         #endregion
     }
 }

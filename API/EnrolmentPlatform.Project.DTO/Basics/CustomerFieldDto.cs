@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EnrolmentPlatform.Project.DTO.Enums;
+using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +32,17 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 自定义字段类型CustomerFieldTypeEnum
         /// </summary>
         public int CustomerFieldType { set; get; }
+
+        /// <summary>
+        /// 自定义字段类型名称
+        /// </summary>
+        public string CustomerFieldTypeName
+        {
+            get
+            {
+                return EnumDescriptionHelper.GetDescription((CustomerFieldTypeEnum)this.CustomerFieldType);
+            }
+        }
 
         /// <summary>
         /// 字段选项选项用|分割
