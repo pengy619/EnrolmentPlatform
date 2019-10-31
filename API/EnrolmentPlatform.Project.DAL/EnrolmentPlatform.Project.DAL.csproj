@@ -73,6 +73,7 @@
     <Compile Include="Articles\T_ArticleCategoryRepository.cs" />
     <Compile Include="Articles\T_ArticleRepository.cs" />
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="Basics\T_CustomerFieldRepository.cs" />
     <Compile Include="Basics\T_SchoolLevelMajorRepository.cs" />
     <Compile Include="Basics\T_MetadataRepository.cs" />
     <Compile Include="Basics\T_ChargeStrategyRepository.cs" />

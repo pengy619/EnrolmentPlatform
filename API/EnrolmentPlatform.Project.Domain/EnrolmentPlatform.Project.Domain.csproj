@@ -60,6 +60,7 @@
     <Compile Include="Entities\Articles\T_Article.cs" />
     <Compile Include="Entities\Articles\T_ArticleCategory.cs" />
     <Compile Include="Entities\Basics\T_ChargeStrategy.cs" />
+    <Compile Include="Entities\Basics\T_CustomerField.cs" />
     <Compile Include="Entities\Basics\T_Metadata.cs" />
     <Compile Include="Entities\Basics\T_SchoolLevelMajor.cs" />
     <Compile Include="Entities\Basics\T_StockSetting.cs" />

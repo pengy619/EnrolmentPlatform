@@ -65,6 +65,7 @@
     <Compile Include="Articles\T_ArticleService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Basics\T_ChargeStrategyService.cs" />
+    <Compile Include="Basics\T_CustomerFieldService.cs" />
     <Compile Include="Basics\T_SchoolLevelMajorService.cs" />
     <Compile Include="Basics\T_MetadataService.cs" />
     <Compile Include="Basics\T_StockSettingService.cs" />
