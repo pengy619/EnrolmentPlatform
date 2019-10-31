@@ -434,7 +434,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         var entity = this.orderRepository.FindEntityById(item);
                         if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
                         {
-                            continue;
+                            return new ResultMsg() { IsSuccess = false, Info = "存在不能进行报送的订单。" };
                         }
 
                         //查找当前时间段的通用或学院中心收费策略

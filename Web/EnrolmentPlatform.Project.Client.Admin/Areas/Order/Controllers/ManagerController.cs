@@ -199,13 +199,13 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         public JsonResult ToLearningCenter(Guid[] ids, Guid learningCenterId)
         {
             var ret = OrderService.ToLearningCenter(ids.ToList(), learningCenterId, this.UserId);
-            if (ret == true)
+            if (ret.IsSuccess)
             {
                 return Json(new { ret = 1 });
             }
             else
             {
-                return Json(new { ret = 0, msg = "报送学院中心失败。" });
+                return Json(new { ret = 0, msg = ret.Info });
             }
         }
 
