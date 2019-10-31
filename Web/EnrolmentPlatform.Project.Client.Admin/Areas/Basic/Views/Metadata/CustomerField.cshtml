@@ -6,7 +6,7 @@
     <div class="layui-form">
         <div class="panel">
             <div class="panel-title">
-                基础信息
+                字段基础信息
             </div>
             <div class="panel-body">
                 <div class="layui-form">
@@ -19,7 +19,7 @@
                     <div class="layui-form-item required">
                         <label class="layui-form-label">字段类型</label>
                         <div class="layui-input-inline">
-                            <select id="CustomerFieldType" name="CustomerFieldType" lay-filter="CustomerFieldType"  lay-verify="required">
+                            <select id="CustomerFieldType" name="CustomerFieldType" lay-filter="CustomerFieldType" lay-verify="required">
                                 <option value=""></option>
                                 <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Text)">文本</option>
                                 <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)">选择框</option>
@@ -33,22 +33,22 @@
                             每个选项请用|分割，如：男|女
                         </div>
                     </div>
+                    <div class="layui-form-item" style="padding-left:110px;">
+                        <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+                        <a href="@Url.Action("SchoolManage", "Metadata")" class="layui-btn layui-btn-primary">取消</a>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel">
             <div class="panel-title">
-                其它信息
+                字段列表
             </div>
             <div class="panel-body">
                 <div class="layui-form">
                     <table id="FieldTable" lay-filter="field"></table>
                 </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
-            <a href="@Url.Action("SchoolManage", "Metadata")" class="layui-btn layui-btn-primary">取消</a>
         </div>
     </div>
 </div>

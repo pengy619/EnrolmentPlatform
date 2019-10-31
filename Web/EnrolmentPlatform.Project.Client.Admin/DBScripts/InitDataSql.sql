@@ -543,3 +543,29 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 
 --2019-10-30收费策略表增加学院中心Id
 alter table T_ChargeStrategy Add LearningCenterId uniqueidentifier not null default('00000000-0000-0000-0000-000000000000')
+
+--2019-10-31增加学校自定义字段表
+CREATE TABLE [dbo].[T_CustomerField](
+	[Id] [uniqueidentifier] NOT NULL,
+	[SchoolId] [uniqueidentifier] NOT NULL,
+	[Name] [varchar](200) NOT NULL,
+	[CustomerFieldType] [int] NOT NULL,
+	[SelectItems] [varchar](200) NULL,
+	[IsDelete] [bit] NOT NULL,
+	[CreatorTime] [datetime] NOT NULL,
+	[CreatorUserId] [uniqueidentifier] NOT NULL,
+	[CreatorAccount] [nvarchar](max) NULL,
+	[LastModifyTime] [datetime] NOT NULL,
+	[LastModifyUserId] [uniqueidentifier] NOT NULL,
+	[DeleteTime] [datetime] NOT NULL,
+	[DeleteUserId] [uniqueidentifier] NOT NULL,
+	[Unix] [bigint] NOT NULL,
+	[RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_dbo.T_CustomerField] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
