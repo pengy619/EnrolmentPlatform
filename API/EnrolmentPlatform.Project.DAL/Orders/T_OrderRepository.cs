@@ -26,17 +26,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         {
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
 
-            //价格策略检查
-            var nowDate = DateTime.Now.Date;
-            var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-            && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
-            && nowDate >= a.StartDate && nowDate <= a.EndDate);
-            if (chargeStrategy == null)
-            {
-                //找不到当前时间段的价格策略
-                return 2;
-            }
-
             #region 新增处理
 
             T_Order order = new T_Order()
@@ -99,29 +88,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 Unix = DateTime.Now.ConvertDateTimeInt()
             });
 
-            //添加订单（招生机构）金额数据
-            var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-            && a.MajorId == dto.MajorId && a.InstitutionId == dto.FromChannelId
-            && nowDate >= a.StartDate && nowDate <= a.EndDate);
-            dbContext.T_OrderAmount.Add(new T_OrderAmount()
-            {
-                Id = Guid.NewGuid(),
-                OrderId = order.Id,
-                TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge, //如果机构未设置费用策略则取通用的
-                ApprovalAmount = 0,
-                PayedAmount = 0,
-                PaymentSource = 1,
-                CreatorAccount = dto.UserName,
-                CreatorTime = DateTime.Now,
-                CreatorUserId = dto.UserId,
-                DeleteTime = DateTime.MaxValue,
-                DeleteUserId = Guid.Empty,
-                IsDelete = false,
-                LastModifyTime = DateTime.Now,
-                LastModifyUserId = dto.UserId,
-                Unix = DateTime.Now.ConvertDateTimeInt()
-            });
-
             dbContext.ModuleKey = order.Id.ToString();
             dbContext.LogChangesDuringSave = true;
             dbContext.BusinessName = "新增报名";
@@ -149,55 +115,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             //{
             //    return 3;
             //}
-
-            #region 如果修改了学校、层次、专业，需重新计算订单价格
-            if (dto.SchoolId != entity.SchoolId || dto.LevelId != entity.LevelId || dto.MajorId != entity.MajorId)
-            {
-                //价格策略检查
-                var nowDate = DateTime.Now.Date;
-                var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-                && a.MajorId == dto.MajorId && a.InstitutionId == Guid.Empty
-                && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                if (chargeStrategy == null)
-                {
-                    //找不到当前时间段的价格策略
-                    return 2;
-                }
-
-                //删除价格
-                var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == dto.OrderId.Value).ToList();
-                if (priceList != null && priceList.Count > 0)
-                {
-                    foreach (var item in priceList)
-                    {
-                        dbContext.T_OrderAmount.Remove(item);
-                    }
-                }
-
-                //添加订单（招生机构）金额数据
-                var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId
-                && a.MajorId == dto.MajorId && a.InstitutionId == entity.FromChannelId
-                && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                dbContext.T_OrderAmount.Add(new T_OrderAmount()
-                {
-                    Id = Guid.NewGuid(),
-                    OrderId = dto.OrderId.Value,
-                    TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge,
-                    ApprovalAmount = 0,
-                    PayedAmount = 0,
-                    PaymentSource = 1,
-                    CreatorAccount = dto.UserName,
-                    CreatorTime = DateTime.Now,
-                    CreatorUserId = dto.UserId,
-                    DeleteTime = DateTime.MaxValue,
-                    DeleteUserId = Guid.Empty,
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.UserId,
-                    Unix = DateTime.Now.ConvertDateTimeInt()
-                });
-            }
-            #endregion
 
             #region 更新订单信息
             entity.StudentName = dto.StudentName;
@@ -1167,7 +1084,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             //数据新增
             List<T_Order> orderList = new List<T_Order>();
-            List<T_OrderAmount> orderAmountList = new List<T_OrderAmount>();
             for (int i = 0; i < dto.OrderUploadList.Count; i++)
             {
                 var item = dto.OrderUploadList[i];
@@ -1182,17 +1098,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
                 var level = levelList.FirstOrDefault(a => a.Name == item.LevelName);
                 if (level == null) { return "第" + (i + 1).ToString() + "行的层次在系统不存在！"; }
-
-                //价格策略检查
-                var nowDate = item.CreateDate ?? DateTime.Now;
-                var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == school.Id && a.LevelId == level.Id
-                && a.MajorId == majar.Id && a.InstitutionId == Guid.Empty
-                && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                if (chargeStrategy == null)
-                {
-                    //找不到当前时间段的价格策略
-                    return "第" + (i + 1).ToString() + "行的报名时间匹配不到价格策略！"; ;
-                }
 
                 #region 新增数据处理
 
@@ -1216,7 +1121,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     FromTypeName = "机构",
                     FromChannelId = dto.FromChannelId,
                     CreatorAccount = item.CreateUserName,
-                    CreatorTime = nowDate,
+                    CreatorTime = item.CreateDate ?? DateTime.Now,
                     CreatorUserId = dto.CreatorUserId,
                     DeleteTime = DateTime.MaxValue,
                     DeleteUserId = Guid.Empty,
@@ -1256,31 +1161,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 }
 
                 orderList.Add(order);
-                
-                //添加订单（招生机构）金额数据
-                var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == school.Id && a.LevelId == level.Id
-                && a.MajorId == majar.Id && a.InstitutionId == dto.FromChannelId
-                && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                T_OrderAmount jgAmount = new T_OrderAmount()
-                {
-                    Id = Guid.NewGuid(),
-                    OrderId = order.Id,
-                    TotalAmount = insChargeStrategy == null ? chargeStrategy.InstitutionCharge : insChargeStrategy.InstitutionCharge, //如果机构未设置费用策略则取通用的
-                    ApprovalAmount = 0,
-                    PayedAmount = 0,
-                    PaymentSource = 1,
-                    CreatorAccount = item.CreateUserName,
-                    CreatorTime = DateTime.Now,
-                    CreatorUserId = dto.CreatorUserId,
-                    DeleteTime = DateTime.MaxValue,
-                    DeleteUserId = Guid.Empty,
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.CreatorUserId,
-                    Unix = DateTime.Now.ConvertDateTimeInt()
-                };
-
-                orderAmountList.Add(jgAmount);
 
                 #endregion
             }
@@ -1305,12 +1185,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     LastModifyUserId = item.CreatorUserId,
                     Unix = DateTime.Now.ConvertDateTimeInt()
                 });
-            }
-
-            //新增订单金额
-            foreach (var item in orderAmountList)
-            {
-                dbContext.T_OrderAmount.Add(item);
             }
 
             dbContext.LogChangesDuringSave = false;

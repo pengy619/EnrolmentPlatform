@@ -80,7 +80,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         {
             GridDataResponse res = new GridDataResponse();
             res.Data = this.chargeStrategyRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete
-            && t.SchoolId == req.SchoolId && t.LevelId == req.LevelId && t.MajorId == req.MajorId && t.InstitutionId == Guid.Empty,
+            && t.SchoolId == req.SchoolId && t.LevelId == req.LevelId && t.MajorId == req.MajorId && t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty,
                req.Field,
                req.Limit,
                req.Page,
