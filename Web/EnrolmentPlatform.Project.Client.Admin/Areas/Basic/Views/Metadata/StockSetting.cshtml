@@ -44,7 +44,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">报名批次：</label>
         <div class="layui-input-inline">
-            <select id="BatchId" name="BatchId" lay-filter="BatchId" lay-search>
+            <select id="BatchId" name="BatchId" lay-filter="BatchId" lay-search lay-verify="required">
                 <option value=""></option>
                 @foreach (var item in batchList)
                 {
@@ -59,12 +59,12 @@
             <input type="text" class="layui-input" id="Inventory" name="Inventory" lay-verify="required|number">
         </div>
     </div>
-    <div class="layui-form-item">
+    @*<div class="layui-form-item">
         <label class="layui-form-label">招生库存：</label>
         <div class="layui-input-inline">
             <span id="UsedInventory">0</span>
         </div>
-    </div>
+    </div>*@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-block">
@@ -90,12 +90,12 @@
                 , url: url
                 , page: true //开启分页
                 , cols: [[ //标题栏
-                    { title: '专业库存列表', colspan: 5 } //rowspan即纵向跨越的单元格数
+                    { title: '招生库存列表', colspan: 5 } //rowspan即纵向跨越的单元格数
                 ], [ //标题栏
-                    { field: 'Name', width: 282, title: '库存名称' }
+                    { field: 'Name', width: 250, title: '库存名称' }
                     , { field: 'BatchName', width: 102, title: '批次名称' }
                     , { field: 'Inventory', width: 90, title: '库存数量' }
-                    , { field: 'UsedInventory', width: 90, title: '已用库存' }
+                    , { field: 'UsedInventory', width: 120, title: '已招生数量' }
                     , { title: '操作', width: 120, templet: '#operat' }
                 ]]
             });
@@ -133,7 +133,7 @@
                 $("#StockSettingId ").val(data.StockSettingId);
                 $("#BatchId").val(data.BatchId);
                 $("#Inventory").val(data.Inventory);
-                $("#UsedInventory").text(data.UsedInventory);
+                //$("#UsedInventory").text(data.UsedInventory);
                 $("#LevelId").val(data.LevelId);
                 $("#MajorId").val(data.MajorId);
                 form.render();
@@ -194,7 +194,7 @@
                             $("#Name ").val("");
                             $("#BatchId").val("");
                             $("#Inventory").val("");
-                            $("#UsedInventory").text("0");
+                            //$("#UsedInventory").text("0");
                             form.render();
                             layer.open({
                                 type: 1
