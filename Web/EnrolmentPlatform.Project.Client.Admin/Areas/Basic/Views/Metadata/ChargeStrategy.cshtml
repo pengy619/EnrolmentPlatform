@@ -3,6 +3,7 @@
     ViewBag.Title = "设置费用策略";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> institutionList = ViewBag.InstitutionList;
+    List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> learningCenterList = ViewBag.LearningCenterList;
 }
 <link href="~/Content/website/js/jsTree/style.min.css" rel="stylesheet" />
 <script src="~/Content/website/js/jsTree/jstree.min.js"></script>
@@ -28,6 +29,7 @@
             <div class="layui-form margin-top-10" style="flex:1;" id="div_Content">
                 <table id="chargetable" lay-filter="charge"></table>
                 <table id="chargetable1" lay-filter="charge1"></table>
+                <table id="chargetable2" lay-filter="charge2"></table>
             </div>
         </div>
     </div>
@@ -49,6 +51,18 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">学院中心：</label>
+        <div class="layui-input-inline">
+            <select id="LearningCenterId" name="LearningCenterId" lay-filter="learningCenter" lay-search>
+                <option value=""></option>
+                @foreach (var item in learningCenterList)
+                {
+                    <option value="@item.SupplierId">@item.SupplierName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">策略名称：</label>
         <div class="layui-input-inline">
             <input type="text" class="layui-input" id="Name" name="Name" lay-verify="required" autocomplete="off">
@@ -57,25 +71,25 @@
     <div class="layui-form-item">
         <label class="layui-form-label">开始时间：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="StartDate" name="StartDate" lay-verify="required">
+            <input type="text" class="layui-input" id="StartDate" name="StartDate" lay-verify="required" autocomplete="off">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">截至时间：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="EndDate" name="EndDate" lay-verify="required">
+            <input type="text" class="layui-input" id="EndDate" name="EndDate" lay-verify="required" autocomplete="off">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item" id="divInsCharge">
         <label class="layui-form-label">机构费用：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="InstitutionCharge" name="InstitutionCharge" lay-verify="required|number">
+            <input type="text" class="layui-input" id="InstitutionCharge" name="InstitutionCharge" lay-verify="required|number" autocomplete="off">
         </div>
     </div>
     <div class="layui-form-item" id="divCenterCharge">
         <label class="layui-form-label">中心费用：</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="CenterCharge" name="CenterCharge" lay-verify="required|number">
+            <input type="text" class="layui-input" id="CenterCharge" name="CenterCharge" lay-verify="required|number" autocomplete="off">
         </div>
     </div>
     <div class="layui-form-item">
@@ -135,6 +149,21 @@
                     , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
                 ]]
             });
+            table.render({
+                elem: '#chargetable2'
+                , url: '@Url.Action("LearningCenterChargeList", "Metadata", new { schoolId = Model })&levelId=' + levelId + '&majorId=' + majorId
+                , page: true //开启分页
+                , cols: [[ //标题栏
+                    { title: '学院中心费用策略', colspan: 6 } //rowspan即纵向跨越的单元格数
+                ], [ //标题栏
+                    { field: 'LearningCenterName', title: '学院中心' }
+                    , { field: 'Name', title: '策略名称' }
+                    , { field: 'StartDateStr', title: '开始时间' }
+                    , { field: 'EndDateStr', title: '截至时间' }
+                    , { field: 'CenterCharge', title: '中心费用' }
+                    , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
+                ]]
+            });
         }
 
         //监听工具条
@@ -163,7 +192,7 @@
                     layer.close(index);
                 });
             }
-        })
+        });
         table.on('tool(charge1)', function (obj) {
             var data = obj.data;
             if (obj.event === 'delete') {
@@ -189,17 +218,63 @@
                     layer.close(index);
                 });
             }
-        })
+        });
+        table.on('tool(charge2)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('您确认要删除吗？', function (index) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteCharge", "Metadata")",
+                        type: 'post',
+                        async: false,
+                        dataType: 'json',
+                        data: { id: data.Id },
+                        success: function (result) {
+                            if (result == true) {
+                                table.reload('chargetable2');
+                            }
+                            else {
+                                layer.msg("删除失败！");
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+        });
 
         //选择机构
         form.on("select(institution)", function (data) {
             if (data.value != "") {
+                $("#LearningCenterId").val("");
+                form.render('select');
                 $("#divCenterCharge").addClass("layui-hide");
                 $("#CenterCharge").removeAttr("lay-verify");
                 $("#CenterCharge").val("");
+                $("#divInsCharge").removeClass("layui-hide");
+                $("#InstitutionCharge").attr("lay-verify", "required|number");
             } else {
                 $("#divCenterCharge").removeClass("layui-hide");
                 $("#CenterCharge").attr("lay-verify", "required|number");
+            }
+        });
+
+        //选择学院中心
+        form.on("select(learningCenter)", function (data) {
+            if (data.value != "") {
+                $("#InstitutionId").val("");
+                form.render('select');
+                $("#divInsCharge").addClass("layui-hide");
+                $("#InstitutionCharge").removeAttr("lay-verify");
+                $("#InstitutionCharge").val("");
+                $("#divCenterCharge").removeClass("layui-hide");
+                $("#CenterCharge").attr("lay-verify", "required|number");
+            } else {
+                $("#divInsCharge").removeClass("layui-hide");
+                $("#InstitutionCharge").attr("lay-verify", "required|number");
             }
         });
 
@@ -223,10 +298,12 @@
                             icon: 1,
                             time: 1200
                         }, function () {
-                            if ($("#InstitutionId").val() == "") {
-                                table.reload('chargetable');
-                            } else {
+                            if ($("#InstitutionId").val() != "") {
                                 table.reload('chargetable1');
+                            } else if ($("#LearningCenterId").val() != "") {
+                                table.reload('chargetable2');
+                            } else {
+                                table.reload('chargetable');
                             }
                             layer.closeAll();
                         });
@@ -259,7 +336,7 @@
                             $("#MajorId").val(obj.li_attr.itemId);
                             layer.open({
                                 type: 1
-                                , area: ['380px','460px']
+                                , area: ['380px','540px']
                                 , title: "费用设置"
                                 , content: $("#from_Add")
                             });

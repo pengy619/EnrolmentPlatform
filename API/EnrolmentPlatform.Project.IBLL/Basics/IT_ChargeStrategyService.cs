@@ -37,5 +37,12 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// <param name="req"></param>
         /// <returns></returns>
         GridDataResponse GetInstitutionPagedList(ChargeStrategySearchDto req);
+
+        /// <summary>
+        /// 获取学院中心费用策略分页列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        GridDataResponse GetLearningCenterPagedList(ChargeStrategySearchDto req);
     }
 }

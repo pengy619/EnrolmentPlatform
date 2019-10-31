@@ -473,8 +473,8 @@
             var arr = new Array(checkdata.length);
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
-                //已报名，待提交，被拒绝可以进行报送
-                if (parseInt(checkdata[i].Status) != 4 && parseInt(checkdata[i].Status) != 0 && parseInt(checkdata[i].Status) != 3) {
+                //已报名才可以进行报送
+                if (parseInt(checkdata[i].Status) != 4) {
                     canSubmit = false;
                 }
             }

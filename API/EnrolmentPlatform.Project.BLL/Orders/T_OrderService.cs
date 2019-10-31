@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EnrolmentPlatform.Project.Domain.Entities.Orders;
 using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.IBLL.Orders;
@@ -21,6 +22,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         private IT_OrderImageRepository orderImageRepository;
         private IT_OrderAmountRepository orderAmountRepository;
         private IT_StockSettingRepository stockSettingRepository;
+        private IT_ChargeStrategyRepository chargeStrategyRepository;
         protected IDbContextFactory _dbContextFactory;
 
         public T_OrderService()
@@ -29,6 +31,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             this.orderImageRepository = DIContainer.Resolve<IT_OrderImageRepository>();
             this.orderAmountRepository = DIContainer.Resolve<IT_OrderAmountRepository>();
             this.stockSettingRepository = DIContainer.Resolve<IT_StockSettingRepository>();
+            this.chargeStrategyRepository = DIContainer.Resolve<IT_ChargeStrategyRepository>();
             this._dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
         }
 
@@ -320,7 +323,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         if (exisit == true)
                         {
                             //同一批次重复录入
-                            throw new Exception(entity.StudentName + "订单的批次录入重复。");
+                            throw new Exception(entity.StudentName + "的订单批次录入重复。");
                         }
 
                         //校验是否有库存
@@ -328,7 +331,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                           && a.MajorId == entity.MajorId && a.BatchId == entity.BatchId).FirstOrDefault();
                         if (stock == null || stock.UsedInventory >= stock.Inventory)
                         {
-                            throw new Exception(entity.StudentName + "订单的没有库存。");
+                            throw new Exception(entity.StudentName + "的订单没有库存。");
                         }
 
                         //1.修改库存
@@ -418,7 +421,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <param name="toLearningCenterId">报送的学院中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        public bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
+        public ResultMsg ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -428,12 +431,41 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 {
                     foreach (var item in orderIdList)
                     {
-                        var entity = this.orderRepository.LoadEntities(a => a.Id == item).FirstOrDefault();
-                        if (entity == null ||
-                            (entity.FromChannelId.HasValue == true && entity.Status != (int)OrderStatusEnum.Enroll) ||
-                            (entity.FromChannelId.HasValue == false && entity.Status != (int)OrderStatusEnum.Init && entity.Status != (int)OrderStatusEnum.Reject))
+                        var entity = this.orderRepository.FindEntityById(item);
+                        if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
                         {
-                            break;
+                            continue;
+                        }
+
+                        //查找当前时间段的通用或学院中心收费策略
+                        var chargeStrategys = this.chargeStrategyRepository.LoadEntities(t => t.SchoolId == entity.SchoolId && t.LevelId == entity.LevelId
+                        && t.MajorId == entity.MajorId && ((t.LearningCenterId == Guid.Empty && t.InstitutionId == Guid.Empty) || t.LearningCenterId == toLearningCenterId)
+                        && DateTime.Now >= t.StartDate && DateTime.Now <= t.EndDate).ToList();
+                        if (chargeStrategys != null && chargeStrategys.Any())
+                        {
+                            //如果收费存在则删除
+                            if (this.orderAmountRepository.Count(t => t.OrderId == entity.Id && t.PaymentSource == 2) > 0)
+                            {
+                                this.orderAmountRepository.PhysicsDeleteBy(t => t.OrderId == entity.Id && t.PaymentSource == 2);
+                            }
+                            //添加订单（学院中心）金额数据
+                            var commonCharge = chargeStrategys.FirstOrDefault(t => t.LearningCenterId == Guid.Empty);
+                            var centerCharge = chargeStrategys.FirstOrDefault(t => t.LearningCenterId == toLearningCenterId);
+                            this.orderAmountRepository.AddEntity(new T_OrderAmount
+                            {
+                                Id = Guid.NewGuid(),
+                                OrderId = entity.Id,
+                                TotalAmount = centerCharge != null ? centerCharge.CenterCharge : commonCharge.CenterCharge,
+                                ApprovalAmount = 0,
+                                PayedAmount = 0,
+                                PaymentSource = 2,
+                                CreatorTime = DateTime.Now,
+                                CreatorUserId = userId
+                            });
+                        }
+                        else
+                        {
+                            return new ResultMsg() { IsSuccess = false, Info = entity.StudentName + "的订单匹配不到收费策略。" };
                         }
 
                         //已报送中心
@@ -446,12 +478,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     }
 
                     tran.Commit();
-                    return true;
+                    return new ResultMsg() { IsSuccess = true };
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    return false;
+                    return new ResultMsg() { IsSuccess = false, Info = ex.Message };
                 }
             }
         }

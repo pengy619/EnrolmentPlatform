@@ -90,6 +90,16 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 创建时间
         /// </summary>
         public DateTime CreatorTime { get; set; }
+
+        /// <summary>
+        /// 学院中心Id
+        /// </summary>
+        public Guid LearningCenterId { get; set; }
+
+        /// <summary>
+        /// 学院中心名称
+        /// </summary>
+        public string LearningCenterName { get; set; }
     }
 
     /// <summary>

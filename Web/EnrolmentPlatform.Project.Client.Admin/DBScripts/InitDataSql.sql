@@ -537,5 +537,9 @@ CREATE TABLE [dbo].[T_StockSetting](
 GO
 
 --2019-10-29新增库存菜单
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'a79c29ed-7933-40cf-b67c-b4cddfef0926', N'设置招生库存', 4, N'Basic', N'Metadata', N'StockSetting', NULL, 1, N'e22b5fb6-3e76-40c6-826a-bcfd48317dd7', 3, NULL)
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'65afd0b6-8df7-4cd8-815e-6386b9f7392c', N'剩余库存列表', 3, N'', N'Home', N'StockList', NULL, 5, N'd4c204c9-f9d6-4aa8-bd64-110aae1e8fac', 2, N'icon-zhanghuzichan');
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'73abe294-94d1-436a-a690-7e2179ae90df', N'获得库存信息', 4, N'', N'Home', N'StockList', NULL, 5, N'65afd0b6-8df7-4cd8-815e-6386b9f7392c', 1, NULL);
+
+--2019-10-30收费策略表增加学院中心Id
+alter table T_ChargeStrategy Add LearningCenterId uniqueidentifier not null default('00000000-0000-0000-0000-000000000000')

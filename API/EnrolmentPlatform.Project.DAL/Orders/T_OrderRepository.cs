@@ -122,26 +122,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 Unix = DateTime.Now.ConvertDateTimeInt()
             });
 
-            //添加订单（学院中心）金额数据
-            dbContext.T_OrderAmount.Add(new T_OrderAmount()
-            {
-                Id = Guid.NewGuid(),
-                OrderId = order.Id,
-                TotalAmount = chargeStrategy.CenterCharge,
-                ApprovalAmount = 0,
-                PayedAmount = 0,
-                PaymentSource = 2,
-                CreatorAccount = dto.UserName,
-                CreatorTime = DateTime.Now,
-                CreatorUserId = dto.UserId,
-                DeleteTime = DateTime.MaxValue,
-                DeleteUserId = Guid.Empty,
-                IsDelete = false,
-                LastModifyTime = DateTime.Now,
-                LastModifyUserId = dto.UserId,
-                Unix = DateTime.Now.ConvertDateTimeInt()
-            });
-
             dbContext.ModuleKey = order.Id.ToString();
             dbContext.LogChangesDuringSave = true;
             dbContext.BusinessName = "新增报名";
@@ -206,26 +186,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     ApprovalAmount = 0,
                     PayedAmount = 0,
                     PaymentSource = 1,
-                    CreatorAccount = dto.UserName,
-                    CreatorTime = DateTime.Now,
-                    CreatorUserId = dto.UserId,
-                    DeleteTime = DateTime.MaxValue,
-                    DeleteUserId = Guid.Empty,
-                    IsDelete = false,
-                    LastModifyTime = DateTime.Now,
-                    LastModifyUserId = dto.UserId,
-                    Unix = DateTime.Now.ConvertDateTimeInt()
-                });
-
-                //添加订单（学院中心）金额数据
-                dbContext.T_OrderAmount.Add(new T_OrderAmount()
-                {
-                    Id = Guid.NewGuid(),
-                    OrderId = dto.OrderId.Value,
-                    TotalAmount = chargeStrategy.CenterCharge,
-                    ApprovalAmount = 0,
-                    PayedAmount = 0,
-                    PaymentSource = 2,
                     CreatorAccount = dto.UserName,
                     CreatorTime = DateTime.Now,
                     CreatorUserId = dto.UserId,

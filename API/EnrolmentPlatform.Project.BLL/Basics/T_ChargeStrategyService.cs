@@ -32,7 +32,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Add(ChargeStrategyDto dto)
         {
             ResultMsg _resultMsg = new ResultMsg();
-            var exist = this.chargeStrategyRepository.Count(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId && a.InstitutionId == dto.InstitutionId
+            var exist = this.chargeStrategyRepository.Count(a => a.SchoolId == dto.SchoolId && a.LevelId == dto.LevelId && a.MajorId == dto.MajorId && a.InstitutionId == dto.InstitutionId && a.LearningCenterId == dto.LearningCenterId
             && ((a.StartDate <= dto.StartDate && a.EndDate >= dto.StartDate) || (a.StartDate <= dto.EndDate && a.EndDate >= dto.EndDate))) > 0;
             if (exist == true)
             {
@@ -53,6 +53,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 InstitutionCharge = dto.InstitutionCharge,
                 CenterCharge = dto.CenterCharge,
                 InstitutionId = dto.InstitutionId,
+                LearningCenterId = dto.LearningCenterId,
                 CreatorUserId = dto.CreatorUserId,
                 CreatorAccount = dto.CreatorAccount
             };
@@ -117,6 +118,32 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                             EndDate = a.EndDate,
                             InstitutionCharge = a.InstitutionCharge,
                             InstitutionName = b.EnterpriseName,
+                            CreatorTime = a.CreatorTime
+                        };
+            res.Count = query.Count();
+            res.Data = query.OrderByDescending(o => o.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            return res;
+        }
+
+        /// <summary>
+        /// 获取学院中心费用策略分页列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public GridDataResponse GetLearningCenterPagedList(ChargeStrategySearchDto req)
+        {
+            GridDataResponse res = new GridDataResponse();
+            var query = from a in chargeStrategyRepository.LoadEntities(o => !o.IsDelete)
+                        join b in enterpriseRepository.LoadEntities(o => !o.IsDelete) on a.LearningCenterId equals b.Id
+                        where a.SchoolId == req.SchoolId && a.LevelId == req.LevelId && a.MajorId == req.MajorId
+                        select new ChargeStrategyDto
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            StartDate = a.StartDate,
+                            EndDate = a.EndDate,
+                            CenterCharge = a.CenterCharge,
+                            LearningCenterName = b.EnterpriseName,
                             CreatorTime = a.CreatorTime
                         };
             res.Count = query.Count();

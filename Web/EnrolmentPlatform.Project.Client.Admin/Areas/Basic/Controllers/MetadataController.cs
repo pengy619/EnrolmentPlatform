@@ -167,7 +167,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         {
             //招生机构
             ViewBag.InstitutionList = EnterpriseService.GetUserList(SystemTypeEnum.TrainingInstitutions);
-            
+            //学院中心
+            ViewBag.LearningCenterList = EnterpriseService.GetUserList(SystemTypeEnum.LearningCenter);
+
             return View(schoolId);
         }
 
@@ -214,6 +216,16 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         public string InstitutionChargeList(ChargeStrategySearchDto req)
         {
             var data = ChargeStrategyService.GetInstitutionPagedList(req);
+            return data.ToJson();
+        }
+
+        /// <summary>
+        /// 学院中心费用策略列表
+        /// </summary>
+        /// <returns></returns>
+        public string LearningCenterChargeList(ChargeStrategySearchDto req)
+        {
+            var data = ChargeStrategyService.GetLearningCenterPagedList(req);
             return data.ToJson();
         }
 
