@@ -67,13 +67,13 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns>1：成功，2：找不到当前时间段的价格策略，3：失败，4：同一批次重复录入</returns>
         public int UpdateOrder(OrderDto dto)
         {
-            //var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.SchoolId == dto.SchoolId && a.IDCardNo == dto.IDCardNo
-            //&& a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
-            //if (exisit == true)
-            //{
-            //    //同一批次重复录入
-            //    return 4;
-            //}
+            var exisit = this.orderRepository.Count(a => a.IsDelete == false && a.Id != dto.OrderId.Value && a.BatchId == dto.BatchId && a.SchoolId == dto.SchoolId && a.IDCardNo == dto.IDCardNo
+            && a.Status != (int)OrderStatusEnum.LeaveSchool && a.FromChannelId == dto.FromChannelId) > 0;
+            if (exisit == true)
+            {
+                //同一批次重复录入
+                return 4;
+            }
 
             try
             {
@@ -334,6 +334,37 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             throw new Exception(entity.StudentName + "的订单没有库存。");
                         }
 
+                        //查找当前时间段的通用或机构收费策略
+                        var chargeStrategys = this.chargeStrategyRepository.LoadEntities(t => t.SchoolId == entity.SchoolId && t.LevelId == entity.LevelId
+                        && t.MajorId == entity.MajorId && ((t.LearningCenterId == Guid.Empty && t.InstitutionId == Guid.Empty) || t.InstitutionId == entity.FromChannelId)
+                        && DateTime.Today >= t.StartDate && DateTime.Today <= t.EndDate).ToList();
+                        if (chargeStrategys != null && chargeStrategys.Any())
+                        {
+                            //如果收费存在则删除
+                            if (this.orderAmountRepository.Count(t => t.OrderId == entity.Id && t.PaymentSource == 1) > 0)
+                            {
+                                this.orderAmountRepository.PhysicsDeleteBy(t => t.OrderId == entity.Id && t.PaymentSource == 1);
+                            }
+                            //添加订单（招生机构）金额数据
+                            var commonCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == Guid.Empty);
+                            var institutionCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == entity.FromChannelId);
+                            this.orderAmountRepository.AddEntity(new T_OrderAmount
+                            {
+                                Id = Guid.NewGuid(),
+                                OrderId = entity.Id,
+                                TotalAmount = institutionCharge != null ? institutionCharge.InstitutionCharge : commonCharge.InstitutionCharge,
+                                ApprovalAmount = 0,
+                                PayedAmount = 0,
+                                PaymentSource = 1,
+                                CreatorTime = DateTime.Now,
+                                CreatorUserId = dto.UserId
+                            });
+                        }
+                        else
+                        {
+                            return new ResultMsg() { IsSuccess = false, Info = entity.StudentName + "的订单匹配不到收费策略。" };
+                        }
+
                         //1.修改库存
                         stock.UsedInventory = stock.UsedInventory + 1;
                         stock.LastModifyTime = DateTime.Now;
@@ -440,7 +471,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         //查找当前时间段的通用或学院中心收费策略
                         var chargeStrategys = this.chargeStrategyRepository.LoadEntities(t => t.SchoolId == entity.SchoolId && t.LevelId == entity.LevelId
                         && t.MajorId == entity.MajorId && ((t.LearningCenterId == Guid.Empty && t.InstitutionId == Guid.Empty) || t.LearningCenterId == toLearningCenterId)
-                        && DateTime.Now >= t.StartDate && DateTime.Now <= t.EndDate).ToList();
+                        && DateTime.Today >= t.StartDate && DateTime.Today <= t.EndDate).ToList();
                         if (chargeStrategys != null && chargeStrategys.Any())
                         {
                             //如果收费存在则删除
