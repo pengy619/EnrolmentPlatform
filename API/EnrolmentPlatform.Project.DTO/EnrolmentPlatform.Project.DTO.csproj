@@ -52,6 +52,7 @@
     <Compile Include="Articles\ArticleCategoryDto.cs" />
     <Compile Include="Articles\ArticleDto.cs" />
     <Compile Include="Basics\ChargeStrategyDto.cs" />
+    <Compile Include="Basics\CustomerFieldDto.cs" />
     <Compile Include="Basics\MetadataDto.cs" />
     <Compile Include="Basics\SchoolConfigDto.cs" />
     <Compile Include="Basics\SchoolItemDto.cs" />
