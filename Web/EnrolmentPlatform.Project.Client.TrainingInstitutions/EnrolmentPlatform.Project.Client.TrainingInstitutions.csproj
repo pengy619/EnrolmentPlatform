@@ -324,6 +324,7 @@
     <Content Include="Content\Website\images\verification.png" />
     <Content Include="Content\Website\images\yingyezhizhao.jpg" />
     <Content Include="Content\Website\js\common.js" />
+    <Content Include="Content\Website\js\customerfield.js" />
     <Content Include="Content\Website\js\dev.js" />
     <Content Include="Content\Website\js\jquery-1.10.2.min.js" />
     <Content Include="Content\Website\js\jquery.editor.js" />

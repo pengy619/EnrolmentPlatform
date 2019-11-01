@@ -246,7 +246,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 Sex = entity.Sex,
                 CreateTime = entity.CreatorTime,
                 CreateUserName = entity.UserName,
-                AssistStatus = entity.AssistStatus
+                AssistStatus = entity.AssistStatus,
+                CustomerField = entity.CustomerField
             };
         }
 
@@ -290,7 +291,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     GongZuoDanWei = entity.GongZuoDanWei,
                     JiGuan = entity.JiGuan,
                     MinZu = entity.MinZu,
-                    Sex = entity.Sex
+                    Sex = entity.Sex,
+                    CustomerField = entity.CustomerField
                 })
                 .ToList();
         }

@@ -569,3 +569,5 @@ CREATE TABLE [dbo].[T_CustomerField](
 
 GO
 
+--2019-11-1报名表增加自定义字段
+alter table [T_Order] Add CustomerField nvarchar(max) null;

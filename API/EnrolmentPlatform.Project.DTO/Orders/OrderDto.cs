@@ -208,6 +208,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 毕业时间
         /// </summary>
         public DateTime? GraduationTime { get; set; }
+
+        /// <summary>
+        /// 自定义字段
+        /// </summary>
+        public string CustomerField { get; set; }
     }
 
     /// <summary>
