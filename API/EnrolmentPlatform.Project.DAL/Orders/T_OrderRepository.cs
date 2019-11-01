@@ -862,7 +862,55 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                   && a.SchoolId == school.Id && a.LevelId == level.Id && a.MajorId == majar.Id && a.IsDelete == false);
                 if (order == null)
                 {
-                    return "第" + (i + 2).ToString() + "行的数据在系统不存在！";
+                    return "第" + (i + 2).ToString() + "行的订单在系统不存在！";
+                }
+                if (order.Status != (int)OrderStatusEnum.ToLearningCenter && order.Status != (int)OrderStatusEnum.Audited)
+                {
+                    return "第" + (i + 2).ToString() + "行的订单不是已报送或已初审状态！";
+                }
+
+                //查找当前时间段的收费策略
+                var chargeStrategys = dbContext.T_ChargeStrategy.Where(t => t.SchoolId == order.SchoolId && t.LevelId == order.LevelId
+                && t.MajorId == order.MajorId && ((t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty) || t.InstitutionId == order.FromChannelId || t.LearningCenterId == order.ToLearningCenterId)
+                && DateTime.Today >= t.StartDate && DateTime.Today <= t.EndDate).ToList();
+                if (chargeStrategys != null && chargeStrategys.Any())
+                {
+                    //如果收费存在则删除
+                    var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == order.Id).ToList();
+                    if (priceList != null && priceList.Count > 0)
+                    {
+                        foreach (var item in priceList)
+                        {
+                            dbContext.T_OrderAmount.Remove(item);
+                        }
+                    }
+                    //添加订单（招生机构）金额数据
+                    var commonCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty);
+                    var institutionCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == order.FromChannelId);
+                    var centerCharge = chargeStrategys.FirstOrDefault(t => t.LearningCenterId == order.ToLearningCenterId);
+                    dbContext.T_OrderAmount.Add(new T_OrderAmount
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = order.Id,
+                        TotalAmount = institutionCharge != null ? institutionCharge.InstitutionCharge : commonCharge.InstitutionCharge,
+                        ApprovalAmount = 0,
+                        PayedAmount = 0,
+                        PaymentSource = 1
+                    });
+                    //添加订单（学院中心）金额数据
+                    dbContext.T_OrderAmount.Add(new T_OrderAmount
+                    {
+                        Id = Guid.NewGuid(),
+                        OrderId = order.Id,
+                        TotalAmount = centerCharge != null ? centerCharge.CenterCharge : commonCharge.CenterCharge,
+                        ApprovalAmount = 0,
+                        PayedAmount = 0,
+                        PaymentSource = 2
+                    });
+                }
+                else
+                {
+                    return "第" + (i + 2).ToString() + "行的订单匹配不到收费策略！";
                 }
 
                 order.StudentNo = dto.StudentNo;

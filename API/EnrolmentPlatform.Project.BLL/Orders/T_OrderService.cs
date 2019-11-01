@@ -336,37 +336,6 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             throw new Exception(entity.StudentName + "的订单没有库存。");
                         }
 
-                        //查找当前时间段的通用或机构收费策略
-                        var chargeStrategys = this.chargeStrategyRepository.LoadEntities(t => t.SchoolId == entity.SchoolId && t.LevelId == entity.LevelId
-                        && t.MajorId == entity.MajorId && ((t.LearningCenterId == Guid.Empty && t.InstitutionId == Guid.Empty) || t.InstitutionId == entity.FromChannelId)
-                        && DateTime.Today >= t.StartDate && DateTime.Today <= t.EndDate).ToList();
-                        if (chargeStrategys != null && chargeStrategys.Any())
-                        {
-                            //如果收费存在则删除
-                            if (this.orderAmountRepository.Count(t => t.OrderId == entity.Id && t.PaymentSource == 1) > 0)
-                            {
-                                this.orderAmountRepository.PhysicsDeleteBy(t => t.OrderId == entity.Id && t.PaymentSource == 1);
-                            }
-                            //添加订单（招生机构）金额数据
-                            var commonCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == Guid.Empty);
-                            var institutionCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == entity.FromChannelId);
-                            this.orderAmountRepository.AddEntity(new T_OrderAmount
-                            {
-                                Id = Guid.NewGuid(),
-                                OrderId = entity.Id,
-                                TotalAmount = institutionCharge != null ? institutionCharge.InstitutionCharge : commonCharge.InstitutionCharge,
-                                ApprovalAmount = 0,
-                                PayedAmount = 0,
-                                PaymentSource = 1,
-                                CreatorTime = DateTime.Now,
-                                CreatorUserId = dto.UserId
-                            });
-                        }
-                        else
-                        {
-                            return new ResultMsg() { IsSuccess = false, Info = entity.StudentName + "的订单匹配不到收费策略。" };
-                        }
-
                         //1.修改库存
                         stock.UsedInventory = stock.UsedInventory + 1;
                         stock.LastModifyTime = DateTime.Now;
@@ -454,7 +423,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <param name="toLearningCenterId">报送的学院中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        public ResultMsg ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
+        public bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -467,38 +436,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         var entity = this.orderRepository.FindEntityById(item);
                         if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
                         {
-                            return new ResultMsg() { IsSuccess = false, Info = "存在不能进行报送的订单。" };
-                        }
-
-                        //查找当前时间段的通用或学院中心收费策略
-                        var chargeStrategys = this.chargeStrategyRepository.LoadEntities(t => t.SchoolId == entity.SchoolId && t.LevelId == entity.LevelId
-                        && t.MajorId == entity.MajorId && ((t.LearningCenterId == Guid.Empty && t.InstitutionId == Guid.Empty) || t.LearningCenterId == toLearningCenterId)
-                        && DateTime.Today >= t.StartDate && DateTime.Today <= t.EndDate).ToList();
-                        if (chargeStrategys != null && chargeStrategys.Any())
-                        {
-                            //如果收费存在则删除
-                            if (this.orderAmountRepository.Count(t => t.OrderId == entity.Id && t.PaymentSource == 2) > 0)
-                            {
-                                this.orderAmountRepository.PhysicsDeleteBy(t => t.OrderId == entity.Id && t.PaymentSource == 2);
-                            }
-                            //添加订单（学院中心）金额数据
-                            var commonCharge = chargeStrategys.FirstOrDefault(t => t.LearningCenterId == Guid.Empty);
-                            var centerCharge = chargeStrategys.FirstOrDefault(t => t.LearningCenterId == toLearningCenterId);
-                            this.orderAmountRepository.AddEntity(new T_OrderAmount
-                            {
-                                Id = Guid.NewGuid(),
-                                OrderId = entity.Id,
-                                TotalAmount = centerCharge != null ? centerCharge.CenterCharge : commonCharge.CenterCharge,
-                                ApprovalAmount = 0,
-                                PayedAmount = 0,
-                                PaymentSource = 2,
-                                CreatorTime = DateTime.Now,
-                                CreatorUserId = userId
-                            });
-                        }
-                        else
-                        {
-                            return new ResultMsg() { IsSuccess = false, Info = entity.StudentName + "的订单匹配不到收费策略。" };
+                            break;
                         }
 
                         //已报送中心
@@ -511,12 +449,12 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     }
 
                     tran.Commit();
-                    return new ResultMsg() { IsSuccess = true };
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    return new ResultMsg() { IsSuccess = false, Info = ex.Message };
+                    return false;
                 }
             }
         }
@@ -534,6 +472,50 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             var entity = this.orderRepository.FindEntityById(orderId);
             if (entity == null || (entity.Status != (int)OrderStatusEnum.ToLearningCenter && entity.Status != (int)OrderStatusEnum.Audited))
+            {
+                return false;
+            }
+
+            //查找当前时间段的收费策略
+            var chargeStrategys = this.chargeStrategyRepository.LoadEntities(t => t.SchoolId == entity.SchoolId && t.LevelId == entity.LevelId
+            && t.MajorId == entity.MajorId && ((t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty) || t.InstitutionId == entity.FromChannelId || t.LearningCenterId == entity.ToLearningCenterId)
+            && DateTime.Today >= t.StartDate && DateTime.Today <= t.EndDate).ToList();
+            if (chargeStrategys != null && chargeStrategys.Any())
+            {
+                //如果收费存在则删除
+                if (this.orderAmountRepository.Count(t => t.OrderId == entity.Id) > 0)
+                {
+                    this.orderAmountRepository.PhysicsDeleteBy(t => t.OrderId == entity.Id);
+                }
+                //添加订单（招生机构）金额数据
+                var commonCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty);
+                var institutionCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == entity.FromChannelId);
+                var centerCharge = chargeStrategys.FirstOrDefault(t => t.LearningCenterId == entity.ToLearningCenterId);
+                this.orderAmountRepository.AddEntity(new T_OrderAmount
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = entity.Id,
+                    TotalAmount = institutionCharge != null ? institutionCharge.InstitutionCharge : commonCharge.InstitutionCharge,
+                    ApprovalAmount = 0,
+                    PayedAmount = 0,
+                    PaymentSource = 1,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = userId
+                });
+                //添加订单（学院中心）金额数据
+                this.orderAmountRepository.AddEntity(new T_OrderAmount
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = entity.Id,
+                    TotalAmount = centerCharge != null ? centerCharge.CenterCharge : commonCharge.CenterCharge,
+                    ApprovalAmount = 0,
+                    PayedAmount = 0,
+                    PaymentSource = 2,
+                    CreatorTime = DateTime.Now,
+                    CreatorUserId = userId
+                });
+            }
+            else
             {
                 return false;
             }
