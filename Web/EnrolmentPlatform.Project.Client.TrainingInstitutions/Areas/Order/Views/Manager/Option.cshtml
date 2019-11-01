@@ -187,7 +187,7 @@
         var form = layui.form, layer = layui.layer, laydate = layui.laydate;
 
         //自定义字段
-        filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", "@(dto!=null?dto.CustomerField:"")");
+        filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", "@(dto!=null?dto.CustomerField:"")","schoolCustomerFieldBefore");
 
         //毕业时间
         laydate.render({
@@ -266,7 +266,7 @@
         form.on('select(SchoolId)', function (data) {
             loadLevel();
             //自定义字段
-            filedList($("#SchoolId").val(), "@(dto!=null?dto.CustomerField:"")");
+            filedList($("#SchoolId").val(), "@(dto!=null?dto.CustomerField:"")", "schoolCustomerFieldBefore");
         });
 
         function loadLevel() {
