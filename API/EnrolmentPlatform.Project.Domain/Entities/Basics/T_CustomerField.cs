@@ -19,21 +19,25 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Basics
         /// <summary>
         /// 学校ID
         /// </summary>
+        [DataMember]
         public Guid SchoolId { set; get; }
 
         /// <summary>
         /// 自定义字段名称
         /// </summary>
+        [DataMember]
         public string Name { set; get; }
 
         /// <summary>
         /// 自定义字段类型CustomerFieldTypeEnum
         /// </summary>
+        [DataMember]
         public int CustomerFieldType { set; get; }
 
         /// <summary>
         /// 字段选项选项用|分割
         /// </summary>
+        [DataMember]
         public string SelectItems { set; get; }
     }
 }

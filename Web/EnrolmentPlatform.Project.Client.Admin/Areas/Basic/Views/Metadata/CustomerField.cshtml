@@ -6,62 +6,81 @@
     <div class="layui-form">
         <div class="panel">
             <div class="panel-title">
-                字段基础信息
+                自定义字段列表
             </div>
             <div class="panel-body">
                 <div class="layui-form">
-                    <div class="layui-form-item required">
-                        <label class="layui-form-label">字段名称</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="EnterpriseName" autocomplete="off" class="layui-input" lay-verify="required" value="">
-                        </div>
-                    </div>
-                    <div class="layui-form-item required">
-                        <label class="layui-form-label">字段类型</label>
-                        <div class="layui-input-inline">
-                            <select id="CustomerFieldType" name="CustomerFieldType" lay-filter="CustomerFieldType" lay-verify="required">
-                                <option value=""></option>
-                                <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Text)">文本</option>
-                                <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)">选择框</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item required" id="divSelectItems" style="display:none;">
-                        <label class="layui-form-label">字段选项</label>
-                        <div class="layui-input-inline">
-                            <textarea name="SelectItems" id="SelectItems" placeholder="请输入内容" class="layui-textarea"></textarea>
-                            每个选项请用|分割，如：男|女
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="padding-left:110px;">
-                        <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
-                        <a href="@Url.Action("SchoolManage", "Metadata")" class="layui-btn layui-btn-primary">取消</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="panel">
-            <div class="panel-title">
-                字段列表
-            </div>
-            <div class="panel-body">
-                <div class="layui-form">
-                    <table id="FieldTable" lay-filter="field"></table>
+                    <button lay-submit="" lay-filter="add" class="layui-btn layui-btn-normal layui-btn-small add">+添加</button>
+                    <table id="FieldTable" lay-filter="FieldTable"></table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<form class="layui-form margin-top-20" id="from_Add" style="display:none;">
+    <input type="hidden" id="hidId" name="hidId" value="">
+    <div class="layui-form-item required">
+        <label class="layui-form-label">字段名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="Name" id="Name" autocomplete="off" class="layui-input" lay-verify="required" value="">
+        </div>
+    </div>
+    <div class="layui-form-item required">
+        <label class="layui-form-label">字段类型</label>
+        <div class="layui-input-inline">
+            <select id="CustomerFieldType" name="CustomerFieldType" lay-filter="CustomerFieldType" lay-verify="required">
+                <option value=""></option>
+                <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Text)">文本</option>
+                <option value="@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)">选择框</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item required" id="divSelectItems" style="display:none;">
+        <label class="layui-form-label">字段选项</label>
+        <div class="layui-input-inline">
+            <textarea name="SelectItems" id="SelectItems" placeholder="请输入内容" class="layui-textarea"></textarea>
+            每个选项请用|分割，如：男|女
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="save">保存</button>
+        </div>
+    </div>
+</form>
 <input type="hidden" id="hidSchoolId" value="@ViewBag.SchoolId" />
+<script type="text/html" id="operat">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="delete">删除</a>
+</script>
 <script type="text/javascript">
     layui.use(['table', 'jquery', 'laydate', "form"], function () {
         var table = layui.table;
         var $ = layui.$;
         var form = layui.form;
 
+        //实例表格
+        var url = '@Url.Action("CustomerFieldList", "Metadata", new { schoolId = ViewBag.SchoolId })';
+        table.render({
+            elem: '#FieldTable'
+            , url: url
+            , page: false //开启分页
+            , cols: [[ //标题栏
+                { field: 'Name', title: '字段名称' }
+                , { field: 'CustomerFieldTypeName', title: '字段类型' }
+                , { field: 'SelectItems', title: '字段选项' }
+                , { title: '操作', templet: '#operat' }
+            ]]
+        });
+
         //选择机构
         form.on("select(CustomerFieldType)", function (data) {
-            if (data.value == "@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)") {
+            changSelect(data.value);
+        });
+
+        function changSelect(type) {
+            if (type == "@((int)EnrolmentPlatform.Project.DTO.Enums.CustomerFieldTypeEnum.Select)") {
                 $("#divSelectItems").show();
                 $("#SelectItems").attr("lay-verify", "required");
             }
@@ -70,11 +89,94 @@
                 $("#SelectItems").removeAttr("lay-verify");
             }
             form.render();
-        });
+        }
 
         //提交表单
         form.on('submit(save)', function (data) {
+            data.field.Id = $("#hidId").val();
+            data.field.SchoolId = $("#hidSchoolId").val();
+            $.ajax({
+                url: '@Url.Action("SaveCustomerField", "Metadata")',
+                type: 'post',
+                data: data.field,
+                dataType: "json",
+                success: function (data) {
+                    if (data.IsSuccess) {
+                        layer.msg("保存成功", {
+                            icon: 1,
+                            time: 1200
+                        }, function () {
+                            table.reload('FieldTable');
+                            layer.closeAll();
+                        });
+                    }
+                    else {
+                        layer.msg(data.Info, {
+                            icon: 2,
+                            time: 1200
+                        });
+                    }
+                }
+            });
+            return false;
+        });
 
+        //添加自定义字段
+        form.on('submit(add)', function (data) {
+            $("#hidId").val("");
+            $("#Name").val("");
+            $("#CustomerFieldType").val("");
+            $("#SelectItems").val("");
+            changSelect(data.CustomerFieldType);
+            layer.open({
+                type: 1
+                , area: ['380px', '360px']
+                , title: "自定义字段"
+                , content: $("#from_Add")
+            });
+        });
+
+        //监听工具条
+        table.on('tool(FieldTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'delete') {
+                layer.confirm('您确认要删除吗？', function (index) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteCustomerField", "Metadata")",
+                        type: 'post',
+                        async: false,
+                        dataType: 'json',
+                        data: { id: data.Id },
+                        success: function (result) {
+                            if (result.IsSuccess) {
+                                layer.msg("删除成功！");
+                                table.reload('FieldTable');
+                            }
+                            else {
+                                layer.msg("删除失败！");
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg("系统出现异常，请联系管理员！");
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+            if (obj.event === 'edit') {
+                $("#hidId").val(data.Id);
+                $("#Name").val(data.Name);
+                $("#CustomerFieldType").val(data.CustomerFieldType);
+                $("#SelectItems").val(data.SelectItems);
+                changSelect(data.CustomerFieldType);
+                form.render();
+                layer.open({
+                    type: 1
+                    , area: ['380px', '360px']
+                    , title: "自定义字段"
+                    , content: $("#from_Add")
+                });
+            }
         });
     });
 </script>
