@@ -15,7 +15,7 @@ function filedList(schoolId, data, beforeContains) {
                         var cur = result[i];
                         //段落开头
                         if (i == 0 || i % 3 == 0) {
-                            html = html + "<div class=\"layui-form-item\">";
+                            html = html + "<div class=\"layui-form-item required\">";
                         }
 
                         //字段信息
