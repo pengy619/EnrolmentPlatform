@@ -1,6 +1,10 @@
-﻿//获得学校的自定义字段列表
+﻿//绑定学校的自定义字段列表
 function filedList(schoolId, data, beforeContains) {
     if (schoolId) {
+        var jsonData = null;
+        if (data) {
+            jsonData = JSON.parse(data);
+        }
         $.ajax({
             type: "POST",
             contentType: "application/json;utf-8",
@@ -23,15 +27,28 @@ function filedList(schoolId, data, beforeContains) {
                         html = html + "<div class=\"layui-input-inline\">";
                         if (cur.CustomerFieldType == 1) {
                             //文本框
-                            html = html + "<input type=\"text\" class=\"layui-input customerField\" name='" + cur.Name + "' maxlength=\"50\" lay-verify=\"required\" value=''>";
+                            var curValue = "";
+                            if (jsonData && jsonData[cur.Name]) {
+                                curValue = jsonData[cur.Name];
+                            }
+                            html = html + "<input type=\"text\" class=\"layui-input customerField\" name='" + cur.Name + "' maxlength=\"50\" lay-verify=\"required\" value='" + curValue + "'>";
                         }
                         else if (cur.CustomerFieldType == 2) {
                             //下拉框
                             html = html + "<select lay-verify=\"required\" class=\"customerField\" name=\"" + cur.Name + "\">";
                             html += "<option value=\"\"></option>";
                             var items = cur.SelectItems.split('|');
+                            var curValue = "";
+                            if (jsonData && jsonData[cur.Name]) {
+                                curValue = jsonData[cur.Name];
+                            }
                             for (var j = 0; j < items.length; j++) {
-                                html += "<option value=\"" + items[j] + "\">" + items[j] + "</option>";
+                                if (curValue == items[j]) {
+                                    html += "<option value=\"" + items[j] + "\" selected>" + items[j] + "</option>";
+                                }
+                                else {
+                                    html += "<option value=\"" + items[j] + "\">" + items[j] + "</option>";
+                                }
                             }
                             html = html + "</select>";
                         }
@@ -47,4 +64,17 @@ function filedList(schoolId, data, beforeContains) {
             }
         });
     }
+}
+
+//获得学校的自定义字段列表
+function getFieldList() {
+    if ($(".customerField").size() > 0) {
+        var customerField = {};
+        $(".customerField").each(function () {
+            var name = $(this).attr("name");
+            customerField[name] = $(this).val();
+        });
+        return JSON.stringify(customerField);
+    }
+    return null;
 }

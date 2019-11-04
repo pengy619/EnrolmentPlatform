@@ -192,7 +192,7 @@
         var form = layui.form, layer = layui.layer, laydate = layui.laydate;
 
         //自定义字段
-        filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", "@(dto!=null?dto.CustomerField:"")","schoolCustomerFieldBefore");
+        filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", '@(dto!=null?Html.Raw(dto.CustomerField):null)',"schoolCustomerFieldBefore");
 
         //毕业时间
         laydate.render({
@@ -225,6 +225,7 @@
             dto.IsTvUniversity = $("#IsTvUniversity").val();
             dto.GraduationTime = $("#GraduationTime").val();
             dto.CreateUserName = $("#ZhaoShengLaoShi").val();
+            dto.CustomerField = getFieldList();
             return dto;
         }
 
