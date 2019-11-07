@@ -571,3 +571,10 @@ GO
 
 --2019-11-1报名表增加自定义字段
 alter table [T_Order] Add CustomerField nvarchar(max) null;
+
+--2019-11-7自定义字段菜单添加
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'fe101cbf-771c-45d9-b639-3eaebdfc67e7', N'招生机构报名订单自定义字段', 4, N'Order', N'Manager', N'GetCustomerFieldList', NULL, 5, N'a6c94f60-eb76-4ad9-bd6c-2c259b9bf6e7', 3, NULL);
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'1a1f4433-af13-4d4a-be90-4d81e260e4b0', N'学院中心订单报名自定义字段', 4, N'Order', N'Manager', N'GetCustomerFieldList', NULL, 3, N'c726d7b8-e5df-430a-9e2e-72ff5b6be8ad', 3, NULL);
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'61f60de5-f219-45c4-8eaa-7ee31a3fe7c9', N'渠道中心资料修改自定义字段', 4, N'Order', N'OrderUpdateApproval', N'GetCustomerFieldList', NULL, 1, N'8ae51667-e6da-4894-abbf-a5b925367c62', 7, NULL);
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'ee0f1321-ef2e-40c7-9225-c370993c88bf', N'渠道中心订单自定义字段', 4, N'Order', N'Manager', N'GetCustomerFieldList', NULL, 1, N'd04643f1-629f-4ec4-9f6c-63e3a6e848e9', 3, NULL);
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'b1024f04-eda6-402c-95f0-d31d8dc7386e', N'招生机构资料修改自定义字段', 4, N'Order', N'OrderUpdateApproval', N'GetCustomerFieldList', NULL, 5, N'3febb225-6858-481f-a26c-995421e8217d', 12, NULL);
