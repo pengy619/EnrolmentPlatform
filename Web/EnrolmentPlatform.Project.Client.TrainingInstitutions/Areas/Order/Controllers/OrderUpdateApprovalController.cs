@@ -150,7 +150,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             orderInfo.SuoDuZhuanYe = approval.SuoDuZhuanYe;
             orderInfo.IsTvUniversity = approval.IsTvUniversity;
             orderInfo.GraduationTime = approval.GraduationTime;
-            orderInfo.CustomerField = orderApproval.CustomerField;
+            orderInfo.CustomerField = approval.CustomerField;
             ViewBag.OrderApprovalId = approval.ApprovalId.Value;
             ViewBag.OrderInfo = orderInfo;
             ViewBag.ApprovalInfo = approval;
