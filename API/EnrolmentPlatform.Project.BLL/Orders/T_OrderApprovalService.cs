@@ -118,7 +118,11 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 SuoDuZhuanYe = entity.SuoDuZhuanYe,
                 IsTvUniversity = entity.IsTvUniversity,
                 GraduationTime = entity.GraduationTime,
-                CustomerField = entity.CustomerField
+                CustomerField = entity.CustomerField,
+                BatchId = entity.BatchId,
+                LevelId = entity.LevelId,
+                MajorId = entity.MajorId,
+                SchoolId = entity.SchoolId
             };
         }
 
