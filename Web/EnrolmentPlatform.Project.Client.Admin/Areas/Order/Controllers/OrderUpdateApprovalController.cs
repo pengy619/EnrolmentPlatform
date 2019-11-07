@@ -196,5 +196,20 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             };
             return grid.ToJson();
         }
+
+        #region 自定义字段
+
+        /// <summary>
+        /// 获得自定义字段列表
+        /// </summary>
+        /// <param name="schooldId">schooldId</param>
+        /// <returns></returns>
+        public JsonResult GetCustomerFieldList(Guid schooldId)
+        {
+            var list = CustomerFieldService.GetAllList(new DTO.Basics.GetAllListSearchDto() { SchoolId = schooldId });
+            return Json(list);
+        }
+
+        #endregion
     }
 }
