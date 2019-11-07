@@ -103,6 +103,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 orderInfo.LevelId = orderApproval.LevelId;
                 orderInfo.MajorId = orderApproval.MajorId;
                 orderInfo.BatchId = orderApproval.BatchId;
+                orderInfo.CustomerField = orderApproval.CustomerField;
                 ViewBag.OrderApprovalId = orderApproval.ApprovalId.Value;
             }
 
@@ -149,6 +150,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             orderInfo.SuoDuZhuanYe = approval.SuoDuZhuanYe;
             orderInfo.IsTvUniversity = approval.IsTvUniversity;
             orderInfo.GraduationTime = approval.GraduationTime;
+            orderInfo.CustomerField = orderApproval.CustomerField;
             ViewBag.OrderApprovalId = approval.ApprovalId.Value;
             ViewBag.OrderInfo = orderInfo;
             ViewBag.ApprovalInfo = approval;
