@@ -140,6 +140,11 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Controllers
         /// </summary>
         public static IT_FileService FileService = DIContainer.Resolve<IT_FileService>();
 
+        /// <summary>
+        /// 自定义字段列表
+        /// </summary>
+        public static IT_CustomerFieldService CustomerFieldService = DIContainer.Resolve<IT_CustomerFieldService>();
+
         #endregion
 
         #region NPOI模板导出
