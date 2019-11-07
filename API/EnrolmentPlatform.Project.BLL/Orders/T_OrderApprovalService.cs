@@ -77,7 +77,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 LevelId = entity.LevelId,
                 MajorId = entity.MajorId,
                 SchoolId = entity.SchoolId,
-                UserId = entity.CreatorUserId
+                UserId = entity.CreatorUserId,
+                CustomerField = entity.CustomerField
             };
         }
 
@@ -116,7 +117,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 ZhaoShengLaoShi = entity.ZhaoShengLaoShi,
                 SuoDuZhuanYe = entity.SuoDuZhuanYe,
                 IsTvUniversity = entity.IsTvUniversity,
-                GraduationTime = entity.GraduationTime
+                GraduationTime = entity.GraduationTime,
+                CustomerField = entity.CustomerField
             };
         }
 

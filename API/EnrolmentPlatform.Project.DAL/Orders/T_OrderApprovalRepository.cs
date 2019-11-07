@@ -61,6 +61,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 curApproval.MajorId = dto.MajorId;
                 curApproval.SchoolId = dto.SchoolId;
                 curApproval.AllOrderImageUpload = order.AllOrderImageUpload;
+                curApproval.CustomerField = order.CustomerField;
                 dbContext.Entry(curApproval).State = EntityState.Modified;
             }
             else
@@ -93,6 +94,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     MajorId = dto.MajorId,
                     LevelId = dto.LevelId,
                     BatchId = dto.BatchId,
+                    CustomerField = dto.CustomerField,
                     AllOrderImageUpload = order.AllOrderImageUpload,
 
                     CreatorAccount = dto.ZhaoShengLaoShi,
@@ -327,6 +329,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
                     order.IsTvUniversity = approval.IsTvUniversity;
                     order.GraduationTime = approval.GraduationTime;
+                    order.CustomerField = approval.CustomerField;
                     dbContext.Entry(order).State = EntityState.Modified;
                 }
             }

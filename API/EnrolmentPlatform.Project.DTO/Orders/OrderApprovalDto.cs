@@ -106,6 +106,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public DateTime? GraduationTime { get; set; }
 
         /// <summary>
+        /// 自定义字段
+        /// </summary>
+        public string CustomerField { set; get; }
+
+        /// <summary>
         /// 报考院校Id
         /// </summary>
         public Guid SchoolId { get; set; }

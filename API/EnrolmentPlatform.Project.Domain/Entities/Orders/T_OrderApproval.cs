@@ -149,6 +149,12 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public DateTime? GraduationTime { get; set; }
 
         /// <summary>
+        /// 自定义字段
+        /// </summary>
+        [DataMember]
+        public string CustomerField { set; get; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         [DataMember]

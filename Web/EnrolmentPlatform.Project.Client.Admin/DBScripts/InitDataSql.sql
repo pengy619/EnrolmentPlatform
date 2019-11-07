@@ -571,6 +571,8 @@ GO
 
 --2019-11-1报名表增加自定义字段
 alter table [T_Order] Add CustomerField nvarchar(max) null;
+--2019-11-1报名审核表增加自定义字段
+alter table [T_OrderApproval] Add CustomerField nvarchar(max) null;
 
 --2019-11-7自定义字段菜单添加
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'fe101cbf-771c-45d9-b639-3eaebdfc67e7', N'招生机构报名订单自定义字段', 4, N'Order', N'Manager', N'GetCustomerFieldList', NULL, 5, N'a6c94f60-eb76-4ad9-bd6c-2c259b9bf6e7', 3, NULL);

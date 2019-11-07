@@ -76,6 +76,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             orderInfo.SuoDuZhuanYe = orderApproval.SuoDuZhuanYe;
             orderInfo.IsTvUniversity = orderApproval.IsTvUniversity;
             orderInfo.GraduationTime = orderApproval.GraduationTime;
+            orderInfo.CustomerField = orderApproval.CustomerField;
             orderInfo.SchoolId = orderApproval.SchoolId;
             orderInfo.LevelId = orderApproval.LevelId;
             orderInfo.MajorId = orderApproval.MajorId;
@@ -124,6 +125,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             orderInfo.SuoDuZhuanYe = approval.SuoDuZhuanYe;
             orderInfo.IsTvUniversity = approval.IsTvUniversity;
             orderInfo.GraduationTime = approval.GraduationTime;
+            orderInfo.CustomerField = approval.CustomerField;
             ViewBag.OrderApprovalId = approval.ApprovalId.Value;
             ViewBag.OrderInfo = orderInfo;
             ViewBag.ApprovalInfo = approval;
