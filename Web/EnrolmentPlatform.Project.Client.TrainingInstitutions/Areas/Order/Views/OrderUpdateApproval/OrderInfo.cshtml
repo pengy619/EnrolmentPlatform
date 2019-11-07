@@ -132,7 +132,7 @@
                     <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GongZuoDanWei" value='@((dto!=null) ? dto.GongZuoDanWei : "")'>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="schoolCustomerFieldBefore">
                 <label class="layui-form-label">是否电大毕业</label>
                 <div class="layui-input-inline">
                     <select id="IsTvUniversity" name="IsTvUniversity">
@@ -171,9 +171,13 @@
 </div>
 <input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
 <input type="hidden" id="hidOrderApprovalId" value="@ViewBag.OrderApprovalId" />
+<script src="~/Content/Website/js/customerfield.js"></script>
 <script>
     layui.use(['jquery', 'form', 'layer', 'laydate'], function () {
         var form = layui.form, layer = layui.layer, laydate = layui.laydate;
+
+        //自定义字段
+        filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", '@(dto!=null?Html.Raw(dto.CustomerField):null)',"schoolCustomerFieldBefore");
 
         //毕业时间
         laydate.render({
@@ -251,6 +255,8 @@
         //院校切换
         form.on('select(SchoolId)', function (data) {
             loadLevel();
+            //自定义字段
+            filedList($("#SchoolId").val(), "@(dto!=null?dto.CustomerField:"")", "schoolCustomerFieldBefore");
         });
 
         function loadLevel() {
