@@ -262,6 +262,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     {
                         dbContext.T_File.Add(new Domain.Entities.T_File()
                         {
+                            Id =Guid.NewGuid(),
                             ForeignKeyId = approval.OrderId,
                             FilePath = item.FilePath,
                             FileName = item.FileName,
