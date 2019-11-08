@@ -20,5 +20,17 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         /// </summary>		
         [DataMember]
         public int Type { get; set; }
+
+        /// <summary>
+        /// 是否启用
+        /// </summary> 
+        [DataMember]
+        public bool IsEnable { get; set; }
+
+        /// <summary>
+        /// 标记
+        /// </summary>
+        [DataMember]
+        public string Tags { get; set; }
     }
 }
