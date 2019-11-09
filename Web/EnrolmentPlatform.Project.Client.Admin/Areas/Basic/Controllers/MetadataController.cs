@@ -105,6 +105,17 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         }
 
         /// <summary>
+        /// 启用/禁用
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult EnableOrDisable(Guid id, bool isEnable)
+        {
+            var ret = MetadataService.EnableOrDisable(id, isEnable);
+            return Json(ret);
+        }
+
+        /// <summary>
         /// 配置层次及专业
         /// </summary>
         /// <returns></returns>
@@ -300,9 +311,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
             dto.UserId = this.UserId;
             dto.UserName = this.UserUser;
             ResultMsg msg = null;
-            if (dto.BatchId == Guid.Empty||dto.SchoolId==Guid.Empty || dto.LevelId==Guid.Empty|| dto.MajorId==Guid.Empty)
+            if (dto.BatchId == Guid.Empty || dto.SchoolId == Guid.Empty || dto.LevelId == Guid.Empty || dto.MajorId == Guid.Empty)
             {
-                return Json(new ResultMsg() { IsSuccess=false, Info = "数据错误。" });
+                return Json(new ResultMsg() { IsSuccess = false, Info = "数据错误。" });
             }
             if (dto.StockSettingId.HasValue == true)
             {

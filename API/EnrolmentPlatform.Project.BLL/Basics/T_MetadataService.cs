@@ -47,6 +47,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 Id = Guid.NewGuid(),
                 Name = dto.Name,
                 Type = (int)dto.Type,
+                IsEnable = true,
                 CreatorUserId = dto.CreatorUserId,
                 CreatorAccount = dto.CreatorAccount
             };
@@ -119,7 +120,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <returns></returns>
         public List<MetadataDto> GetList(MetadataTypeEnum type)
         {
-            return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.Type == (int)type)
+            return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.IsEnable == true && a.Type == (int)type)
                 .Select(a => new MetadataDto()
                 {
                     Id = a.Id,
@@ -148,10 +149,32 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 {
                     Id = t.Id,
                     Name = t.Name,
-                    Type = (MetadataTypeEnum)t.Type
+                    Type = (MetadataTypeEnum)t.Type,
+                    IsEnable = t.IsEnable,
+                    Tags = t.Tags
                 }).ToList();
             res.Count = records;
             return res;
+        }
+
+        /// <summary>
+        /// 启用/禁用
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isEnable"></param>
+        /// <returns></returns>
+        public ResultMsg EnableOrDisable(Guid id, bool isEnable)
+        {
+            ResultMsg result = new ResultMsg() { IsSuccess = false };
+            var entity = this.metadataRepository.FindEntityById(id);
+            if (entity == null)
+            {
+                result.Info = "非法操作！";
+                return result;
+            }
+            entity.IsEnable = isEnable;
+            result.IsSuccess = this.metadataRepository.UpdateEntity(entity) > 0;
+            return result;
         }
     }
 }

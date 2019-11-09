@@ -32,6 +32,16 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 用户账号
         /// </summary>
         public string CreatorAccount { set; get; }
+
+        /// <summary>
+        /// 是否启用
+        /// </summary> 
+        public bool IsEnable { get; set; }
+
+        /// <summary>
+        /// 标记
+        /// </summary>
+        public string Tags { get; set; }
     }
 
     /// <summary>

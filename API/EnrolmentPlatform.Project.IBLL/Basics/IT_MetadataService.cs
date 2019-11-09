@@ -44,5 +44,13 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// <param name="req"></param>
         /// <returns></returns>
         GridDataResponse GetPagedList(MetadataSearchDto req);
+
+        /// <summary>
+        /// 启用/禁用
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="isEnable"></param>
+        /// <returns></returns>
+        ResultMsg EnableOrDisable(Guid id, bool isEnable);
     }
 }

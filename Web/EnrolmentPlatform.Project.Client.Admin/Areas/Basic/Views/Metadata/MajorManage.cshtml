@@ -17,7 +17,9 @@
 <script type="text/html" id="operat">
     <i class="layui-icon" lay-event="update" style="font-size: 20px;color: #009688;">&#xe642;</i>
 </script>
-
+<script type="text/html" id="status">
+    <input type="checkbox" name="status" value="{{d.Id}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="statusFilter" {{ d.IsEnable == true ? 'checked' : '' }}>
+</script>
 <script>
     var isSubmit = true;
     layui.use(['table', 'form'], function () {
@@ -29,11 +31,12 @@
             , url: '@Url.Action("MetadataList", "Metadata", new { Type= MetadataTypeEnum.Major })'
             , page: true //开启分页
             , cols: [[ //标题栏
-                { title: '专业信息', colspan: 4 } //rowspan即纵向跨越的单元格数
+                { title: '专业信息', colspan: 5 } //rowspan即纵向跨越的单元格数
             ], [ //标题栏
                 { type: 'checkbox' }
                 , { type: 'numbers', title: '序号' }
                 , { field: 'Name', title: '专业名称' }
+                , { field: 'IsEnable', title: '启用/禁用', templet: '#status' }
                 , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
             ]]
         });
@@ -152,6 +155,26 @@
         $('#delete,#add').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
+        });
+
+        //监听启用/禁用
+        form.on('switch(statusFilter)', function (obj) {
+            var status = obj.elem.checked;
+            $.ajax({
+                url: "@Url.Action("EnableOrDisable", "Metadata")",
+                type: 'Post',
+                async: false,
+                dataType: 'json',
+                data: { id: this.value, isEnable: status },
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        var msg = status == true ? '启用成功' : '禁用成功';
+                        layer.alert(msg);
+                    } else {
+                        layer.msg(result.Info);
+                    }
+                }
+            })
         });
     });
 </script>

@@ -33,7 +33,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         {
             var query = from a in schoolLevelMajorRepository.LoadEntities(t => !t.IsDelete)
                         join b in metadataRepository.LoadEntities(t => !t.IsDelete) on a.ItemId equals b.Id
-                        where a.ParentId == id
+                        where a.ParentId == id && b.IsEnable == true
                         select new SchoolItemDto
                         {
                             Id = a.Id,
