@@ -17,7 +17,26 @@
         </div>
     </div>
 </div>
-
+<!--弹出框-->
+<div id="btn-modal" style="display:none">
+    <div class="layui-form margin-top-20">
+        <div class="layui-form-item big-label">
+            <label class="layui-form-label">学校名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="schoolName" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item big-label">
+            <label class="layui-form-label">学习形式</label>
+            <div class="layui-input-inline">
+                <input type="checkbox" name="tags" value="自考" title="自考">
+                <input type="checkbox" name="tags" value="成考" title="成考">
+                <input type="checkbox" name="tags" value="网教" title="网教">
+                <input type="checkbox" name="tags" value="开放" title="开放">
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/html" id="operat">
     <i class="layui-icon" lay-event="update" style="font-size: 20px;color: #009688;">&#xe642;</i>
 </script>
@@ -35,11 +54,12 @@
             , url: '@Url.Action("MetadataList", "Metadata", new { Type= MetadataTypeEnum.School })'
             , page: true //开启分页
             , cols: [[ //标题栏
-                { title: '学校信息', colspan: 5 } //rowspan即纵向跨越的单元格数
+                { title: '学校信息', colspan: 6 } //rowspan即纵向跨越的单元格数
             ], [ //标题栏
                 { type: 'checkbox' }
                 , { type: 'numbers', title: '序号' }
                 , { field: 'Name', title: '学校名称' }
+                , { field: 'Tags', title: '学习形式' }
                 , { field: 'IsEnable', title: '启用/禁用', templet: '#status' }
                 , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
             ]]
@@ -49,37 +69,63 @@
         table.on('tool(school)', function (obj) {
             var data = obj.data;
             if (obj.event === 'update') {
-                layer.prompt({
-                    value: data.Name,
+                $("#schoolName").val(data.Name);
+                if (data.Tags != null) {
+                    $("input:checkbox[name='tags']").each(function () {
+                        if (data.Tags.indexOf($(this).val()) > -1) {
+                            $(this).prop("checked", true);
+                        }
+                    });
+                } else {
+                    $("input:checkbox[name='tags']").prop("checked", false);
+                }
+                form.render('checkbox');
+                layer.open({
+                    type: 1,
                     title: '修改学校',
-                }, function (value, index, elem) {
-                    if (isSubmit) {
-                        isSubmit = false;
-                        $.ajax({
-                            url: "@Url.Action("UpdateMetadata", "Metadata")",
-                            type: "post",
-                            data: { Id: data.Id, Name: value },
-                            dataType: "json",
-                            success: function (res) {
-                                if (res.IsSuccess) {
-                                    layer.msg("保存成功", {
-                                        icon: 1
-                                        , time: 1000
-                                    }, function () {
-                                        table.reload('sid');
-                                        layer.close(index);
-                                    });
-                                } else {
-                                    layer.msg(res.Info, {
-                                        icon: 2
-                                        , time: 2000
-                                    });
-                                }
-                            },
-                            complete: function () {
-                                isSubmit = true;
-                            }
+                    btn: ['确定', '取消'],
+                    area: ['400px', '300px'], //宽高
+                    content: $('#btn-modal'),
+                    yes: function () {
+                        var schoolName = $.trim($("#schoolName").val());
+                        var arr = new Array();
+                        $("input:checkbox[name='tags']:checked").each(function () {
+                            arr.push($(this).val());
                         });
+                        if (schoolName.length > 0) {
+                            if (isSubmit) {
+                                isSubmit = false;
+                                $.ajax({
+                                    url: "@Url.Action("UpdateMetadata", "Metadata")",
+                                    type: "post",
+                                    data: { Id: data.Id, Name: schoolName, Tags: arr.join(',') },
+                                    dataType: "json",
+                                    success: function (res) {
+                                        if (res.IsSuccess) {
+                                            layer.msg("保存成功", {
+                                                icon: 1
+                                                , time: 1000
+                                            }, function () {
+                                                table.reload('sid');
+                                                layer.closeAll();
+                                            });
+                                        } else {
+                                            layer.msg(res.Info, {
+                                                icon: 2
+                                                , time: 2000
+                                            });
+                                        }
+                                    },
+                                    complete: function () {
+                                        isSubmit = true;
+                                    }
+                                });
+                            }
+                        } else {
+                            layer.msg("请输入学校名称！");
+                        }
+                    },
+                    btn2: function () {
                     }
                 });
             }
@@ -183,34 +229,55 @@
                 }
             },
             add: function () {
-                layer.prompt({ title: '添加学校' }, function (value, index, elem) {
-                    if (isSubmit) {
-                        isSubmit = false;
-                        $.ajax({
-                            url: "@Url.Action("AddMetadata", "Metadata")",
-                            type: "post",
-                            data: { Name: value, Type: "@MetadataTypeEnum.School" },
-                            dataType: "json",
-                            success: function (res) {
-                                if (res.IsSuccess) {
-                                    layer.msg("保存成功", {
-                                        icon: 1
-                                        , time: 1000
-                                    }, function () {
-                                        table.reload('sid');
-                                        layer.close(index);
-                                    });
-                                } else {
-                                    layer.msg(res.Info, {
-                                        icon: 2
-                                        , time: 2000
-                                    });
-                                }
-                            },
-                            complete: function () {
-                                isSubmit = true;
-                            }
+                $("#schoolName").val("");
+                $("input:checkbox[name='tags']").prop("checked", false);
+                form.render('checkbox');
+                layer.open({
+                    type: 1,
+                    title: '添加学校',
+                    btn: ['确定', '取消'],
+                    area: ['400px', '300px'], //宽高
+                    content: $('#btn-modal'),
+                    yes: function () {
+                        var schoolName = $.trim($("#schoolName").val());
+                        var arr = new Array();
+                        $("input:checkbox[name='tags']:checked").each(function () {
+                            arr.push($(this).val());
                         });
+                        if (schoolName.length > 0) {
+                            if (isSubmit) {
+                                isSubmit = false;
+                                $.ajax({
+                                    url: "@Url.Action("AddMetadata", "Metadata")",
+                                    type: "post",
+                                    data: { Name: schoolName, Type: "@MetadataTypeEnum.School", Tags: arr.join(',') },
+                                    dataType: "json",
+                                    success: function (res) {
+                                        if (res.IsSuccess) {
+                                            layer.msg("保存成功", {
+                                                icon: 1
+                                                , time: 1000
+                                            }, function () {
+                                                table.reload('sid');
+                                                layer.closeAll();
+                                            });
+                                        } else {
+                                            layer.msg(res.Info, {
+                                                icon: 2
+                                                , time: 2000
+                                            });
+                                        }
+                                    },
+                                    complete: function () {
+                                        isSubmit = true;
+                                    }
+                                });
+                            }
+                        } else {
+                            layer.msg("请输入学校名称！");
+                        }
+                    },
+                    btn2: function () {
                     }
                 });
             }

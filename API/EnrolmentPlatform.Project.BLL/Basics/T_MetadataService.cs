@@ -47,6 +47,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 Id = Guid.NewGuid(),
                 Name = dto.Name,
                 Type = (int)dto.Type,
+                Tags = dto.Tags,
                 IsEnable = true,
                 CreatorUserId = dto.CreatorUserId,
                 CreatorAccount = dto.CreatorAccount
@@ -77,6 +78,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 return _resultMsg;
             }
             entity.Name = dto.Name;
+            entity.Tags = dto.Tags;
             _resultMsg.IsSuccess = this.metadataRepository.UpdateEntity(entity) > 0;
             return _resultMsg;
         }
@@ -150,8 +152,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                     Id = t.Id,
                     Name = t.Name,
                     Type = (MetadataTypeEnum)t.Type,
-                    IsEnable = t.IsEnable,
-                    Tags = t.Tags
+                    Tags = t.Tags,
+                    IsEnable = t.IsEnable
                 }).ToList();
             res.Count = records;
             return res;
