@@ -52,5 +52,12 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// <param name="isEnable"></param>
         /// <returns></returns>
         ResultMsg EnableOrDisable(Guid id, bool isEnable);
+
+        /// <summary>
+        /// 根据学习形式获取学校列表
+        /// </summary>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        List<MetadataDto> GetSchoolListByTags(string tags);
     }
 }

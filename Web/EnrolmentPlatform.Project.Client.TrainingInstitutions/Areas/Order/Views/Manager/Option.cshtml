@@ -52,6 +52,15 @@
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
+                <div class="layui-input-inline" style="width: 85px">
+                    <select name="tags" lay-filter="tags">
+                        <option value=""></option>
+                        <option value="自考">自考</option>
+                        <option value="成考">成考</option>
+                        <option value="网教">网教</option>
+                        <option value="开放">开放</option>
+                    </select>
+                </div>
                 <div class="layui-input-inline">
                     <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required" lay-search>
                         <option value=""></option>
@@ -267,6 +276,26 @@
             $("#MajorId").val("@(dto!=null?dto.MajorId.ToString():"")");
             form.render('select');
         }
+
+        //学习形式切换
+        form.on('select(tags)', function (data) {
+            $("#SchoolId").find("option").remove();
+            $("#SchoolId").append('<option value=""></option>');
+            form.render('select');
+            $.ajax({
+                url: '@Url.Action("GetSchoolListByTags", "Manager")',
+                data: { tags: data.value },
+                type: 'get',
+                success: function (data) {
+                    if (data != null && data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#SchoolId").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</option>");
+                        }
+                        form.render('select');
+                    }
+                }
+            });
+        });
 
         //院校切换
         form.on('select(SchoolId)', function (data) {

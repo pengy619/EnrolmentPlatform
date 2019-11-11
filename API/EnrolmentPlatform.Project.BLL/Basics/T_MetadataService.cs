@@ -178,5 +178,25 @@ namespace EnrolmentPlatform.Project.BLL.Basics
             result.IsSuccess = this.metadataRepository.UpdateEntity(entity) > 0;
             return result;
         }
+
+        /// <summary>
+        /// 根据学习形式获取学校列表
+        /// </summary>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        public List<MetadataDto> GetSchoolListByTags(string tags)
+        {
+            var noTags = string.IsNullOrWhiteSpace(tags);
+            return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.IsEnable == true && a.Type == (int)MetadataTypeEnum.School)
+                .Where(t => noTags ? true : t.Tags.Contains(tags))
+                .Select(a => new MetadataDto()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Type = (MetadataTypeEnum)a.Type,
+                    CreatorUserId = a.CreatorUserId,
+                    CreatorAccount = a.CreatorAccount
+                }).OrderBy(t => t.Name).ToList();
+        }
     }
 }
