@@ -29,6 +29,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public List<CustomerFieldDto> GetAllList(GetAllListSearchDto dto)
         {
             return this.customerFieldRepository.LoadEntities(a => a.SchoolId == dto.SchoolId)
+                .OrderBy(a => a.CreatorTime)
                 .Select(a => new CustomerFieldDto()
                 {
                     CustomerFieldType = a.CustomerFieldType,
@@ -64,7 +65,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Add(CustomerFieldDto dto)
         {
             //检查字段名是否有重复
-            var exisitCount = this.customerFieldRepository.LoadEntities(a => a.Name==dto.Name && a.SchoolId==dto.SchoolId).Count();
+            var exisitCount = this.customerFieldRepository.LoadEntities(a => a.Name == dto.Name && a.SchoolId == dto.SchoolId).Count();
             if (exisitCount > 0)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "该字段重复！" };
@@ -97,7 +98,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public ResultMsg Update(CustomerFieldDto dto)
         {
             //检查时间段是否有重复
-            var exisitCount = this.customerFieldRepository.LoadEntities(a => a.Id != dto.Id.Value && a.Name == dto.Name).Count();
+            var exisitCount = this.customerFieldRepository.LoadEntities(a => a.Id != dto.Id.Value && a.Name == dto.Name && a.SchoolId == dto.SchoolId).Count();
             if (exisitCount > 0)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "该字段重复！" };
