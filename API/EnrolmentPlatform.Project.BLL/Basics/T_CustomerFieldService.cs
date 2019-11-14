@@ -63,8 +63,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <returns></returns>
         public ResultMsg Add(CustomerFieldDto dto)
         {
-            //检查时间段是否有重复
-            var exisitCount = this.customerFieldRepository.LoadEntities(a => a.Name==dto.Name).Count();
+            //检查字段名是否有重复
+            var exisitCount = this.customerFieldRepository.LoadEntities(a => a.Name==dto.Name && a.SchoolId==dto.SchoolId).Count();
             if (exisitCount > 0)
             {
                 return new ResultMsg() { IsSuccess = false, Info = "该字段重复！" };

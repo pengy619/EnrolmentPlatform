@@ -5,6 +5,11 @@
     List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> batchList = ViewBag.BatchList;
     List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> schoolList = ViewBag.SchoolList;
 }
+<style type="text/css">
+    .layui-form-label {
+        width: 90px !important;
+    }
+</style>
 <div class="main-wrap">
     <div class="panel layui-form">
         <div class="panel-title">
@@ -43,6 +48,15 @@
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
+                <div class="layui-input-inline" style="width: 85px">
+                    <select name="tags" lay-filter="tags">
+                        <option value=""></option>
+                        <option value="自考">自考</option>
+                        <option value="成考">成考</option>
+                        <option value="网教">网教</option>
+                        <option value="开放">开放</option>
+                    </select>
+                </div>
                 <div class="layui-input-inline">
                     <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required" lay-search>
                         <option value=""></option>
@@ -109,7 +123,7 @@
                         <option @Html.Raw((dto != null && dto.HighesDegree == "本科") ? "selected" : "") value="本科">本科</option>
                     </select>
                 </div>
-                <label style="float: left;display: block;padding: 9px 15px;width: 80px;font-weight: 400;line-height: 20px;text-align: right;">所读专业</label>
+                <label style="float: left;display: block;padding: 9px 15px;width: 90px;font-weight: 400;line-height: 20px;text-align: right;">所读专业</label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" maxlength="50" id="SuoDuZhuanYe" value='@((dto!=null) ? dto.SuoDuZhuanYe : "")'>
                 </div>
@@ -158,7 +172,7 @@
             <div class="margin-top-10">
                 @if (dto != null)
                 {
-                    @*<button class="layui-btn " lay-submit="" lay-filter="s">保存</button>*@
+                    <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
                 }
                 <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
             </div>
@@ -205,6 +219,7 @@
             dto.IsTvUniversity = $("#IsTvUniversity").val();
             dto.GraduationTime = $("#GraduationTime").val();
             dto.CreateUserName = $("#ZhaoShengLaoShi").val();
+            dto.CustomerField = getFieldList();
             return dto;
         }
 
@@ -247,9 +262,33 @@
             form.render('select');
         }
 
+        //学习形式切换
+        form.on('select(tags)', function (data) {
+            $("#SchoolId").find("option").remove();
+            $("#SchoolId").append('<option value=""></option>');
+            form.render('select');
+            $.ajax({
+                url: '@Url.Action("GetSchoolListByTags", "Manager")',
+                data: { tags: data.value },
+                type: 'get',
+                success: function (data) {
+                    if (data != null && data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#SchoolId").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</option>");
+                        }
+                        form.render('select');
+                    }
+                }
+            });
+        });
+
         //院校切换
         form.on('select(SchoolId)', function (data) {
             loadLevel();
+            //自定义字段
+            $("#schoolCustomerFieldBefore").nextAll().remove();
+            filedList(data.value, '@(dto!=null?Html.Raw(dto.CustomerField):null)', "schoolCustomerFieldBefore");
+            form.render('select');
         });
 
         function loadLevel() {

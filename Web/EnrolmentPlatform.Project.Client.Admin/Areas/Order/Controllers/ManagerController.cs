@@ -135,6 +135,17 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
+        /// 根据学习形式获取学校列表
+        /// </summary>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        public JsonResult GetSchoolListByTags(string tags)
+        {
+            var data = MetadataService.GetSchoolListByTags(tags);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// 查询列表
         /// </summary>
         /// <param name="param"></param>

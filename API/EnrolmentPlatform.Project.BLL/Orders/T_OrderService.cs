@@ -443,6 +443,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         entity.Status = (int)OrderStatusEnum.ToLearningCenter;
                         entity.ToLearningCenterId = toLearningCenterId;
                         entity.ToLearningCenterTime = DateTime.Now;
+                        entity.JoinTime = null;
                         entity.LastModifyTime = DateTime.Now;
                         entity.LastModifyUserId = userId;
                         this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学院中心", true, entity.Id.ToString());

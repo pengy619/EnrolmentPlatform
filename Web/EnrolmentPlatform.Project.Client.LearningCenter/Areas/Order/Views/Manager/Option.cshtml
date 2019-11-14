@@ -100,16 +100,20 @@
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="HighesDegree" value='@((dto!=null) ? dto.HighesDegree : "")'>
                 </div>
+                <label style="float: left;display: block;padding: 9px 15px;width: 80px;font-weight: 400;line-height: 20px;text-align: right;">所读专业</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" maxlength="50" id="SuoDuZhuanYe" value='@((dto!=null) ? dto.SuoDuZhuanYe : "")'>
+                </div>
                 <label class="layui-form-label">毕业学校</label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GraduateSchool" value='@((dto!=null) ? dto.GraduateSchool : "")'>
                 </div>
+            </div>
+            <div class="layui-form-item required">
                 <label class="layui-form-label">毕业证编号</label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="BiYeZhengBianHao" value='@((dto!=null) ? dto.BiYeZhengBianHao : "")'>
                 </div>
-            </div>
-            <div class="layui-form-item required">
                 <label class="layui-form-label">地址</label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" maxlength="200" lay-verify="required" id="Address" value='@((dto!=null) ? dto.Address : "")'>
@@ -130,10 +134,6 @@
                 <label class="layui-form-label">毕业时间</label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" id="GraduationTime" readonly value='@((dto!=null && dto.GraduationTime.HasValue) ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
-                </div>
-                <label class="layui-form-label">招生老师</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" id="ZhaoShengLaoShi" value='@((dto!=null) ? dto.UserName : "")'>
                 </div>
             </div>
         </div>
