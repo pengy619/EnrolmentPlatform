@@ -474,7 +474,7 @@
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
                 //已报名才可以进行报送
-                if (parseInt(checkdata[i].Status) != 4) {
+                if (parseInt(checkdata[i].Status) < 4) {
                     canSubmit = false;
                 }
             }

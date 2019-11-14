@@ -82,7 +82,7 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="toLearningCenterId">报送的学院中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId);
+        ResultMsg ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId);
 
         /// <summary>
         /// 录取

@@ -23,6 +23,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         private IT_OrderAmountRepository orderAmountRepository;
         private IT_StockSettingRepository stockSettingRepository;
         private IT_ChargeStrategyRepository chargeStrategyRepository;
+        private IT_PaymentInfoRepository paymentInfoRepository;
         protected IDbContextFactory _dbContextFactory;
 
         public T_OrderService()
@@ -32,6 +33,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             this.orderAmountRepository = DIContainer.Resolve<IT_OrderAmountRepository>();
             this.stockSettingRepository = DIContainer.Resolve<IT_StockSettingRepository>();
             this.chargeStrategyRepository = DIContainer.Resolve<IT_ChargeStrategyRepository>();
+            this.paymentInfoRepository = DIContainer.Resolve<IT_PaymentInfoRepository>();
             this._dbContextFactory = DIContainer.Resolve<IDbContextFactory>();
         }
 
@@ -423,7 +425,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <param name="toLearningCenterId">报送的学院中心</param>
         /// <param name="userId">修改人</param>
         /// <returns></returns>
-        public bool ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
+        public ResultMsg ToLearningCenter(List<Guid> orderIdList, Guid toLearningCenterId, Guid userId)
         {
             using (DbConnection conn = ((IObjectContextAdapter)_dbContextFactory.GetCurrentThreadInstance()).ObjectContext.Connection)
             {
@@ -431,13 +433,20 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 var tran = conn.BeginTransaction();
                 try
                 {
+                    var paymentList = this.paymentInfoRepository.LoadEntities(t => orderIdList.Contains(t.OrderId)).ToList();
                     foreach (var item in orderIdList)
                     {
                         var entity = this.orderRepository.FindEntityById(item);
-                        if (entity == null || entity.Status != (int)OrderStatusEnum.Enroll)
+                        if (entity == null || entity.Status < (int)OrderStatusEnum.Enroll)
                         {
-                            break;
+                            throw new Exception("提交的订单数据错误。");
                         }
+                        //已缴费的订单不允许报送
+                        if (paymentList.Any(t => t.OrderId == entity.Id))
+                        {
+                            throw new Exception(entity.StudentName + "的订单已有缴费记录，不允许更改学院中心。");
+                        }
+                        var businessName = entity.Status == (int)OrderStatusEnum.Enroll ? "报送学院中心" : "更改学院中心";
 
                         //已报送中心
                         entity.Status = (int)OrderStatusEnum.ToLearningCenter;
@@ -446,16 +455,16 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                         entity.JoinTime = null;
                         entity.LastModifyTime = DateTime.Now;
                         entity.LastModifyUserId = userId;
-                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "已报送学院中心", true, entity.Id.ToString());
+                        this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, businessName, true, entity.Id.ToString());
                     }
 
                     tran.Commit();
-                    return true;
+                    return new ResultMsg() { IsSuccess = true };
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    return false;
+                    return new ResultMsg() { IsSuccess = false, Info = ex.Message };
                 }
             }
         }
