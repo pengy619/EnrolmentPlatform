@@ -170,10 +170,10 @@
         <div class="panel-body">
             <textarea name="Remark" placeholder="请输入内容" id="Remark" class="layui-textarea">@((dto != null) ? dto.Remark : "")</textarea>
             <div class="margin-top-10">
-                @if (dto != null)
+                @*@if (dto != null)
                 {
                     <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
-                }
+                }*@
                 <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
             </div>
         </div>

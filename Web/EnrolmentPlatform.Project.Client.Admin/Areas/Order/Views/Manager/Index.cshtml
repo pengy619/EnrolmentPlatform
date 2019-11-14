@@ -229,7 +229,7 @@
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=0&orderId={{d.OrderId}}'>查看</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=1&orderId={{d.OrderId}}'>编辑</a>
+    @*<a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?action=1&orderId={{d.OrderId}}'>编辑</a>*@
 </script>
 <script type="text/html" id="tableToolImage">
     {{# if(d.AllOrderImageUpload==true){ }}
@@ -275,7 +275,7 @@
                 , { field: 'UserName', title: '用户名', width: 120 }
                 , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
                 , { field: 'CreateUserName', title: '招生老师', width: 90 }
-                , { title: '操作', toolbar: '#tableTool', width: 168 }
+                , { title: '操作', toolbar: '#tableTool', width: 120 }
             ]]
             , done: function () {
                 $.ajax({
