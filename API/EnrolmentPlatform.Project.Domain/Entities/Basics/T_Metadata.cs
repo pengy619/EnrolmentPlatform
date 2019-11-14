@@ -32,5 +32,17 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         /// </summary>
         [DataMember]
         public string Tags { get; set; }
+
+        /// <summary>
+        /// 开始时间
+        /// </summary>		
+        [DataMember]
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// 截止时间
+        /// </summary>		
+        [DataMember]
+        public DateTime? EndDate { get; set; }
     }
 }

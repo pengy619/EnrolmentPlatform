@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EnrolmentPlatform.Project.Domain.Entities;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Basics;
+using EnrolmentPlatform.Project.DTO.Enums.Basics;
 using EnrolmentPlatform.Project.IBLL.Basics;
 using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Basics;
@@ -18,11 +19,13 @@ namespace EnrolmentPlatform.Project.BLL.Basics
     {
         private IT_ChargeStrategyRepository chargeStrategyRepository;
         private IT_EnterpriseRepository enterpriseRepository;
+        private IT_MetadataRepository metadataRepository;
 
         public T_ChargeStrategyService()
         {
             this.chargeStrategyRepository = DIContainer.Resolve<IT_ChargeStrategyRepository>();
             this.enterpriseRepository = DIContainer.Resolve<IT_EnterpriseRepository>();
+            this.metadataRepository = DIContainer.Resolve<IT_MetadataRepository>();
         }
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public GridDataResponse GetPagedList(ChargeStrategySearchDto req)
         {
             GridDataResponse res = new GridDataResponse();
-            res.Data = this.chargeStrategyRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete
+            var list = this.chargeStrategyRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete
             && t.SchoolId == req.SchoolId && t.LevelId == req.LevelId && t.MajorId == req.MajorId && t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty,
                req.Field,
                req.Limit,
@@ -96,6 +99,19 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                     CenterCharge = t.CenterCharge
                 }).ToList();
             res.Count = records;
+            if (res.Count > 0)
+            {
+                var batchList = this.metadataRepository.LoadEntities(t => t.Type == (int)MetadataTypeEnum.Batch).ToList();
+                list.ForEach(t =>
+                {
+                    var batch = batchList.FirstOrDefault(a => a.StartDate <= t.StartDate && a.EndDate >= t.EndDate);
+                    if (batch != null)
+                    {
+                        t.BatchName = batch.Name;
+                    }
+                });
+            }
+            res.Data = list;
             return res;
         }
 
@@ -121,7 +137,20 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                             CreatorTime = a.CreatorTime
                         };
             res.Count = query.Count();
-            res.Data = query.OrderByDescending(o => o.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            var list = query.OrderByDescending(o => o.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            if (res.Count > 0)
+            {
+                var batchList = this.metadataRepository.LoadEntities(t => t.Type == (int)MetadataTypeEnum.Batch).ToList();
+                list.ForEach(t =>
+                {
+                    var batch = batchList.FirstOrDefault(a => a.StartDate <= t.StartDate && a.EndDate >= t.EndDate);
+                    if (batch != null)
+                    {
+                        t.BatchName = batch.Name;
+                    }
+                });
+            }
+            res.Data = list;
             return res;
         }
 
@@ -147,7 +176,20 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                             CreatorTime = a.CreatorTime
                         };
             res.Count = query.Count();
-            res.Data = query.OrderByDescending(o => o.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            var list = query.OrderByDescending(o => o.CreatorTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            if (res.Count > 0)
+            {
+                var batchList = this.metadataRepository.LoadEntities(t => t.Type == (int)MetadataTypeEnum.Batch).ToList();
+                list.ForEach(t =>
+                {
+                    var batch = batchList.FirstOrDefault(a => a.StartDate <= t.StartDate && a.EndDate >= t.EndDate);
+                    if (batch != null)
+                    {
+                        t.BatchName = batch.Name;
+                    }
+                });
+            }
+            res.Data = list;
             return res;
         }
     }

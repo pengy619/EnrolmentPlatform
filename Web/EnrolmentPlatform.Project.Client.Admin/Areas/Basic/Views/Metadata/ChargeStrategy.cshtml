@@ -124,11 +124,12 @@
                 , url: '@Url.Action("ChargeList", "Metadata", new { schoolId = Model })&levelId=' + levelId + '&majorId=' + majorId
                 , page: true //开启分页
                 , cols: [[ //标题栏
-                    { title: '通用费用策略', colspan: 6 } //rowspan即纵向跨越的单元格数
+                    { title: '通用费用策略', colspan: 7 } //rowspan即纵向跨越的单元格数
                 ], [ //标题栏
                     { field: 'Name', title: '策略名称' }
                     , { field: 'StartDateStr', title: '开始时间' }
                     , { field: 'EndDateStr', title: '截至时间' }
+                    , { field: 'BatchName', title: '关联批次' }
                     , { field: 'InstitutionCharge', title: '机构费用' }
                     , { field: 'CenterCharge', title: '中心费用' }
                     , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
@@ -139,12 +140,13 @@
                 , url: '@Url.Action("InstitutionChargeList", "Metadata", new { schoolId = Model })&levelId=' + levelId + '&majorId=' + majorId
                 , page: true //开启分页
                 , cols: [[ //标题栏
-                    { title: '机构费用策略', colspan: 6 } //rowspan即纵向跨越的单元格数
+                    { title: '机构费用策略', colspan: 7 } //rowspan即纵向跨越的单元格数
                 ], [ //标题栏
                     { field: 'InstitutionName', title: '机构名称' }
                     , { field: 'Name', title: '策略名称' }
                     , { field: 'StartDateStr', title: '开始时间' }
                     , { field: 'EndDateStr', title: '截至时间' }
+                    , { field: 'BatchName', title: '关联批次' }
                     , { field: 'InstitutionCharge', title: '机构费用' }
                     , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
                 ]]
@@ -154,12 +156,13 @@
                 , url: '@Url.Action("LearningCenterChargeList", "Metadata", new { schoolId = Model })&levelId=' + levelId + '&majorId=' + majorId
                 , page: true //开启分页
                 , cols: [[ //标题栏
-                    { title: '学院中心费用策略', colspan: 6 } //rowspan即纵向跨越的单元格数
+                    { title: '学院中心费用策略', colspan: 7 } //rowspan即纵向跨越的单元格数
                 ], [ //标题栏
                     { field: 'LearningCenterName', title: '学院中心' }
                     , { field: 'Name', title: '策略名称' }
                     , { field: 'StartDateStr', title: '开始时间' }
                     , { field: 'EndDateStr', title: '截至时间' }
+                    , { field: 'BatchName', title: '关联批次' }
                     , { field: 'CenterCharge', title: '中心费用' }
                     , { title: '操作', width: 80, fixed: 'right', templet: '#operat' }
                 ]]

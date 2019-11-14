@@ -585,3 +585,7 @@ INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Acti
 --2019-11-8 基础资料表增加是否启用、标记
 alter table T_Metadata add IsEnable bit not null default 1;
 alter table T_Metadata add Tags nvarchar(100) null;
+
+--2019-11-14 批次增加时间段
+alter table T_Metadata add StartDate datetime null;
+alter table T_Metadata add EndDate datetime null;

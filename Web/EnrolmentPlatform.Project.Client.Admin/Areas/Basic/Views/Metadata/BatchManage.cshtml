@@ -13,15 +13,40 @@
         </div>
     </div>
 </div>
-
+<!--弹出框-->
+<div id="btn-modal" style="display:none">
+    <div class="layui-form margin-top-20">
+        <div class="layui-form-item big-label">
+            <label class="layui-form-label">批次名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="batchName" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item big-label">
+            <label class="layui-form-label">时间段</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="date" autocomplete="off" placeholder=" - ">
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/html" id="operat">
-    <i class="layui-icon" lay-event="update" style="font-size: 20px;color: #009688;">&#xe642;</i>
+    <i class="layui-icon" lay-event="update" style="font-size: 20px;color: #009688;cursor: pointer;">&#xe642;</i>
 </script>
-
+<script type="text/html" id="dateTpl">
+    {{#  if(d.StartDate != null && d.EndDate != null){ }}
+    <span>{{d.StartDate.substring(0, 10)}} - {{d.EndDate.substring(0, 10)}}</span>
+    {{#  } }}
+</script>
 <script>
     var isSubmit = true;
-    layui.use(['table', 'form'], function () {
-        var table = layui.table, form = layui.form;
+    layui.use(['table', 'laydate'], function () {
+        var table = layui.table, laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date'
+            , range: true
+        });
         //第一个实例
         table.render({
             id: 'sid'
@@ -29,11 +54,12 @@
             , url: '@Url.Action("MetadataList", "Metadata", new { Type= MetadataTypeEnum.Batch })'
             , page: true //开启分页
             , cols: [[ //标题栏
-                { title: '批次信息', colspan: 4 } //rowspan即纵向跨越的单元格数
+                { title: '批次信息', colspan: 5 } //rowspan即纵向跨越的单元格数
             ], [ //标题栏
                 { type: 'checkbox' }
                 , { type: 'numbers', title: '序号' }
                 , { field: 'Name', title: '批次名称' }
+                , { title: '时间段', templet: '#dateTpl' }
                 , { title: '操作', width: 80, templet: '#operat' }
             ]]
         });
@@ -41,37 +67,60 @@
         table.on('tool(batch)', function (obj) {
             var data = obj.data;
             if (obj.event === 'update') {
-                layer.prompt({
-                    value: data.Name,
+                $("#batchName").val(data.Name);
+                if (data.StartDate != null && data.EndDate != null) {
+                    $("#date").val(data.StartDate.substring(0, 10) + " - " + data.EndDate.substring(0, 10));
+                } else {
+                    $("#date").val("");
+                }
+                layer.open({
+                    type: 1,
                     title: '修改批次',
-                }, function (value, index, elem) {
-                    if (isSubmit) {
-                        isSubmit = false;
-                        $.ajax({
-                            url: "@Url.Action("UpdateMetadata", "Metadata")",
-                            type: "post",
-                            data: { Id: data.Id, Name: value },
-                            dataType: "json",
-                            success: function (res) {
-                                if (res.IsSuccess) {
-                                    layer.msg("保存成功", {
-                                        icon: 1
-                                        , time: 1000
-                                    }, function () {
-                                        table.reload('sid');
-                                        layer.close(index);
-                                    });
-                                } else {
-                                    layer.msg(res.Info, {
-                                        icon: 2
-                                        , time: 2000
-                                    });
+                    btn: ['确定', '取消'],
+                    area: ['400px', '300px'], //宽高
+                    content: $('#btn-modal'),
+                    yes: function () {
+                        var batchName = $.trim($("#batchName").val());
+                        if (batchName.length == 0) {
+                            layer.msg("请输入批次名称！");
+                            return false;
+                        }
+                        if ($.trim($("#date").val()).length == 0) {
+                            layer.msg("请输入时间段！");
+                            return false;
+                        }
+                        var startDate = $("#date").val().split(" - ")[0];
+                        var endDate = $("#date").val().split(" - ")[1];
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: "@Url.Action("UpdateMetadata", "Metadata")",
+                                type: "post",
+                                data: { Id: data.Id, Name: batchName, StartDate: startDate, EndDate: endDate },
+                                dataType: "json",
+                                success: function (res) {
+                                    if (res.IsSuccess) {
+                                        layer.msg("保存成功", {
+                                            icon: 1
+                                            , time: 1000
+                                        }, function () {
+                                            table.reload('sid');
+                                            layer.closeAll();
+                                        });
+                                    } else {
+                                        layer.msg(res.Info, {
+                                            icon: 2
+                                            , time: 2000
+                                        });
+                                    }
+                                },
+                                complete: function () {
+                                    isSubmit = true;
                                 }
-                            },
-                            complete: function () {
-                                isSubmit = true;
-                            }
-                        });
+                            });
+                        }
+                    },
+                    btn2: function () {
                     }
                 });
             }
@@ -115,34 +164,56 @@
                 }
             },
             add: function () {
-                layer.prompt({ title: '添加批次' }, function (value, index, elem) {
-                    if (isSubmit) {
-                        isSubmit = false;
-                        $.ajax({
-                            url: "@Url.Action("AddMetadata", "Metadata")",
-                            type: "post",
-                            data: { Name: value, Type: "@MetadataTypeEnum.Batch" },
-                            dataType: "json",
-                            success: function (res) {
-                                if (res.IsSuccess) {
-                                    layer.msg("保存成功", {
-                                        icon: 1
-                                        , time: 1000
-                                    }, function () {
-                                        table.reload('sid');
-                                        layer.close(index);
-                                    });
-                                } else {
-                                    layer.msg(res.Info, {
-                                        icon: 2
-                                        , time: 2000
-                                    });
+                $("#batchName").val("");
+                $("#date").val("");
+                layer.open({
+                    type: 1,
+                    title: '添加批次',
+                    btn: ['确定', '取消'],
+                    area: ['400px', '300px'], //宽高
+                    content: $('#btn-modal'),
+                    yes: function () {
+                        var batchName = $.trim($("#batchName").val());
+                        if (batchName.length == 0) {
+                            layer.msg("请输入批次名称！");
+                            return false;
+                        }
+                        if ($.trim($("#date").val()).length == 0) {
+                            layer.msg("请输入时间段！");
+                            return false;
+                        }
+                        var startDate = $("#date").val().split(" - ")[0];
+                        var endDate = $("#date").val().split(" - ")[1];
+                        if (isSubmit) {
+                            isSubmit = false;
+                            $.ajax({
+                                url: "@Url.Action("AddMetadata", "Metadata")",
+                                type: "post",
+                                data: { Name: batchName, Type: "@MetadataTypeEnum.Batch", StartDate: startDate, EndDate: endDate },
+                                dataType: "json",
+                                success: function (res) {
+                                    if (res.IsSuccess) {
+                                        layer.msg("保存成功", {
+                                            icon: 1
+                                            , time: 1000
+                                        }, function () {
+                                            table.reload('sid');
+                                            layer.closeAll();
+                                        });
+                                    } else {
+                                        layer.msg(res.Info, {
+                                            icon: 2
+                                            , time: 2000
+                                        });
+                                    }
+                                },
+                                complete: function () {
+                                    isSubmit = true;
                                 }
-                            },
-                            complete: function () {
-                                isSubmit = true;
-                            }
-                        });
+                            });
+                        }
+                    },
+                    btn2: function () {
                     }
                 });
             }

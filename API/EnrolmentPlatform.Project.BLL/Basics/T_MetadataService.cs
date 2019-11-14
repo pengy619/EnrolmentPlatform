@@ -49,6 +49,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 Type = (int)dto.Type,
                 Tags = dto.Tags,
                 IsEnable = true,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
                 CreatorUserId = dto.CreatorUserId,
                 CreatorAccount = dto.CreatorAccount
             };
@@ -79,6 +81,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
             }
             entity.Name = dto.Name;
             entity.Tags = dto.Tags;
+            entity.StartDate = dto.StartDate;
+            entity.EndDate = dto.EndDate;
             _resultMsg.IsSuccess = this.metadataRepository.UpdateEntity(entity) > 0;
             return _resultMsg;
         }
@@ -123,6 +127,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public List<MetadataDto> GetList(MetadataTypeEnum type)
         {
             return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.IsEnable == true && a.Type == (int)type)
+                .Where(t => type == MetadataTypeEnum.Batch ? t.EndDate >= DateTime.Today : true) //过滤历史批次
                 .Select(a => new MetadataDto()
                 {
                     Id = a.Id,
@@ -153,7 +158,9 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                     Name = t.Name,
                     Type = (MetadataTypeEnum)t.Type,
                     Tags = t.Tags,
-                    IsEnable = t.IsEnable
+                    IsEnable = t.IsEnable,
+                    StartDate = t.StartDate,
+                    EndDate = t.EndDate
                 }).ToList();
             res.Count = records;
             return res;

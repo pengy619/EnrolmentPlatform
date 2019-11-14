@@ -100,6 +100,11 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 学院中心名称
         /// </summary>
         public string LearningCenterName { get; set; }
+
+        /// <summary>
+        /// 批次名称
+        /// </summary>
+        public string BatchName { set; get; }
     }
 
     /// <summary>

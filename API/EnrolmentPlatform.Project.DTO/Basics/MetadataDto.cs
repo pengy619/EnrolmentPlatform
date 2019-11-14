@@ -42,6 +42,16 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 标记
         /// </summary>
         public string Tags { get; set; }
+
+        /// <summary>
+        /// 开始时间
+        /// </summary>		
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// 截止时间
+        /// </summary>		
+        public DateTime? EndDate { get; set; }
     }
 
     /// <summary>
