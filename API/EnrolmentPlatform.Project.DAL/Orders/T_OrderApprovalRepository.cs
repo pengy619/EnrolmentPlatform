@@ -36,7 +36,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 var curApproval = dbContext.T_OrderApproval.FirstOrDefault(a => a.Id == dto.ApprovalId.Value);
                 if (curApproval.ApprovalStatus != (int)OrderApprovalStatusEnum.Init)
                 {
-                    return new ResultMsg() { IsSuccess=false, Info="当前状态不允许修改。" };
+                    return new ResultMsg() { IsSuccess = false, Info = "当前状态不允许修改。" };
                 }
                 curApproval.Address = dto.Address;
                 curApproval.BiYeZhengBianHao = dto.BiYeZhengBianHao;
@@ -226,6 +226,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     return new ResultMsg() { IsSuccess = false, Info = "找不到订单图片信息" };
                 }
 
+                var paymentList = dbContext.T_PaymentInfo.Where(a => approvalOrderIdList.Contains(a.OrderId)).ToList();
                 //循环处理
                 foreach (var approval in approvalList)
                 {
@@ -262,7 +263,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     {
                         dbContext.T_File.Add(new Domain.Entities.T_File()
                         {
-                            Id =Guid.NewGuid(),
+                            Id = Guid.NewGuid(),
                             ForeignKeyId = approval.OrderId,
                             FilePath = item.FilePath,
                             FileName = item.FileName,
@@ -279,34 +280,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         });
                     }
 
-                    //5.金额处理
+                    //5.修改了院校/层次/专业需要判断订单是否已缴费，已缴费的订单不能审核通过
                     if (order.SchoolId != approval.SchoolId || order.LevelId != approval.LevelId || order.MajorId != approval.MajorId)
                     {
-                        //基础收费策略
-                        var nowDate = DateTime.Now.Date;
-                        var chargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == approval.SchoolId && a.LevelId == approval.LevelId
-                        && a.MajorId == approval.MajorId && a.InstitutionId == Guid.Empty
-                        && nowDate >= a.StartDate && nowDate <= a.EndDate);
-                        if (chargeStrategy == null)
+                        if (paymentList.Any(a => a.OrderId == order.Id))
                         {
-                            //找不到当前时间段的价格策略
-                            return new ResultMsg() { IsSuccess = false, Info = "找不到当前时间段的价格策略" };
-                        }
-
-                        //特定收费策略
-                        var insChargeStrategy = dbContext.T_ChargeStrategy.FirstOrDefault(a => a.SchoolId == approval.SchoolId
-                        && a.LevelId == approval.LevelId && a.MajorId == approval.MajorId && a.InstitutionId == order.FromChannelId.Value
-                        && nowDate >= a.StartDate && nowDate <= a.EndDate);
-
-                        if (insChargeStrategy != null)
-                        {
-                            var jigou = dbContext.T_OrderAmount.FirstOrDefault(a => a.OrderId == approval.OrderId && a.PaymentSource == 1);
-                            jigou.TotalAmount = insChargeStrategy.InstitutionCharge;
-                            dbContext.Entry(jigou).State = EntityState.Modified;
-
-                            var xueyuan = dbContext.T_OrderAmount.FirstOrDefault(a => a.OrderId == approval.OrderId && a.PaymentSource == 2);
-                            xueyuan.TotalAmount = chargeStrategy.CenterCharge;
-                            dbContext.Entry(xueyuan).State = EntityState.Modified;
+                            return new ResultMsg() { IsSuccess = false, Info = order.StudentName + "的订单已有缴费记录。" };
                         }
                     }
 
@@ -330,6 +309,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
                     order.IsTvUniversity = approval.IsTvUniversity;
                     order.GraduationTime = approval.GraduationTime;
+                    order.SchoolId = approval.SchoolId;
+                    order.LevelId = approval.LevelId;
+                    order.MajorId = approval.MajorId;
+                    order.BatchId = approval.BatchId;
                     order.CustomerField = approval.CustomerField;
                     dbContext.Entry(order).State = EntityState.Modified;
                 }
@@ -364,7 +347,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             {
                 if (item.ApprovalStatus != (int)OrderApprovalStatusEnum.Init && item.ApprovalStatus != (int)OrderApprovalStatusEnum.Faild)
                 {
-                    return new ResultMsg() { IsSuccess=false, Info="当前状态不允许删除。" };
+                    return new ResultMsg() { IsSuccess = false, Info = "当前状态不允许删除。" };
                 }
             }
 
@@ -416,7 +399,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
         /// <param name="req">req</param>
         /// <param name="reCount">reCount</param>
         /// <returns></returns>
-        public List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req,out int reCount)
+        public List<OrderUpdateApprovalListDto> GetOrderUpdateApprovalList(OrderUpdateApprovalReq req, out int reCount)
         {
             StringBuilder sql = new StringBuilder(@"SELECT 
                         a.Id AS ApprovalId,

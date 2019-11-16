@@ -154,9 +154,9 @@
                         <option @Html.Raw((dto != null && dto.IsTvUniversity == true) ? "selected" : "") value="true">是</option>
                     </select>
                 </div>
-                <label class="layui-form-label">毕业时间</label>
+                <label class="layui-form-label"><span style="color:red;">* </span>毕业时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="GraduationTime" readonly value='@((dto!=null && dto.GraduationTime.HasValue) ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
+                    <input type="text" class="layui-input" lay-verify="required" id="GraduationTime" readonly value='@((dto!=null && dto.GraduationTime.HasValue) ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
                 </div>
                 <label class="layui-form-label">招生老师</label>
                 <div class="layui-input-inline">
