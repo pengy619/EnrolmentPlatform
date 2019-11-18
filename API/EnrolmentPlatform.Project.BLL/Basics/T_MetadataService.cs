@@ -126,6 +126,24 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <returns></returns>
         public List<MetadataDto> GetList(MetadataTypeEnum type)
         {
+            return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.Type == (int)type)
+                .Select(a => new MetadataDto()
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Type = (MetadataTypeEnum)a.Type,
+                    CreatorUserId = a.CreatorUserId,
+                    CreatorAccount = a.CreatorAccount
+                }).OrderBy(t => t.Name).ToList();
+        }
+
+        /// <summary>
+        /// 获取可用的列表
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public List<MetadataDto> GetEnableList(MetadataTypeEnum type)
+        {
             return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.IsEnable == true && a.Type == (int)type)
                 .Where(t => type == MetadataTypeEnum.Batch ? t.EndDate >= DateTime.Today : true) //过滤历史批次
                 .Select(a => new MetadataDto()

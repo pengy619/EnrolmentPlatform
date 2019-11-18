@@ -39,6 +39,13 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         List<MetadataDto> GetList(MetadataTypeEnum type);
 
         /// <summary>
+        /// 获取可用的列表
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        List<MetadataDto> GetEnableList(MetadataTypeEnum type);
+
+        /// <summary>
         /// 获取分页列表
         /// </summary>
         /// <param name="req"></param>

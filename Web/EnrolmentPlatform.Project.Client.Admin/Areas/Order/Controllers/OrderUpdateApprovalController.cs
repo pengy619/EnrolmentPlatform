@@ -86,9 +86,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             //订单信息
             ViewBag.OrderInfo = orderInfo;
             //批次
-            ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            ViewBag.BatchList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
             //学校
-            ViewBag.SchoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
+            ViewBag.SchoolList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.School);
             return View();
         }
 
