@@ -87,6 +87,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 for (int j = 0; j < firstRow.LastCellNum; j++)
                 {
                     ICell cell = row.CreateCell(j, CellType.String);
+                    if (j >= customerFieldStart)
+                    {
+                        cell.SetCellValue("");
+                    }
                 }
                 var dto = list[i];
                 row.Cells[0].SetCellValue(dto.StudentName);
@@ -129,10 +133,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                             if (dic.Keys.Contains(title))
                             {
                                 row.Cells[customerFieldStart + j].SetCellValue(dic[title]);
-                            }
-                            else
-                            {
-                                row.Cells[customerFieldStart + j].SetCellValue("");
                             }
                         }
                     }
