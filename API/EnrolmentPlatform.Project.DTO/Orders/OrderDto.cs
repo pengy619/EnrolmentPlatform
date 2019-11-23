@@ -482,6 +482,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 密码
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// 自定义字段
+        /// </summary>
+        public string CustomerField { get; set; }
     }
 
     /// <summary>

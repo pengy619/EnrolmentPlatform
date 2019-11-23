@@ -235,7 +235,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Email = a.Email,
                             UserName = a.UserName,
                             Password = a.Password,
-                            AssistStatus = a.AssistStatus
+                            AssistStatus = a.AssistStatus,
+                            CustomerField = a.CustomerField
                         };
 
             //学校

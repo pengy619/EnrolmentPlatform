@@ -26,6 +26,27 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
+        public List<CustomerFieldDto> GetFullList()
+        {
+            return this.customerFieldRepository.LoadEntities(a => true)
+                .OrderBy(a => a.CreatorTime)
+                .Select(a => new CustomerFieldDto()
+                {
+                    CustomerFieldType = a.CustomerFieldType,
+                    Id = a.Id,
+                    Name = a.Name,
+                    SchoolId = a.SchoolId,
+                    SelectItems = a.SelectItems,
+                    UserId = a.CreatorUserId,
+                    UserName = a.CreatorAccount
+                }).ToList();
+        }
+
+        /// <summary>
+        /// 获得一个学校所有自定义字段列表
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
         public List<CustomerFieldDto> GetAllList(GetAllListSearchDto dto)
         {
             return this.customerFieldRepository.LoadEntities(a => a.SchoolId == dto.SchoolId)

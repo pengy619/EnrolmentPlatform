@@ -19,6 +19,13 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
+        List<CustomerFieldDto> GetFullList();
+
+        /// <summary>
+        /// 获得一个学校所有自定义字段列表
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
         List<CustomerFieldDto> GetAllList(GetAllListSearchDto dto);
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers;
 using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Enums.Orders;
@@ -62,6 +63,20 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
 
             ISheet sheet = hssfworkbook.GetSheetAt(0);
             IRow firstRow = sheet.GetRow(0);
+
+            //增加自定义列
+            var customerFieldList = CustomerFieldService.GetFullList();
+            int customerFieldStart = 24;
+            if (customerFieldList != null && customerFieldList.Count > 0)
+            {
+                for (int i = 0; i < customerFieldList.Count; i++)
+                {
+                    var customerCell = firstRow.CreateCell(customerFieldStart + i);
+                    customerCell.CellStyle = firstRow.Cells.First().CellStyle;
+                    customerCell.SetCellValue(customerFieldList[i].Name);
+                }
+            }
+
             for (int i = 0; i < list.Count; i++)
             {
                 IRow row = sheet.CreateRow(i + 1);
@@ -95,6 +110,28 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 row.Cells[21].SetCellValue(dto.XueHao);
                 row.Cells[22].SetCellValue(dto.UserName);
                 row.Cells[23].SetCellValue(dto.Password);
+
+                //自定义字段
+                if (!string.IsNullOrWhiteSpace(dto.CustomerField))
+                {
+                    JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+                    var dic = javaScriptSerializer.Deserialize<Dictionary<string, string>>(dto.CustomerField);
+                    if (customerFieldList != null && customerFieldList.Count > 0)
+                    {
+                        for (int j = 0; j < customerFieldList.Count; j++)
+                        {
+                            string title = firstRow.Cells[customerFieldStart + j].StringCellValue;
+                            if (dic.Keys.Contains(title))
+                            {
+                                row.Cells[customerFieldStart + j].SetCellValue(dic[title]);
+                            }
+                            else
+                            {
+                                row.Cells[customerFieldStart + j].SetCellValue("");
+                            }
+                        }
+                    }
+                }
             }
 
             //导出
