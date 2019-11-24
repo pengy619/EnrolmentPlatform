@@ -22,7 +22,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 获得一个学校所有自定义字段列表
+        /// 获得所有学校不重复自定义字段列表
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
@@ -32,14 +32,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 .OrderBy(a => a.CreatorTime)
                 .Select(a => new CustomerFieldDto()
                 {
-                    CustomerFieldType = a.CustomerFieldType,
-                    Id = a.Id,
                     Name = a.Name,
-                    SchoolId = a.SchoolId,
-                    SelectItems = a.SelectItems,
-                    UserId = a.CreatorUserId,
-                    UserName = a.CreatorAccount
-                }).ToList();
+                }).Distinct().ToList();
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
     public interface IT_CustomerFieldService
     {
         /// <summary>
-        /// 获得一个学校所有自定义字段列表
+        /// 获得所有学校不重复自定义字段列表
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
