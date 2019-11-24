@@ -7,7 +7,7 @@ using EnrolmentPlatform.Project.Domain.Entities;
 
 namespace EnrolmentPlatform.Project.IDAL.Basics
 {
-    public interface IT_MetadataRepository : IBaseRepository<T_Metadata>
+    public interface IT_MetadataRepository : IBaseRepository<T_Metadata> 
     {
     }
 }
