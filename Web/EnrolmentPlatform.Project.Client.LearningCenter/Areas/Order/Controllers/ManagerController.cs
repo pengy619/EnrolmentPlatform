@@ -287,7 +287,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
             }
             else
             {
-                return Json(new { ret = 0, msg = "录取失败。" });
+                return Json(new { ret = 0, msg = "匹配不到收费策略，录取失败。" });
             }
         }
 
