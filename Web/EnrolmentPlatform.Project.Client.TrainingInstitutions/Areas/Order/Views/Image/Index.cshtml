@@ -96,7 +96,7 @@
                         </select>
                     </div>
                 </div>
-                <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="AssistStatusSubmit">提交协助处理</button>
+                <button class="layui-btn layui-btn-normal layui-btn-small" lay-submit="" lay-filter="AssistStatusSubmit">提交协助处理证件</button>
                 <a href="javascript:exportOpreation();" id="export" style="margin-left:10px;"><button class="layui-btn layui-btn-primary">导出照片包</button></a>
             </div>
         </div>
@@ -224,10 +224,10 @@
             });
         });
 
-        //提交协助处理操作
+        //提交协助处理证件操作
         form.on('submit(AssistStatusSubmit)', function (data) {
             //提交确认
-            layer.confirm('确认提交协助处理？', {
+            layer.confirm('确认提交协助处理证件？', {
                 btn: ['确认', '取消']
             }, function (index, layero) {
 
