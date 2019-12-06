@@ -95,7 +95,7 @@
         form.on('submit(save)', function (data) {
             data.field.Id = $("#hidId").val();
             data.field.SchoolId = $("#hidSchoolId").val();
-            data.field.SelectItems = data.field.replace(/\s+/g, "");
+            data.field.SelectItems = data.field.SelectItems.replace(/\s+/g, "");
             $.ajax({
                 url: '@Url.Action("SaveCustomerField", "Metadata")',
                 type: 'post',
