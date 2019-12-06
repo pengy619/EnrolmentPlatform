@@ -74,7 +74,7 @@
             ]]
         });
 
-        //选择机构
+        //字段类型
         form.on("select(CustomerFieldType)", function (data) {
             changSelect(data.value);
         });
@@ -95,6 +95,7 @@
         form.on('submit(save)', function (data) {
             data.field.Id = $("#hidId").val();
             data.field.SchoolId = $("#hidSchoolId").val();
+            data.field.SelectItems = data.field.replace(/\s+/g, "");
             $.ajax({
                 url: '@Url.Action("SaveCustomerField", "Metadata")',
                 type: 'post',

@@ -3,7 +3,7 @@ function filedList(schoolId, data, beforeContains) {
     if (schoolId) {
         var jsonData = null;
         if (data) {
-            jsonData = JSON.parse(data.replace(/\s/g,""));
+            jsonData = JSON.parse(data);
         }
         $.ajax({
             type: "POST",
