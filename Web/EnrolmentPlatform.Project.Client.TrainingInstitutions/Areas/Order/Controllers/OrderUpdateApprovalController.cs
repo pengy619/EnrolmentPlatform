@@ -112,7 +112,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             //批次
             ViewBag.BatchList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
             //学校
-            ViewBag.SchoolList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.School);
+            ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null);
             return View();
         }
 

@@ -164,9 +164,9 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             }
 
             //批次
-            ViewBag.BatchList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
             //学校
-            ViewBag.SchoolList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.School);
+            ViewBag.SchoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
 
             return View();
         }
@@ -578,7 +578,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     }
                     else
                     {
-                        dto.LuquDate = DateTime.Now;
+                        dto.LuquDate = DateTime.Today;
                     }
 
                     if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
