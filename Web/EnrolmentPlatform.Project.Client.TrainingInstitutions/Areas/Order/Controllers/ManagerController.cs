@@ -164,6 +164,18 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     if (orderApproval != null)
                     {
                         ViewBag.ApprovalId = orderApproval.ApprovalId.Value.ToString();
+                        //if (orderApproval.ApprovalStatus.Value == 0)
+                        //{
+                            return Redirect("/Order/OrderUpdateApproval/OrderInfo?action=update&approvalId=" + orderApproval.ApprovalId.Value.ToString());
+                        //}
+                        //else
+                        //{
+                        //    return Redirect("/Order/OrderUpdateApproval/OrderInfo?action=view&approvalId=" + orderApproval.ApprovalId.Value.ToString());
+                        //}
+                    }
+                    else
+                    {
+                        return Redirect("/Order/OrderUpdateApproval/OrderInfo?action=update&orderId=" + orderInfo.OrderId);
                     }
                 }
             }

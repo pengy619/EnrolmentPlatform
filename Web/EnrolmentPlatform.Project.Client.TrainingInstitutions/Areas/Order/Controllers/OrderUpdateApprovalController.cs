@@ -245,6 +245,17 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             return Json(list);
         }
 
+        /// <summary>
+        /// 根据学习形式获取学校列表
+        /// </summary>
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        public JsonResult GetSchoolListByTags(string tags)
+        {
+            var data = MetadataService.GetSchoolListByTags(tags);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         #region 图片处理
 
         /// <summary>

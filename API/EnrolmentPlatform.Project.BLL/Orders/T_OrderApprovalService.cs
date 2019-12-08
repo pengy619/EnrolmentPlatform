@@ -43,7 +43,8 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns></returns>
         public OrderApprovalDto GetOrderApplyApprovalInfoByOrderId(Guid orderId)
         {
-            var entity = this.orderApprovalRepository.LoadEntities(a => a.IsDelete == false && a.OrderId == orderId && a.ApprovalStatus == (int)OrderApprovalStatusEnum.Init)
+            var entity = this.orderApprovalRepository.LoadEntities(a => a.IsDelete == false && a.OrderId == orderId
+                && (a.ApprovalStatus == (int)OrderApprovalStatusEnum.Init || a.ApprovalStatus == (int)OrderApprovalStatusEnum.Approval))
                 .FirstOrDefault();
             if (entity == null)
             {

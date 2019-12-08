@@ -36,7 +36,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 var curApproval = dbContext.T_OrderApproval.FirstOrDefault(a => a.Id == dto.ApprovalId.Value);
                 if (curApproval.ApprovalStatus != (int)OrderApprovalStatusEnum.Init)
                 {
-                    return new ResultMsg() { IsSuccess = false, Info = "当前状态不允许修改。" };
+                    return new ResultMsg() { IsSuccess = false, Info = "已存在待审核的变更，不允许再提交保存。" };
                 }
                 curApproval.Address = dto.Address;
                 curApproval.BiYeZhengBianHao = dto.BiYeZhengBianHao;
@@ -147,11 +147,19 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 {
                     dbContext.T_File.Add(new Domain.Entities.T_File()
                     {
+                        Id=Guid.NewGuid(),
                         ForeignKeyId = approval.Id,
                         FilePath = item.FilePath,
                         FileName = item.FileName,
                         CreatorUserId = approval.CreatorUserId,
-                        CreatorAccount = approval.CreatorAccount
+                        CreatorAccount = dto.ZhaoShengLaoShi,
+                        CreatorTime = DateTime.Now,
+                         DeleteUserId=Guid.Empty,
+                        DeleteTime = DateTime.MaxValue,
+                        IsDelete = false,
+                        LastModifyTime = DateTime.Now,
+                        LastModifyUserId = dto.UserId,
+                        Unix = DateTime.Now.ConvertDateTimeInt()
                     });
                 }
             }
