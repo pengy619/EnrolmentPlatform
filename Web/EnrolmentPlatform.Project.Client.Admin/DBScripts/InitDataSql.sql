@@ -589,3 +589,6 @@ alter table T_Metadata add Tags nvarchar(100) null;
 --2019-11-14 批次增加时间段
 alter table T_Metadata add StartDate datetime null;
 alter table T_Metadata add EndDate datetime null;
+
+--2019-12-8招生机构报名单查看菜单添加
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'A5941634-596A-409E-A86F-740D97F7C067', N'报名查看', 4, N'Order', N'Manager', N'View', NULL, 5, N'A6C94F60-EB76-4AD9-BD6C-2C259B9BF6E7', 5, NULL);
