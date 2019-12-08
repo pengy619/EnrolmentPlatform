@@ -24,6 +24,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public Guid BatchId { set; get; }
 
         /// <summary>
+        /// 批次名称
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
         /// 学生姓名
         /// </summary>
         public string StudentName { set; get; }
@@ -44,14 +49,29 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public Guid SchoolId { set; get; }
 
         /// <summary>
+        /// 学校名称
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
         /// 报读层次
         /// </summary>
         public Guid LevelId { set; get; }
 
         /// <summary>
+        /// 层次名称
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
         /// 报读专业
         /// </summary>
         public Guid MajorId { set; get; }
+
+        /// <summary>
+        /// 专业名称
+        /// </summary>
+        public string MajorName { set; get; }
 
         /// <summary>
         /// 手机号码

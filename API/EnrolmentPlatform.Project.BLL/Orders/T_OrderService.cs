@@ -204,53 +204,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         /// <returns></returns>
         public OrderDto GetOrder(Guid id)
         {
-            var entity = this.orderRepository.FindEntityById(id);
-            if (entity == null)
-            {
-                return null;
-            }
-
-            return new OrderDto()
-            {
-                Address = entity.Address,
-                AllOrderImageUpload = entity.AllOrderImageUpload,
-                BatchId = entity.BatchId,
-                Email = entity.Email,
-                EnrollAddress = entity.EnrollAddress,
-                ExamDate = entity.ExamDate,
-                ExamSubject = entity.ExamSubject,
-                FromChannelId = entity.FromChannelId,
-                FromTypeName = entity.FromTypeName,
-                GraduateSchool = entity.GraduateSchool,
-                HighesDegree = entity.HighesDegree,
-                IDCardNo = entity.IDCardNo,
-                LevelId = entity.LevelId,
-                MajorId = entity.MajorId,
-                Native = entity.Native,
-                OrderId = entity.Id,
-                Phone = entity.Phone,
-                Remark = entity.Remark,
-                SchoolId = entity.SchoolId,
-                Status = entity.Status,
-                StudentName = entity.StudentName,
-                TencentNo = entity.TencentNo,
-                ToLearningCenterId = entity.ToLearningCenterId,
-                UserId = entity.CreatorUserId,
-                UserName = entity.CreatorAccount,
-                WorkUnit = entity.WorkUnit,
-                BiYeZhengBianHao = entity.BiYeZhengBianHao,
-                GongZuoDanWei = entity.GongZuoDanWei,
-                GraduationTime = entity.GraduationTime,
-                IsTvUniversity = entity.IsTvUniversity,
-                SuoDuZhuanYe = entity.SuoDuZhuanYe,
-                JiGuan = entity.JiGuan,
-                MinZu = entity.MinZu,
-                Sex = entity.Sex,
-                CreateTime = entity.CreatorTime,
-                CreateUserName = entity.UserName,
-                AssistStatus = entity.AssistStatus,
-                CustomerField = entity.CustomerField
-            };
+            return this.orderRepository.GetOrder(id);
         }
 
         /// <summary>

@@ -162,12 +162,6 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             {
                 return RedirectToAction("Index", "Manager");
             }
-
-            //批次
-            ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
-            //学校
-            ViewBag.SchoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
-
             return View();
         }
 

@@ -48,7 +48,7 @@
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
-                <div class="layui-input-inline" style="width: 85px">
+                @*<div class="layui-input-inline" style="width: 85px">
                     <select name="tags" lay-filter="tags">
                         <option value=""></option>
                         <option value="自考">自考</option>
@@ -60,26 +60,22 @@
                         <option value="研究生">研究生</option>
                         <option value="资格证书">资格证书</option>
                     </select>
-                </div>
+                </div>*@
                 <div class="layui-input-inline">
                     <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required" lay-search>
-                        <option value=""></option>
-                        @foreach (var item in schoolList)
-                        {
-                            <option @Html.Raw((dto != null && item.Id == dto.SchoolId) ? "selected" : "") value="@item.Id">@item.Name</option>
-                        }
+                        <option value="@dto.SchoolId">@dto.SchoolName</option>
                     </select>
                 </div>
                 <label class="layui-form-label">层次</label>
                 <div class="layui-input-inline">
                     <select id="LevelId" name="LevelId" lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required" lay-search>
-                        <option value=""></option>
+                        <option value="@dto.LevelId">@dto.LevelName</option>
                     </select>
                 </div>
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-inline">
                     <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required" lay-search>
-                        <option value=""></option>
+                        <option value="@dto.MajorId">@dto.MajorName</option>
                     </select>
                 </div>
             </div>
@@ -87,11 +83,7 @@
                 <label class="layui-form-label">批次</label>
                 <div class="layui-input-inline">
                     <select id="BatchId" name="BatchId" lay-verify="required" lay-search>
-                        <option value=""></option>
-                        @foreach (var item in batchList)
-                        {
-                            <option @Html.Raw((dto != null && item.Id == dto.BatchId) ? "selected" : "") value="@item.Id">@item.Name</option>
-                        }
+                        <option value="@dto.BatchId">@dto.BatchName</option>
                     </select>
                 </div>
             </div>
@@ -259,13 +251,14 @@
             return false;
         });
 
-        //初始加载
+        @*//初始加载
         if ("@(dto!=null?"true":"")" != "") {
             loadLevel();
             $("#MajorId").val("@(dto!=null?dto.MajorId.ToString():"")");
             form.render('select');
-        }
+        }*@
 
+        @*
         //学习形式切换
         form.on('select(tags)', function (data) {
             $("#SchoolId").find("option").remove();
@@ -307,7 +300,7 @@
             $("#MajorId").find("option").remove();
             ChangeSelectData($(data.elem).find("option:selected").attr("childId"), 2);
             form.render('select');
-        });
+        });*@
 
         //修改院校层级专业下拉框数据
         function ChangeSelectData(id, type) {

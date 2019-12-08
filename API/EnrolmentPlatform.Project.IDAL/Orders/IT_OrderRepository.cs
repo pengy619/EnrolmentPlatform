@@ -91,5 +91,12 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// <param name="dto"></param>
         /// <returns></returns>
         string JiGouUpload(JiGouOrderUploadDto dto);
+
+        /// <summary>
+        /// 获得报名列表
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <returns></returns>
+        OrderDto GetOrder(Guid orderId);
     }
 }

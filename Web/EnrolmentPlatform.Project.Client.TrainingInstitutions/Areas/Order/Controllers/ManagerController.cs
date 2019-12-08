@@ -27,6 +27,16 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         }
 
         /// <summary>
+        /// 查看界面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult View(Guid orderId)
+        {
+            ViewBag.OrderInfo = OrderService.GetOrder(orderId);
+            return View();
+        }
+
+        /// <summary>
         /// 导出
         /// </summary>
         /// <param name="param">param</param>

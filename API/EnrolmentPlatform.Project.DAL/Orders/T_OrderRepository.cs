@@ -233,7 +233,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Phone = a.Phone,
                             TencentNo = a.TencentNo,
                             Email = a.Email,
-                            UserName = a.UserName,
+                            UserName = a.CreatorAccount,
                             Password = a.Password,
                             AssistStatus = a.AssistStatus,
                             CustomerField = a.CustomerField
@@ -1241,6 +1241,70 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             dbContext.LogChangesDuringSave = false;
             dbContext.SaveChanges();
             return "";
+        }
+
+        /// <summary>
+        /// 获得报名列表
+        /// </summary>
+        /// <param name="orderId">orderId</param>
+        /// <returns></returns>
+        public OrderDto GetOrder(Guid orderId)
+        {
+            EnrolmentPlatformDbContext dbContext = this.GetDbContext();
+            var query = from a in dbContext.T_Order
+                        join b in dbContext.T_Metadata on a.BatchId equals b.Id into btemp
+                        from bbtemp in btemp.DefaultIfEmpty()
+                        join c in dbContext.T_Metadata on a.SchoolId equals c.Id into ctemp
+                        from cctemp in ctemp.DefaultIfEmpty()
+                        join d in dbContext.T_Metadata on a.LevelId equals d.Id into dtemp
+                        from ddtemp in dtemp.DefaultIfEmpty()
+                        join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
+                        from eetemp in etemp.DefaultIfEmpty()
+                        join f in dbContext.T_Enterprise on a.FromChannelId.Value equals f.Id into ftemp
+                        from fftemp in ftemp.DefaultIfEmpty()
+                        join g in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals g.Id into gtemp
+                        from ggtemp in gtemp.DefaultIfEmpty()
+                        select new OrderDto()
+                        {
+                            AllOrderImageUpload = a.AllOrderImageUpload,
+                            BatchName = bbtemp.Name,
+                            CreateTime = a.CreatorTime,
+                            CreateUserName = a.CreatorAccount,
+                            MajorName = eetemp.Name,
+                            OrderId = a.Id,
+                            SchoolName = cctemp.Name,
+                            Status = a.Status,
+                            StudentName = a.StudentName,
+                            FromChannelId = a.FromChannelId,
+                            GraduationTime = a.GraduationTime,
+                            LevelId = a.LevelId,
+                            BatchId = a.BatchId,
+                            MajorId = a.MajorId,
+                            SchoolId = a.SchoolId,
+                            LevelName = ddtemp.Name,
+                            SuoDuZhuanYe = a.SuoDuZhuanYe,
+                            WorkUnit = a.WorkUnit,
+                            EnrollAddress = a.EnrollAddress,
+                            IsTvUniversity = a.IsTvUniversity,
+                            Native = a.Native,
+                            Remark = a.Remark,
+                            Address = a.Address,
+                            BiYeZhengBianHao = a.BiYeZhengBianHao,
+                            GongZuoDanWei = a.GongZuoDanWei,
+                            GraduateSchool = a.GraduateSchool,
+                            HighesDegree = a.HighesDegree,
+                            IDCardNo = a.IDCardNo,
+                            JiGuan = a.JiGuan,
+                            MinZu = a.MinZu,
+                            Sex = a.Sex,
+                            Phone = a.Phone,
+                            TencentNo = a.TencentNo,
+                            Email = a.Email,
+                            UserName = a.CreatorAccount,
+                            AssistStatus = a.AssistStatus,
+                            CustomerField = a.CustomerField
+                        };
+            return query.FirstOrDefault();
         }
     }
 }

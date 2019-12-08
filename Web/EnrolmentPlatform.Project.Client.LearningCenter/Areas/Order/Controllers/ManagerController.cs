@@ -148,11 +148,6 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
                 ViewBag.OrderInfo = OrderService.GetOrder(orderId.Value);
             }
 
-            //批次
-            ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
-            //学校
-            ViewBag.SchoolList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.School);
-
             return View();
         }
 
