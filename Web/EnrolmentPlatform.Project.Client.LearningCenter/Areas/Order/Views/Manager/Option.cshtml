@@ -148,6 +148,7 @@
 
         //自定义字段
         filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", '@(dto!=null?Html.Raw(dto.CustomerField):null)',"schoolCustomerFieldBefore");
+        form.render('select');
 
         @*//初始加载
         if ("@(dto!=null?"true":"")" != "") {
