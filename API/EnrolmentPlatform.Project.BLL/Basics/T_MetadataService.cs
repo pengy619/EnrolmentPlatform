@@ -20,15 +20,11 @@ namespace EnrolmentPlatform.Project.BLL.Basics
     {
         private IT_MetadataRepository metadataRepository;
         private IT_OrderRepository orderRepository;
-        private IT_StockSettingRepository stockSettingRepository;
-        private IT_ChargeStrategyRepository chargeStrategyRepository;
 
         public T_MetadataService()
         {
             this.metadataRepository = DIContainer.Resolve<IT_MetadataRepository>();
             this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
-            this.stockSettingRepository = DIContainer.Resolve<IT_StockSettingRepository>();
-            this.chargeStrategyRepository = DIContainer.Resolve<IT_ChargeStrategyRepository>();
         }
 
         /// <summary>
@@ -215,10 +211,8 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <returns></returns>
         public List<MetadataDto> GetSchoolListByTags(string tags)
         {
-            //2019-12-7新增需求：从未设置过价格库存的学校不显示
-            var schoolIds = this.chargeStrategyRepository.LoadEntities(t => true).Select(t => t.SchoolId).ToList().Union(this.stockSettingRepository.LoadEntities(t => true).Select(t => t.SchoolId).ToList()).ToList();
             var noTags = string.IsNullOrWhiteSpace(tags);
-            return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.IsEnable == true && a.Type == (int)MetadataTypeEnum.School && schoolIds.Contains(a.Id))
+            return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.IsEnable == true && a.Type == (int)MetadataTypeEnum.School)
                 .Where(t => noTags ? true : t.Tags.Contains(tags))
                 .Select(a => new MetadataDto()
                 {
