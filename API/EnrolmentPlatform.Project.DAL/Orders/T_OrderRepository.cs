@@ -534,10 +534,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         from ddtemp in dtemp.DefaultIfEmpty()
                         join e in dbContext.T_Metadata on a.MajorId equals e.Id into etemp
                         from eetemp in etemp.DefaultIfEmpty()
-                        join f in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 1 } equals new { OrderId = f.OrderId, PaymentSource = f.PaymentSource } into ftemp
-                        from fftemp in ftemp.DefaultIfEmpty()
-                        join g in dbContext.T_OrderAmount on new { OrderId = a.Id, PaymentSource = 2 } equals new { OrderId = g.OrderId, PaymentSource = g.PaymentSource } into gtemp
-                        from ggtemp in gtemp.DefaultIfEmpty()
                         join h in dbContext.T_Enterprise on a.ToLearningCenterId.Value equals h.Id into htemp
                         from hhtemp in htemp.DefaultIfEmpty()
                         where a.IsDelete == false && (req.UserId.HasValue ? a.CreatorUserId == req.UserId.Value : true) &&
@@ -568,12 +564,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             SchoolName = cctemp.Name,
                             Status = a.Status,
                             StudentName = a.StudentName,
-                            ApprovalAmount = fftemp.ApprovalAmount,
-                            PayedAmount = fftemp.PayedAmount,
-                            TotalAmount = fftemp.TotalAmount,
-                            QDApprovalAmount = ggtemp.ApprovalAmount,
-                            QDPayedAmount = ggtemp.PayedAmount,
-                            QDTotalAmount = ggtemp.TotalAmount,
                             ToLearningCenterId = a.ToLearningCenterId.Value,
                             ToLearningCenterName = hhtemp.EnterpriseName
                         };
@@ -602,7 +592,27 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 return null;
             }
 
-            return query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            var list = query.OrderByDescending(a => a.CreateTime).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            var orderIdList = list.Select(t => t.OrderId).ToList();
+            var orderAmountList = dbContext.T_OrderAmount.Where(t => orderIdList.Contains(t.OrderId)).ToList();
+            list.ForEach(t =>
+            {
+                var jgAmount = orderAmountList.FirstOrDefault(a => a.OrderId == t.OrderId && a.PaymentSource == 1);
+                if (jgAmount != null)
+                {
+                    t.ApprovalAmount = jgAmount.ApprovalAmount;
+                    t.PayedAmount = jgAmount.PayedAmount;
+                    t.TotalAmount = jgAmount.TotalAmount;
+                }
+                var qdAmount = orderAmountList.FirstOrDefault(a => a.OrderId == t.OrderId && a.PaymentSource == 2);
+                if (qdAmount != null)
+                {
+                    t.QDApprovalAmount = qdAmount.ApprovalAmount;
+                    t.QDPayedAmount = qdAmount.PayedAmount;
+                    t.QDTotalAmount = qdAmount.TotalAmount;
+                }
+            });
+            return list;
         }
 
         /// <summary>
