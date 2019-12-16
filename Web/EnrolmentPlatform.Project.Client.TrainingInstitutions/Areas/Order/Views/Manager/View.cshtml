@@ -108,11 +108,8 @@
             </div>
             <div class="layui-form-item" id="schoolCustomerFieldBefore">
                 <label class="layui-form-label">是否电大毕业</label>
-                <div class="layui-input-inline">
-                    <select id="IsTvUniversity" name="IsTvUniversity">
-                        <option @Html.Raw((dto != null && dto.IsTvUniversity == false) ? "selected" : "") value="false">否</option>
-                        <option @Html.Raw((dto != null && dto.IsTvUniversity == true) ? "selected" : "") value="true">是</option>
-                    </select>
+                <div class="layui-input-inline">                    
+                    <input type="text" class="layui-input" value='@((dto!=null && dto.IsTvUniversity) ? "是" : "否")'>
                 </div>
                 <label class="layui-form-label"><span style="color:red;">* </span>毕业时间</label>
                 <div class="layui-input-inline">
