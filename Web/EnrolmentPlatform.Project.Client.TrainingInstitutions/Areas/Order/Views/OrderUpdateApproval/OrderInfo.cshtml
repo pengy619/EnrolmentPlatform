@@ -290,7 +290,9 @@
         form.on('select(SchoolId)', function (data) {
             loadLevel();
             //自定义字段
-            filedList($("#SchoolId").val(), "@(dto!=null?dto.CustomerField:"")", "schoolCustomerFieldBefore");
+            $("#schoolCustomerFieldBefore").nextAll().remove();
+            filedList(data.value, '@(dto!=null?Html.Raw(dto.CustomerField):null)', "schoolCustomerFieldBefore");
+            form.render('select');
         });
 
         function loadLevel() {
