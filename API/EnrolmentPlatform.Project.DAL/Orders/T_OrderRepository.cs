@@ -233,7 +233,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Phone = a.Phone,
                             TencentNo = a.TencentNo,
                             Email = a.Email,
-                            UserName = a.CreatorAccount,
+                            UserName = a.UserName,
                             Password = a.Password,
                             AssistStatus = a.AssistStatus,
                             CustomerField = a.CustomerField
