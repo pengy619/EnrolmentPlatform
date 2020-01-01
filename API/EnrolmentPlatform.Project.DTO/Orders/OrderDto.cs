@@ -507,6 +507,19 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 自定义字段
         /// </summary>
         public string CustomerField { get; set; }
+
+        /// <summary>
+        /// 毕业时间
+        /// </summary>
+        public DateTime? GraduationTime { get; set; }
+
+        public string GraduationTimeStr
+        {
+            get
+            {
+                return GraduationTime.HasValue ? GraduationTime.Value.ToString("yyyy-MM-dd") : "";
+            }
+        }
     }
 
     /// <summary>

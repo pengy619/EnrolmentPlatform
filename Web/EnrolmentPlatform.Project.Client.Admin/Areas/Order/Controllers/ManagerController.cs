@@ -69,7 +69,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
 
             //增加自定义列
             var customerFieldList = CustomerFieldService.GetFullList();
-            int customerFieldStart = 26;
+            int customerFieldStart = 27;
             if (customerFieldList != null && customerFieldList.Count > 0)
             {
                 for (int i = 0; i < customerFieldList.Count; i++)
@@ -110,15 +110,16 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 row.Cells[14].SetCellValue(dto.HighesDegree);
                 row.Cells[15].SetCellValue(dto.GraduateSchool);
                 row.Cells[16].SetCellValue(dto.BiYeZhengBianHao);
-                row.Cells[17].SetCellValue(dto.Address);
-                row.Cells[18].SetCellValue(dto.GongZuoDanWei);
-                row.Cells[19].SetCellValue(dto.FromChannelName);
-                row.Cells[20].SetCellValue(dto.ToLearningCenterName);
-                row.Cells[21].SetCellValue(dto.StatusName);
-                row.Cells[22].SetCellValue(dto.CreateUserName);
-                row.Cells[23].SetCellValue(dto.XueHao);
-                row.Cells[24].SetCellValue(dto.UserName);
-                row.Cells[25].SetCellValue(dto.Password);
+                row.Cells[17].SetCellValue(dto.GraduationTimeStr);
+                row.Cells[18].SetCellValue(dto.Address);
+                row.Cells[19].SetCellValue(dto.GongZuoDanWei);
+                row.Cells[20].SetCellValue(dto.FromChannelName);
+                row.Cells[21].SetCellValue(dto.ToLearningCenterName);
+                row.Cells[22].SetCellValue(dto.StatusName);
+                row.Cells[23].SetCellValue(dto.CreateUserName);
+                row.Cells[24].SetCellValue(dto.XueHao);
+                row.Cells[25].SetCellValue(dto.UserName);
+                row.Cells[26].SetCellValue(dto.Password);
 
                 //自定义字段
                 if (!string.IsNullOrWhiteSpace(dto.CustomerField))
