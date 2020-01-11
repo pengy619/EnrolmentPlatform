@@ -149,6 +149,16 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         /// <summary>
+        /// 查看界面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult View(Guid orderId)
+        {
+            ViewBag.OrderInfo = OrderService.GetOrder(orderId);
+            return View();
+        }
+
+        /// <summary>
         /// 操作界面
         /// </summary>
         /// <param name="orderId">orderId</param>
@@ -163,6 +173,12 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             {
                 return RedirectToAction("Index", "Manager");
             }
+
+            //批次
+            ViewBag.BatchList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            //学校
+            ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null);
+
             return View();
         }
 

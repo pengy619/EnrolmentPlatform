@@ -2,9 +2,12 @@
     ViewBag.Title = "报名单";
     Layout = "~/Views/Shared/_Layout.cshtml";
     OrderDto dto = ViewBag.OrderInfo;
-    List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> batchList = ViewBag.BatchList;
-    List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> schoolList = ViewBag.SchoolList;
 }
+<style type="text/css">
+    .layui-form-label {
+        width: 90px !important;
+    }
+</style>
 <div class="main-wrap">
     <div class="panel layui-form">
         <div class="panel-title">
@@ -14,118 +17,103 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">学生姓名</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="StudentName" value='@((dto!=null) ? dto.StudentName : "")'>
+                    <input type="text" class="layui-input" id="StudentName" value='@((dto!=null) ? dto.StudentName : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">身份证号</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="IDCardNo" value='@((dto!=null) ? dto.IDCardNo : "")'>
+                    <input type="text" class="layui-input" id="IDCardNo" value='@((dto!=null) ? dto.IDCardNo : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">手机号</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="Phone" value='@((dto!=null) ? dto.Phone : "")'>
+                    <input type="text" class="layui-input" id="Phone" value='@((dto!=null) ? dto.Phone : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">微信/QQ</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="20" lay-verify="required" id="TencentNo" value='@((dto!=null) ? dto.TencentNo : "")'>
+                    <input type="text" class="layui-input" id="TencentNo" value='@((dto!=null) ? dto.TencentNo : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">邮箱地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="Email" value='@((dto!=null) ? dto.Email : "")'>
+                    <input type="text" class="layui-input" id="Email" value='@((dto!=null) ? dto.Email : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
                 <div class="layui-input-inline">
-                    <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required" lay-search>
-                        <option value="@dto.SchoolId">@dto.SchoolName</option>
-                    </select>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.SchoolName : "")'>
                 </div>
                 <label class="layui-form-label">层次</label>
                 <div class="layui-input-inline">
-                    <select id="LevelId" name="LevelId" lay-filter="SchoolId" lay-verify="required" lay-search>
-                        <option value="@dto.LevelId">@dto.LevelName</option>
-                    </select>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.LevelName : "")'>
                 </div>
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-inline">
-                    <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required" lay-search>
-                        <option value="@dto.MajorId">@dto.MajorName</option>
-                    </select>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.MajorName : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">批次</label>
                 <div class="layui-input-inline">
-                    <select id="BatchId" name="BatchId" lay-verify="required" lay-search>
-                        <option value="@dto.BatchId">@dto.BatchName</option>
-                    </select>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.BatchName : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">性别</label>
                 <div class="layui-input-inline">
-                    <select id="Sex" name="Sex" lay-verify="required">
-                        <option value=""></option>
-                        <option @Html.Raw((dto != null && dto.Sex == "男") ? "selected" : "") value="男">男</option>
-                        <option @Html.Raw((dto != null && dto.Sex == "女") ? "selected" : "") value="女">女</option>
-                    </select>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.Sex : "")'>
                 </div>
                 <label class="layui-form-label">民族</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="MinZu" value='@((dto!=null) ? dto.MinZu : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.MinZu : "")'>
                 </div>
                 <label class="layui-form-label">籍贯</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="JiGuan" value='@((dto!=null) ? dto.JiGuan : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.JiGuan : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">最高学历</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="HighesDegree" value='@((dto!=null) ? dto.HighesDegree : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.HighesDegree : "")'>
                 </div>
-                <label style="float: left;display: block;padding: 9px 15px;width: 80px;font-weight: 400;line-height: 20px;text-align: right;">所读专业</label>
+                <label style="float: left;display: block;padding: 9px 15px;width: 90px;font-weight: 400;line-height: 20px;text-align: right;">所读专业</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" id="SuoDuZhuanYe" value='@((dto!=null) ? dto.SuoDuZhuanYe : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.SuoDuZhuanYe : "")'>
                 </div>
                 <label class="layui-form-label">毕业学校</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GraduateSchool" value='@((dto!=null) ? dto.GraduateSchool : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.GraduateSchool : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">毕业证编号</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="BiYeZhengBianHao" value='@((dto!=null) ? dto.BiYeZhengBianHao : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.BiYeZhengBianHao : "")'>
                 </div>
                 <label class="layui-form-label">地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="200" lay-verify="required" id="Address" value='@((dto!=null) ? dto.Address : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.Address : "")'>
                 </div>
                 <label class="layui-form-label">工作单位</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GongZuoDanWei" value='@((dto!=null) ? dto.GongZuoDanWei : "")'>
+                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.GongZuoDanWei : "")'>
                 </div>
             </div>
             <div class="layui-form-item" id="schoolCustomerFieldBefore">
                 <label class="layui-form-label">是否电大毕业</label>
                 <div class="layui-input-inline">
-                    <select id="IsTvUniversity" name="IsTvUniversity">
-                        <option @Html.Raw((dto != null && dto.IsTvUniversity == false) ? "selected" : "") value="false">否</option>
-                        <option @Html.Raw((dto != null && dto.IsTvUniversity == true) ? "selected" : "") value="true">是</option>
-                    </select>
+                    <input type="text" class="layui-input" value='@((dto!=null && dto.IsTvUniversity) ? "是" : "否")'>
                 </div>
-                <label class="layui-form-label">毕业时间</label>
+                <label class="layui-form-label"><span style="color:red;">* </span>毕业时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="GraduationTime" readonly value='@((dto!=null && dto.GraduationTime.HasValue) ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
+                    <input type="text" class="layui-input" value='@(dto.GraduationTime.HasValue ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
                 </div>
             </div>
         </div>
@@ -140,85 +128,10 @@
         </div>
     </div>
 </div>
-<input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
 <script src="~/Content/Website/js/customerfield.js"></script>
 <script>
-    layui.use(['jquery', 'form', 'layer'], function () {
-        var form = layui.form, layer = layui.layer;
-
+    layui.use('jquery', function () {
         //自定义字段
         filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", '@(dto!=null?Html.Raw(dto.CustomerField):null)',"schoolCustomerFieldBefore");
-        form.render('select');
-
-        @*//初始加载
-        if ("@(dto!=null?"true":"")" != "") {
-            loadLevel();
-            $("#MajorId").val("@(dto!=null?dto.MajorId.ToString():"")");
-            form.render('select');
-        }*@
-
-        //院校切换
-        form.on('select(SchoolId)', function (data) {
-            loadLevel();
-        });
-
-        function loadLevel() {
-            $("#LevelId").find("option").remove();
-            $("#MajorId").find("option").remove();
-            ChangeSelectData($("#SchoolId").val(), 1);
-            form.render('select');
-        }
-
-        //层次切换
-        form.on('select(LevelId)', function (data) {
-            $("#MajorId").find("option").remove();
-            ChangeSelectData($(data.elem).find("option:selected").attr("childId"), 2);
-            form.render('select');
-        });
-
-        //修改院校层级专业下拉框数据
-        var levelId = "@(dto!=null?dto.LevelId.ToString():"")";
-        function ChangeSelectData(id, type) {
-            if (id == "" || id == null || id == undefined) return;
-            var data = { parentId: id };
-            $.ajax({
-                type: "POST",
-                contentType: "application/json;utf-8",
-                dataType: "json",
-                async: false,
-                data: JSON.stringify(data),
-                url: '@Url.Action("GetLevelData", "Manager")',
-                success: function (result) {
-                    if (result && result.length > 0) {
-                        if (type == 1) {
-                            //绑定层次
-                            var childId = result[0].Id;
-                            for (var i = 0; i < result.length; i++) {
-                                $("#LevelId").append("<option childId='" + result[i].Id + "' value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
-                                if (levelId == result[i].ItemId) {
-                                    $("#LevelId").val(levelId);
-                                    childId = result[i].Id;
-                                }
-                            }
-                            ChangeSelectData(childId, 2);
-                        }
-                        else {
-                            //绑定专业
-                            for (var i = 0; i < result.length; i++) {
-                                $("#MajorId").append("<option value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
-                            }
-                        }
-                    }
-                    else {
-                        if (type == 1) {
-                            $("#LevelId").append("<option value=''></option>");
-                        }
-                        $("#MajorId").append("<option value=''></option>");
-                    }
-                    form.render('select');
-                }
-            });
-            return false;
-        }
     });
-</script> 
+</script>

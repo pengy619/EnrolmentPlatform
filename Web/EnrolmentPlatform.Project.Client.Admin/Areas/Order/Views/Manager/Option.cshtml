@@ -43,12 +43,12 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">邮箱地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="Email" value='@((dto!=null) ? dto.Email : "")'>
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required|email" id="Email" value='@((dto!=null) ? dto.Email : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
-                @*<div class="layui-input-inline" style="width: 85px">
+                <div class="layui-input-inline" style="width: 85px">
                     <select name="tags" lay-filter="tags">
                         <option value=""></option>
                         <option value="自考">自考</option>
@@ -60,22 +60,26 @@
                         <option value="研究生">研究生</option>
                         <option value="资格证书">资格证书</option>
                     </select>
-                </div>*@
+                </div>
                 <div class="layui-input-inline">
                     <select id="SchoolId" name="SchoolId" lay-filter="SchoolId" lay-verify="required" lay-search>
-                        <option value="@dto.SchoolId">@dto.SchoolName</option>
+                        <option value=""></option>
+                        @foreach (var item in schoolList)
+                        {
+                            <option @Html.Raw((dto != null && item.Id == dto.SchoolId) ? "selected" : "") value="@item.Id">@item.Name</option>
+                        }
                     </select>
                 </div>
                 <label class="layui-form-label">层次</label>
                 <div class="layui-input-inline">
                     <select id="LevelId" name="LevelId" lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required" lay-search>
-                        <option value="@dto.LevelId">@dto.LevelName</option>
+                        <option value=""></option>
                     </select>
                 </div>
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-inline">
                     <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required" lay-search>
-                        <option value="@dto.MajorId">@dto.MajorName</option>
+                        <option value=""></option>
                     </select>
                 </div>
             </div>
@@ -83,7 +87,11 @@
                 <label class="layui-form-label">批次</label>
                 <div class="layui-input-inline">
                     <select id="BatchId" name="BatchId" lay-verify="required" lay-search>
-                        <option value="@dto.BatchId">@dto.BatchName</option>
+                        <option value=""></option>
+                        @foreach (var item in batchList)
+                        {
+                            <option @Html.Raw((dto != null && item.Id == dto.BatchId) ? "selected" : "") value="@item.Id">@item.Name</option>
+                        }
                     </select>
                 </div>
             </div>
@@ -103,8 +111,8 @@
                 <label class="layui-form-label">籍贯</label>
                 <div class="layui-input-inline">
                     <div class="select-row">
-                        <select id="select_Province" lay-filter="select_Province" lay-search></select>
-                        <select id="select_City" lay-filter="select_City" lay-search></select>
+                        <select id="jgProvince" lay-filter="jgProvince" lay-search></select>
+                        <select id="jgCity" lay-filter="jgCity" lay-search></select>
                     </div>
                 </div>
             </div>
@@ -125,7 +133,7 @@
                 </div>
                 <label class="layui-form-label">毕业学校</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GraduateSchool" value='@((dto!=null) ? dto.GraduateSchool : "")'>
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required|minlenth" lay-min="4" id="GraduateSchool" value='@((dto!=null) ? dto.GraduateSchool : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
@@ -166,10 +174,10 @@
         <div class="panel-body">
             <textarea name="Remark" placeholder="请输入内容" id="Remark" class="layui-textarea">@((dto != null) ? dto.Remark : "")</textarea>
             <div class="margin-top-10">
-                @*@if (dto != null)
+                @if (dto != null)
                 {
                     <button class="layui-btn " lay-submit="" lay-filter="s">保存</button>
-                }*@
+                }
                 <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
             </div>
         </div>
@@ -180,10 +188,17 @@
 <script>
     layui.use(['jquery', 'form', 'layer', 'laydate'], function () {
         var form = layui.form, layer = layui.layer, laydate = layui.laydate;
+        form.verify({
+            minlenth: function (value, item) {
+                var min = item.getAttribute('lay-min');
+                if (value.length < min) {
+                    return '长度不能小于' + min + '个字';
+                }
+            }
+        });
 
         //自定义字段
         filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", '@(dto!=null?Html.Raw(dto.CustomerField):null)',"schoolCustomerFieldBefore");
-        form.render('select');
 
         //毕业时间
         laydate.render({
@@ -206,7 +221,7 @@
             dto.Remark = $("#Remark").val();
             dto.Sex = $("#Sex").val();
             dto.MinZu = $("#MinZu").val();
-            dto.JiGuan = $("#select_Province").find("option:selected").text() + $("#select_City").find("option:selected").text();
+            dto.JiGuan = $("#jgProvince").find("option:selected").text() + $("#jgCity").find("option:selected").text();
             dto.HighesDegree = $("#HighesDegree").val();
             dto.GraduateSchool = $("#GraduateSchool").val();
             dto.BiYeZhengBianHao = $("#BiYeZhengBianHao").val();
@@ -252,14 +267,13 @@
             return false;
         });
 
-        @*//初始加载
+        //初始加载
         if ("@(dto!=null?"true":"")" != "") {
             loadLevel();
             $("#MajorId").val("@(dto!=null?dto.MajorId.ToString():"")");
             form.render('select');
-        }*@
+        }
 
-        @*
         //学习形式切换
         form.on('select(tags)', function (data) {
             $("#SchoolId").find("option").remove();
@@ -301,7 +315,7 @@
             $("#MajorId").find("option").remove();
             ChangeSelectData($(data.elem).find("option:selected").attr("childId"), 2);
             form.render('select');
-        });*@
+        });
 
         //修改院校层级专业下拉框数据
         function ChangeSelectData(id, type) {
@@ -390,10 +404,10 @@
                             if ("@(dto!=null?dto.JiGuan:"广东省")".indexOf(provinceName) > -1) {
                                 provinceId = data.Data[i].Id;
                             }
-                            $("#select_Province").append("<option value='" + data.Data[i].Id + "'>" + provinceName + "</option>");
+                            $("#jgProvince").append("<option value='" + data.Data[i].Id + "'>" + provinceName + "</option>");
                         }
                         if (provinceId != "") {
-                            $("#select_Province").val(provinceId);
+                            $("#jgProvince").val(provinceId);
                             LoadAddressByParentId(provinceId);
                         }
                         form.render('select');
@@ -408,17 +422,17 @@
                 type: 'get',
                 success: function (data) {
                     if (data.IsSuccess) {
-                        $("#select_City").find("option").remove();
+                        $("#jgCity").find("option").remove();
                         var cityId = "";
                         for (var i = 0; i < data.Data.length; i++) {
                             var cityName = data.Data[i].ChinaName;
                             if ("@(dto!=null?dto.JiGuan:"深圳市")".indexOf(cityName) > -1) {
                                 cityId = data.Data[i].Id;
                             }
-                            $("#select_City").append("<option value='" + data.Data[i].Id + "'>" + cityName + "</option>");
+                            $("#jgCity").append("<option value='" + data.Data[i].Id + "'>" + cityName + "</option>");
                         }
                         if (cityId != "") {
-                            $("#select_City").val(cityId);
+                            $("#jgCity").val(cityId);
                         }
                         form.render('select');
                     }
@@ -426,7 +440,7 @@
             });
         }
 
-        form.on('select(select_Province)', function (data) {
+        form.on('select(jgProvince)', function (data) {
             LoadAddressByParentId(data.value);
         });
 
@@ -439,4 +453,4 @@
             }
         });
     });
-</script> 
+</script>

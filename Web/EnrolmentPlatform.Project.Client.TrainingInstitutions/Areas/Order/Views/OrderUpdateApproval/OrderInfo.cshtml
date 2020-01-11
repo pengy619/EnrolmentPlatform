@@ -38,7 +38,7 @@
             <div class="layui-form-item required">
                 <label class="layui-form-label">邮箱地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="Email" value='@((dto!=null) ? dto.Email : "")'>
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required|email" id="Email" value='@((dto!=null) ? dto.Email : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
@@ -128,7 +128,7 @@
                 </div>
                 <label class="layui-form-label">毕业学校</label>
                 <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" lay-verify="required" id="GraduateSchool" value='@((dto!=null) ? dto.GraduateSchool : "")'>
+                    <input type="text" class="layui-input" maxlength="50" lay-verify="required|minlenth" lay-min="4" id="GraduateSchool" value='@((dto!=null) ? dto.GraduateSchool : "")'>
                 </div>
             </div>
             <div class="layui-form-item required">
@@ -188,6 +188,14 @@
 <script>
     layui.use(['jquery', 'form', 'layer', 'laydate'], function () {
         var form = layui.form, layer = layui.layer, laydate = layui.laydate;
+        form.verify({
+            minlenth: function (value, item) {
+                var min = item.getAttribute('lay-min');
+                if (value.length < min) {
+                    return '长度不能小于' + min + '个字';
+                }
+            }
+        });
 
         //自定义字段
         filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", '@(dto!=null?Html.Raw(dto.CustomerField):null)',"schoolCustomerFieldBefore");
