@@ -742,15 +742,14 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 };
 
                 var exisit = dbContext.T_Order.Count(a => a.IsDelete == false && a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
-            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+            && a.Status >= (int)OrderStatusEnum.Enroll) > 0;
                 if (exisit == true)
                 {
                     //同一批次重复录入
                     return "第" + (i + 1).ToString() + "行的数据重复录入！";
                 }
 
-                var exisit2 = orderList.Count(a => a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
-            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+                var exisit2 = orderList.Count(a => a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo) > 0;
                 if (exisit2 == true)
                 {
                     //同一批次重复录入
@@ -1208,7 +1207,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 };
 
                 var exisit = dbContext.T_Order.Count(a => a.IsDelete == false && a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
-            && a.Status != (int)OrderStatusEnum.LeaveSchool) > 0;
+            && a.Status >= (int)OrderStatusEnum.Enroll) > 0;
                 if (exisit == true)
                 {
                     //同一批次重复录入
