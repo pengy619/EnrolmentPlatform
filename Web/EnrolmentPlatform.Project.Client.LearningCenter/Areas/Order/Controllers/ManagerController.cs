@@ -61,7 +61,7 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
 
             //增加自定义列
             var customerFieldList = CustomerFieldService.GetFullList();
-            int customerFieldStart = 23;
+            int customerFieldStart = 24;
             if (customerFieldList != null && customerFieldList.Count > 0)
             {
                 for (int i = 0; i < customerFieldList.Count; i++)
@@ -96,18 +96,19 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
                 row.Cells[8].SetCellValue(dto.MajorName);
                 row.Cells[9].SetCellValue(dto.CreateTimeStr);
                 row.Cells[10].SetCellValue(dto.JoinTimeStr);
-                row.Cells[11].SetCellValue(dto.Sex);
-                row.Cells[12].SetCellValue(dto.MinZu);
-                row.Cells[13].SetCellValue(dto.JiGuan);
-                row.Cells[14].SetCellValue(dto.HighesDegree);
-                row.Cells[15].SetCellValue(dto.GraduateSchool);
-                row.Cells[16].SetCellValue(dto.BiYeZhengBianHao);
-                row.Cells[17].SetCellValue(dto.Address);
-                row.Cells[18].SetCellValue(dto.GongZuoDanWei);
-                row.Cells[19].SetCellValue(dto.StatusName);
-                row.Cells[20].SetCellValue(dto.XueHao);
-                row.Cells[21].SetCellValue(dto.UserName);
-                row.Cells[22].SetCellValue(dto.Password);
+                row.Cells[11].SetCellValue(dto.GraduationTimeStr);
+                row.Cells[12].SetCellValue(dto.Sex);
+                row.Cells[13].SetCellValue(dto.MinZu);
+                row.Cells[14].SetCellValue(dto.JiGuan);
+                row.Cells[15].SetCellValue(dto.HighesDegree);
+                row.Cells[16].SetCellValue(dto.GraduateSchool);
+                row.Cells[17].SetCellValue(dto.BiYeZhengBianHao);
+                row.Cells[18].SetCellValue(dto.Address);
+                row.Cells[19].SetCellValue(dto.GongZuoDanWei);
+                row.Cells[20].SetCellValue(dto.StatusName);
+                row.Cells[21].SetCellValue(dto.XueHao);
+                row.Cells[22].SetCellValue(dto.UserName);
+                row.Cells[23].SetCellValue(dto.Password);
 
                 //自定义字段
                 if (!string.IsNullOrWhiteSpace(dto.CustomerField))

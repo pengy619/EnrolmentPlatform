@@ -513,6 +513,9 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// </summary>
         public DateTime? GraduationTime { get; set; }
 
+        /// <summary>
+        /// 毕业时间
+        /// </summary>
         public string GraduationTimeStr
         {
             get
