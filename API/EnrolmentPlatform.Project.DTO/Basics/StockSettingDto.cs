@@ -208,6 +208,8 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         {
             get
             {
+                if (this.Inventory == 0)
+                    return "0.00%";
                 return ((Convert.ToDecimal(this.ResidueInventory) / Convert.ToDecimal(this.Inventory)) * 100).ToString("0.00") + "%";
             }
         }
