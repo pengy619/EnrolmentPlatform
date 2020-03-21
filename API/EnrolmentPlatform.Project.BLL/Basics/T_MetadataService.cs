@@ -72,7 +72,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 _resultMsg.Info = "参数有误";
                 return _resultMsg;
             }
-            var exisit = this.metadataRepository.Count(a => a.Type == (int)dto.Type && a.Id != dto.Id && a.Name == dto.Name) > 0;
+            var exisit = this.metadataRepository.Count(a => a.Type == entity.Type && a.Id != dto.Id && a.Name == dto.Name) > 0;
             if (exisit == true)
             {
                 _resultMsg.IsSuccess = false;
