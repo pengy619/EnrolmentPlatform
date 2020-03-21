@@ -892,10 +892,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     var priceList = dbContext.T_OrderAmount.Where(a => a.OrderId == order.Id).ToList();
                     if (priceList != null && priceList.Count > 0)
                     {
-                        foreach (var item in priceList)
-                        {
-                            dbContext.T_OrderAmount.Remove(item);
-                        }
+                        dbContext.T_OrderAmount.RemoveRange(priceList);
                     }
                     //添加订单（招生机构）金额数据
                     var commonCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty);
@@ -908,7 +905,16 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         TotalAmount = institutionCharge != null ? institutionCharge.InstitutionCharge : commonCharge.InstitutionCharge,
                         ApprovalAmount = 0,
                         PayedAmount = 0,
-                        PaymentSource = 1
+                        PaymentSource = 1,
+                        CreatorAccount = dto.UserName,
+                        CreatorTime = DateTime.Now,
+                        CreatorUserId = Guid.Empty,
+                        DeleteTime = DateTime.MaxValue,
+                        DeleteUserId = Guid.Empty,
+                        IsDelete = false,
+                        LastModifyTime = DateTime.Now,
+                        LastModifyUserId = Guid.Empty,
+                        Unix = DateTime.Now.ConvertDateTimeInt()
                     });
                     //添加订单（学院中心）金额数据
                     dbContext.T_OrderAmount.Add(new T_OrderAmount
@@ -918,7 +924,16 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         TotalAmount = centerCharge != null ? centerCharge.CenterCharge : commonCharge.CenterCharge,
                         ApprovalAmount = 0,
                         PayedAmount = 0,
-                        PaymentSource = 2
+                        PaymentSource = 2,
+                        CreatorAccount = dto.UserName,
+                        CreatorTime = DateTime.Now,
+                        CreatorUserId = Guid.Empty,
+                        DeleteTime = DateTime.MaxValue,
+                        DeleteUserId = Guid.Empty,
+                        IsDelete = false,
+                        LastModifyTime = DateTime.Now,
+                        LastModifyUserId = Guid.Empty,
+                        Unix = DateTime.Now.ConvertDateTimeInt()
                     });
                 }
                 else
