@@ -662,6 +662,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             var levelList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Level).ToList();
             //所有专业
             var majorList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Major).ToList();
+            //学校配置
+            var schoolConfigList = dbContext.T_SchoolLevelMajor.ToList();
 
             var supplierList = dbContext.T_Enterprise.ToList();
             //所有机构
@@ -686,6 +688,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
                 var level = levelList.FirstOrDefault(a => a.Name == dto.LevelName);
                 if (level == null) { return "第" + (i + 1).ToString() + "行的层次在系统不存在！"; }
+
+                var schoolLevel = schoolConfigList.FirstOrDefault(a => a.ParentId == school.Id && a.ItemId == level.Id);
+                if (schoolLevel == null) { return "第" + (i + 1).ToString() + "行的层次与学校不匹配！"; }
+
+                var schoolMajar = schoolConfigList.FirstOrDefault(a => a.ParentId == schoolLevel.Id && a.ItemId == majar.Id);
+                if (schoolMajar == null) { return "第" + (i + 1).ToString() + "行的专业与学校不匹配！"; }
 
                 var jg = jgList.FirstOrDefault(a => a.EnterpriseName == dto.FromChannelName);
                 if (jg == null) { return "第" + (i + 1).ToString() + "行的招生机构在系统不存在！"; }
@@ -742,7 +750,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 };
 
                 var exisit = dbContext.T_Order.Count(a => a.IsDelete == false && a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
-            && a.Status >= (int)OrderStatusEnum.Enroll) > 0;
+                    && a.Status != (int)OrderStatusEnum.LeaveSchool && a.FromChannelId == jg.Id) > 0;
                 if (exisit == true)
                 {
                     //同一批次重复录入
@@ -1157,6 +1165,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             var levelList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Level).ToList();
             //所有专业
             var majorList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Major).ToList();
+            //学校配置
+            var schoolConfigList = dbContext.T_SchoolLevelMajor.ToList();
 
             //数据新增
             List<T_Order> orderList = new List<T_Order>();
@@ -1174,6 +1184,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
                 var level = levelList.FirstOrDefault(a => a.Name == item.LevelName);
                 if (level == null) { return "第" + (i + 1).ToString() + "行的层次在系统不存在！"; }
+
+                var schoolLevel = schoolConfigList.FirstOrDefault(a => a.ParentId == school.Id && a.ItemId == level.Id);
+                if (schoolLevel == null) { return "第" + (i + 1).ToString() + "行的层次与学校不匹配！"; }
+
+                var schoolMajar = schoolConfigList.FirstOrDefault(a => a.ParentId == schoolLevel.Id && a.ItemId == majar.Id);
+                if (schoolMajar == null) { return "第" + (i + 1).ToString() + "行的专业与学校不匹配！"; }
 
                 #region 新增数据处理
 
@@ -1222,7 +1238,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 };
 
                 var exisit = dbContext.T_Order.Count(a => a.IsDelete == false && a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo
-            && a.Status >= (int)OrderStatusEnum.Enroll) > 0;
+                    && a.Status != (int)OrderStatusEnum.LeaveSchool && a.FromChannelId == dto.FromChannelId) > 0;
                 if (exisit == true)
                 {
                     //同一批次重复录入
