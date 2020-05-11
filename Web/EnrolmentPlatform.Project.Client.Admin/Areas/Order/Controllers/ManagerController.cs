@@ -175,7 +175,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             }
 
             //批次
-            ViewBag.BatchList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
+            ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
             //学校
             ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null);
 
