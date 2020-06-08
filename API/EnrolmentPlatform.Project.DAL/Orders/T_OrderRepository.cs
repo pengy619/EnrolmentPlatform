@@ -906,6 +906,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     var commonCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty);
                     var institutionCharge = chargeStrategys.FirstOrDefault(t => t.InstitutionId == order.FromChannelId);
                     var centerCharge = chargeStrategys.FirstOrDefault(t => t.LearningCenterId == order.ToLearningCenterId);
+
+                    if (commonCharge == null && (institutionCharge == null || centerCharge == null))
+                    {
+                        return $"找不到通用费用策略，或渠道，中心收费策略为空[第{(i + 2)}行数据]。";
+                    }
+
                     dbContext.T_OrderAmount.Add(new T_OrderAmount
                     {
                         Id = Guid.NewGuid(),
