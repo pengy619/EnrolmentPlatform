@@ -72,14 +72,15 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     {
                         //读取当前行数据
                         IRow row = sheet.GetRow(i);
-                        if (row != null)
+                        if (row != null && row.GetCell(0) != null)
                         {
                             ExamInfoDto examInfo = new ExamInfoDto();
                             //遍历每行中每列的数据
-                            for (int j = 0; j < row.LastCellNum; j++)
+                            for (int j = 0; j <= row.LastCellNum; j++)
                             {
                                 //获取单元格
                                 ICell cell = row.GetCell(j);
+                                if (cell == null) continue;
                                 //获取单元格的值
                                 cell.SetCellType(CellType.String);
                                 string cellValue = cell.StringCellValue;
