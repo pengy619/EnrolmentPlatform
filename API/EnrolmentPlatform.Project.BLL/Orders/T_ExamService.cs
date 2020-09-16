@@ -164,28 +164,26 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public GridDataResponse GetExamList(ExamListSearchDto req)
         {
             GridDataResponse res = new GridDataResponse();
-            res.Data = this.examInfoRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete && t.ExamId == req.ExamId && (!req.ChannelId.HasValue || t.ChannelId == req.ChannelId),
-               req.Field,
-               req.Limit,
-               req.Page,
-               out int records,
-               (req.Sort ?? "desc").ToLower().Equals("asc")
-                ).Select(t => new ExamInfoDto
-                {
-                    StudentName = t.StudentName,
-                    StudentNo = t.StudentNo,
-                    BatchName = t.BatchName,
-                    LevelName = t.LevelName,
-                    MajorName = t.MajorName,
-                    UserName = t.UserName,
-                    ExamPlace = t.ExamPlace,
-                    MailAddress = t.MailAddress,
-                    ReturnAddress = t.ReturnAddress,
-                    IDCardNo = t.IDCardNo,
-                    ExamSubject = t.ExamSubject,
-                    Remark = t.Remark
-                }).ToList();
-            res.Count = records;
+            var query = from a in examInfoRepository.LoadEntities(t => !t.IsDelete)
+                        join b in orderRepository.LoadEntities(t => !t.IsDelete) on a.StudentId equals b.Id
+                        where a.ExamId == req.ExamId && (req.ChannelId.HasValue ? b.FromChannelId == req.ChannelId.Value : true)
+                        select new ExamInfoDto
+                        {
+                            StudentName = a.StudentName,
+                            StudentNo = a.StudentNo,
+                            BatchName = a.BatchName,
+                            LevelName = a.LevelName,
+                            MajorName = a.MajorName,
+                            UserName = a.UserName,
+                            ExamPlace = a.ExamPlace,
+                            MailAddress = a.MailAddress,
+                            ReturnAddress = a.ReturnAddress,
+                            IDCardNo = a.IDCardNo,
+                            ExamSubject = a.ExamSubject,
+                            Remark = a.Remark
+                        };
+            res.Count = query.Count();
+            res.Data = query.OrderByDescending(a => a.StudentName).Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
             return res;
         }
 
@@ -198,7 +196,10 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         {
             ResultMsg resultMsg = new ResultMsg();
             //校验数据有效性（考试名单表中存在）
-            var examList = this.examInfoRepository.LoadEntities(t => !t.IsDelete && t.ExamId == dto.ExamId && t.ChannelId == dto.ChannelId).ToList();
+            var examList = (from a in examInfoRepository.LoadEntities(t => !t.IsDelete)
+                            join b in orderRepository.LoadEntities(t => !t.IsDelete) on a.StudentId equals b.Id
+                            where a.ExamId == dto.ExamId && b.FromChannelId == dto.ChannelId
+                            select a).ToList();
             var invalidList = new List<string>();
             var updateList = new List<T_ExamInfo>();
             dto.ExamList.ForEach(t =>
