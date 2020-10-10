@@ -892,7 +892,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
                 //查找录取时间段的收费策略
                 var chargeStrategys = dbContext.T_ChargeStrategy.Where(t => t.SchoolId == order.SchoolId && t.LevelId == order.LevelId
-                && t.MajorId == order.MajorId && ((t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty) || t.InstitutionId == order.FromChannelId || t.LearningCenterId == order.ToLearningCenterId)
+                && t.MajorId == order.MajorId && ((t.InstitutionId == Guid.Empty && t.LearningCenterId == Guid.Empty) || (t.InstitutionId == order.FromChannelId && t.LearningCenterId == order.ToLearningCenterId))
                 && dto.LuquDate.Value >= t.StartDate && dto.LuquDate.Value <= t.EndDate).ToList();
                 if (chargeStrategys != null && chargeStrategys.Any())
                 {
