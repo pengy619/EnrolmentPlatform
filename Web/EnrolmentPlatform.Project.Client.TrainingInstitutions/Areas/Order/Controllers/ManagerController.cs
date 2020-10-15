@@ -397,7 +397,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     dto.MajorName = row.GetCell(8).ToString().Trim();
                     if (row.GetCell(9) != null && !string.IsNullOrEmpty(row.GetCell(9).ToString()))
                     {
-                        dto.CreateDate = row.GetCell(9).DateCellValue;
+                        dto.CreateDate = Convert.ToDateTime(row.GetCell(9).ToString());
                     }
                     dto.Sex = row.GetCell(10).ToString().Trim();
                     dto.MinZu = row.GetCell(11).ToString().Trim();
@@ -411,7 +411,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     dto.IsTvUniversity = row.GetCell(19).ToString().Trim();
                     if (row.GetCell(20) != null && !string.IsNullOrEmpty(row.GetCell(20).ToString()))
                     {
-                        dto.GraduationTime = row.GetCell(20).DateCellValue;
+                        dto.GraduationTime = Convert.ToDateTime(row.GetCell(20).ToString());
                     }
                     dto.CreateUserName = row.GetCell(21).ToString().Trim();
                     if (row.GetCell(22) != null)

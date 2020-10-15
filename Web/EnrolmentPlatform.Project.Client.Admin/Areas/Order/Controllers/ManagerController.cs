@@ -445,7 +445,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     dto.MajorName = row.GetCell(8).ToString().Trim();
                     if (row.GetCell(9) != null && !string.IsNullOrEmpty(row.GetCell(9).ToString()))
                     {
-                        dto.CreateDate = row.GetCell(9).DateCellValue;
+                        dto.CreateDate = Convert.ToDateTime(row.GetCell(9).ToString());
                     }
                     else
                     {
@@ -453,7 +453,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     }
                     if (row.GetCell(10) != null && !string.IsNullOrEmpty(row.GetCell(10).ToString()))
                     {
-                        dto.LuquDate = row.GetCell(10).DateCellValue;
+                        dto.LuquDate = Convert.ToDateTime(row.GetCell(10).ToString());
                     }
                     else
                     {
