@@ -13,6 +13,7 @@ using EnrolmentPlatform.Project.IDAL;
 using EnrolmentPlatform.Project.IDAL.Basics;
 using EnrolmentPlatform.Project.IDAL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
+using EnrolmentPlatform.Project.Infrastructure.EnumHelper;
 
 namespace EnrolmentPlatform.Project.BLL.Orders
 {
@@ -924,6 +925,26 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         public string JiGouUpload(JiGouOrderUploadDto dto)
         {
             return orderRepository.JiGouUpload(dto);
+        }
+
+        /// <summary>
+        /// 修改订单状态
+        /// </summary>
+        /// <param name="orderId">订单id</param>
+        /// <param name="userId">修改人</param>
+        /// <param name="status">订单状态</param>
+        /// <returns></returns>
+        public bool UpdateOrderStatus(Guid orderId, Guid userId, int status)
+        {
+            var entity = this.orderRepository.FindEntityById(orderId);
+            if (entity == null)
+            {
+                return false;
+            }
+            entity.Status = status;
+            entity.LastModifyTime = DateTime.Now;
+            entity.LastModifyUserId = userId;
+            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, $"修改订单状态为：{EnumDescriptionHelper.GetDescription((OrderStatusEnum)status)}", true, entity.Id.ToString()) > 0;
         }
     }
 }

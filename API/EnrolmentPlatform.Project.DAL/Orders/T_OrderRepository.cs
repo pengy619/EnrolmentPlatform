@@ -37,9 +37,11 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 AllZSZhongXinAmountPayed = false,
                 Email = dto.Email,
                 StudentName = dto.StudentName,
+                IDCardType = dto.IDCardType,
                 IDCardNo = dto.IDCardNo,
                 Phone = dto.Phone,
                 TencentNo = dto.TencentNo,
+                DegreeType = dto.DegreeType,
                 SchoolId = dto.SchoolId,
                 LevelId = dto.LevelId,
                 MajorId = dto.MajorId,
@@ -119,10 +121,12 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
             #region 更新订单信息
             entity.StudentName = dto.StudentName;
+            entity.IDCardType = dto.IDCardType;
             entity.IDCardNo = dto.IDCardNo;
             entity.Phone = dto.Phone;
             entity.TencentNo = dto.TencentNo;
             entity.Email = dto.Email;
+            entity.DegreeType = dto.DegreeType;
             entity.SchoolId = dto.SchoolId;
             entity.LevelId = dto.LevelId;
             entity.MajorId = dto.MajorId;
@@ -199,8 +203,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
-                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
-                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
+                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value))
+                        //(req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderListDto()
                         {
                             AllOrderImageUpload = a.AllOrderImageUpload,
@@ -217,10 +221,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Status = a.Status,
                             StudentName = a.StudentName,
                             ToLearningCenterTime = a.ToLearningCenterTime,
-                            XueHao = a.StudentNo,
+                            XueHao = a.StudentNo.ToString(),
                             FromChannelId = a.FromChannelId,
-                            FromChannelName = fftemp.EnterpriseName,
-                            ToLearningCenterName = ggtemp.EnterpriseName,
+                            FromChannelName = fftemp.EnterpriseName.ToString(),
+                            ToLearningCenterName = ggtemp.EnterpriseName.ToString(),
                             Address = a.Address,
                             BiYeZhengBianHao = a.BiYeZhengBianHao,
                             GongZuoDanWei = a.GongZuoDanWei,
@@ -233,7 +237,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Phone = a.Phone,
                             TencentNo = a.TencentNo,
                             Email = a.Email,
-                            UserName = a.UserName,
+                            UserName = a.UserName.ToString(),
                             Password = a.Password,
                             AssistStatus = a.AssistStatus,
                             CustomerField = a.CustomerField,
@@ -277,8 +281,14 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             query = ExtLinq.ApplyOrder(query, req.Field ?? "CreateTime", false);
-            query = query.Skip((req.Page - 1) * req.Limit).Take(req.Limit);
-            return query.ToList();
+            var orderList = query.Skip((req.Page - 1) * req.Limit).Take(req.Limit).ToList();
+            var orderIds = orderList.Select(t => t.OrderId).ToList();
+            var imageList = dbContext.T_OrderImage.Where(t => orderIds.Contains(t.OrderId)).ToList();
+            orderList.ForEach(o =>
+            {
+                o.StudentImg = imageList.FirstOrDefault(t => t.OrderId == o.OrderId)?.LiangCunLanDiImg;
+            });
+            return orderList;
         }
 
         /// <summary>
@@ -417,10 +427,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 sql.Append(" and o.FromChannelId is not null");
             }
 
-            if (req.IsChannel.HasValue)
-            {
-                sql.Append(" and ((o.FromChannelId is not null and o.Status!=0) or o.FromChannelId is null)");
-            }
+            //if (req.IsChannel.HasValue)
+            //{
+            //    sql.Append(" and ((o.FromChannelId is not null and o.Status!=0) or o.FromChannelId is null)");
+            //}
 
             //学校
             if (!string.IsNullOrWhiteSpace(req.SchoolName))
@@ -552,8 +562,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
-                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value)) &&
-                        (req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
+                        (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value))
+                        //(req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0 && a.Status != 3) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
                         select new OrderPaymentListDto()
                         {
                             BatchName = bbtemp.Name,
@@ -1071,10 +1081,10 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 parameters.Add(new SqlParameter("@ToLearningCenterId", req.ToLearningCenterId.Value));
             }
 
-            if (req.IsChannel.HasValue)
-            {
-                sql.Append(" and ((o.FromChannelId is not null and o.Status!=0) or o.FromChannelId is null)");
-            }
+            //if (req.IsChannel.HasValue)
+            //{
+            //    sql.Append(" and ((o.FromChannelId is not null and o.Status!=0) or o.FromChannelId is null)");
+            //}
 
             //学校
             if (!string.IsNullOrWhiteSpace(req.SchoolName))
@@ -1345,7 +1355,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Email = a.Email,
                             UserName = a.CreatorAccount,
                             AssistStatus = a.AssistStatus,
-                            CustomerField = a.CustomerField
+                            CustomerField = a.CustomerField,
+                            IDCardType = a.IDCardType,
+                            DegreeType = a.DegreeType
                         };
             return query.FirstOrDefault(t => t.OrderId == orderId);
         }

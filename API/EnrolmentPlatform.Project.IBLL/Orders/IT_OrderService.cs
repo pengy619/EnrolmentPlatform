@@ -240,5 +240,14 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="dto"></param>
         /// <returns></returns>
         string JiGouUpload(JiGouOrderUploadDto dto);
+
+        /// <summary>
+        /// 修改订单状态
+        /// </summary>
+        /// <param name="orderId">订单id</param>
+        /// <param name="userId">修改人</param>
+        /// <param name="status">订单状态</param>
+        /// <returns></returns>
+        bool UpdateOrderStatus(Guid orderId, Guid userId, int status);
     }
 }

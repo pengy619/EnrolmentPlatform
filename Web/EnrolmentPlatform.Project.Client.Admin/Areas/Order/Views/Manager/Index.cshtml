@@ -20,6 +20,18 @@
     .layui-form-radio {
         margin: 6px 0px 0 0;
     }
+
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+    .layui-layer-page .layui-layer-content {
+        height: 80px !important;
+        overflow: visible;
+    }
 </style>
 <div class="main-wrap">
     <div class="panel">
@@ -30,6 +42,7 @@
                     <label class="layui-form-label">快速查询</label>
                     <div class="filter-list">
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray actived" onclick="toChang('', this)">全部（<span id="countAll">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('0', this)">待提交（<span id="count0">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('4', this)">已报名（<span id="count4">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('5', this)">已报送（<span id="count5">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('6', this)">已初审（<span id="count6">0</span>）</span>
@@ -138,6 +151,23 @@
         <table class="layui-hide" id="Tb_LogSettingForTable"></table>
     </div>
 </div>
+<!-- 弹出层（修改订单状态） -->
+<div id="btn-modal" style="display:none;">
+    <div class="layui-form margin-top-20">
+        <div class="layui-form-item big-label">
+            <label class="layui-form-label">订单状态</label>
+            <div class="layui-input-inline">
+                <select id="orderStatus" name="orderStatus">
+                    <option value="6">已初审</option>
+                    <option value="7">已录取</option>
+                    <option value="8">已毕业</option>
+                    <option value="9">已休学</option>
+                    <option value="2">已退学</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 弹出层（报送学院中心） -->
 <div id="audit-btn-modal2" style="display:none;">
     <div class="layui-form">
@@ -226,10 +256,55 @@
         </div>
     </div>
 </div>
+<script type="text/html" id="stuInfoImg">
+    {{# if(d.StudentImg != null && d.StudentImg != ""){ }}
+    <img src="{{d.StudentImg}}" width="50" height="50" class="layui-circle">
+    {{# }else{  }}
+    {{# if(d.Sex == "男"){ }}
+    <img src="/Content/Website/images/boy.png" width="50" height="50" class="layui-circle">
+    {{# }else{ }}
+    <img src="/Content/Website/images/girl.png" width="50" height="50" class="layui-circle">
+    {{# } }}
+    {{#}  }}
+</script>
+
+<script type="text/html" id="stuInfoTpl">
+    <ul class="text-left">
+        <li>学生姓名：{{d.StudentName}}</li>
+        <li>手机号码：{{d.Phone}}</li>
+        <li>证件号码：{{d.IDCardNo}}</li>
+        <li>学生学号：{{d.XueHao}}</li>
+        <li>用户名：{{d.UserName}}</li>
+    </ul>
+</script>
+
+<script type="text/html" id="stuForReadTpl">
+    <ul class="text-left">
+        <li>报读批次：{{d.BatchName}}</li>
+        <li>报读院校：{{d.SchoolName}}</li>
+        <li>报读层次：{{d.LevelName}}</li>
+        <li>报读专业：{{d.MajorName}}</li>
+        <li>报名时间：{{d.CreateTimeStr}}</li>
+        <li>招生老师：{{d.CreateUserName}}</li>
+        <li>招生机构：{{d.FromChannelName}}</li>
+        <li>学院中心：{{d.ToLearningCenterName}}</li>
+    </ul>
+</script>
+
+<script type="text/html" id="statusTpl">
+    {{# if(d.Status == 3){ }}
+    <span style="color:#ff0000">{{d.StatusName}}</span>
+    {{# }else{ }}
+    <span style="color:#ff8126">{{d.StatusName}}</span>
+    {{# } }}
+</script>
 <script type="text/html" id="tableTool">
     <a class="layui-btn layui-btn-primary layui-btn-xs" href="javascript:reloadLog('{{d.OrderId}}');" lay-event="log">日志</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("View","Manager",new {Area="Order"}))?orderId={{d.OrderId}}'>查看</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?orderId={{d.OrderId}}'>编辑</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Manager",new {Area="Order"}))?orderId={{d.OrderId}}'>编辑资料</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Image",new {Area="Order"}))?orderId={{d.OrderId}}'>编辑证件</a>
+    <br />
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="status">修改订单状态</a>
 </script>
 <script type="text/html" id="tableToolImage">
     {{# if(d.AllOrderImageUpload==true){ }}
@@ -261,21 +336,11 @@
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'checkbox' }
-                , { field: 'StudentName', title: '学生姓名', width: 100 }
-                , { field: 'IDCardNo', title: '身份证号', width: 100 }
-                , { field: 'BatchName', title: '批次', width: 80 }
-                , { field: 'SchoolName', title: '院校', width: 150 }
-                , { field: 'LevelName', title: '层次', width: 100 }
-                , { field: 'MajorName', title: '专业', width: 180 }
-                , { title: '电子照', toolbar: '#tableToolImage', width: 100 }
-                , { field: 'FromChannelName', title: '来源机构', width: 120 }
-                , { field: 'ToLearningCenterName', title: '学院中心', width: 120 }
-                , { field: 'StatusName', title: '状态', width: 80 }
-                , { field: 'XueHao', title: '学号', width: 120 }
-                , { field: 'UserName', title: '用户名', width: 120 }
-                , { field: 'CreateTimeStr', title: '报名时间', width: 120 }
-                , { field: 'CreateUserName', title: '招生老师', width: 90 }
-                , { title: '操作', toolbar: '#tableTool', width: 168 }
+                , { field: '', title: '学生头像', align: 'center', templet: '#stuInfoImg' }
+                , { field: '', title: '学员信息', align: 'center', templet: '#stuInfoTpl' }
+                , { field: '', title: '报读信息', align: 'center', templet: '#stuForReadTpl' }
+                , { field: '', title: '状态', align: 'center', width: 150, templet: '#statusTpl' }
+                , { field: '', title: '操作', align: 'center', fixed: 'right', templet: '#tableTool', width: 300 }
             ]]
             , done: function () {
                 $.ajax({
@@ -285,6 +350,7 @@
                     dataType: "json",
                     success: function (data) {
                         $("#countAll").html(data.countAll);
+                        $("#count0").html(data.count0);
                         $("#count2").html(data.count2);
                         $("#count3").html(data.count3);
                         $("#count4").html(data.count4);
@@ -297,6 +363,47 @@
             }
         }
         table.render(tableOptions);
+
+        //监听工具条
+        table.on('tool(table)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'status') {
+                layer.open({
+                    type: 1,
+                    title: '修改订单状态',
+                    btn: ['确定', '取消'],
+                    area: ["400px", "200px"],
+                    content: $('#btn-modal'),
+                    yes: function () {
+                        var status = $("#orderStatus").val();
+                        $.ajax({
+                            url: "@Url.Action("UpdateOrderStatus", "Manager")",
+                            type: "post",
+                            data: { orderId: data.OrderId, status: status },
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.ret == 1) {
+                                    layer.msg("保存成功", {
+                                        icon: 1
+                                        , time: 1000
+                                    }, function () {
+                                        table.reload("table");
+                                        layer.closeAll();
+                                    });
+                                } else {
+                                    layer.msg(result.msg, {
+                                        icon: 2
+                                        , time: 2000
+                                    });
+                                }
+                            }
+                        });
+                    },
+                    btn2: function () {
+                    }
+                });
+            }
+        });
 
         //删除
         form.on('submit(d)', function (data) {

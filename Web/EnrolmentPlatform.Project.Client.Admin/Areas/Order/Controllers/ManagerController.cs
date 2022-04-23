@@ -443,17 +443,17 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     dto.SchoolName = row.GetCell(6).ToString().Trim();
                     dto.LevelName = row.GetCell(7).ToString().Trim();
                     dto.MajorName = row.GetCell(8).ToString().Trim();
-                    if (row.GetCell(9) != null && !string.IsNullOrEmpty(row.GetCell(9).ToString()))
+                    if (!row.GetCell(9).IsEmpty())
                     {
-                        dto.CreateDate = Convert.ToDateTime(row.GetCell(9).ToString());
+                        dto.CreateDate = row.GetCell(9).ToDate();
                     }
                     else
                     {
                         dto.CreateDate = DateTime.Now;
                     }
-                    if (row.GetCell(10) != null && !string.IsNullOrEmpty(row.GetCell(10).ToString()))
+                    if (!row.GetCell(10).IsEmpty())
                     {
-                        dto.LuquDate = Convert.ToDateTime(row.GetCell(10).ToString());
+                        dto.LuquDate = row.GetCell(10).ToDate();
                     }
                     else
                     {
@@ -477,10 +477,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     dto.StudentNo = row.GetCell(23).ToString().Trim();
                     dto.UserName = row.GetCell(24).ToString().Trim();
                     dto.Password = row.GetCell(25).ToString().Trim();
-                    dto.JiGouAmount = Convert.ToDecimal(row.GetCell(26).NumericCellValue);
-                    dto.JiGouPayedAmount = Convert.ToDecimal(row.GetCell(27).NumericCellValue);
-                    dto.ZhongXinAmount = Convert.ToDecimal(row.GetCell(28).NumericCellValue);
-                    dto.ZhongXinPayedAmount = Convert.ToDecimal(row.GetCell(29).NumericCellValue);
+                    dto.JiGouAmount = row.GetCell(26).ToDecimal();
+                    dto.JiGouPayedAmount = row.GetCell(27).ToDecimal();
+                    dto.ZhongXinAmount = row.GetCell(28).ToDecimal();
+                    dto.ZhongXinPayedAmount = row.GetCell(29).ToDecimal();
 
                     if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
                         && string.IsNullOrWhiteSpace(dto.Phone) && string.IsNullOrWhiteSpace(dto.TencentNo)
@@ -716,5 +716,25 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// 修改订单状态
+        /// </summary>
+        /// <param name="orderId">订单id</param>
+        /// <param name="status">订单状态</param>
+        /// <returns>1：成功，2：错误</returns>
+        [HttpPost]
+        public JsonResult UpdateOrderStatus(Guid orderId, int status)
+        {
+            var ret = OrderService.UpdateOrderStatus(orderId, this.UserId, status);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "修改订单状态失败。" });
+            }
+        }
     }
 }

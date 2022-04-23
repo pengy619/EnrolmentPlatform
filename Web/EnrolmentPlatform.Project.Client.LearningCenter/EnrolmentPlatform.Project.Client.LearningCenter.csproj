@@ -320,7 +320,9 @@
     <Content Include="Content\website\framework\layui\lay\modules\util.js" />
     <Content Include="Content\website\images\bg1.jpg" />
     <Content Include="Content\website\images\bg2.jpg" />
+    <Content Include="Content\website\images\boy.png" />
     <Content Include="Content\website\images\delete.png" />
+    <Content Include="Content\website\images\girl.png" />
     <Content Include="Content\website\images\home_logo.png" />
     <Content Include="Content\website\images\idcard.jpg" />
     <Content Include="Content\website\images\idcard_.jpg" />

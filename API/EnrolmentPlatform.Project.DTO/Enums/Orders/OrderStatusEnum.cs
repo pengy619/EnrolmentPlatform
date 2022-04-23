@@ -64,7 +64,13 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         /// 已毕业
         /// </summary>
         [Description("已毕业")]
-        Graduated = 8
+        Graduated = 8,
+
+        /// <summary>
+        /// 已休学
+        /// </summary>
+        [Description("已休学")]
+        Suspended = 9
     }
 
     /// <summary>

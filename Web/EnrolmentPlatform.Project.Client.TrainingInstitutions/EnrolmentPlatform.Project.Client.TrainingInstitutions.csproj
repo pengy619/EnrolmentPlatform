@@ -203,6 +203,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Website\cropper\cropper.css" />
+    <Content Include="Content\Website\cropper\cropper.js" />
+    <Content Include="Content\Website\cropper\croppers.js" />
+    <Content Include="Content\Website\cropper\easyCropper.js" />
     <Content Include="Content\Website\css\common.css" />
     <Content Include="Content\Website\css\dev.css" />
     <Content Include="Content\Website\css\main.css" />
@@ -312,7 +316,9 @@
     <Content Include="Content\Website\framework\layui\lay\modules\util.js" />
     <Content Include="Content\Website\images\bg1.jpg" />
     <Content Include="Content\Website\images\bg2.jpg" />
+    <Content Include="Content\Website\images\boy.png" />
     <Content Include="Content\Website\images\delete.png" />
+    <Content Include="Content\Website\images\girl.png" />
     <Content Include="Content\Website\images\home_logo.png" />
     <Content Include="Content\Website\images\idcard.jpg" />
     <Content Include="Content\Website\images\idcard_.jpg" />

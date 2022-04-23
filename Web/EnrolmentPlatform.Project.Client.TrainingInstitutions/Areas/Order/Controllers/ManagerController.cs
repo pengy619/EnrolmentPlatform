@@ -395,9 +395,9 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     dto.SchoolName = row.GetCell(6).ToString().Trim();
                     dto.LevelName = row.GetCell(7).ToString().Trim();
                     dto.MajorName = row.GetCell(8).ToString().Trim();
-                    if (row.GetCell(9) != null && !string.IsNullOrEmpty(row.GetCell(9).ToString()))
+                    if (!row.GetCell(9).IsEmpty())
                     {
-                        dto.CreateDate = Convert.ToDateTime(row.GetCell(9).ToString());
+                        dto.CreateDate = row.GetCell(9).ToDate();
                     }
                     dto.Sex = row.GetCell(10).ToString().Trim();
                     dto.MinZu = row.GetCell(11).ToString().Trim();
@@ -409,9 +409,9 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                     dto.Address = row.GetCell(17).ToString().Trim();
                     dto.GongZuoDanWei = row.GetCell(18).ToString().Trim();
                     dto.IsTvUniversity = row.GetCell(19).ToString().Trim();
-                    if (row.GetCell(20) != null && !string.IsNullOrEmpty(row.GetCell(20).ToString()))
+                    if (!row.GetCell(20).IsEmpty())
                     {
-                        dto.GraduationTime = Convert.ToDateTime(row.GetCell(20).ToString());
+                        dto.GraduationTime = row.GetCell(20).ToDate();
                     }
                     dto.CreateUserName = row.GetCell(21).ToString().Trim();
                     if (row.GetCell(22) != null)
