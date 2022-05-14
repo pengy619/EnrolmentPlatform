@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace EnrolmentPlatform.Project.DTO.Basics
 {
     /// <summary>
-    /// 库存设置DTO
+    /// 指标设置DTO
     /// </summary>
     public class StockSettingDto
     {
         /// <summary>
-        /// 库存ID
+        /// 指标ID
         /// </summary>		
         public Guid? StockSettingId { get; set; }
 
@@ -47,12 +47,12 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         public string Name { get; set; }
 
         /// <summary>
-        /// 库存
+        /// 指标
         /// </summary>		
         public int Inventory { get; set; }
 
         /// <summary>
-        /// 已用库存
+        /// 已用指标
         /// </summary>		
         public int UsedInventory { get; set; }
 
@@ -68,18 +68,18 @@ namespace EnrolmentPlatform.Project.DTO.Basics
     }
 
     /// <summary>
-    /// 库存设置删除DTO
+    /// 指标设置删除DTO
     /// </summary>
     public class StockSettingIdDto
     {
         /// <summary>
-        /// 库存ID
+        /// 指标ID
         /// </summary>		
         public Guid StockSettingId { get; set; }
     }
 
     /// <summary>
-    /// 库存设置查询Dto
+    /// 指标设置查询Dto
     /// </summary>
     public class StockSettingSearchDto : GridDataRequest
     {
@@ -100,7 +100,7 @@ namespace EnrolmentPlatform.Project.DTO.Basics
     }
 
     /// <summary>
-    /// 库存查询Dto
+    /// 指标查询Dto
     /// </summary>
     public class StockListSearchDto : GridDataRequest
     {
@@ -126,12 +126,12 @@ namespace EnrolmentPlatform.Project.DTO.Basics
     }
 
     /// <summary>
-    /// 库存设置DTO
+    /// 指标设置DTO
     /// </summary>
     public class StockListDto
     {
         /// <summary>
-        /// 库存ID
+        /// 指标ID
         /// </summary>		
         public Guid? StockSettingId { get; set; }
 
@@ -181,17 +181,17 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         public string Name { get; set; }
 
         /// <summary>
-        /// 库存
+        /// 指标
         /// </summary>		
         public int Inventory { get; set; }
 
         /// <summary>
-        /// 已用库存
+        /// 已用指标
         /// </summary>
         public int UsedInventory { get; set; }
 
         /// <summary>
-        /// 剩余库存
+        /// 剩余指标
         /// </summary>
         public int ResidueInventory
         {

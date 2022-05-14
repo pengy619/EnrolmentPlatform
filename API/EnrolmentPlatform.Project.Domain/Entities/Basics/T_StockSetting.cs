@@ -44,13 +44,13 @@ namespace EnrolmentPlatform.Project.Domain.Entities
         public string Name { get; set; }
 
         /// <summary>
-        /// 库存
+        /// 指标
         /// </summary>		
         [DataMember]
         public int Inventory { get; set; }
 
         /// <summary>
-        /// 已用库存
+        /// 已用指标
         /// </summary>		
         [DataMember]
         public int UsedInventory { get; set; }

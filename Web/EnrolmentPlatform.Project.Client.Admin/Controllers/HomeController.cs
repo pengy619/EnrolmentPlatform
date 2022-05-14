@@ -26,7 +26,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Controllers
         }
 
         /// <summary>
-        /// 获得库存信息
+        /// 获得指标信息
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>

@@ -11,3 +11,6 @@ BEGIN
 	ALTER TABLE T_Order ADD DegreeType nvarchar(50) not null default('')
 END
 GO
+
+--库存更名为指标
+update T_Permissions set Name='设置招生指标' where Name='设置招生库存'

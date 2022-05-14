@@ -269,10 +269,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
 
         #endregion
 
-        #region 库存设置
+        #region 指标设置
 
         /// <summary>
-        /// 库存设置
+        /// 指标设置
         /// </summary>
         /// <param name="schoolId">schoolId</param>
         /// <returns></returns>
@@ -290,7 +290,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         }
 
         /// <summary>
-        /// 库存设置列表
+        /// 指标设置列表
         /// </summary>
         /// <returns></returns>
         public string StockSettingList(StockSettingSearchDto req)
@@ -300,7 +300,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         }
 
         /// <summary>
-        /// 保存库存设置
+        /// 保存指标设置
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
@@ -327,7 +327,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         }
 
         /// <summary>
-        /// 删除库存设置
+        /// 删除指标设置
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>

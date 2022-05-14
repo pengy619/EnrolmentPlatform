@@ -57,10 +57,10 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
 
         #endregion
 
-        #region 库存列表
+        #region 指标列表
 
         /// <summary>
-        /// 剩余库存列表
+        /// 剩余指标列表
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
@@ -70,7 +70,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers
         }
 
         /// <summary>
-        /// 获得库存信息
+        /// 获得指标信息
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>

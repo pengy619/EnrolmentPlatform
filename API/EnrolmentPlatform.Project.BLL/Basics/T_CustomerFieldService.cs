@@ -119,7 +119,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 return new ResultMsg() { IsSuccess = false, Info = "该字段重复！" };
             }
 
-            //查找需要修改的库存设置信息
+            //查找需要修改的自定义字段信息
             var customerField = this.customerFieldRepository.FindEntityById(dto.Id.Value);
             if (customerField == null)
             {

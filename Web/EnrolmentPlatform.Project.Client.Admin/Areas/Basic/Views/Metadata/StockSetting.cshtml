@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "设置招生库存";
+    ViewBag.Title = "设置招生指标";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> batchList = ViewBag.BatchList;
 }
@@ -8,7 +8,7 @@
 <div class="main-wrap">
     <div class="panel">
         <div class="panel-title">
-            设置招生库存
+            设置招生指标
         </div>
         <div class="panel-body" style="display:flex">
             <div class="layui-form margin-top-10" style="width:45%;">
@@ -36,7 +36,7 @@
     <input type="hidden" id="LevelId" name="LevelId" value="">
     <input type="hidden" id="MajorId" name="MajorId" value="">
     <div class="layui-form-item">
-        <label class="layui-form-label">库存名称：</label>
+        <label class="layui-form-label">指标名称：</label>
         <div class="layui-input-inline">
             <input type="text" class="layui-input" id="Name" name="Name" maxlength="20" lay-verify="required" autocomplete="off">
         </div>
@@ -54,13 +54,13 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">库存数量：</label>
+        <label class="layui-form-label">指标数量：</label>
         <div class="layui-input-inline">
             <input type="text" class="layui-input" id="Inventory" name="Inventory" lay-verify="required|number">
         </div>
     </div>
     @*<div class="layui-form-item">
-        <label class="layui-form-label">招生库存：</label>
+        <label class="layui-form-label">招生指标：</label>
         <div class="layui-input-inline">
             <span id="UsedInventory">0</span>
         </div>
@@ -90,11 +90,11 @@
                 , url: url
                 , page: true //开启分页
                 , cols: [[ //标题栏
-                    { title: '招生库存列表', colspan: 5 } //rowspan即纵向跨越的单元格数
+                    { title: '招生指标列表', colspan: 5 } //rowspan即纵向跨越的单元格数
                 ], [ //标题栏
-                    { field: 'Name', width: 250, title: '库存名称' }
+                    { field: 'Name', width: 250, title: '指标名称' }
                     , { field: 'BatchName', width: 102, title: '批次名称' }
-                    , { field: 'Inventory', width: 90, title: '库存数量' }
+                    , { field: 'Inventory', width: 90, title: '指标数量' }
                     , { field: 'UsedInventory', width: 120, title: '已招生数量' }
                     , { title: '操作', width: 120, templet: '#operat' }
                 ]]
@@ -140,7 +140,7 @@
                 layer.open({
                     type: 1
                     , area: ['380px', '300px']
-                    , title: "库存设置"
+                    , title: "指标设置"
                     , content: $("#from_Add")
                 });
             }
@@ -185,7 +185,7 @@
                     "remove": null,
                     "ccp": null,
                     "Add": {
-                        "label": "库存设置", "action": function (data) {
+                        "label": "指标设置", "action": function (data) {
                             var inst = $.jstree.reference(data.reference);
                             var obj = inst.get_node(data.reference);
                             $("#LevelId").val(obj.li_attr.parentId);
@@ -199,7 +199,7 @@
                             layer.open({
                                 type: 1
                                 , area: ['380px', '300px']
-                                , title: "库存设置"
+                                , title: "指标设置"
                                 , content: $("#from_Add")
                             });
                         }, _disabled: function (data) {

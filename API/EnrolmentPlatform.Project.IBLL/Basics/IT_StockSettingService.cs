@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 namespace EnrolmentPlatform.Project.IBLL.Basics
 {
     /// <summary>
-    /// 库存设置服务
+    /// 指标设置服务
     /// </summary>
     public interface IT_StockSettingService
     {
         /// <summary>
-        /// 获得库存列表
+        /// 获得指标列表
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
@@ -29,28 +29,28 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         GridDataResponse GetList(StockSettingSearchDto dto);
 
         /// <summary>
-        /// 新增库存设置
+        /// 新增指标设置
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
         ResultMsg Add(StockSettingDto dto);
 
         /// <summary>
-        /// 修改库存设置
+        /// 修改指标设置
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
         ResultMsg Update(StockSettingDto dto);
 
         /// <summary>
-        /// 查找库存设置
+        /// 查找指标设置
         /// </summary>
         /// <param name="stockId">stockId</param>
         /// <returns></returns>
         StockSettingDto Find(Guid stockId);
 
         /// <summary>
-        /// 删除库存设置
+        /// 删除指标设置
         /// </summary>
         /// <param name="stockId">stockId</param>
         /// <returns></returns>

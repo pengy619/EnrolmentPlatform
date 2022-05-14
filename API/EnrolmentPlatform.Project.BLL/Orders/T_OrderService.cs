@@ -285,15 +285,15 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             throw new Exception(entity.StudentName + "的订单批次录入重复。");
                         }
 
-                        //校验是否有库存
+                        //校验是否有指标
                         var stock = this.stockSettingRepository.LoadEntities(a => a.SchoolId == entity.SchoolId && a.LevelId == entity.LevelId
                           && a.MajorId == entity.MajorId && a.BatchId == entity.BatchId).FirstOrDefault();
                         if (stock == null || stock.UsedInventory >= stock.Inventory)
                         {
-                            throw new Exception(entity.StudentName + "的订单没有库存。");
+                            throw new Exception(entity.StudentName + "的订单没有指标。");
                         }
 
-                        //1.修改库存
+                        //1.修改已用指标
                         stock.UsedInventory = stock.UsedInventory + 1;
                         stock.LastModifyTime = DateTime.Now;
                         this.stockSettingRepository.UpdateEntity(stock);
@@ -341,14 +341,14 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                             break;
                         }
 
-                        //库存处理
+                        //指标处理
                         var stock = this.stockSettingRepository.LoadEntities(a => a.SchoolId == entity.SchoolId && a.LevelId == entity.LevelId
                           && a.MajorId == entity.MajorId && a.BatchId == entity.BatchId).FirstOrDefault();
 
-                        //如果有库存
+                        //如果有指标
                         if (stock != null)
                         {
-                            //需要修改已用库存
+                            //需要修改已用指标
                             stock.UsedInventory = stock.UsedInventory - 1;
                             stock.LastModifyTime = DateTime.Now;
                             this.stockSettingRepository.UpdateEntity(stock);

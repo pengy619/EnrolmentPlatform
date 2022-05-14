@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace EnrolmentPlatform.Project.BLL.Basics
 {
     /// <summary>
-    /// 库存设置服务
+    /// 指标设置服务
     /// </summary>
     public class T_StockSettingService : IT_StockSettingService, IInterceptorLogic
     {
@@ -27,7 +27,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 获得库存列表
+        /// 获得指标列表
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
@@ -81,7 +81,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 获得库存设置列表
+        /// 获得指标设置列表
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
@@ -114,7 +114,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 新增库存设置
+        /// 新增指标设置
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
@@ -150,7 +150,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 修改库存设置
+        /// 修改指标设置
         /// </summary>
         /// <param name="dto">dto</param>
         /// <returns></returns>
@@ -164,11 +164,11 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                 return new ResultMsg() { IsSuccess = false, Info = "该时间段有重复！" };
             }
 
-            //查找需要修改的库存设置信息
+            //查找需要修改的指标设置信息
             var stockSetting = this.stockSettingRepository.FindEntityById(dto.StockSettingId.Value);
             if (stockSetting == null)
             {
-                return new ResultMsg() { IsSuccess = false, Info = "找不到库存设置信息。" };
+                return new ResultMsg() { IsSuccess = false, Info = "找不到指标设置信息。" };
             }
 
             //修改
@@ -183,7 +183,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 查找库存设置
+        /// 查找指标设置
         /// </summary>
         /// <param name="stockId">stockId</param>
         /// <returns></returns>
@@ -210,7 +210,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         }
 
         /// <summary>
-        /// 删除库存设置
+        /// 删除指标设置
         /// </summary>
         /// <param name="stockId">stockId</param>
         /// <returns></returns>
@@ -220,7 +220,7 @@ namespace EnrolmentPlatform.Project.BLL.Basics
             var stockSetting = this.stockSettingRepository.FindEntityById(stockId);
             if (stockSetting == null)
             {
-                return new ResultMsg() { IsSuccess = false, Info = "找不到库存设置信息。" };
+                return new ResultMsg() { IsSuccess = false, Info = "找不到指标设置信息。" };
             }
             result.IsSuccess = this.stockSettingRepository.PhysicsDeleteEntity(stockSetting) > 0;
             return result;
