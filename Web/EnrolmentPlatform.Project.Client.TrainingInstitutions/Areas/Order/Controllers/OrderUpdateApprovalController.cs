@@ -88,6 +88,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 orderInfo.GongZuoDanWei = orderApproval.GongZuoDanWei;
                 orderInfo.GraduateSchool = orderApproval.GraduateSchool;
                 orderInfo.HighesDegree = orderApproval.HighesDegree;
+                orderInfo.IDCardType = orderApproval.IDCardType;
                 orderInfo.IDCardNo = orderApproval.IDCardNo;
                 orderInfo.JiGuan = orderApproval.JiGuan;
                 orderInfo.MinZu = orderApproval.MinZu;
@@ -99,6 +100,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
                 orderInfo.SuoDuZhuanYe = orderApproval.SuoDuZhuanYe;
                 orderInfo.IsTvUniversity = orderApproval.IsTvUniversity;
                 orderInfo.GraduationTime = orderApproval.GraduationTime;
+                orderInfo.DegreeType = orderApproval.DegreeType;
                 orderInfo.SchoolId = orderApproval.SchoolId;
                 orderInfo.LevelId = orderApproval.LevelId;
                 orderInfo.MajorId = orderApproval.MajorId;

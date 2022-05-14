@@ -44,6 +44,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 curApproval.GongZuoDanWei = dto.GongZuoDanWei;
                 curApproval.GraduateSchool = dto.GraduateSchool;
                 curApproval.HighesDegree = dto.HighesDegree;
+                curApproval.IDCardType = dto.IDCardType;
                 curApproval.IDCardNo = dto.IDCardNo;
                 curApproval.JiGuan = dto.JiGuan;
                 curApproval.MinZu = dto.MinZu;
@@ -60,6 +61,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 curApproval.LevelId = dto.LevelId;
                 curApproval.MajorId = dto.MajorId;
                 curApproval.SchoolId = dto.SchoolId;
+                curApproval.DegreeType = dto.DegreeType;
                 curApproval.AllOrderImageUpload = order.AllOrderImageUpload;
                 curApproval.CustomerField = order.CustomerField;
                 dbContext.Entry(curApproval).State = EntityState.Modified;
@@ -77,6 +79,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     GraduateSchool = dto.GraduateSchool,
                     HighesDegree = dto.HighesDegree,
                     Id = Guid.NewGuid(),
+                    IDCardType = dto.IDCardType,
                     IDCardNo = dto.IDCardNo,
                     JiGuan = dto.JiGuan,
                     MinZu = dto.MinZu,
@@ -90,6 +93,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     SuoDuZhuanYe = dto.SuoDuZhuanYe,
                     IsTvUniversity = dto.IsTvUniversity,
                     GraduationTime = dto.GraduationTime,
+                    DegreeType = dto.DegreeType,
                     SchoolId = dto.SchoolId,
                     MajorId = dto.MajorId,
                     LevelId = dto.LevelId,
@@ -147,14 +151,14 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 {
                     dbContext.T_File.Add(new Domain.Entities.T_File()
                     {
-                        Id=Guid.NewGuid(),
+                        Id = Guid.NewGuid(),
                         ForeignKeyId = approval.Id,
                         FilePath = item.FilePath,
                         FileName = item.FileName,
                         CreatorUserId = approval.CreatorUserId,
                         CreatorAccount = dto.ZhaoShengLaoShi,
                         CreatorTime = DateTime.Now,
-                         DeleteUserId=Guid.Empty,
+                        DeleteUserId = Guid.Empty,
                         DeleteTime = DateTime.MaxValue,
                         IsDelete = false,
                         LastModifyTime = DateTime.Now,
@@ -306,6 +310,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     order.GongZuoDanWei = approval.GongZuoDanWei;
                     order.GraduateSchool = approval.GraduateSchool;
                     order.HighesDegree = approval.HighesDegree;
+                    order.IDCardType = approval.IDCardType;
                     order.IDCardNo = approval.IDCardNo;
                     order.JiGuan = approval.JiGuan;
                     order.MinZu = approval.MinZu;
@@ -317,6 +322,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     order.SuoDuZhuanYe = approval.SuoDuZhuanYe;
                     order.IsTvUniversity = approval.IsTvUniversity;
                     order.GraduationTime = approval.GraduationTime;
+                    order.DegreeType = approval.DegreeType;
                     order.SchoolId = approval.SchoolId;
                     order.LevelId = approval.LevelId;
                     order.MajorId = approval.MajorId;

@@ -5,10 +5,22 @@ BEGIN
 END
 GO
 
+IF COL_LENGTH('T_OrderApproval','IDCardType') IS NULL
+BEGIN
+	ALTER TABLE T_OrderApproval ADD IDCardType int not null default(0)
+END
+GO
+
 --学历类型
 IF COL_LENGTH('T_Order','DegreeType') IS NULL
 BEGIN
-	ALTER TABLE T_Order ADD DegreeType nvarchar(50) not null default('')
+	ALTER TABLE T_Order ADD DegreeType nvarchar(50) null
+END
+GO
+
+IF COL_LENGTH('T_OrderApproval','DegreeType') IS NULL
+BEGIN
+	ALTER TABLE T_OrderApproval ADD DegreeType nvarchar(50) null
 END
 GO
 

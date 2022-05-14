@@ -79,7 +79,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 MajorId = entity.MajorId,
                 SchoolId = entity.SchoolId,
                 UserId = entity.CreatorUserId,
-                CustomerField = entity.CustomerField
+                CustomerField = entity.CustomerField,
+                IDCardType = entity.IDCardType,
+                DegreeType = entity.DegreeType
             };
         }
 
@@ -123,7 +125,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 BatchId = entity.BatchId,
                 LevelId = entity.LevelId,
                 MajorId = entity.MajorId,
-                SchoolId = entity.SchoolId
+                SchoolId = entity.SchoolId,
+                IDCardType = entity.IDCardType,
+                DegreeType = entity.DegreeType
             };
         }
 

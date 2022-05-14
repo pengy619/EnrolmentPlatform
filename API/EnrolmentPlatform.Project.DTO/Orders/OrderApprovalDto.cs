@@ -26,6 +26,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string StudentName { set; get; }
 
         /// <summary>
+        /// 证件类型
+        /// </summary>
+        public int IDCardType { get; set; }
+
+        /// <summary>
         /// 身份证号码
         /// </summary>
         public string IDCardNo { set; get; }
@@ -109,6 +114,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 自定义字段
         /// </summary>
         public string CustomerField { set; get; }
+
+        /// <summary>
+        /// 学历类型
+        /// </summary>
+        public string DegreeType { get; set; }
 
         /// <summary>
         /// 报考院校Id

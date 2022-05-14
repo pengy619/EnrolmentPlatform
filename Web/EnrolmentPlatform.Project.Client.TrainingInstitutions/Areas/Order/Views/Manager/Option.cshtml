@@ -31,8 +31,8 @@
                 </div>
             </div>
             <div class="layui-form-item required">
-                <label class="layui-form-label">身份证号</label>
-                <div class="layui-input-inline" style="width: 85px">
+                <label class="layui-form-label">证件号码</label>
+                <div class="layui-input-inline" style="width: 100px">
                     <select id="IDCardType" name="IDCardType" lay-verify="required" lay-filter="IDCardType">
                         <option value="0">身份证</option>
                         <option value="1">港澳台居民证件</option>
@@ -64,7 +64,7 @@
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">报考院校</label>
-                <div class="layui-input-inline" style="width: 85px">
+                <div class="layui-input-inline" style="width: 100px">
                     <select id="DegreeType" name="tags" lay-filter="tags">
                         <option value=""></option>
                         <option value="自考">自考</option>
@@ -320,7 +320,7 @@
             loadLevel();
             $("#MajorId").val("@(dto!=null?dto.MajorId.ToString():"")");
             $("#IDCardType").val("@(dto!=null?dto.IDCardType.ToString():"")");
-            $("#DegreeType").val("@(dto!=null?dto.DegreeType.ToString():"")");
+            $("#DegreeType").val("@(dto!=null?dto.DegreeType:"")");
             form.render('select');
             if ($("#IDCardType").val() == "0") {
                 $("#IDCardNo").attr("lay-verify", "required|identity");

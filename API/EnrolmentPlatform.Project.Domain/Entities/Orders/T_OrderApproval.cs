@@ -29,6 +29,12 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public string StudentName { set; get; }
 
         /// <summary>
+        /// 证件类型
+        /// </summary>
+        [DataMember]
+        public int IDCardType { get; set; }
+
+        /// <summary>
         /// 身份证号码
         /// </summary>
         [DataMember]
@@ -111,6 +117,12 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public string SuoDuZhuanYe { get; set; }
+
+        /// <summary>
+        /// 学历类型
+        /// </summary>
+        [DataMember]
+        public string DegreeType { get; set; }
 
         /// <summary>
         /// 报考院校Id
