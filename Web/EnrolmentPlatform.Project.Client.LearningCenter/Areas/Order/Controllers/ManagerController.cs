@@ -146,7 +146,14 @@ namespace EnrolmentPlatform.Project.Client.LearningCenter.Areas.Order.Controller
         {
             if (orderId.HasValue)
             {
-                ViewBag.OrderInfo = OrderService.GetOrder(orderId.Value);
+                //报名单信息
+                var order = OrderService.GetOrder(orderId.Value);
+                ViewBag.OrderInfo = order;
+                //照片信息
+                ViewBag.ImageDto = OrderService.FindOrderImage(orderId.Value);
+                //自定义字段
+                ViewBag.CustomFields = CustomerFieldService.GetAllList(new DTO.Basics.GetAllListSearchDto() { SchoolId = order.SchoolId });
+                return View();
             }
 
             return View();

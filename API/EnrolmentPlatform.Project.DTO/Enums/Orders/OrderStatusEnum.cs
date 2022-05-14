@@ -162,4 +162,34 @@ namespace EnrolmentPlatform.Project.DTO.Enums.Orders
         [Description("审核失败")]
         Faild = 3
     }
+
+    /// <summary>
+    /// 证件类型
+    /// </summary>
+    public enum IDCardTypeEnum
+    {
+        /// <summary>
+        /// 身份证
+        /// </summary>
+        [Description("身份证")]
+        Identity = 0,
+
+        ///// <summary>
+        ///// 港澳台居民证件
+        ///// </summary>
+        [Description("港澳台居民证件")]
+        Resident = 1,
+
+        /// <summary>
+        /// 军人证
+        /// </summary>
+        [Description("军人证")]
+        Soldier = 2,
+
+        /// <summary>
+        /// 护照
+        /// </summary>
+        [Description("护照")]
+        Passport = 3
+    }
 }

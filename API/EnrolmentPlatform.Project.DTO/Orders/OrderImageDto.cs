@@ -42,12 +42,12 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string BiYeZhengImg { set; get; }
 
         /// <summary>
-        /// 免考英语
+        /// 社保/居住证正
         /// </summary>
         public string MianKaoYingYuImg { set; get; }
 
         /// <summary>
-        /// 免考计算机
+        /// 社保/居住证反
         /// </summary>
         public string MianKaoJiSuanJiImg { set; get; }
 
@@ -62,7 +62,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string QiTa { set; get; }
 
         /// <summary>
-        /// 头像
+        /// 录取通知书
         /// </summary>
         public string TouXiang { set; get; }
     }

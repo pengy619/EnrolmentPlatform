@@ -1357,7 +1357,9 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             AssistStatus = a.AssistStatus,
                             CustomerField = a.CustomerField,
                             IDCardType = a.IDCardType,
-                            DegreeType = a.DegreeType
+                            DegreeType = a.DegreeType,
+                            Account = a.UserName.ToString(),
+                            Password = a.Password
                         };
             return query.FirstOrDefault(t => t.OrderId == orderId);
         }

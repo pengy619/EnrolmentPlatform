@@ -223,6 +223,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\website\css\common.css" />
     <Content Include="Content\website\css\dev.css" />
+    <Content Include="Content\website\css\kvf.css" />
     <Content Include="Content\website\css\main.css" />
     <Content Include="Content\website\css\replace.css" />
     <Content Include="Content\website\css\zss.css" />
@@ -605,6 +606,9 @@
     <Content Include="Content\website\js\kindeditor-4.1.10\themes\qq\editor.gif" />
     <Content Include="Content\website\js\kindeditor-4.1.10\themes\qq\qq.css" />
     <Content Include="Content\website\js\kindeditor-4.1.10\themes\simple\simple.css" />
+    <Content Include="Content\website\js\magnify\jquery.magnify.min.css" />
+    <Content Include="Content\website\js\magnify\jquery.magnify.min.js" />
+    <Content Include="Content\website\js\magnify\magnify-simple-theme.css" />
     <Content Include="DBScripts\更新脚本.sql" />
     <Content Include="DBScripts\InitDataSql.sql" />
     <Content Include="DBScripts\CreateDB-2018-11-24.sql" />

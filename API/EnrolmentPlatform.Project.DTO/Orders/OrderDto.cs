@@ -240,6 +240,16 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public DateTime? GraduationTime { get; set; }
 
         /// <summary>
+        /// 学习账号
+        /// </summary>
+        public string Account { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
         /// 自定义字段
         /// </summary>
         public string CustomerField { get; set; }

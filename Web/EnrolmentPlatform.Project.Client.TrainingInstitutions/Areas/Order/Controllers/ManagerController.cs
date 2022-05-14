@@ -32,7 +32,13 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// <returns></returns>
         public ActionResult View(Guid orderId)
         {
-            ViewBag.OrderInfo = OrderService.GetOrder(orderId);
+            //报名单信息
+            var order = OrderService.GetOrder(orderId);
+            ViewBag.OrderInfo = order;
+            //照片信息
+            ViewBag.ImageDto = OrderService.FindOrderImage(orderId);
+            //自定义字段
+            ViewBag.CustomFields = CustomerFieldService.GetAllList(new DTO.Basics.GetAllListSearchDto() { SchoolId = order.SchoolId });
             return View();
         }
 

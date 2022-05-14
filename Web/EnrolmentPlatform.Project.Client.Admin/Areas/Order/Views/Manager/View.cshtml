@@ -1,141 +1,523 @@
-﻿@{
+﻿@using EnrolmentPlatform.Project.DTO.Basics;
+@using Newtonsoft.Json.Linq;
+@{
     ViewBag.Title = "报名单";
     Layout = "~/Views/Shared/_Layout.cshtml";
     OrderDto dto = ViewBag.OrderInfo;
+    OrderImageDto imageDto = ViewBag.ImageDto ?? new OrderImageDto();
+    List<CustomerFieldDto> fieldList = ViewBag.CustomFields;
 }
-<style type="text/css">
-    .layui-form-label {
-        width:90px !important;
-    }
-</style>
-<div class="main-wrap">
-    <div class="panel layui-form">
-        <div class="panel-title">
-            @(ViewBag.Title)
-        </div>
-        <div class="panel-body">
-            <div class="layui-form-item required">
-                <label class="layui-form-label">学生姓名</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="StudentName" value='@((dto!=null) ? dto.StudentName : "")'>
+<link href="~/Content/Website/css/kvf.css" rel="stylesheet" />
+<link href="~/Content/Website/js/magnify/jquery.magnify.min.css" rel="stylesheet" />
+<link href="~/Content/Website/js/magnify/magnify-simple-theme.css" rel="stylesheet" />
+<div class="layui-form">
+    <div class="pop-content">
+        <div class="padding10">
+            <div class="box box-border-radius padding-l10 padding-r10 padding-t20 padding-b20">
+                <div class="layui-row layui-col-space20">
+                    <div class="layui-col-sm4">
+                        <div class="media">
+                            <div class="media-side text-center padding-l10 padding-r20">
+                                <img src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:(dto.Sex == "男"?"/Content/Website/images/boy.png":"/Content/Website/images/girl.png"))" width="120" height="120" id="stud_img_show" class="layui-circle">
+                            </div>
+                            <div class="media-body vertical-middle">
+                                <dl class="text-word-break">
+                                    <dt class="f24">@dto.StudentName</dt>
+                                    <dd class="margin-t5">手机号：@dto.Phone</dd>
+                                    <dd class="margin-t5">证件号：@dto.IDCardNo</dd>
+                                    <dd class="margin-t5">专业层次：@dto.LevelName</dd>
+                                    <dd class="margin-t5">专业名称：@dto.MajorName</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-sm8">
+                        <table class="layui-table text-center border-none margin-none" height="160" lay-skin="row">
+                            <tbody>
+                                <tr class="no-bg">
+                                    <td class="border-left">
+                                        @if (dto.AllOrderImageUpload)
+                                        {
+                                            <div class="f28 text-green">已完善</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="f28 text-orange">未完善</div>
+                                        }
+                                        <div class="f16 margin-t10">证件材料</div>
+                                    </td>
+                                    @*<td>
+                                            <div class="f28 text-green">已完善</div>
+                                            <div class="f16 margin-t10">报名表信息</div>
+                                        </td>*@
+                                    <td class="border-none">
+                                        <div class="f28 @(dto.Status == 7?"text-green":"text-orange")">@EnumDescriptionHelper.GetDescription((OrderStatusEnum)dto.Status)</div>
+                                        <div class="f16 margin-t10">状态</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">身份证号</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="IDCardNo" value='@((dto!=null) ? dto.IDCardNo : "")'>
+            <div class="bg-white margin-b15">
+                <div class="layui-tab layui-tab-card bg-white">
+                    <ul class="layui-tab-title">
+                        <li>资料信息</li>
+                    </ul>
+                    <div class="layui-tab-content padding-none">
+                        <div class="padding15">
+                            <div class="padding-b30">
+                                <fieldset class="layui-elem-field layui-field-title">
+                                    <legend class="f16 text-bold">基本信息</legend>
+                                </fieldset>
+                                <div class="table-responsive">
+                                    <table class="layui-table margin-none" table-no-hover="">
+                                        <colgroup>
+                                            <col width="17%">
+                                            <col width="33%">
+                                            <col width="17%">
+                                            <col width="33%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-center">姓名</th>
+                                                <td>@dto.StudentName</td>
+                                                <th class="text-center">性别</th>
+                                                <td>
+                                                    <span>@dto.Sex</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">证件类型</th>
+                                                <td>
+                                                    <span>@EnumDescriptionHelper.GetDescription((IDCardTypeEnum)dto.IDCardType)</span>
+                                                </td>
+                                                <th class="text-center">证件号码</th>
+                                                <td>
+                                                    <span>@dto.IDCardNo</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">民族</th>
+                                                <td>
+                                                    <span>@dto.MinZu</span>
+                                                </td>
+                                                <th class="text-center">籍贯</th>
+                                                <td>
+                                                    <span>@dto.JiGuan</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">居住地址</th>
+                                                <td>
+                                                    <span>@dto.Address</span>
+                                                </td>
+                                                <th class="text-center">手机号码</th>
+                                                <td>
+                                                    <span>@dto.Phone</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">微信/QQ</th>
+                                                <td>
+                                                    <span>@dto.TencentNo</span>
+                                                </td>
+                                                <th class="text-center">邮箱地址</th>
+                                                <td>
+                                                    <span>@dto.Email</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">工作单位</th>
+                                                <td>
+                                                    <span>@dto.WorkUnit</span>
+                                                </td>
+                                                <th class="text-center"></th>
+                                                <td>
+                                                    <span></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <fieldset class="layui-elem-field layui-field-title">
+                                    <legend class="f16 text-bold">报读信息</legend>
+                                </fieldset>
+                                <div class="table-responsive">
+                                    <table class="layui-table margin-none" table-no-hover="">
+                                        <colgroup>
+                                            <col width="17%">
+                                            <col width="33%">
+                                            <col width="17%">
+                                            <col width="33%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-center">报考院校</th>
+                                                <td>
+                                                    <span>@dto.SchoolName</span>
+
+                                                </td>
+                                                <th class="text-center">学习形式</th>
+                                                <td>
+                                                    <span>@dto.DegreeType</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">报考层次</th>
+                                                <td>
+                                                    <span>@dto.LevelName</span>
+
+                                                </td>
+                                                <th class="text-center">报考专业</th>
+                                                <td>
+                                                    <span>@dto.MajorName</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">报考批次</th>
+                                                <td>
+                                                    <span>@dto.BatchName</span>
+                                                </td>
+                                                <th class="text-center"></th>
+                                                <td>
+                                                    <span></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                @if (fieldList != null && fieldList.Any())
+                                {
+                                    <fieldset class="layui-elem-field layui-field-title">
+                                        <legend class="f16 text-bold">学校自定义字段</legend>
+                                    </fieldset>
+                                    <div class="table-responsive">
+                                        <table class="layui-table margin-none" table-no-hover="">
+                                            <colgroup>
+                                                <col width="17%">
+                                                <col width="33%">
+                                                <col width="17%">
+                                                <col width="33%">
+                                            </colgroup>
+                                            <tbody>
+                                                @for (int i = 0; i < fieldList.Count; i++)
+                                                {
+                                                    if (i + 1 == fieldList.Count)
+                                                    {
+                                                        var name1 = fieldList[i].Name;
+                                                        var value1 = string.Empty;
+                                                        if (!string.IsNullOrEmpty(dto.CustomerField))
+                                                        {
+                                                            var jsonData = JObject.Parse(dto.CustomerField);
+                                                            value1 = jsonData[name1].ToString();
+                                                        }
+                                                        <tr>
+                                                            <th class="text-center">@name1</th>
+                                                            <td>
+                                                                <span>@value1</span>
+                                                            </td>
+                                                            <th class="text-center"></th>
+                                                            <td>
+                                                                <span></span>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        var name1 = fieldList[i].Name;
+                                                        var value1 = string.Empty;
+                                                        var name2 = fieldList[i + 1].Name;
+                                                        var value2 = string.Empty;
+                                                        if (!string.IsNullOrEmpty(dto.CustomerField))
+                                                        {
+                                                            var jsonData = JObject.Parse(dto.CustomerField);
+                                                            value1 = jsonData[name1].ToString();
+                                                            value2 = jsonData[name2].ToString();
+                                                        }
+                                                        <tr>
+                                                            <th class="text-center">@name1</th>
+                                                            <td>
+                                                                <span>@value1</span>
+                                                            </td>
+                                                            <th class="text-center">@name2</th>
+                                                            <td>
+                                                                <span>@value2</span>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    i++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+
+                                <fieldset class="layui-elem-field layui-field-title">
+                                    <legend class="f16 text-bold">学习账号</legend>
+                                </fieldset>
+                                <div class="table-responsive">
+                                    <table class="layui-table margin-none" table-no-hover="">
+                                        <colgroup>
+                                            <col width="17%">
+                                            <col width="33%">
+                                            <col width="17%">
+                                            <col width="33%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-center">账号</th>
+                                                <td>
+                                                    <span>@dto.Account</span>
+
+                                                </td>
+                                                <th class="text-center">密码</th>
+                                                <td>
+                                                    <span>@dto.Password</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <fieldset class="layui-elem-field layui-field-title">
+                                    <legend class="f16 text-bold">最高学历</legend>
+                                </fieldset>
+                                <div class="table-responsive">
+                                    <table class="layui-table margin-none" table-no-hover="">
+                                        <colgroup>
+                                            <col width="17%">
+                                            <col width="33%">
+                                            <col width="17%">
+                                            <col width="33%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-center">最高学历</th>
+                                                <td>
+                                                    <span>@dto.HighesDegree</span>
+                                                </td>
+                                                <th class="text-center">毕业学校</th>
+                                                <td>
+                                                    <span>@dto.GraduateSchool</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">所读专业</th>
+                                                <td>
+                                                    <span>@dto.SuoDuZhuanYe</span>
+                                                </td>
+                                                <th class="text-center">毕业证编号</th>
+                                                <td>
+                                                    <span>@dto.BiYeZhengBianHao</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">毕业时间</th>
+                                                <td>
+                                                    <span>@(dto.GraduationTime.HasValue ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")</span>
+                                                </td>
+                                                <th class="text-center">是否电大毕业</th>
+                                                <td>
+                                                    <span>@(dto.IsTvUniversity ? "是" : "否")</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">招生老师</th>
+                                                <td>
+                                                    <span>@dto.UserName</span>
+                                                </td>
+                                                <th class="text-center"></th>
+                                                <td>
+                                                    <span></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <fieldset class="layui-elem-field layui-field-title">
+                                    <legend class="f16 text-bold">证件信息</legend>
+                                </fieldset>
+                                <div class="layui-row layui-col-space20 margin-t20">
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="身份证正面" data-group="a" href="@imageDto.IDCard1">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1)?imageDto.IDCard1:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" id="id_img_front_show"
+                                                             class="img-responsive" width="100%" height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    身份证正面
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="身份证反面" data-group="a" href="@imageDto.IDCard2">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2)?imageDto.IDCard2:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" class="img-responsive" width="100%"
+                                                             height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    身份证反面
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="两寸蓝底" data-group="a" href="@imageDto.LiangCunLanDiImg">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" class="img-responsive" width="100%"
+                                                             height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    两寸蓝底
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="毕业证" data-group="a" href="@imageDto.BiYeZhengImg">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg)?imageDto.BiYeZhengImg:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" id="id_img_front_show"
+                                                             class="img-responsive" width="100%" height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    毕业证
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="社保/居住证正" data-group="a" href="@imageDto.MianKaoYingYuImg">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" class="img-responsive" width="100%"
+                                                             height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    社保/居住证正
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="社保/居住证反" data-group="a" href="@imageDto.MianKaoJiSuanJiImg">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg)?imageDto.MianKaoJiSuanJiImg:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" class="img-responsive" width="100%"
+                                                             height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    社保/居住证反
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="教育部学历证书电子备案表" data-group="a" href="@imageDto.XueXinWangImg">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg)?imageDto.XueXinWangImg:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" id="id_img_front_show"
+                                                             class="img-responsive" width="100%" height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    教育部学历证书电子备案表
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="录取通知书" data-group="a" href="@imageDto.TouXiang">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang)?imageDto.TouXiang:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" class="img-responsive" width="100%"
+                                                             height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    录取通知书
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-sm4">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm7 center-block float-none">
+                                                <div class="screenshot_list">
+                                                    <a data-magnify="gallery" data-src="" data-caption="其他" data-group="a" href="@imageDto.QiTa">
+                                                        <img src="@(!string.IsNullOrWhiteSpace(imageDto.QiTa)?imageDto.QiTa:"/Content/Website/images/nopic.png")"
+                                                             data-role="expand" class="img-responsive" width="100%"
+                                                             height="200">
+                                                    </a>
+                                                </div>
+                                                <div class="margin-t10 text-center">
+                                                    其他
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <fieldset class="layui-elem-field layui-field-title">
+                                    <legend class="f16 text-bold">其他附件</legend>
+                                </fieldset>
+                                <div class="margin-t20">
+                                    <div class="layui-row">
+                                        <div style="width: 500px;">
+                                            <table id="attachment" lay-filter="table"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">手机号</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="Phone" value='@((dto!=null) ? dto.Phone : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">微信/QQ</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="TencentNo" value='@((dto!=null) ? dto.TencentNo : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">邮箱地址</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="Email" value='@((dto!=null) ? dto.Email : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">报考院校</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.SchoolName : "")'>
-                </div>
-                <label class="layui-form-label">层次</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.LevelName : "")'>
-                </div>
-                <label class="layui-form-label">专业</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.MajorName : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">批次</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.BatchName : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">性别</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.Sex : "")'>
-                </div>
-                <label class="layui-form-label">民族</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.MinZu : "")'>
-                </div>
-                <label class="layui-form-label">籍贯</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.JiGuan : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">最高学历</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.HighesDegree : "")'>
-                </div>
-                <label style="float: left;display: block;padding: 9px 15px;width: 90px;font-weight: 400;line-height: 20px;text-align: right;">所读专业</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.SuoDuZhuanYe : "")'>
-                </div>
-                <label class="layui-form-label">毕业学校</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.GraduateSchool : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item required">
-                <label class="layui-form-label">毕业证编号</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.BiYeZhengBianHao : "")'>
-                </div>
-                <label class="layui-form-label">地址</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.Address : "")'>
-                </div>
-                <label class="layui-form-label">工作单位</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@((dto!=null) ? dto.GongZuoDanWei : "")'>
-                </div>
-            </div>
-            <div class="layui-form-item" id="schoolCustomerFieldBefore">
-                <label class="layui-form-label">是否电大毕业</label>
-                <div class="layui-input-inline">                    
-                    <input type="text" class="layui-input" value='@((dto!=null && dto.IsTvUniversity) ? "是" : "否")'>
-                </div>
-                <label class="layui-form-label"><span style="color:red;">* </span>毕业时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" value='@(dto.GraduationTime.HasValue ? dto.GraduationTime.Value.ToString("yyyy-MM-dd") : "")'>
-                </div>
-                <label class="layui-form-label">招生老师</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" maxlength="50" id="ZhaoShengLaoShi" value='@((dto!=null) ? dto.UserName : "")'>
-                </div>
-            </div>
-        </div>
-        <div class="panel-title">
-            备注
-        </div>
-        <div class="panel-body">
-            <textarea name="Remark" placeholder="请输入内容" id="Remark" class="layui-textarea">@((dto != null) ? dto.Remark : "")</textarea>
-            <div class="margin-top-10">
-                <button class="layui-btn layui-btn-primary" onclick="window.location.href = '@Url.Action("Index","Manager")'">返回</button>
             </div>
         </div>
     </div>
 </div>
-<script src="~/Content/Website/js/customerfield.js"></script>
+<script src="~/Content/Website/js/magnify/jquery.magnify.min.js"></script>
 <script>
-    layui.use('jquery', function () {
-        //自定义字段
-        filedList("@((dto != null) ? dto.SchoolId.ToString() :"")", '@(dto!=null?Html.Raw(dto.CustomerField):null)',"schoolCustomerFieldBefore");
+    layui.use(['jquery', 'table'], function () {
+        table = layui.table;
+
+        //附件列表
+        table.render({
+            elem: '#attachment'
+            , url: "@Url.Action("FileList", "Image",new { orderId = dto.OrderId })" //数据
+            , cols: [[
+                { field: 'FileName', title: '文件名', templet: '<div><a href="{{d.FilePath}}" target="_blank" class="layui-table-link">{{d.FileName}}</a></div>' }
+            ]]
+        });
     });
 </script>
