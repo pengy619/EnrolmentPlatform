@@ -705,6 +705,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string LevelName { set; get; }
 
         /// <summary>
+        /// 报读专业
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
         /// 报名批次
         /// </summary>
         public string BatchName { set; get; }

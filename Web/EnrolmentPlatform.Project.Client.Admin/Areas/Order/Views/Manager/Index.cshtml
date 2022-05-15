@@ -79,6 +79,10 @@
                     <div class="layui-input-inline">
                         <input type="text" id="SchoolName" class="layui-input">
                     </div>
+                    <label class="layui-form-label">报考专业</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="MajorName" class="layui-input">
+                    </div>
                 </div>
                 <div class="layui-form-item flex searchMore">
                     <label class="layui-form-label">报读层次</label>
@@ -1124,6 +1128,9 @@
         if (searchData.LevelName != "") {
             url += "&LevelName=" + searchData.LevelName;
         }
+        if (searchData.MajorName != "") {
+            url += "&MajorName=" + searchData.MajorName;
+        }
         if (searchData.DateFrom != "") {
             url += "&DateFrom=" + searchData.DateFrom;
         }
@@ -1164,6 +1171,7 @@
             CreateUserName: $("#CreateUserName").val(),
             SchoolName: $("#SchoolName").val(),
             LevelName: $("#LevelName").val(),
+            MajorName: $("#MajorName").val(),
             DateFrom: dateFrom,
             DateTo: dateTo,
             AllOrderImageUpload: $("input[name='AllOrderImageUpload']:checked").val(),
