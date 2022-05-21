@@ -946,5 +946,60 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             entity.LastModifyUserId = userId;
             return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, $"修改订单状态为：{EnumDescriptionHelper.GetDescription((OrderStatusEnum)status)}", true, entity.Id.ToString()) > 0;
         }
+
+        /// <summary>
+        /// 获取学员账号列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        public List<AccountListDto> GetAccountList(AccountListReqDto req, ref int reCount)
+        {
+            var noStudentName = string.IsNullOrWhiteSpace(req.StudentName);
+            var noPhone = string.IsNullOrWhiteSpace(req.Phone);
+            var noIdCardNo = string.IsNullOrWhiteSpace(req.IDCardNo);
+            var list = this.orderRepository.LoadPageEntities(t => !t.IsDelete && t.Status >= 7 && 
+                        (req.UserId.HasValue == false || t.CreatorUserId == req.UserId.Value) &&
+                        (req.FromChannelId.HasValue == false || t.FromChannelId == req.FromChannelId.Value) &&
+                        (noStudentName || t.StudentName.Contains(req.StudentName)) &&
+                        (noPhone || t.Phone.Contains(req.Phone)) &&
+                        (noIdCardNo || t.IDCardNo.Contains(req.IDCardNo)),
+               t => t.CreatorTime,
+               req.Limit,
+               req.Page,
+               out int records,
+               false
+                ).Select(t => new AccountListDto
+                {
+                    OrderId = t.Id,
+                    StudentName = t.StudentName,
+                    Phone = t.Phone,
+                    IDCardNo = t.IDCardNo,
+                    UserName = t.UserName,
+                    Password = t.Password,
+                }).ToList();
+            reCount = records;
+            return list;
+        }
+
+        /// <summary>
+        /// 修改学员账号密码
+        /// </summary>
+        /// <param name="orderId">订单id</param>
+        /// <param name="userId">修改人</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        public bool UpdateAccountPwd(Guid orderId, Guid userId, string password)
+        {
+            var entity = this.orderRepository.FindEntityById(orderId);
+            if (entity == null)
+            {
+                return false;
+            }
+            entity.Password = password;
+            entity.LastModifyTime = DateTime.Now;
+            entity.LastModifyUserId = userId;
+            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改密码", true, entity.Id.ToString()) > 0;
+        }
     }
 }

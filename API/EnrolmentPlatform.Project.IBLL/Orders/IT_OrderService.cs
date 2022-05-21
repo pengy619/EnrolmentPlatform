@@ -249,5 +249,22 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="status">订单状态</param>
         /// <returns></returns>
         bool UpdateOrderStatus(Guid orderId, Guid userId, int status);
+
+        /// <summary>
+        /// 获取学员账号列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        List<AccountListDto> GetAccountList(AccountListReqDto req, ref int reCount);
+
+        /// <summary>
+        /// 修改学员账号密码
+        /// </summary>
+        /// <param name="orderId">订单id</param>
+        /// <param name="userId">修改人</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        bool UpdateAccountPwd(Guid orderId, Guid userId, string password);
     }
 }

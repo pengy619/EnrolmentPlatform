@@ -23,7 +23,7 @@ function filedList(schoolId, data, beforeContains) {
                         }
 
                         //字段信息
-                        html = html + "<label class=\"layui-form-label\">" + cur.Name + "：</label>";
+                        html = html + "<label class=\"layui-form-label\">" + cur.Name + "</label>";
                         html = html + "<div class=\"layui-input-inline\">";
                         if (cur.CustomerFieldType == 1) {
                             //文本框

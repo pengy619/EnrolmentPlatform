@@ -751,6 +751,7 @@
     <Content Include="Areas\Basic\Views\Metadata\StockSetting.cshtml" />
     <Content Include="Areas\Basic\Views\Metadata\CustomerField.cshtml" />
     <Content Include="Areas\Order\Views\Manager\View.cshtml" />
+    <Content Include="Areas\Order\Views\Manager\Account.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />

@@ -703,6 +703,7 @@
     <Content Include="Areas\Order\Views\OrderUpdateApproval\OrderInfo.cshtml" />
     <Content Include="Areas\Order\Views\OrderUpdateApproval\OrderImageInfo.cshtml" />
     <Content Include="Areas\Order\Views\Manager\View.cshtml" />
+    <Content Include="Areas\Order\Views\Manager\Account.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />

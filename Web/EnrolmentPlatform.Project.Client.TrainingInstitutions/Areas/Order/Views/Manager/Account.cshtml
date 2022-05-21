@@ -1,0 +1,144 @@
+﻿
+@{
+    ViewBag.Title = "学员账号";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">学生姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="StudentName" class="layui-input">
+                    </div>
+                    <button type="button" class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                    <a href="javascript:exportOpreation();" id="export" class="layui-btn layui-btn-primary">导出</a>
+                </div>
+                <div class="layui-form-item flex">
+                    <label class="layui-form-label">手机号码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="Phone" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">证件号码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="IDCardNo" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="table" lay-filter="table"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tableTool">
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="updatePwd">修改密码</a>
+</script>
+<script>
+    var isSubmit = true;
+    layui.use(['jquery', 'table', 'layer'], function () {
+        var table = layui.table;
+
+        //实例表格
+        var tableOptions = {
+            elem: '#table'
+            , url: '@Url.Action("AccountList", "Manager")'//数据
+            , page: true //开启分页
+            , cols: [[ //表头
+                { field: 'StudentName', title: '学生姓名' }
+                , { field: 'Phone', title: '手机号码' }
+                , { field: 'IDCardNo', title: '证件号码', }
+                , { field: 'UserName', title: '账号', }
+                , { field: 'Password', title: '密码', }
+                , { title: '操作', toolbar: '#tableTool', width: 110 }
+            ]]
+        }
+        table.render(tableOptions)
+
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: getSearchData()
+                });
+            }
+        };
+
+        $('.panel .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        table.on('tool(table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            if (obj.event === 'updatePwd') {
+                layer.prompt({
+                    value: data.Password,
+                    title: '修改密码',
+                }, function (value, index, elem) {
+                    if (isSubmit) {
+                        isSubmit = false;
+                        $.ajax({
+                            url: "@Url.Action("UpdateAccountPwd", "Manager")",
+                            type: "post",
+                            data: { orderId: data.OrderId, password: value },
+                            dataType: "json",
+                            success: function (result) {
+                                if (result.ret == 1) {
+                                    layer.msg("保存成功", {
+                                        icon: 1
+                                        , time: 1000
+                                    }, function () {
+                                        table.reload('table');
+                                        layer.close(index);
+                                    });
+                                } else {
+                                    layer.msg(result.msg, {
+                                        icon: 2
+                                        , time: 2000
+                                    });
+                                }
+                            },
+                            complete: function () {
+                                isSubmit = true;
+                            }
+                        });
+                    }
+                });
+            }
+        })
+    });
+
+    //导出按钮处理
+    function exportOpreation() {
+        //获得查询条件
+        var searchData = getSearchData();
+        var url = "@Url.Action("ExportAccount","Manager",new { area="Order"})" + "?1=1";
+        if (searchData.StudentName != "") {
+            url += "&StudentName=" + searchData.StudentName;
+        }
+        if (searchData.Phone != "") {
+            url += "&Phone=" + searchData.Phone;
+        }
+        if (searchData.IDCardNo != "") {
+            url += "&IDCardNo=" + searchData.IDCardNo;
+        }
+        window.open(url);
+    }
+
+    //获得查询条件
+    function getSearchData() {
+        return {
+            StudentName: $("#StudentName").val(),
+            Phone: $("#Phone").val(),
+            IDCardNo: $("#IDCardNo").val()
+        };
+    }
+</script>
+

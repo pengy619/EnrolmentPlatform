@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -490,6 +491,100 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         {
             var list = CustomerFieldService.GetAllList(new DTO.Basics.GetAllListSearchDto() { SchoolId = schooldId });
             return Json(list);
+        }
+
+        #endregion
+
+        #region 学员账号
+
+        /// <summary>
+        /// 学员账号
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Account()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 学员账号列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public string AccountList(AccountListReqDto param)
+        {
+            int reCount = 0;
+            param.FromChannelId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
+            List<AccountListDto> list = OrderService.GetAccountList(param, ref reCount);
+            if (list == null)
+            {
+                list = new List<AccountListDto>();
+            }
+            GridDataResponse grid = new GridDataResponse
+            {
+                Count = reCount,
+                Data = list
+            };
+            return grid.ToJson();
+        }
+
+        /// <summary>
+        /// 修改学员账号密码
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UpdateAccountPwd(Guid orderId, string password)
+        {
+            var ret = OrderService.UpdateAccountPwd(orderId, this.UserId, password);
+            if (ret == true)
+            {
+                return Json(new { ret = 1 });
+            }
+            else
+            {
+                return Json(new { ret = 0, msg = "修改失败。" });
+            }
+        }
+
+        /// <summary>
+        /// 导出账号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult ExportAccount(AccountListReqDto param)
+        {
+            int reCount = 0;
+            param.Page = 1;
+            param.Limit = int.MaxValue;
+            param.FromChannelId = this.EnterpriseId;
+            if (this.IsMaster == false)
+            {
+                param.UserId = this.UserId;
+            }
+            List<AccountListDto> list = OrderService.GetAccountList(param, ref reCount);
+            if (list == null || list.Count == 0)
+            {
+                return Content("没有任何可以导出的数据！");
+            }
+
+            DataTable table = list.ToDataTable();
+            ExcelHelper excel = new ExcelHelper();
+            List<ExcelColumn> col = new List<ExcelColumn>()
+            {
+                new ExcelColumn("StudentName","学生姓名"),
+                new ExcelColumn("Phone","手机号码"),
+                new ExcelColumn("IDCardNo","证件号码"),
+                new ExcelColumn("UserName","账号"),
+                new ExcelColumn("Password","密码"),
+            };
+            excel.ExportToExcel(table, "学员账号", col);
+
+            return new EmptyResult();
         }
 
         #endregion

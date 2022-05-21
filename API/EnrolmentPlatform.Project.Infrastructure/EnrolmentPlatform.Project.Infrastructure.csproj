@@ -128,6 +128,7 @@
     <Compile Include="DIContainer.cs" />
     <Compile Include="DingTalk\Robot.cs" />
     <Compile Include="EnumHelper\EnumDescriptionHelper.cs" />
+    <Compile Include="Excel\ExcelColumn.cs" />
     <Compile Include="Excel\ExcelHelper.cs" />
     <Compile Include="Excel\NPOIExcel.cs" />
     <Compile Include="Extend\Ext.ChineseToSpell.cs" />

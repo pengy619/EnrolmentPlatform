@@ -75,6 +75,7 @@
     <Compile Include="Orders\OrderStatisticsDto.cs" />
     <Compile Include="Orders\PaymentInfoDto.cs" />
     <Compile Include="Orders\PaymentRecordDto.cs" />
+    <Compile Include="Orders\AccountListDto.cs" />
     <Compile Include="Systems\AddressDto.cs" />
     <Compile Include="Systems\AddressOptionDTO.cs" />
     <Compile Include="Systems\DepartmentDto.cs" />
