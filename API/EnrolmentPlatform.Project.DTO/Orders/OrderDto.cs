@@ -548,6 +548,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学生头像
         /// </summary>
         public string StudentImg { get; set; }
+
+        /// <summary>
+        /// 所有毕业照片是否都上传完成
+        /// </summary>
+        public bool AllBiYeImageUpload { set; get; }
     }
 
     /// <summary>
@@ -599,6 +604,16 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 头像
         /// </summary>
         public string TouXiang { set; get; }
+
+        /// <summary>
+        /// 毕业学信网学籍截图
+        /// </summary>
+        public string BiYeXueJiImg { set; get; }
+
+        /// <summary>
+        /// 毕业照
+        /// </summary>
+        public string BiYePhoto { set; get; }
     }
 
     /// <summary>
@@ -743,6 +758,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 电子照是否上传完成
         /// </summary>
         public bool? AllOrderImageUpload { set; get; }
+
+        /// <summary>
+        /// 毕业照是否上传完成
+        /// </summary>
+        public bool? AllBiYeImageUpload { set; get; }
 
         /// <summary>
         /// 招生中心学费是否缴完

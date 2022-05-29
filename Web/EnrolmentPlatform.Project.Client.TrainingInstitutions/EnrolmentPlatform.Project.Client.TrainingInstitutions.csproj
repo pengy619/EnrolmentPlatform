@@ -176,6 +176,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Order\Controllers\ExamController.cs" />
+    <Compile Include="Areas\Order\Controllers\GraduationController.cs" />
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\Controllers\OrderUpdateApprovalController.cs" />
@@ -704,6 +705,8 @@
     <Content Include="Areas\Order\Views\OrderUpdateApproval\OrderImageInfo.cshtml" />
     <Content Include="Areas\Order\Views\Manager\View.cshtml" />
     <Content Include="Areas\Order\Views\Manager\Account.cshtml" />
+    <Content Include="Areas\Order\Views\Graduation\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Graduation\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Temp\OrderTemp.xls" />
     <Content Include="Temp\OrderImageTemp.xls" />

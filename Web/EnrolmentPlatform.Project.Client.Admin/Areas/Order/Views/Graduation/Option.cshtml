@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "上传毕业照";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    OrderDto dto = ViewBag.OrderInfo;
+    OrderImageDto imageDto = ViewBag.ImageDto;
+}
+<style type="text/css">
+    .info-cell .row .item .label {
+        margin-right: 10px;
+    }
+
+    .info-cell .row .item {
+        margin-left: 25px;
+    }
+
+        .info-cell .row .item .orderImg {
+            width: 250px;
+            /*border: 1px solid #808080;*/
+            cursor: pointer;
+            height: 168px;
+        }
+
+        .info-cell .row .item .imgDiv {
+            width: 250px;
+            height: 175px;
+        }
+
+    .info-cell .orderrow .label {
+        width: 112px;
+        height: 170px;
+    }
+
+    .info-cell .orderrow .orderFile {
+        width: 100px;
+        height: 30px;
+    }
+
+    .info-cell .orderrow .orderFileBtn {
+        width: 50px;
+        height: 30px;
+    }
+
+    .info-cell .orderrow .uploadDiv {
+        margin-top: 10px;
+        text-align: center;
+    }
+</style>
+<div class="main-wrap">
+    <div class="panel layui-form">
+        <div class="panel-body">
+            <div class="info-cell no-padding">
+                <div class="row">
+                    <div class="item" style="margin-left:0px;">
+                        <span class="label">学生姓名：</span>
+                        <span class="text">@dto.StudentName</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">身份证号：</span>
+                        <span class="text">@dto.IDCardNo</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">招生老师：</span>
+                        <span class="text">@dto.UserName</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">批次信息：</span>
+                        <span class="text">@dto.BatchName</span>
+                    </div>
+                    <div class="item">
+                        <span class="label">学籍信息：</span>
+                        <span class="text">@(dto.SchoolName + " " + dto.LevelName + " " + dto.MajorName)</span>
+                    </div>
+                </div>
+                <div class="row orderrow">
+                    <div class="item" style="margin-left: 0px;">
+                        <span class="label">学信网学籍截图：</span>
+                        <div class="text">
+                            <div class="imgDiv">
+                                <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeXueJiImg)?imageDto.BiYeXueJiImg:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <button type="button" id="Button1" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                    <i class="layui-icon"></i>上传学信网学籍截图
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row orderrow">
+                    <div class="item" style="margin-left: 0px;">
+                        <span class="label">毕业照片：</span>
+                        <div class="text">
+                            <div class="imgDiv">
+                                <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYePhoto)?imageDto.BiYePhoto:"/Content/Website/images/nopic.png")" />
+                            </div>
+                            <div class="uploadDiv">
+                                <button type="button" id="Button2" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                    <i class="layui-icon"></i>上传毕业照片
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
+<script type="text/javascript">
+    layui.config({
+        base: '/Content/Website/cropper/' //layui自定义layui组件目录
+    }).use(['jquery', 'croppers'], function () {
+        var croppers = layui.croppers;
+
+        var orderId = $('#hidOrderId').val();
+        //学信网学籍截图
+        croppers.render({
+            elem: '#Button1'
+            , mark: 1 / 1    //选取比例
+            , area: '900px'  //弹窗宽度
+            , url: "/Graduation/SaveImage"  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+            , forId: orderId
+            , imgType: 1
+            , pic: $('#image1').attr("src")
+            , done: function (url) { //上传完毕回调
+                $("#image1").attr("src", url);
+            }
+        });
+        //毕业照片
+        croppers.render({
+            elem: '#Button2'
+            , mark: 1 / 1    //选取比例
+            , area: '900px'  //弹窗宽度
+            , url: "/Graduation/SaveImage"  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+            , forId: orderId
+            , imgType: 2
+            , pic: $('#image2').attr("src")
+            , done: function (url) { //上传完毕回调
+                $('#image2').attr("src", url)
+            }
+        });
+
+        $(".orderImg").click(function () {
+            window.open($(this).attr("src"));
+        });
+    });
+</script>
+

@@ -65,6 +65,16 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 录取通知书
         /// </summary>
         public string TouXiang { set; get; }
+
+        /// <summary>
+        /// 毕业学信网学籍截图
+        /// </summary>
+        public string BiYeXueJiImg { set; get; }
+
+        /// <summary>
+        /// 毕业照
+        /// </summary>
+        public string BiYePhoto { set; get; }
     }
 
     public class PicIndex

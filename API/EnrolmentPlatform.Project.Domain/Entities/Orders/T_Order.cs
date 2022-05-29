@@ -196,6 +196,12 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         public bool AllOrderImageUpload { set; get; }
 
         /// <summary>
+        /// 毕业照片是否都上传完成
+        /// </summary>
+        [DataMember]
+        public bool AllBiYeImageUpload { set; get; }
+
+        /// <summary>
         /// 招生中心所有费用是否缴完
         /// </summary>
         [DataMember]

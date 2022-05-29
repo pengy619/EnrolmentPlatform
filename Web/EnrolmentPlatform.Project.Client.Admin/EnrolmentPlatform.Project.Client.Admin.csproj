@@ -189,6 +189,7 @@
     <Compile Include="Areas\Content\Controllers\ArticleCategoryController.cs" />
     <Compile Include="Areas\Content\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Order\Controllers\ExamController.cs" />
+    <Compile Include="Areas\Order\Controllers\GraduationController.cs" />
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\Controllers\OrderUpdateApprovalController.cs" />
@@ -221,6 +222,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />
+    <Content Include="Content\website\cropper\cropper.css" />
+    <Content Include="Content\website\cropper\cropper.js" />
+    <Content Include="Content\website\cropper\croppers.js" />
     <Content Include="Content\website\css\common.css" />
     <Content Include="Content\website\css\dev.css" />
     <Content Include="Content\website\css\kvf.css" />
@@ -752,6 +756,8 @@
     <Content Include="Areas\Basic\Views\Metadata\CustomerField.cshtml" />
     <Content Include="Areas\Order\Views\Manager\View.cshtml" />
     <Content Include="Areas\Order\Views\Manager\Account.cshtml" />
+    <Content Include="Areas\Order\Views\Graduation\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Graduation\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Home\DistributionPermissions.cshtml" />
     <Content Include="Views\Shared\_navigationMenu.cshtml" />

@@ -113,7 +113,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 OrderId = entity.OrderId,
                 QiTa = entity.QiTa,
                 TouXiang = entity.TouXiang,
-                XueXinWangImg = entity.XueXinWangImg
+                XueXinWangImg = entity.XueXinWangImg,
+                BiYeXueJiImg = entity.BiYeXueJiImg,
+                BiYePhoto = entity.BiYePhoto
             };
         }
 
@@ -137,7 +139,9 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     OrderId = entity.OrderId,
                     QiTa = entity.QiTa,
                     TouXiang = entity.TouXiang,
-                    XueXinWangImg = entity.XueXinWangImg
+                    XueXinWangImg = entity.XueXinWangImg,
+                    BiYeXueJiImg = entity.BiYeXueJiImg,
+                    BiYePhoto = entity.BiYePhoto
                 }).ToList();
         }
 
@@ -1000,6 +1004,32 @@ namespace EnrolmentPlatform.Project.BLL.Orders
             entity.LastModifyTime = DateTime.Now;
             entity.LastModifyUserId = userId;
             return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改密码", true, entity.Id.ToString()) > 0;
+        }
+
+        /// <summary>
+        /// 修改毕业照片
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        public bool UpdateBiYeImage(OrderImageDto dto)
+        {
+            var entity = this.orderImageRepository.LoadEntities(a => a.OrderId == dto.OrderId).FirstOrDefault();
+            if (entity == null)
+            {
+                return false;
+            }
+            entity.BiYeXueJiImg = dto.BiYeXueJiImg;
+            entity.BiYePhoto = dto.BiYePhoto;
+            bool ret = this.orderImageRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改毕业照片", true, entity.Id.ToString()) > 0;
+            //如果所有图片都上传了
+            if (!string.IsNullOrWhiteSpace(dto.BiYeXueJiImg) && !string.IsNullOrWhiteSpace(dto.BiYePhoto))
+            {
+                //修改所有图片上传状态
+                var order = this.orderRepository.FindEntityById(dto.OrderId);
+                order.AllBiYeImageUpload = true;
+                ret = this.orderRepository.UpdateEntity(order) > 0;
+            }
+            return ret;
         }
     }
 }

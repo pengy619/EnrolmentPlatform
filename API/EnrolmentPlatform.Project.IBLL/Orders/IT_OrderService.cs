@@ -266,5 +266,12 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="password">密码</param>
         /// <returns></returns>
         bool UpdateAccountPwd(Guid orderId, Guid userId, string password);
+
+        /// <summary>
+        /// 修改毕业照片
+        /// </summary>
+        /// <param name="dto">dto</param>
+        /// <returns></returns>
+        bool UpdateBiYeImage(OrderImageDto dto);
     }
 }

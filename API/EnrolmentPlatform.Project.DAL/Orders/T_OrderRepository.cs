@@ -202,6 +202,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
+                        (req.AllBiYeImageUpload.HasValue == false || a.AllBiYeImageUpload == req.AllBiYeImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
                         (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value))
                         //(req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
@@ -241,7 +242,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Password = a.Password,
                             AssistStatus = a.AssistStatus,
                             CustomerField = a.CustomerField,
-                            GraduationTime = a.GraduationTime
+                            GraduationTime = a.GraduationTime,
+                            AllBiYeImageUpload = a.AllBiYeImageUpload
                         };
 
             //学校
@@ -323,7 +325,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 	                    m4.Name as MajorName,
                         im.BiYeZhengImg,im.IDCard1,im.IDCard2,
                         im.LiangCunLanDiImg,im.MianKaoJiSuanJiImg,im.MianKaoYingYuImg,
-                        im.QiTa,im.TouXiang,im.XueXinWangImg
+                        im.QiTa,im.TouXiang,im.XueXinWangImg,
+                        im.BiYeXueJiImg,im.BiYePhoto
                         from T_Order AS o
                         LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
                         LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id

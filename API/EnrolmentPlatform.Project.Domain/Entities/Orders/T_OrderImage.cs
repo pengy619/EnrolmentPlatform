@@ -75,5 +75,17 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public string TouXiang { set; get; }
+
+        /// <summary>
+        /// 毕业学信网学籍截图
+        /// </summary>
+        [DataMember]
+        public string BiYeXueJiImg { set; get; }
+
+        /// <summary>
+        /// 毕业照
+        /// </summary>
+        [DataMember]
+        public string BiYePhoto { set; get; }
     }
 }
