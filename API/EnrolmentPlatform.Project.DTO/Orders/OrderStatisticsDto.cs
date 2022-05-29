@@ -20,5 +20,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public int count6 { get; set; }
         public int count7 { get; set; }
         public int count8 { get; set; }
+        public int count9 { get; set; }
     }
 }

@@ -1006,7 +1006,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         isnull(sum(case when status=5 then 1 else 0 end),0) count5,
                         isnull(sum(case when status=6 then 1 else 0 end),0) count6,
                         isnull(sum(case when status=7 then 1 else 0 end),0) count7,
-                        isnull(sum(case when status=8 then 1 else 0 end),0) count8
+                        isnull(sum(case when status=8 then 1 else 0 end),0) count8,
+                        isnull(sum(case when status=9 then 1 else 0 end),0) count9
                         from T_Order AS o
                         LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
                         LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id

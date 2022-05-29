@@ -32,6 +32,7 @@
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('3', this)">审核不通过（<span id="count3">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('7', this)">已录取（<span id="count7">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('8', this)">已毕业（<span id="count8">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('9', this)">已休学（<span id="count9">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('2', this)">已退学（<span id="count2">0</span>）</span>
                     </div>
                 </div>
@@ -222,6 +223,7 @@
                         $("#count6").html(data.count6);
                         $("#count7").html(data.count7);
                         $("#count8").html(data.count8);
+                        $("#count9").html(data.count9);
                     }
                 })
             }
