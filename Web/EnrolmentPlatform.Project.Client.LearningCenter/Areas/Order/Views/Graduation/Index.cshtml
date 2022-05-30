@@ -117,7 +117,6 @@
         <li>报读层次：{{d.LevelName}}</li>
         <li>报读专业：{{d.MajorName}}</li>
         <li>报名时间：{{d.CreateTimeStr}}</li>
-        <li>招生老师：{{d.CreateUserName}}</li>
     </ul>
 </script>
 
@@ -129,11 +128,7 @@
     {{# } }}
 </script>
 <script type="text/html" id="tableTool">
-    {{# if(d.AllBiYeImageUpload){ }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Graduation",new {Area="Order"}))?orderId={{d.OrderId}}'>修改毕业照</a>
-    {{# }else{ }}
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Graduation",new {Area="Order"}))?orderId={{d.OrderId}}'>上传毕业照</a>
-    {{# } }}    
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Graduation",new {Area="Order"}))?orderId={{d.OrderId}}'>查看</a>    
 </script>
 <script>
     var table, layer, laydate, form;

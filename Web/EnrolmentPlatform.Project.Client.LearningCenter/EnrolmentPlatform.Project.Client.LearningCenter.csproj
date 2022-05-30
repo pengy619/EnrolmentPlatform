@@ -183,6 +183,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Order\Controllers\ExamController.cs" />
+    <Compile Include="Areas\Order\Controllers\GraduationController.cs" />
     <Compile Include="Areas\Order\Controllers\ImageController.cs" />
     <Compile Include="Areas\Order\Controllers\ManagerController.cs" />
     <Compile Include="Areas\Order\OrderAreaRegistration.cs" />
@@ -707,6 +708,8 @@
     <Content Include="Areas\Payment\Views\web.config" />
     <Content Include="Areas\Order\Views\Exam\Index.cshtml" />
     <Content Include="Areas\Order\Views\Exam\Option.cshtml" />
+    <Content Include="Areas\Order\Views\Graduation\Index.cshtml" />
+    <Content Include="Areas\Order\Views\Graduation\Option.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Shared\_calendar.cshtml" />
     <Content Include="Temp\OrderTemp.xls" />

@@ -59,3 +59,11 @@ GO
 
 --库存更名为指标
 update T_Permissions set Name='设置招生指标' where Name='设置招生库存'
+
+--学院中心增加毕业管理菜单
+IF NOT EXISTS (SELECT 1 FROM T_Permissions WHERE Id='8cd58c07-80d1-4c36-9b72-766257b5130a')
+BEGIN
+	INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'8cd58c07-80d1-4c36-9b72-766257b5130a', N'毕业管理', 3, N'Order', N'Graduation', N'Index', NULL, 3, N'7f3adae1-87a1-4a0f-8ac7-c6120f35832c', 4, N'icon-yunyingguanli')
+	INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'fc4d1123-2b87-4997-9f01-e49b010e2e50', N'上传毕业照', 4, N'Order', N'Graduation', N'Option', NULL, 3, N'8cd58c07-80d1-4c36-9b72-766257b5130a', 1, NULL)
+END
+GO

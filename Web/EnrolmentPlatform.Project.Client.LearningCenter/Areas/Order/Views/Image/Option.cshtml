@@ -14,8 +14,8 @@
         margin-left: 25px;
     }
     .info-cell .row .item .orderImg {
-        width: 150px;
-        border: 1px solid #808080;
+        width: 250px;
+        /*border: 1px solid #808080;*/
         cursor: pointer;
         height: 168px;
     }
@@ -24,25 +24,12 @@
         height:175px;
     }
     .info-cell .orderrow .label {
-        height:170px;
-    }
-    .info-cell .orderrow .orderFile {
-        width: 100px;
-        height: 30px;
-    }
-    .info-cell .orderrow .orderFileBtn {
-        width: 50px;
-        height: 30px;
-    }
-    .info-cell .orderrow .uploadDiv {
-        margin-top:2px;
+        width: 102px;
+        height: 170px;
     }
 </style>
 <div class="main-wrap">
     <div class="panel layui-form">
-        <div class="panel-title">
-            @(ViewBag.Title)
-        </div>
         <div class="panel-body">
             <div class="info-cell no-padding">
                 <div class="row">
@@ -66,79 +53,79 @@
                 <div class="row orderrow">
                     <div class="item" style="margin-left: 0px;">
                         <span class="label">身份证正面：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1)?imageDto.IDCard1:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                     <div class="item">
                         <span class="label">身份证反面：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2)?imageDto.IDCard2:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                     <div class="item">
                         <span class="label">两寸蓝底：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row orderrow">
                     <div class="item" style="margin-left: 0px;">
                         <span class="label">毕业证：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg)?imageDto.BiYeZhengImg:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                     <div class="item">
                         <span class="label">社保/居住证正：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                     <div class="item">
                         <span class="label">社保/居住证反：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg)?imageDto.MianKaoJiSuanJiImg:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row orderrow">
                     <div class="item" style="margin-left: 0px;">
-                        <span class="label" style="width:90px;">教育部学历证书电子备案表：</span>
-                        <span class="text">
+                        <span class="label">教育部学历证书电子备案表：</span>
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg)?imageDto.XueXinWangImg:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                     <div class="item">
                         <span class="label">录取通知书：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang)?imageDto.TouXiang:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                     <div class="item">
                         <span class="label">其他：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image9" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.QiTa)?imageDto.QiTa:"/Content/Website/images/nopic.png")" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                 </div>
                 @if (fileList != null && fileList.Any())
@@ -174,7 +161,6 @@
         </div>
     </div>
 </div>
-<input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
 <script type="text/javascript">
     var form, layer;
     layui.use(['jquery', 'form', 'layer'], function () {
