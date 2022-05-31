@@ -164,7 +164,10 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         public GridDataResponse GetPagedList(MetadataSearchDto req)
         {
             GridDataResponse res = new GridDataResponse();
-            res.Data = this.metadataRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete && t.Type == (int)req.Type,
+            var noName = string.IsNullOrWhiteSpace(req.Name);
+            var noTags = string.IsNullOrWhiteSpace(req.Tags);
+            res.Data = this.metadataRepository.LoadPageEntitiesOrderByField(t => !t.IsDelete && t.Type == (int)req.Type && 
+                        (noName || t.Name.Contains(req.Name)) && (noTags || t.Tags.Contains(req.Tags)),
                req.Field,
                req.Limit,
                req.Page,

@@ -63,5 +63,13 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// 类型
         /// </summary>
         public MetadataTypeEnum Type { get; set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 标签
+        /// </summary>
+        public string Tags { get; set; }
     }
 }

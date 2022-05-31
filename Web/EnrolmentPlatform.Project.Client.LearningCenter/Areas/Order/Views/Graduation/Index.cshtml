@@ -149,7 +149,7 @@
             elem: '#table'
             , skin: 'line'
             , limit: 10
-            , url: '@Url.Action("Search", "Manager")?Status=7'
+            , url: '@Url.Action("Search", "Manager", new { Status = 7 })'
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'checkbox' }

@@ -6,6 +6,31 @@
 
 <div class="main-wrap">
     <div class="panel">
+        <div class="panel-title">
+            <div class="layui-form margin-top-10">
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">学校名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="name">
+                    </div>
+                    <label class="layui-form-label">学习形式</label>
+                    <div class="layui-input-inline">
+                        <select name="tags" id="tags">
+                            <option value=""></option>
+                            <option value="自考">自考</option>
+                            <option value="成考">成考</option>
+                            <option value="网教">网教</option>
+                            <option value="开放">开放</option>
+                            <option value="全日制">全日制</option>
+                            <option value="中专">中专</option>
+                            <option value="研究生">研究生</option>
+                            <option value="资格证书">资格证书</option>
+                        </select>
+                    </div>
+                    <button class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>
+            </div>
+        </div>
         <div class="panel-body">
             <button data-type="add" id="add" class="layui-btn layui-btn-normal layui-btn-small add">+添加</button>
             <button data-type="delete" id="delete" class="layui-btn layui-btn-danger layui-btn-small a4">删除</button>
@@ -136,6 +161,18 @@
         });
 
         var active = {
+            reload: function () {
+                //执行重载
+                table.reload('sid', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        Name: $("#name").val(),
+                        Tags: $('#tags').val()
+                    }
+                });
+            },
             delete: function () { //获取选中数据
                 var checkStatus = table.checkStatus('sid')
                     , data = checkStatus.data;
