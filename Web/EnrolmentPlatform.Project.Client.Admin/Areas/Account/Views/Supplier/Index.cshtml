@@ -5,29 +5,29 @@
 }
 <div class="main-wrap">
     <div class="panel">
-        @*<div class="panel-title">
-                <div class="layui-form">
-                    <div class="layui-form-item ">
-                        <label class="layui-form-label">启用状态</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="status" value="" title="全部" checked>
-                            <input type="radio" name="status" value="@((int)StatusBaseEnum.Enabled)" title="已启用">
-                            <input type="radio" name="status" value="@((int)StatusBaseEnum.Disabled)" title="已禁用">
-                        </div>
+        <div class="panel-title">
+            <div class="layui-form">
+                @*<div class="layui-form-item ">
+                    <label class="layui-form-label">启用状态</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="status" value="" title="全部" checked>
+                        <input type="radio" name="status" value="@((int)StatusBaseEnum.Enabled)" title="已启用">
+                        <input type="radio" name="status" value="@((int)StatusBaseEnum.Disabled)" title="已禁用">
                     </div>
-                    <div class="layui-form-item ">
-                        <label class="layui-form-label">招生机构</label>
-                        <div class="layui-input-inline">
-                            <input type="text" id="supplierName" autocomplete="off" class="layui-input">
-                        </div>
-                        <label class="layui-form-label">登录账号</label>
-                        <div class="layui-input-inline">
-                            <input type="text" id="loginAccount" autocomplete="off" class="layui-input">
-                        </div>
-                        <button type="button" class="layui-btn layui-btn-warm" data-type="reload">查询</button>
+                </div>*@
+                <div class="layui-form-item ">
+                    <label class="layui-form-label">招生机构</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="supplierName" autocomplete="off" class="layui-input">
                     </div>
+                    <label class="layui-form-label">登录账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="loginAccount" autocomplete="off" class="layui-input">
+                    </div>
+                    <button type="button" class="layui-btn layui-btn-warm" data-type="reload">查询</button>
                 </div>
-            </div>*@
+            </div>
+        </div>
         <div class="panel-body">
             <a href="@Url.Action("Option","Supplier",new { area="Account" })" class="layui-btn layui-btn-normal layui-btn-small">+添加</a>
             <button class="layui-btn layui-btn-danger layui-btn-small" data-type="delete">删除</button>

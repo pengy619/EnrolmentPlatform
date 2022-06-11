@@ -168,6 +168,7 @@
     <Compile Include="Net\WebApiHelper.cs" />
     <Compile Include="NowApi\NowApi.cs" />
     <Compile Include="Order\NumberGenerator.cs" />
+    <Compile Include="PagePosition\PagerHelper.cs" />
     <Compile Include="PagePosition\PagingHtml.cs" />
     <Compile Include="PagePosition\PagingHtmlB2C.cs" />
     <Compile Include="PagePosition\PagingHtmlB2B.cs" />
