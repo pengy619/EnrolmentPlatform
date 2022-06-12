@@ -31,4 +31,61 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// </summary>		
         public Guid ParentId { get; set; }
     }
+
+    /// <summary>
+    /// 学校列表DTO
+    /// </summary>
+    public class SchoolItemListDto
+    {
+        /// <summary>
+        /// 学习形式
+        /// </summary>
+        public string Tags { get; set; }
+
+        /// <summary>
+        /// 学校ID
+        /// </summary>
+        public Guid SchoolId { get; set; }
+
+        /// <summary>
+        /// 学校名称
+        /// </summary>
+        public string SchoolName { get; set; }
+
+        /// <summary>
+        /// 层次ID
+        /// </summary>
+        public Guid LevelId { get; set; }
+
+        /// <summary>
+        /// 层次名称
+        /// </summary>
+        public string LevelName { get; set; }
+
+        /// <summary>
+        /// 专业ID
+        /// </summary>
+        public Guid MajorId { get; set; }
+
+        /// <summary>
+        /// 专业名称
+        /// </summary>
+        public string MajorName { get; set; }
+    }
+
+    /// <summary>
+    /// 学校列表查询DTO
+    /// </summary>
+    public class SchoolItemListReqDto : GridDataRequest
+    {
+        /// <summary>
+        /// 层次名称
+        /// </summary>
+        public string LevelName { get; set; }
+
+        /// <summary>
+        /// 专业名称
+        /// </summary>
+        public string MajorName { get; set; }
+    }
 }

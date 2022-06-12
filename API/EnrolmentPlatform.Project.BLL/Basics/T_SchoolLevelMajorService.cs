@@ -130,5 +130,16 @@ namespace EnrolmentPlatform.Project.BLL.Basics
             resultMsg.IsSuccess = schoolLevelMajorRepository.AddEntities(configs) > 0;
             return resultMsg;
         }
+
+        /// <summary>
+        /// 根据层次、专业查询学校列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        public List<SchoolItemListDto> GetSchoolItemList(SchoolItemListReqDto req, out int reCount)
+        {
+            return schoolLevelMajorRepository.GetSchoolItemList(req, out reCount);
+        }
     }
 }

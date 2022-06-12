@@ -35,5 +35,13 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// </summary>
         /// <returns></returns>
         ResultMsg SaveConfig(SchoolConfigDto dto);
+
+        /// <summary>
+        /// 根据层次、专业查询学校列表
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="reCount"></param>
+        /// <returns></returns>
+        List<SchoolItemListDto> GetSchoolItemList(SchoolItemListReqDto req, out int reCount);
     }
 }

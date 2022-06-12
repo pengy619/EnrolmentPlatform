@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using EnrolmentPlatform.Project.Client.TrainingInstitutions.Controllers;
 using EnrolmentPlatform.Project.DTO;
+using EnrolmentPlatform.Project.DTO.Basics;
 using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
@@ -588,5 +589,26 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         }
 
         #endregion
+
+        /// <summary>
+        /// 根据层次、专业查询学校列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public string GetSchoolItemList(SchoolItemListReqDto param)
+        {
+            int reCount;
+            List<SchoolItemListDto> list = LevelService.GetSchoolItemList(param, out reCount);
+            if (list == null)
+            {
+                list = new List<SchoolItemListDto>();
+            }
+            GridDataResponse grid = new GridDataResponse
+            {
+                Count = reCount,
+                Data = list
+            };
+            return grid.ToJson();
+        }
     }
 }

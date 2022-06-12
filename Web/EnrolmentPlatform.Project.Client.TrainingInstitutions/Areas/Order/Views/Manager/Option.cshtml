@@ -88,16 +88,18 @@
                 </div>
                 <label class="layui-form-label">层次</label>
                 <div class="layui-input-inline">
-                    <select id="LevelId" name="LevelId" lay-filter="LevelId" LevelId="@((dto!=null) ? dto.LevelId.ToString() : "")" lay-verify="required" lay-search>
+                    <input type="hidden" id="hidLevelId" value='@((dto != null) ? dto.LevelId.ToString() :"")' />
+                    <select id="LevelId" name="LevelId" lay-filter="LevelId" lay-verify="required" lay-search>
                         <option value=""></option>
                     </select>
                 </div>
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-inline">
-                    <select id="MajorId" name="MajorId" MajorId="@((dto!=null) ? dto.MajorId.ToString() : "")" lay-verify="required" lay-search>
+                    <select id="MajorId" name="MajorId" lay-verify="required" lay-search>
                         <option value=""></option>
                     </select>
                 </div>
+                <button class="layui-btn layui-btn-warm" type="button" id="btnSchoolSearch">查询学校</button>
             </div>
             <div class="layui-form-item required">
                 <label class="layui-form-label">批次</label>
@@ -225,11 +227,35 @@
         </div>
     </div>
 </div>
+<!-- 弹出层 -->
+<div id="audit-btn-modal" style="display:none;">
+    <div class="padding-10">
+        <div class="layui-form margin-top-10">
+            <div class="layui-form-item" style="margin-bottom:0px;">
+                <label class="layui-form-label">层次名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="levelName">
+                </div>
+                <label class="layui-form-label">专业名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="majorName">
+                </div>
+                <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="ss">查询</button>
+            </div>
+        </div>
+    </div>
+    <div class="padding-10">
+        <table class="layui-hide" id="schoolTable" lay-filter="school"></table>
+    </div>
+</div>
 <input type="hidden" id="hidOrderId" value='@((dto != null) ? dto.OrderId.Value.ToString() :"")' />
 <script src="~/Content/Website/js/customerfield.js"></script>
 <script>
-    layui.use(['jquery', 'form', 'layer', 'laydate'], function () {
-        var form = layui.form, layer = layui.layer, laydate = layui.laydate;
+    layui.use(['jquery', 'form', 'layer', 'laydate', 'table'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , table = layui.table;;
         form.verify({
             minlenth: function (value, item) {
                 var min = item.getAttribute('lay-min');
@@ -387,7 +413,7 @@
                     if (result && result.length > 0) {
                         if (type == 1) {
                             //绑定层次
-                            var levelId = "@(dto!=null?dto.LevelId.ToString():"")";
+                            var levelId = $("#hidLevelId").val();
                             var childId = result[0].Id;
                             for (var i = 0; i < result.length; i++) {
                                 $("#LevelId").append("<option childId='" + result[i].Id + "' value='" + result[i].ItemId + "'>" + result[i].ItemName + "</option>");
@@ -515,6 +541,59 @@
             } else {
                 $("#IDCardNo").attr("lay-verify", "required");
             }
+        });
+
+        $('#btnSchoolSearch').on('click', function () {
+            table.render({
+                elem: '#schoolTable'
+                , width: 780
+                , url: '@Url.Action("GetSchoolItemList", "Manager")'
+                , page: true //开启分页
+                , cols: [[
+                    { field: 'SchoolName', title: '学校名称' }
+                    , { field: 'Tags', title: '学历类型' }
+                    , { field: 'LevelName', title: '层次名称' }
+                    , { field: 'MajorName', title: '专业名称' }
+                ]]
+                , where: {
+                    LevelName: $('#levelName').val(),
+                    MajorName: $('#majorName').val()
+                }
+            });
+            layer.open({
+                type: 1,
+                title: "学校信息",
+                area: ["800px", "680px"],
+                content: $('#audit-btn-modal')
+            });
+        });
+
+        //查询学校
+        form.on('submit(ss)', function (data) {
+            //执行重载
+            table.reload('schoolTable', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    LevelName: $('#levelName').val(),
+                    MajorName: $('#majorName').val()
+                }
+            });
+        });
+
+        //双击选中学校
+        table.on('rowDouble(school)', function (obj) {
+            var data = obj.data;
+
+            $("#DegreeType").val(data.Tags);
+            $("#SchoolId").val(data.SchoolId);
+            $("#hidLevelId").val(data.LevelId);
+            loadLevel();
+            $("#MajorId").val(data.MajorId);
+            form.render('select');
+
+            layer.closeAll();
         });
     });
 </script> 
