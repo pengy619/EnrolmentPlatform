@@ -9,10 +9,10 @@
     .layui-table-body {
         overflow-x: auto;
     }
-    .layui-table-cell{
+    .layui-table-cell {
         height: auto;
     }
-    .text-left{
+    .text-left {
         text-align: left;
     }
 </style>
@@ -67,11 +67,14 @@
                     <div class="layui-input-inline">
                         <input type="text" id="BatchName" class="layui-input">
                     </div>
-                    <label class="layui-form-label">毕业照片是否上传</label>
-                    <div>
-                        <input type="radio" name="AllBiYeImageUpload" value="" title="全部" checked>
-                        <input type="radio" name="AllBiYeImageUpload" value="true" title="是">
-                        <input type="radio" name="AllBiYeImageUpload" value="false" title="否">
+                    <label class="layui-form-label">提交状态</label>
+                    <div class="layui-input-inline">
+                        <select id="BiYeImageUploadStatus" name="BiYeImageUploadStatus" style="width:100px;">
+                            <option value=""></option>
+                            <option value="1">未提交</option>
+                            <option value="2">部分提交</option>
+                            <option value="3">已提交</option>
+                        </select>
                     </div>
                 </div>
                 <a href="javascript:exportImage();" id="exportImage" class="layui-btn layui-btn-danger">导出照片包</a>
@@ -89,8 +92,8 @@
     </div>
 </div>
 <script type="text/html" id="stuInfoImg">
-    {{# if(d.StudentImg != null && d.StudentImg != ""){ }}
-    <img src="{{d.StudentImg}}" width="50" height="50" class="layui-circle">
+    {{# if(d.LiangCunLanDiImg != null && d.LiangCunLanDiImg != ""){ }}
+    <img src="{{d.LiangCunLanDiImg}}" width="50" height="50" class="layui-circle">
     {{# }else{  }}
     {{# if(d.Sex == "男"){ }}
     <img src="/Content/Website/images/boy.png" width="50" height="50" class="layui-circle">
@@ -121,14 +124,16 @@
 </script>
 
 <script type="text/html" id="statusTpl">
-    {{# if(d.AllBiYeImageUpload){ }}
-    <span style="color:#5cb85c">已提交</span>
-    {{# }else{ }}
+    {{# if(d.BiYeImageUploadStatus == 1){ }}
     <span style="color:#ff8126">未提交</span>
+    {{# }else if(d.BiYeImageUploadStatus == 2){ }}
+    <span style="color:#ff8126">部分提交</span>
+    {{# }else{ }}
+    <span style="color:#5cb85c">已提交</span>
     {{# } }}
 </script>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Graduation",new {Area="Order"}))?orderId={{d.OrderId}}'>查看</a>    
+    <a class="layui-btn layui-btn-primary layui-btn-xs" target="_blank" href='@(Url.Action("Option","Graduation",new {Area="Order"}))?orderId={{d.OrderId}}'>查看</a>
 </script>
 <script>
     var table, layer, laydate, form;
@@ -149,7 +154,7 @@
             elem: '#table'
             , skin: 'line'
             , limit: 10
-            , url: '@Url.Action("Search", "Manager", new { Status = 7 })'
+            , url: '@Url.Action("Search", "Graduation")'
             , page: true //开启分页
             , cols: [[ //表头
                 { type: 'checkbox' }
@@ -214,13 +219,6 @@
     function exportImage() {
         //选中行
         var checkdata = table.checkStatus('table').data;
-        if (checkdata.length == 0) {
-            layer.msg('请选择需要导出照片包的报名单。', {
-                icon: 2,
-                time: 2000
-            });
-            return false;
-        }
 
         //选中的ID
         var orderIds = "";
@@ -230,7 +228,50 @@
                 orderIds += "|";
             }
         }
+
+        //获得查询条件
+        var searchData = getSearchData();
+        if (searchData.BiYeImageUploadStatus == 1) {
+            layer.msg('请选择部分提交或已提交的报名单。', {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        }
         var url = "@Url.Action("Export", "Graduation", new { area="Order"})" + "?ids=" + orderIds;
+        if (searchData.StudentName != "") {
+            url += "&StudentName=" + searchData.StudentName;
+        }
+        if (searchData.Phone != "") {
+            url += "&Phone=" + searchData.Phone;
+        }
+        if (searchData.IDCard != "") {
+            url += "&IDCard=" + searchData.IDCard;
+        }
+        if (searchData.CreateUserName != "") {
+            url += "&CreateUserName=" + searchData.CreateUserName;
+        }
+        if (searchData.SchoolName != "") {
+            url += "&SchoolName=" + searchData.SchoolName;
+        }
+        if (searchData.LevelName != "") {
+            url += "&LevelName=" + searchData.LevelName;
+        }
+        if (searchData.MajorName != "") {
+            url += "&MajorName=" + searchData.MajorName;
+        }
+        if (searchData.DateFrom != "") {
+            url += "&DateFrom=" + searchData.DateFrom;
+        }
+        if (searchData.DateTo != "") {
+            url += "&DateTo=" + searchData.DateTo;
+        }
+        if (searchData.BatchName != "") {
+            url += "&BatchName=" + searchData.BatchName;
+        }
+        if (searchData.BiYeImageUploadStatus != "") {
+            url += "&BiYeImageUploadStatus=" + searchData.BiYeImageUploadStatus;
+        }
         window.open(url);
     }
 
@@ -255,7 +296,7 @@
             DateFrom: dateFrom,
             DateTo: dateTo,
             BatchName: $("#BatchName").val(),
-            AllBiYeImageUpload: $("input[name='AllBiYeImageUpload']:checked").val()
+            BiYeImageUploadStatus: $("#BiYeImageUploadStatus").val()
         };
     }
 </script>

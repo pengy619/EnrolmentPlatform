@@ -1,4 +1,6 @@
 ﻿using EnrolmentPlatform.Project.Client.Admin.Controllers;
+using EnrolmentPlatform.Project.DTO;
+using EnrolmentPlatform.Project.DTO.Enums.Orders;
 using EnrolmentPlatform.Project.DTO.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
 using EnrolmentPlatform.Project.Infrastructure.Zip;
@@ -22,6 +24,28 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        /// <summary>
+        /// 查询列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public string Search(OrderListReqDto param)
+        {
+            int reCount = 0;
+            param.Status = OrderStatusEnum.Join;
+            List<OrderImageListDto> list = OrderService.GetStudentImageList(param, ref reCount);
+            if (list == null)
+            {
+                list = new List<OrderImageListDto>();
+            }
+            GridDataResponse grid = new GridDataResponse
+            {
+                Count = reCount,
+                Data = list
+            };
+            return grid.ToJson();
         }
 
         /// <summary>
@@ -101,16 +125,14 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// </summary>
         /// <param name="ids">ids</param>
         /// <returns></returns>
-        public ActionResult Export(string ids)
+        public ActionResult Export(string ids, OrderListReqDto req)
         {
-            if (string.IsNullOrWhiteSpace(ids) || ids.Split('|').Length == 0)
-            {
-                return Content("参数错误！");
-            }
-            List<Guid> orderIds = ids.Split('|').ToList().ConvertAll(x => Guid.Parse(x));
             //报名单信息
-            OrderListReqDto req = new OrderListReqDto();
-            req.OrderIds = orderIds;
+            if (!string.IsNullOrWhiteSpace(ids))
+            {
+                List<Guid> orderIds = ids.Split('|').ToList().ConvertAll(x => Guid.Parse(x));
+                req.OrderIds = orderIds;
+            }
             req.Page = 1;
             req.Limit = int.MaxValue;
             if (this.IsMaster == false)
@@ -128,18 +150,19 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
 
             //所有的图片
             Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
+            Dictionary<string, string> dicItem1 = new Dictionary<string, string>();
+            Dictionary<string, string> dicItem2 = new Dictionary<string, string>();
 
             #region 获得所有图片
 
             foreach (var dto in orderList)
             {
-                Dictionary<string, string> dicItem = new Dictionary<string, string>();
                 if (!string.IsNullOrWhiteSpace(dto.BiYeXueJiImg))
                 {
                     var p1 = GetLocalPic(dto.BiYeXueJiImg, dto);
                     if (p1 != null)
                     {
-                        dicItem.Add("学信网学籍截图.jpg", p1);
+                        dicItem1.Add($"{dto.IDCardNo}.jpg", p1);
                     }
                 }
 
@@ -148,22 +171,19 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     var p1 = GetLocalPic(dto.BiYePhoto, dto);
                     if (p1 != null)
                     {
-                        dicItem.Add("毕业照片.jpg", p1);
+                        dicItem2.Add($"{dto.IDCardNo}.jpg", p1);
                     }
                 }
+            }
 
-                //文件夹名称
-                string key = dto.StudentName;
-                if (dic.Keys.Contains(key))
-                {
-                    key = "_" + dto.OrderId.ToString();
-                }
-
-                //如果有照片
-                if (dicItem.Count > 0)
-                {
-                    dic.Add(key, dicItem);
-                }
+            //分两个文件夹存放照片
+            if (dicItem1.Count > 0)
+            {
+                dic.Add("学信网学籍截图", dicItem1);
+            }
+            if (dicItem2.Count > 0)
+            {
+                dic.Add("毕业照片", dicItem2);
             }
 
             #endregion

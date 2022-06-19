@@ -271,6 +271,21 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string StudentName { set; get; }
 
         /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string Phone { set; get; }
+
+        /// <summary>
+        /// 身份证号
+        /// </summary>
+        public string IDCardNo { set; get; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public string Sex { set; get; }
+
+        /// <summary>
         /// 报名批次
         /// </summary>
         public string BatchName { set; get; }
@@ -351,6 +366,21 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学号
         /// </summary>
         public string XueHao { set; get; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>		
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 来源机构名称
+        /// </summary>
+        public string FromChannelName { set; get; }
+
+        /// <summary>
+        /// 学院中心名称
+        /// </summary>
+        public string ToLearningCenterName { set; get; }
     }
 
     /// <summary>
@@ -444,26 +474,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public Guid? FromChannelId { set; get; }
 
         /// <summary>
-        /// 来源机构名称
-        /// </summary>
-        public string FromChannelName { set; get; }
-
-        /// <summary>
-        /// 学习中心名称
-        /// </summary>
-        public string ToLearningCenterName { set; get; }
-
-        /// <summary>
-        /// 身份证号
-        /// </summary>
-        public string IDCardNo { set; get; }
-
-        /// <summary>
-        /// 性别
-        /// </summary>
-        public string Sex { set; get; }
-
-        /// <summary>
         /// 民族
         /// </summary>
         public string MinZu { set; get; }
@@ -499,11 +509,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string HighesDegree { set; get; }
 
         /// <summary>
-        /// 手机号码
-        /// </summary>
-        public string Phone { set; get; }
-
-        /// <summary>
         /// 微信/QQ
         /// </summary>
         public string TencentNo { set; get; }
@@ -512,11 +517,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 邮箱
         /// </summary>
         public string Email { set; get; }
-
-        /// <summary>
-        /// 用户名
-        /// </summary>		
-        public string UserName { get; set; }
 
         /// <summary>
         /// 密码
@@ -548,11 +548,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学生头像
         /// </summary>
         public string StudentImg { get; set; }
-
-        /// <summary>
-        /// 所有毕业照片是否都上传完成
-        /// </summary>
-        public bool AllBiYeImageUpload { set; get; }
     }
 
     /// <summary>
@@ -614,6 +609,28 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 毕业照
         /// </summary>
         public string BiYePhoto { set; get; }
+
+        /// <summary>
+        /// 毕业照片上传状态：1未上传，2部分上传，3全部上传
+        /// </summary>
+        public int BiYeImageUploadStatus
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(BiYeXueJiImg) && string.IsNullOrEmpty(BiYePhoto))
+                {
+                    return 1;
+                }
+                else if (string.IsNullOrEmpty(BiYeXueJiImg) || string.IsNullOrEmpty(BiYePhoto))
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 3;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -677,11 +694,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学院中心ID
         /// </summary>
         public Guid ToLearningCenterId { set; get; }
-
-        /// <summary>
-        /// 学院中心名称
-        /// </summary>
-        public string ToLearningCenterName { set; get; }
     }
 
     /// <summary>
@@ -760,11 +772,6 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public bool? AllOrderImageUpload { set; get; }
 
         /// <summary>
-        /// 毕业照是否上传完成
-        /// </summary>
-        public bool? AllBiYeImageUpload { set; get; }
-
-        /// <summary>
         /// 招生中心学费是否缴完
         /// </summary>
         public bool? ZhaoShengXueFei { set; get; }
@@ -808,6 +815,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 用户Id(用于子账号数据隔离)
         /// </summary>
         public Guid? UserId { set; get; }
+
+        /// <summary>
+        /// 毕业照片上传状态：1未上传，2部分上传，3全部上传
+        /// </summary>
+        public int? BiYeImageUploadStatus { get; set; }
     }
 
     /// <summary>

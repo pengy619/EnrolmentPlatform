@@ -202,7 +202,6 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         (req.Status.HasValue == false || a.Status == (int)req.Status.Value) &&
                         (req.FromChannelId.HasValue == false || a.FromChannelId == req.FromChannelId.Value) &&
                         (req.AllOrderImageUpload.HasValue == false || a.AllOrderImageUpload == req.AllOrderImageUpload.Value) &&
-                        (req.AllBiYeImageUpload.HasValue == false || a.AllBiYeImageUpload == req.AllBiYeImageUpload.Value) &&
                         (req.ToLearningCenterId.HasValue == false || a.ToLearningCenterId == req.ToLearningCenterId.Value) &&
                         (req.IsChannelAdd.HasValue == false || (a.FromChannelId.HasValue != req.IsChannelAdd.Value))
                         //(req.IsChannel.HasValue == false || (req.IsChannel.Value == true && a.FromChannelId.HasValue == true && a.Status != 0) || (req.IsChannel.Value == true && a.FromChannelId.HasValue == false))
@@ -242,8 +241,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             Password = a.Password,
                             AssistStatus = a.AssistStatus,
                             CustomerField = a.CustomerField,
-                            GraduationTime = a.GraduationTime,
-                            AllBiYeImageUpload = a.AllBiYeImageUpload
+                            GraduationTime = a.GraduationTime
                         };
 
             //学校
@@ -317,22 +315,27 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 	                    o.[CreatorAccount] AS CreateUserName,
                         o.AssistStatus,
                         o.Id AS OrderId, 
-                        o.Status AS[Status],
-                        o.StudentName AS StudentName, 
+                        o.Status,
+                        o.StudentName,o.Phone, 
+                        o.IDCardNo,o.StudentNo as XueHao,o.UserName,
                         m1.Name as BatchName,
 	                    m2.Name as SchoolName,
 	                    m3.Name as LevelName,
 	                    m4.Name as MajorName,
+                        f.EnterpriseName as FromChannelName,
+                        g.EnterpriseName as ToLearningCenterName,
                         im.BiYeZhengImg,im.IDCard1,im.IDCard2,
                         im.LiangCunLanDiImg,im.MianKaoJiSuanJiImg,im.MianKaoYingYuImg,
                         im.QiTa,im.TouXiang,im.XueXinWangImg,
                         im.BiYeXueJiImg,im.BiYePhoto
                         from T_Order AS o
-                        LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
-                        LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id
-                        LEFT JOIN T_Metadata AS m3 ON o.LevelId = m3.Id
-                        LEFT JOIN T_Metadata AS m4 ON o.MajorId = m4.Id
-                        LEFT JOIN T_OrderImage as im ON o.Id=im.OrderId
+                            left join T_Metadata AS m1 ON o.BatchId = m1.Id
+                            left join T_Metadata AS m2 ON o.SchoolId = m2.Id
+                            left join T_Metadata AS m3 ON o.LevelId = m3.Id
+                            left join T_Metadata AS m4 ON o.MajorId = m4.Id
+                            left join T_OrderImage as im ON o.Id=im.OrderId
+                            left join T_Enterprise as f ON o.FromChannelId=f.Id
+                            left join T_Enterprise as g ON o.ToLearningCenterId=g.Id
                         where o.IsDelete=0");
 
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -455,6 +458,13 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 parameters.Add(new SqlParameter("@LevelName", "%" + req.LevelName + "%"));
             }
 
+            //专业
+            if (!string.IsNullOrWhiteSpace(req.MajorName))
+            {
+                sql.Append(" and m4.Name like @MajorName");
+                parameters.Add(new SqlParameter("@MajorName", "%" + req.MajorName + "%"));
+            }
+
             //批次
             if (!string.IsNullOrWhiteSpace(req.BatchName))
             {
@@ -463,25 +473,14 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             //查找订单id集合
-            if (req.OrderIds != null && req.OrderIds.Count > 0)
+            if (req.OrderIds != null && req.OrderIds.Any())
             {
-                StringBuilder sb = new StringBuilder("(");
-                for (var i = 0; i < req.OrderIds.Count; i++)
-                {
-                    var curOrderId = req.OrderIds[i];
-                    sb.Append("'" + curOrderId.ToString() + "'");
-                    if (i != req.OrderIds.Count - 1)
-                    {
-                        sb.Append(",");
-                    }
-                }
-                sb.Append(")");
-
-                sql.Append(" and o.Id in " + sb.ToString());
+                string orderIds = string.Join(",", req.OrderIds.Select(p => "'" + p + "'"));
+                sql.Append($" and o.Id in ({orderIds})");
             }
 
             //资料状态
-            if (req.OrderImageStatus.HasValue == true)
+            if (req.OrderImageStatus.HasValue)
             {
                 //缺毕业证
                 if (req.OrderImageStatus.Value == OrderImageStatusEnum.DefBiYeZheng)
@@ -505,6 +504,23 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                 if (req.OrderImageStatus.Value == OrderImageStatusEnum.DefYiDiZhengMing)
                 {
                     sql.Append(" and (im.MianKaoYingYuImg is null and im.MianKaoJiSuanJiImg is null)");
+                }
+            }
+
+            //毕业照片上传状态
+            if (req.BiYeImageUploadStatus.HasValue)
+            {
+                if (req.BiYeImageUploadStatus == 1)
+                {
+                    sql.Append(" and im.BiYeXueJiImg is null and im.BiYePhoto is null");
+                }
+                else if (req.BiYeImageUploadStatus == 2)
+                {
+                    sql.Append(" and ((im.BiYeXueJiImg is not null and im.BiYePhoto is null) or (im.BiYeXueJiImg is null and im.BiYePhoto is not null))");
+                }
+                else if (req.BiYeImageUploadStatus == 3)
+                {
+                    sql.Append(" and im.BiYeXueJiImg is not null and im.BiYePhoto is not null");
                 }
             }
 
