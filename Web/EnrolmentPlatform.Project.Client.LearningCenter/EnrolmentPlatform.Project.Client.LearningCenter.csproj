@@ -306,6 +306,7 @@
     <Content Include="Content\website\framework\layui\layui.js" />
     <Content Include="Content\website\framework\layui\lay\modules\carousel.js" />
     <Content Include="Content\website\framework\layui\lay\modules\code.js" />
+    <Content Include="Content\website\framework\layui\lay\modules\colorpicker.js" />
     <Content Include="Content\website\framework\layui\lay\modules\element.js" />
     <Content Include="Content\website\framework\layui\lay\modules\flow.js" />
     <Content Include="Content\website\framework\layui\lay\modules\form.js" />
@@ -316,7 +317,10 @@
     <Content Include="Content\website\framework\layui\lay\modules\laypage.js" />
     <Content Include="Content\website\framework\layui\lay\modules\laytpl.js" />
     <Content Include="Content\website\framework\layui\lay\modules\mobile.js" />
+    <Content Include="Content\website\framework\layui\lay\modules\rate.js" />
+    <Content Include="Content\website\framework\layui\lay\modules\slider.js" />
     <Content Include="Content\website\framework\layui\lay\modules\table.js" />
+    <Content Include="Content\website\framework\layui\lay\modules\transfer.js" />
     <Content Include="Content\website\framework\layui\lay\modules\tree.js" />
     <Content Include="Content\website\framework\layui\lay\modules\upload.js" />
     <Content Include="Content\website\framework\layui\lay\modules\util.js" />
@@ -710,6 +714,7 @@
     <Content Include="Areas\Order\Views\Exam\Option.cshtml" />
     <Content Include="Areas\Order\Views\Graduation\Index.cshtml" />
     <Content Include="Areas\Order\Views\Graduation\Option.cshtml" />
+    <Content Include="Content\website\framework\layui\font\iconfont.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Shared\_calendar.cshtml" />
     <Content Include="Temp\OrderTemp.xls" />

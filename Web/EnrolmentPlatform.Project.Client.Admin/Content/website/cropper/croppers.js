@@ -117,6 +117,7 @@ layui.config({
                             , options = {
                                 preview: preview
                                 , viewMode: 1
+                                , autoCropArea: 1
                             };
                         //文件选择
                         file.change(function () {
