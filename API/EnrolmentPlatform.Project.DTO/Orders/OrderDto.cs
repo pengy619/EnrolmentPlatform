@@ -109,7 +109,7 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string Remark { set; get; }
 
         /// <summary>
-        /// 状态（0：待提交, 1：提交 2：已退学，3：审核不通过，4：已报名，5：录取提交，6：录取拒绝，7：已录取）
+        /// 状态（0：预报名, 1：提交 2：已退学，3：审核不通过，4：已报名，5：录取提交，6：录取拒绝，7：已录取）
         /// </summary>
         public int Status { set; get; }
 

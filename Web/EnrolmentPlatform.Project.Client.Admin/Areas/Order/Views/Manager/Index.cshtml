@@ -42,7 +42,7 @@
                     <label class="layui-form-label">快速查询</label>
                     <div class="filter-list">
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray actived" onclick="toChang('', this)">全部（<span id="countAll">0</span>）</span>
-                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('0', this)">待提交（<span id="count0">0</span>）</span>
+                        <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('0', this)">预报名（<span id="count0">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('4', this)">已报名（<span id="count4">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('5', this)">已报送（<span id="count5">0</span>）</span>
                         <span class="count_type layui-btn layui-btn-sm layui-btn-gray" onclick="toChang('6', this)">已初审（<span id="count6">0</span>）</span>
@@ -435,7 +435,7 @@
             }
 
             if (canDelete == false) {
-                layer.msg('只有待提交和审核不通过的才可以删除。', {
+                layer.msg('只有预报名和审核不通过的才可以删除。', {
                     icon: 2,
                     time: 2000
                 });

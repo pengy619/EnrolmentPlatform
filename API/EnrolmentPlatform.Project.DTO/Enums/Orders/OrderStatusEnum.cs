@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace EnrolmentPlatform.Project.DTO.Enums.Orders
 {
     /// <summary>
-    /// 订单状态（0：待提交, 1：提交 2：已退学，3：审核不通过，4：已报名，5：录取提交，6：录取拒绝，7：已录取）
+    /// 订单状态（0：预报名, 1：提交 2：已退学，3：审核不通过，4：已报名，5：录取提交，6：录取拒绝，7：已录取）
     /// </summary>
     public enum OrderStatusEnum
     {
         /// <summary>
-        /// 待提交
+        /// 预报名
         /// </summary>
-        [Description("待提交")]
+        [Description("预报名")]
         Init = 0,
 
         ///// <summary>

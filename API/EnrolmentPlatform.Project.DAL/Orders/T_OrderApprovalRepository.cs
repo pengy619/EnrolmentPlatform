@@ -484,16 +484,15 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             }
 
             EnrolmentPlatformDbContext dbContext = this.GetDbContext();
-            reCount = dbContext.Database.SqlQuery<int>("select count(1) from (" + sql.ToString() + ") as t1", parameters.Select(x => ((ICloneable)x).Clone()).ToArray()).FirstOrDefault();
+            string countSql = PagerHelper.GetSqlOfRecordCount(sql.ToString());
+            reCount = dbContext.Database.SqlQuery<int>(countSql, parameters.Select(x => ((ICloneable)x).Clone()).ToArray()).FirstOrDefault();
             if (reCount == 0)
             {
                 return null;
             }
 
-            var list = dbContext.Database.SqlQuery<OrderUpdateApprovalListDto>(sql.ToString(), (SqlParameter[])parameters.ToArray().Clone())
-               .OrderByDescending(a => a.CreateTime)
-               .Skip((req.Page - 1) * req.Limit)
-               .Take(req.Limit).ToList();
+            string pageSql = PagerHelper.GetSqlOfPage(sql.ToString(), "CreateTime desc", req.Page, req.Limit);
+            var list = dbContext.Database.SqlQuery<OrderUpdateApprovalListDto>(pageSql, parameters.ToArray()).ToList();
 
             return list;
         }
