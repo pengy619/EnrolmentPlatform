@@ -32,6 +32,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string IDCardNo { set; get; }
 
         /// <summary>
+        /// 学号
+        /// </summary>		
+        public string StudentNo { get; set; }
+
+        /// <summary>
         /// 账号
         /// </summary>		
         public string UserName { get; set; }
@@ -71,5 +76,36 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 用户Id(用于子账号数据隔离)
         /// </summary>
         public Guid? UserId { set; get; }
+    }
+
+    /// <summary>
+    /// 修改学员账号Dto
+    /// </summary>
+    public class UpdateAccountDto
+    {
+        /// <summary>
+        /// 订单ID
+        /// </summary>
+        public Guid OrderId { get; set; }
+
+        /// <summary>
+        /// 学号
+        /// </summary>		
+        public string StudentNo { get; set; }
+
+        /// <summary>
+        /// 账号
+        /// </summary>		
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        public Guid UserId { set; get; }
     }
 }

@@ -259,13 +259,11 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         List<AccountListDto> GetAccountList(AccountListReqDto req, ref int reCount);
 
         /// <summary>
-        /// 修改学员账号密码
+        /// 修改学员账号
         /// </summary>
-        /// <param name="orderId">订单id</param>
-        /// <param name="userId">修改人</param>
-        /// <param name="password">密码</param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        bool UpdateAccountPwd(Guid orderId, Guid userId, string password);
+        bool UpdateAccount(UpdateAccountDto dto);
 
         /// <summary>
         /// 修改毕业照片

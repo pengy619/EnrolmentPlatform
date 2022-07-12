@@ -979,6 +979,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                     StudentName = t.StudentName,
                     Phone = t.Phone,
                     IDCardNo = t.IDCardNo,
+                    StudentNo = t.StudentNo,
                     UserName = t.UserName,
                     Password = t.Password,
                 }).ToList();
@@ -987,23 +988,23 @@ namespace EnrolmentPlatform.Project.BLL.Orders
         }
 
         /// <summary>
-        /// 修改学员账号密码
+        /// 修改学员账号
         /// </summary>
-        /// <param name="orderId">订单id</param>
-        /// <param name="userId">修改人</param>
-        /// <param name="password">密码</param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public bool UpdateAccountPwd(Guid orderId, Guid userId, string password)
+        public bool UpdateAccount(UpdateAccountDto dto)
         {
-            var entity = this.orderRepository.FindEntityById(orderId);
+            var entity = this.orderRepository.FindEntityById(dto.OrderId);
             if (entity == null)
             {
                 return false;
             }
-            entity.Password = password;
+            entity.StudentNo = dto.StudentNo;
+            entity.UserName = dto.UserName;
+            entity.Password = dto.Password;
             entity.LastModifyTime = DateTime.Now;
-            entity.LastModifyUserId = userId;
-            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改密码", true, entity.Id.ToString()) > 0;
+            entity.LastModifyUserId = dto.UserId;
+            return this.orderRepository.UpdateEntity(entity, Domain.EFContext.E_DbClassify.Write, "修改学员账号", true, entity.Id.ToString()) > 0;
         }
 
         /// <summary>

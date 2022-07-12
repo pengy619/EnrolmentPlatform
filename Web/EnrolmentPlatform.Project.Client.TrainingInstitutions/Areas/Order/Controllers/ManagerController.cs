@@ -534,14 +534,15 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         }
 
         /// <summary>
-        /// 修改学员账号密码
+        /// 修改学员账号
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult UpdateAccountPwd(Guid orderId, string password)
+        public ActionResult UpdateAccount(UpdateAccountDto dto)
         {
-            var ret = OrderService.UpdateAccountPwd(orderId, this.UserId, password);
+            dto.UserId = this.UserId;
+            var ret = OrderService.UpdateAccount(dto);
             if (ret == true)
             {
                 return Json(new { ret = 1 });

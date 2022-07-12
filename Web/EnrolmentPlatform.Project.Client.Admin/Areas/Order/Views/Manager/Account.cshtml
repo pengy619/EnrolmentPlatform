@@ -33,9 +33,30 @@
         </div>
     </div>
 </div>
-
+<div id="audit-btn-modal" style="display:none;">
+    <div class="layui-form">
+        <div class="layui-form-item" style="padding-top: 20px;">
+            <label class="layui-form-label">学号：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" maxlength="20" id="StudentNo">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" maxlength="20" id="UserName">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" maxlength="20" id="Password">
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/html" id="tableTool">
-    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="updatePwd">修改密码</a>
+    <a class="layui-btn layui-btn-default layui-btn-xs" lay-event="update">修改学员账号</a>
 </script>
 <script>
     var isSubmit = true;
@@ -51,6 +72,7 @@
                 { field: 'StudentName', title: '学生姓名' }
                 , { field: 'Phone', title: '手机号码' }
                 , { field: 'IDCardNo', title: '证件号码', }
+                , { field: 'StudentNo', title: '学号', }
                 , { field: 'UserName', title: '账号', }
                 , { field: 'Password', title: '密码', }
                 , { title: '操作', toolbar: '#tableTool', width: 110 }
@@ -77,26 +99,37 @@
 
         table.on('tool(table)', function (obj) {
             var data = obj.data; //获得当前行数据
-            if (obj.event === 'updatePwd') {
-                layer.prompt({
-                    value: data.Password,
-                    title: '修改密码',
-                }, function (value, index, elem) {
-                    if (isSubmit) {
-                        isSubmit = false;
+            if (obj.event === 'update') {
+                $("#StudentNo").val(data.StudentNo);
+                $("#UserName").val(data.UserName);
+                $("#Password").val(data.Password);
+                layer.open({
+                    type: 1,
+                    title: '修改学员账号',
+                    btn: ['确定', '取消'],
+                    area: ["400px", "300px"],
+                    content: $('#audit-btn-modal'),
+                    yes: function () {
+                        var dto = {};
+                        dto.OrderId = data.OrderId;
+                        dto.StudentNo = $("#StudentNo").val();
+                        dto.UserName = $("#UserName").val();
+                        dto.Password = $("#Password").val();
                         $.ajax({
-                            url: "@Url.Action("UpdateAccountPwd", "Manager")",
-                            type: "post",
-                            data: { orderId: data.OrderId, password: value },
+                            type: "POST",
+                            contentType: "application/json;utf-8",
                             dataType: "json",
+                            async: false,
+                            data: JSON.stringify(dto),
+                            url: '@Url.Action("UpdateAccount", "Manager")',
                             success: function (result) {
                                 if (result.ret == 1) {
                                     layer.msg("保存成功", {
                                         icon: 1
                                         , time: 1000
                                     }, function () {
-                                        table.reload('table');
-                                        layer.close(index);
+                                        table.reload("table");
+                                        layer.closeAll();
                                     });
                                 } else {
                                     layer.msg(result.msg, {
@@ -104,15 +137,14 @@
                                         , time: 2000
                                     });
                                 }
-                            },
-                            complete: function () {
-                                isSubmit = true;
                             }
                         });
+                    },
+                    btn2: function () {
                     }
                 });
             }
-        })
+        });
     });
 
     //导出按钮处理
