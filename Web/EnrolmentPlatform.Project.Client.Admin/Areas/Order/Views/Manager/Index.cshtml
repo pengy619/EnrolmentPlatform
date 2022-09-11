@@ -826,13 +826,13 @@
             for (var i = 0; i < checkdata.length; i++) {
                 arr[i] = checkdata[i].OrderId;
                 //已报名可以进行拒绝
-                if (parseInt(checkdata[i].Status) != 4) {
+                if (parseInt(checkdata[i].Status) != 4 && parseInt(checkdata[i].Status) != 5 && parseInt(checkdata[i].Status) != 6) {
                     canSubmit = false;
                 }
             }
 
             if (canSubmit == false) {
-                layer.msg('只有已报名的能进行拒绝。', {
+                layer.msg('只有已报名、已报送和已初审的能进行拒绝。', {
                     icon: 2,
                     time: 2000
                 });
