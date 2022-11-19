@@ -36,8 +36,8 @@
 
         transfer.render({
             elem: '#test1'
-            , data: @(Html.Raw(ViewBag.SchoolList))
-            , value: @(Html.Raw(ViewBag.SchoolIds))
+            , data: (@Html.Raw(ViewBag.SchoolList))
+            , value: (@Html.Raw(ViewBag.SchoolIds))
             , id: 'demo1' //定义唯一索引
             , title: ['可报考学校', '不可报考学校']
             , showSearch: true
