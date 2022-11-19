@@ -18,13 +18,15 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
     /// </summary>
     public class T_EnterpriseService : BaseService<T_Enterprise>, IT_EnterpriseService, IInterceptorLogic
     {
-        private IT_EnterpriseRepository repository = null;
-        private IT_AccountBasicRepository accountRepository = null;
+        private IT_EnterpriseRepository repository;
+        private IT_AccountBasicRepository accountRepository;
+        private IT_SchoolSettingRepository schoolSettingRepository;
 
         public T_EnterpriseService()
         {
             this.repository = DIContainer.Resolve<IT_EnterpriseRepository>();
             this.accountRepository = DIContainer.Resolve<IT_AccountBasicRepository>();
+            this.schoolSettingRepository = DIContainer.Resolve<IT_SchoolSettingRepository>();
         }
 
         public override bool SetCurrentRepository()
@@ -204,6 +206,46 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
                     SupplierId = t.Id,
                     SupplierName = t.EnterpriseName
                 }).OrderBy(t => t.SupplierName).ToList();
+        }
+
+        /// <summary>
+        /// 获取招生机构不可报读的学校
+        /// </summary>
+        /// <param name="enterpriseId"></param>
+        /// <returns></returns>
+        public List<Guid> GetNotSchoolIds(Guid enterpriseId)
+        {
+            return schoolSettingRepository.LoadEntities(t => t.IsDelete == false && t.EnterpriseId == enterpriseId)
+                .Select(t => t.SchoolId).ToList();
+        }
+
+        /// <summary>
+        /// 保存学校配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public ResultMsg SaveConfig(SchoolSettingDto dto)
+        {
+            ResultMsg resultMsg = new ResultMsg();
+            //先删除原来的配置
+            schoolSettingRepository.PhysicsDeleteBy(t => t.EnterpriseId == dto.EnterpriseId);
+            //再添加新的配置
+            if (dto.SchoolList != null && dto.SchoolList.Any())
+            {
+                var configs = new List<T_SchoolSetting>();
+                foreach (var item in dto.SchoolList)
+                {
+                    configs.Add(new T_SchoolSetting
+                    {
+                        Id = Guid.NewGuid(),
+                        EnterpriseId = dto.EnterpriseId,
+                        CreatorUserId = dto.CreatorUserId,
+                        SchoolId = item.value
+                    });
+                }
+                resultMsg.IsSuccess = schoolSettingRepository.AddEntities(configs) > 0;
+            }
+            return resultMsg;
         }
     }
 }

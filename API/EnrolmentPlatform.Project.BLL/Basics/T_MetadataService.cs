@@ -8,6 +8,7 @@ using EnrolmentPlatform.Project.DTO;
 using EnrolmentPlatform.Project.DTO.Basics;
 using EnrolmentPlatform.Project.DTO.Enums.Basics;
 using EnrolmentPlatform.Project.IBLL.Basics;
+using EnrolmentPlatform.Project.IDAL.Accounts;
 using EnrolmentPlatform.Project.IDAL.Basics;
 using EnrolmentPlatform.Project.IDAL.Orders;
 using EnrolmentPlatform.Project.Infrastructure;
@@ -20,11 +21,13 @@ namespace EnrolmentPlatform.Project.BLL.Basics
     {
         private IT_MetadataRepository metadataRepository;
         private IT_OrderRepository orderRepository;
+        private IT_SchoolSettingRepository schoolSettingRepository;
 
         public T_MetadataService()
         {
             this.metadataRepository = DIContainer.Resolve<IT_MetadataRepository>();
             this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
+            this.schoolSettingRepository = DIContainer.Resolve<IT_SchoolSettingRepository>();
         }
 
         /// <summary>
@@ -212,11 +215,17 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// </summary>
         /// <param name="tags"></param>
         /// <returns></returns>
-        public List<MetadataDto> GetSchoolListByTags(string tags)
+        public List<MetadataDto> GetSchoolListByTags(string tags, Guid? enterpriseId)
         {
+            var schoolIds = new List<Guid>();
+            if (enterpriseId.HasValue)
+            {
+                schoolIds = schoolSettingRepository.LoadEntities(t => t.IsDelete == false && t.EnterpriseId == enterpriseId).Select(t => t.SchoolId).ToList();
+            }
             var noTags = string.IsNullOrWhiteSpace(tags);
             return this.metadataRepository.LoadEntities(a => a.IsDelete == false && a.IsEnable == true && a.Type == (int)MetadataTypeEnum.School)
                 .Where(t => noTags ? true : t.Tags.Contains(tags))
+                .Where(t => schoolIds.Any() ? !schoolIds.Contains(t.Id) : true)
                 .Select(a => new MetadataDto()
                 {
                     Id = a.Id,

@@ -31,6 +31,7 @@
         <div class="panel-body">
             <a href="@Url.Action("Option","Supplier",new { area="Account" })" class="layui-btn layui-btn-normal layui-btn-small">+添加</a>
             <button class="layui-btn layui-btn-danger layui-btn-small" data-type="delete">删除</button>
+            <button data-type="config" id="config" class="layui-btn layui-btn-small a4">配置报考学校</button>
             <table id="supplier-table" lay-filter="table"></table>
         </div>
     </div>
@@ -110,6 +111,15 @@
                     $.ajax(ajaxOption);
                     layer.close(index);
                 });
+            },
+            config: function () { //获取选中数据
+                var checkStatus = table.checkStatus('supplier-table')
+                    , data = checkStatus.data;
+                if (data.length == 0 || data.length > 1) {
+                    layer.msg("请选择一个招生机构");
+                } else {
+                    location.href = "@Url.Action("SchoolConfig", "Supplier")?enterpriseId=" + data[0].SupplierId;
+                }
             }
         };
 

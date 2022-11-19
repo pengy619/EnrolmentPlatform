@@ -36,6 +36,7 @@ namespace EnrolmentPlatform.Project.Domain.EFContext
         public DbSet<T_ChargeStrategy> T_ChargeStrategy { set; get; }
         public DbSet<T_StockSetting> T_StockSetting { set; get; }
         public DbSet<T_CustomerField> T_CustomerField { set; get; }
+        public DbSet<T_SchoolSetting> T_SchoolSetting { set; get; }
 
         //新闻公告
         public DbSet<T_Article> T_Article { get; set; }

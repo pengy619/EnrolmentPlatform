@@ -67,3 +67,32 @@ BEGIN
 	INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'fc4d1123-2b87-4997-9f01-e49b010e2e50', N'查看毕业照', 4, N'Order', N'Graduation', N'Option', NULL, 3, N'8cd58c07-80d1-4c36-9b72-766257b5130a', 1, NULL)
 END
 GO
+
+--招生机构学校配置表
+IF OBJECT_ID(N'T_SchoolSetting',N'U') IS NULL
+BEGIN
+	CREATE TABLE [dbo].[T_SchoolSetting](
+		[Id] [uniqueidentifier] NOT NULL,
+		[EnterpriseId] [uniqueidentifier] NOT NULL,
+		[SchoolId] [uniqueidentifier] NOT NULL,
+		[IsDelete] [bit] NOT NULL,
+		[CreatorTime] [datetime] NOT NULL,
+		[CreatorUserId] [uniqueidentifier] NOT NULL,
+		[CreatorAccount] [nvarchar](max) NULL,
+		[LastModifyTime] [datetime] NOT NULL,
+		[LastModifyUserId] [uniqueidentifier] NOT NULL,
+		[DeleteTime] [datetime] NOT NULL,
+		[DeleteUserId] [uniqueidentifier] NOT NULL,
+		[Unix] [bigint] NOT NULL,
+		[RowVersion] [timestamp] NOT NULL,
+	 CONSTRAINT [PK_dbo.T_SchoolSetting] PRIMARY KEY CLUSTERED 
+	(
+		[Id] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+END
+GO
+
+INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'dbafddd7-63b8-4a8e-9fc7-2d3adf9f322b', N'配置报考学校', 4, N'Account', N'Supplier', N'SchoolConfig', NULL, 1, N'02bd4623-122a-42fa-8950-ad3d2e29f0a2', 5, NULL)
+GO

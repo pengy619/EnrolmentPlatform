@@ -184,7 +184,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             //批次
             ViewBag.BatchList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
             //学校
-            ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null);
+            ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null, null);
 
             return View();
         }
@@ -196,7 +196,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// <returns></returns>
         public JsonResult GetSchoolListByTags(string tags)
         {
-            var data = MetadataService.GetSchoolListByTags(tags);
+            var data = MetadataService.GetSchoolListByTags(tags, null);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 

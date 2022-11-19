@@ -36,6 +36,13 @@ namespace EnrolmentPlatform.Project.DAL.Basics
                             MajorId = m.Id,
                             MajorName = m.Name
                         };
+            //排除招生机构不可报读的学校
+            var schoolIds = dbContext.T_SchoolSetting.Where(t => t.EnterpriseId == req.EnterpriseId).Select(t => t.SchoolId).ToList();
+            if (schoolIds.Any())
+            {
+                query = query.Where(a => !schoolIds.Contains(a.SchoolId));
+            }
+
             //层级
             if (!string.IsNullOrWhiteSpace(req.LevelName))
             {

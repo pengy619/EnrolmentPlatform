@@ -79,6 +79,11 @@ namespace EnrolmentPlatform.Project.DTO.Basics
     public class SchoolItemListReqDto : GridDataRequest
     {
         /// <summary>
+        /// 招生机构ID
+        /// </summary>
+        public Guid EnterpriseId { get; set; }
+
+        /// <summary>
         /// 层次名称
         /// </summary>
         public string LevelName { get; set; }

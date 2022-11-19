@@ -65,6 +65,6 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// </summary>
         /// <param name="tags"></param>
         /// <returns></returns>
-        List<MetadataDto> GetSchoolListByTags(string tags);
+        List<MetadataDto> GetSchoolListByTags(string tags, Guid? enterpriseId);
     }
 }

@@ -86,5 +86,19 @@ namespace EnrolmentPlatform.Project.IBLL.Accounts
         /// <param name="classify"></param>
         /// <returns></returns>
         List<SupplierListDto> GetUserList(SystemTypeEnum classify);
+
+        /// <summary>
+        /// 获取招生机构不可报读的学校
+        /// </summary>
+        /// <param name="enterpriseId"></param>
+        /// <returns></returns>
+        List<Guid> GetNotSchoolIds(Guid enterpriseId);
+
+        /// <summary>
+        /// 保存学校配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        ResultMsg SaveConfig(SchoolSettingDto dto);
     }
 }

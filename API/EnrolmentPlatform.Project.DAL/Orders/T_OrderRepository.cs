@@ -1216,6 +1216,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             var majorList = mdata.Where(a => a.Type == (int)MetadataTypeEnum.Major).ToList();
             //学校配置
             var schoolConfigList = dbContext.T_SchoolLevelMajor.ToList();
+            //不可报考学校列表
+            var notSchoolList = dbContext.T_SchoolSetting.Where(a => a.EnterpriseId == dto.FromChannelId).ToList();
 
             //数据新增
             List<T_Order> orderList = new List<T_Order>();
@@ -1239,6 +1241,11 @@ namespace EnrolmentPlatform.Project.DAL.Orders
 
                 var schoolMajar = schoolConfigList.FirstOrDefault(a => a.ParentId == schoolLevel.Id && a.ItemId == majar.Id);
                 if (schoolMajar == null) { return "第" + (i + 1).ToString() + "行的专业与学校不匹配！"; }
+
+                if (notSchoolList.Exists(a => a.SchoolId == school.Id))
+                {
+                    return "第" + (i + 1).ToString() + "行的学校不允许报考！";
+                }
 
                 #region 新增数据处理
 

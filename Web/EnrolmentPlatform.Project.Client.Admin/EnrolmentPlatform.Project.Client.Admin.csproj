@@ -221,6 +221,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Account\Views\Supplier\SchoolConfig.cshtml" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\website\cropper\cropper.css" />
     <Content Include="Content\website\cropper\cropper.js" />

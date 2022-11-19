@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\IT_SchoolSettingRepository.cs" />
     <Compile Include="Accounts\IT_EnterpriseRepository.cs" />
     <Compile Include="Accounts\IT_AccountBasicRepository.cs" />
     <Compile Include="Articles\IT_ArticleCategoryRepository.cs" />

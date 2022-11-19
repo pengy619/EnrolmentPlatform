@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "配置报考学校";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            配置报考学校
+        </div>
+        <div class="panel-body" style="display:flex">
+            <div class="layui-form margin-top-10" style="flex:1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <div id="test1" class="demo-transfer"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn " lay-demotransferactive="getData">保存</button>
+                        <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['transfer', 'layer', 'util'], function () {
+        var $ = layui.$
+            , transfer = layui.transfer
+            , layer = layui.layer
+            , util = layui.util;
+
+        transfer.render({
+            elem: '#test1'
+            , data: @(Html.Raw(ViewBag.SchoolList))
+            , value: @(Html.Raw(ViewBag.SchoolIds))
+            , id: 'demo1' //定义唯一索引
+            , title: ['可报考学校', '不可报考学校']
+            , showSearch: true
+        })
+
+        //批量办法定事件
+        util.event('lay-demoTransferActive', {
+            getData: function (othis) {
+                var getData = transfer.getData('demo1'); //获取右侧数据
+                //layer.alert(JSON.stringify(getData));
+                var dto = {};
+                dto.EnterpriseId = "@Model";
+                dto.SchoolList = getData;
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(dto),
+                    url: '@Url.Action("SaveConfig", "Supplier")',
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            layer.msg('保存成功', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                window.location.href = '@Url.Action("Index", "Supplier")';
+                            });
+                        }
+                        else {
+                            layer.msg("保存失败", {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+    });
+</script>

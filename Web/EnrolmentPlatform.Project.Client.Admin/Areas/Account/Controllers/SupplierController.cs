@@ -134,5 +134,32 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Account.Controllers
                 ConfigurationManager.AppSettings["StaffId"].ToInt());
             return Json(ret);
         }
+
+        /// <summary>
+        /// 配置报读学校
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SchoolConfig(Guid enterpriseId)
+        {
+            //所有学校
+            var schoolList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.School).Select(t => new { value = t.Id, title = t.Name }).ToList();
+            ViewBag.SchoolList = JsonConvert.SerializeObject(schoolList);
+            //不可报考学校
+            var notSchoolIds = EnterpriseService.GetNotSchoolIds(enterpriseId);
+            ViewBag.SchoolIds = JsonConvert.SerializeObject(notSchoolIds);
+            return View(enterpriseId);
+        }
+
+        /// <summary>
+        /// 保存招生机构学校配置
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult SaveConfig(SchoolSettingDto dto)
+        {
+            dto.CreatorUserId = this.UserId;
+            var ret = EnterpriseService.SaveConfig(dto);
+            return Json(ret);
+        }
     }
 }

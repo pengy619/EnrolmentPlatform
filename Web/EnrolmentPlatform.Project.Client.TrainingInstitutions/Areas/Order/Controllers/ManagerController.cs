@@ -203,7 +203,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             //批次
             ViewBag.BatchList = MetadataService.GetEnableList(DTO.Enums.Basics.MetadataTypeEnum.Batch);
             //学校
-            ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null);
+            ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null, this.EnterpriseId);
 
             return View();
         }
@@ -215,7 +215,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         /// <returns></returns>
         public JsonResult GetSchoolListByTags(string tags)
         {
-            var data = MetadataService.GetSchoolListByTags(tags);
+            var data = MetadataService.GetSchoolListByTags(tags, this.EnterpriseId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -599,6 +599,7 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
         public string GetSchoolItemList(SchoolItemListReqDto param)
         {
             int reCount;
+            param.EnterpriseId = this.EnterpriseId;
             List<SchoolItemListDto> list = LevelService.GetSchoolItemList(param, out reCount);
             if (list == null)
             {

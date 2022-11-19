@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\SchoolSettingDto.cs" />
     <Compile Include="Accounts\EnterpriseDto.cs" />
     <Compile Include="Articles\ArticleCategoryDto.cs" />
     <Compile Include="Articles\ArticleDto.cs" />
