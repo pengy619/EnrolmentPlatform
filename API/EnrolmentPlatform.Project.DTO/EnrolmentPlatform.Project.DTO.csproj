@@ -61,6 +61,7 @@
     <Compile Include="Enums\Article\ArticleStatusEnum.cs" />
     <Compile Include="Enums\Basics\CustomerFieldTypeEnum.cs" />
     <Compile Include="Enums\Basics\MetadataTypeEnum.cs" />
+    <Compile Include="Enums\Basics\ImageTypeEnum.cs" />
     <Compile Include="Enums\File\FileClassifyEnum.cs" />
     <Compile Include="Enums\Orders\OrderImageStatusEnum.cs" />
     <Compile Include="Enums\Orders\OrderStatusEnum.cs" />

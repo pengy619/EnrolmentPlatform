@@ -398,5 +398,32 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Basic.Controllers
         }
 
         #endregion
+
+        #region 学校证件配置
+
+        /// <summary>
+        /// 学校证件配置
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SchoolImageConfig(Guid schoolId)
+        {
+            //学校必须上传的证件
+            var imageTypes = MetadataService.GetSchoolImageTypes(schoolId);
+            ViewBag.SchoolImageTypes = JsonConvert.SerializeObject(imageTypes);
+            return View(schoolId);
+        }
+
+        /// <summary>
+        /// 保存学校证件配置
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult SaveSchoolImageConfig(SchoolImageConfigDto dto)
+        {
+            dto.CreatorUserId = this.UserId;
+            var ret = MetadataService.SaveSchoolImageConfig(dto);
+            return Json(ret);
+        }
+        #endregion
     }
 }

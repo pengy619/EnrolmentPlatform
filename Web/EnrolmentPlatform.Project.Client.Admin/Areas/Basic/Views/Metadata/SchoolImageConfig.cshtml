@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "配置学校证件";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-wrap">
+    <div class="panel">
+        <div class="panel-title">
+            配置学校证件
+        </div>
+        <div class="panel-body" style="display:flex">
+            <div class="layui-form margin-top-10" style="flex:1">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <div id="test1" class="demo-transfer"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn " lay-demotransferactive="getData">保存</button>
+                        <button class="layui-btn layui-btn-primary" onclick="javascript:window.history.go(-1);">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['transfer', 'layer', 'util'], function () {
+        var $ = layui.$
+            , transfer = layui.transfer
+            , layer = layui.layer
+            , util = layui.util;
+
+        var data1 = [
+            { "value": "1", "title": "身份证正面" }
+            , { "value": "2", "title": "身份证反面" }
+            , { "value": "3", "title": "两寸蓝底" }
+            , { "value": "4", "title": "毕业证" }
+            , { "value": "5", "title": "社保/居住证正" }
+            , { "value": "6", "title": "社保/居住证反" }
+            , { "value": "7", "title": "教育部学历证书电子备案表" }
+            , { "value": "8", "title": "录取通知书" }
+        ]
+
+        transfer.render({
+            elem: '#test1'
+            , data: data1
+            , value: (@Html.Raw(ViewBag.SchoolImageTypes))
+            , id: 'demo1' //定义唯一索引
+            , title: ['可选证件', '必须上传的证件']
+            , width: 300 //定义宽度
+            //, height: 210 //定义高度
+        })
+
+        //批量办法定事件
+        util.event('lay-demoTransferActive', {
+            getData: function (othis) {
+                var getData = transfer.getData('demo1'); //获取右侧数据
+                //layer.alert(JSON.stringify(getData));
+                var dto = {};
+                dto.SchoolId = "@Model";
+                dto.ImageTypeList = getData;
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;utf-8",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(dto),
+                    url: '@Url.Action("SaveSchoolImageConfig", "Metadata")',
+                    success: function (result) {
+                        if (result.IsSuccess) {
+                            layer.msg('保存成功', {
+                                icon: 1,
+                                time: 2000
+                            }, function () {
+                                window.location.href = '@Url.Action("SchoolManage", "Metadata")';
+                            });
+                        }
+                        else {
+                            layer.msg("保存失败", {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+    });
+</script>

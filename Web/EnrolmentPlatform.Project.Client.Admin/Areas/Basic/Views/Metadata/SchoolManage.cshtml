@@ -38,6 +38,7 @@
             <button data-type="charge" id="charge" class="layui-btn layui-btn-small a4">设置费用策略</button>
             <button data-type="stock" id="stock" class="layui-btn layui-btn-small a4">设置招生指标</button>
             <button data-type="addCustomerField" id="addCustomerField" class="layui-btn layui-btn-small a4">添加自定义字段</button>
+            <button data-type="imageConfig" id="imageConfig" class="layui-btn layui-btn-small a4">配置上传证件</button>
             <table id="schooltable" lay-filter="school"></table>
         </div>
     </div>
@@ -218,6 +219,17 @@
                     layer.msg("请选择单行数据");
                 } else {
                     location.href = "@Url.Action("SchoolConfig", "Metadata")?schoolId=" + data[0].Id;
+                }
+            },
+            imageConfig: function () { //获取选中数据
+                var checkStatus = table.checkStatus('sid')
+                    , data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg("请选择要配置的数据");
+                } else if (data.length > 1) {
+                    layer.msg("请选择单行数据");
+                } else {
+                    location.href = "@Url.Action("SchoolImageConfig", "Metadata")?schoolId=" + data[0].Id;
                 }
             },
             charge: function () { //获取选中数据

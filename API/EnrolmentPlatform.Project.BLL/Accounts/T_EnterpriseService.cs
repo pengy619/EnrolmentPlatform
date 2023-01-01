@@ -240,7 +240,7 @@ namespace EnrolmentPlatform.Project.BLL.Accounts
                         Id = Guid.NewGuid(),
                         EnterpriseId = dto.EnterpriseId,
                         CreatorUserId = dto.CreatorUserId,
-                        SchoolId = item.value
+                        SchoolId = Guid.Parse(item.value)
                     });
                 }
                 resultMsg.IsSuccess = schoolSettingRepository.AddEntities(configs) > 0;

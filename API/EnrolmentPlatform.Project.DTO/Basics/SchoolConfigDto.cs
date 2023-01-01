@@ -37,4 +37,32 @@ namespace EnrolmentPlatform.Project.DTO.Basics
         /// </summary>
         public Guid MajorId { get; set; }
     }
+
+    /// <summary>
+    /// 学校证件配置Dto
+    /// </summary>
+    public class SchoolImageConfigDto
+    {
+        /// <summary>
+        /// 学校ID
+        /// </summary>
+        public Guid SchoolId { get; set; }
+
+        /// <summary>
+        /// 操作人ID
+        /// </summary>
+        public Guid CreatorUserId { get; set; }
+
+        /// <summary>
+        /// 必须上传的证件
+        /// </summary> 
+        public List<SelectData> ImageTypeList { get; set; }
+    }
+
+    public class SelectData
+    {
+        public string value { get; set; }
+
+        public string title { get; set; }
+    }
 }

@@ -64,6 +64,7 @@
     <Compile Include="Entities\Basics\T_CustomerField.cs" />
     <Compile Include="Entities\Basics\T_Metadata.cs" />
     <Compile Include="Entities\Basics\T_SchoolLevelMajor.cs" />
+    <Compile Include="Entities\Basics\T_SchoolImageConfig.cs" />
     <Compile Include="Entities\Basics\T_StockSetting.cs" />
     <Compile Include="Entities\Orders\T_Exam.cs" />
     <Compile Include="Entities\Orders\T_ExamInfo.cs" />

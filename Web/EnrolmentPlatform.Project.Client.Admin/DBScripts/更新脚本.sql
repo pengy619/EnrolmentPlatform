@@ -96,3 +96,35 @@ GO
 
 INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'dbafddd7-63b8-4a8e-9fc7-2d3adf9f322b', N'配置报考学校', 4, N'Account', N'Supplier', N'SchoolConfig', NULL, 1, N'02bd4623-122a-42fa-8950-ad3d2e29f0a2', 5, NULL)
 GO
+
+--学校证件配置表
+IF OBJECT_ID(N'T_SchoolImageConfig',N'U') IS NULL
+BEGIN
+	CREATE TABLE [dbo].[T_SchoolImageConfig](
+		[Id] [uniqueidentifier] NOT NULL,
+		[SchoolId] [uniqueidentifier] NOT NULL,
+		[ImageType] [int] NOT NULL,
+		[IsDelete] [bit] NOT NULL,
+		[CreatorTime] [datetime] NOT NULL,
+		[CreatorUserId] [uniqueidentifier] NOT NULL,
+		[CreatorAccount] [nvarchar](max) NULL,
+		[LastModifyTime] [datetime] NOT NULL,
+		[LastModifyUserId] [uniqueidentifier] NOT NULL,
+		[DeleteTime] [datetime] NOT NULL,
+		[DeleteUserId] [uniqueidentifier] NOT NULL,
+		[Unix] [bigint] NOT NULL,
+		[RowVersion] [timestamp] NOT NULL,
+	 CONSTRAINT [PK_dbo.T_SchoolImageConfig] PRIMARY KEY CLUSTERED 
+	(
+		[Id] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+END
+GO
+
+IF NOT EXISTS (SELECT 1 FROM T_Permissions WHERE Id='feb4a17b-d124-4533-92ec-5150e67ba386')
+BEGIN
+	INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'feb4a17b-d124-4533-92ec-5150e67ba386', N'配置上传证件', 4, N'Basic', N'Metadata', N'SchoolImageConfig', NULL, 1, N'e22b5fb6-3e76-40c6-826a-bcfd48317dd7', 5, NULL)
+END
+GO

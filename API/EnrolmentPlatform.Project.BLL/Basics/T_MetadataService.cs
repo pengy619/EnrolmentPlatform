@@ -22,12 +22,14 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         private IT_MetadataRepository metadataRepository;
         private IT_OrderRepository orderRepository;
         private IT_SchoolSettingRepository schoolSettingRepository;
+        private IT_SchoolImageConfigRepository schoolImageConfigRepository;
 
         public T_MetadataService()
         {
             this.metadataRepository = DIContainer.Resolve<IT_MetadataRepository>();
             this.orderRepository = DIContainer.Resolve<IT_OrderRepository>();
             this.schoolSettingRepository = DIContainer.Resolve<IT_SchoolSettingRepository>();
+            this.schoolImageConfigRepository = DIContainer.Resolve<IT_SchoolImageConfigRepository>();
         }
 
         /// <summary>
@@ -234,6 +236,66 @@ namespace EnrolmentPlatform.Project.BLL.Basics
                     CreatorUserId = a.CreatorUserId,
                     CreatorAccount = a.CreatorAccount
                 }).OrderBy(t => t.Name).ToList();
+        }
+
+        /// <summary>
+        /// 获取学校必须上传的证件
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <returns></returns>
+        public List<int> GetSchoolImageTypes(Guid schoolId)
+        {
+            return schoolImageConfigRepository.LoadEntities(t => t.IsDelete == false && t.SchoolId == schoolId)
+                .Select(t => t.ImageType).ToList();
+        }
+
+        /// <summary>
+        /// 获取学校必须上传的证件
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <param name="isZsb"></param>
+        /// <returns></returns>
+        public List<int> GetSchoolImageTypes(Guid schoolId, bool isZsb = false)
+        {
+            var imageTypes = GetSchoolImageTypes(schoolId);
+            if (isZsb && !imageTypes.Contains(7)) //报考专升本则教育部学历证书电子备案表为必上传
+            {
+                imageTypes.Add(7);
+            }
+            if (imageTypes.Count == 0) //当学校没有设置上传证件时返回所有的
+            {
+                imageTypes = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
+            }
+            return imageTypes;
+        }
+
+        /// <summary>
+        /// 保存学校证件配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public ResultMsg SaveSchoolImageConfig(SchoolImageConfigDto dto)
+        {
+            ResultMsg resultMsg = new ResultMsg();
+            //先删除原来的配置
+            schoolImageConfigRepository.PhysicsDeleteBy(t => t.SchoolId == dto.SchoolId);
+            //再添加新的配置
+            if (dto.ImageTypeList != null && dto.ImageTypeList.Any())
+            {
+                var configs = new List<T_SchoolImageConfig>();
+                foreach (var item in dto.ImageTypeList)
+                {
+                    configs.Add(new T_SchoolImageConfig
+                    {
+                        Id = Guid.NewGuid(),
+                        SchoolId = dto.SchoolId,
+                        ImageType = Convert.ToInt32(item.value),
+                        CreatorUserId = dto.CreatorUserId
+                    });
+                }
+                resultMsg.IsSuccess = schoolImageConfigRepository.AddEntities(configs) > 0;
+            }
+            return resultMsg;
         }
     }
 }

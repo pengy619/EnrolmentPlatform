@@ -52,12 +52,15 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 var levelList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Level);
                 //专业
                 var majorList = MetadataService.GetList(DTO.Enums.Basics.MetadataTypeEnum.Major);
-                var biyeInfo = schoolList.Find(a => a.Id == orderInfo.SchoolId).Name + " " + levelList.Find(a => a.Id == orderInfo.LevelId).Name
+                var levelName = levelList.Find(a => a.Id == orderInfo.LevelId).Name;
+                var biyeInfo = schoolList.Find(a => a.Id == orderInfo.SchoolId).Name + " " + levelName
                     + " " + majorList.Find(a => a.Id == orderInfo.MajorId).Name;
                 ViewBag.BiYeInfo = biyeInfo;
 
                 //照片信息
                 ViewBag.ImageDto = OrderService.FindOrderImage(orderId.Value);
+                //学校必须上传的证件
+                ViewBag.ImageTypes = MetadataService.GetSchoolImageTypes(orderInfo.SchoolId, levelName == "专升本");
             }
             else
             {

@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     OrderDto dto = ViewBag.OrderInfo;
     OrderImageDto imageDto = ViewBag.ImageDto;
+    List<int> imageTypes = ViewBag.ImageTypes;
     var canUpdate = (dto.Status == (int)OrderStatusEnum.Init || dto.Status == (int)OrderStatusEnum.Reject ? 1 : 0);
 }
 <style type="text/css">
@@ -67,114 +68,138 @@
                     </div>
                 </div>
                 <div class="row orderrow">
-                    <div class="item" style="margin-left: 0px;">
-                        <span class="label">身份证正面：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1)?imageDto.IDCard1:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button1" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传身份证正面
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <span class="label">身份证反面：</span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2)?imageDto.IDCard2:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button2" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传身份证反面
-                                </button>
+                    @if (imageTypes.Contains(1))
+                    {
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="label">身份证正面：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1) ? imageDto.IDCard1 : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button1" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传身份证正面
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="label">两寸蓝底：</span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button3" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传两寸蓝底
-                                </button>
+                    }
+                    @if (imageTypes.Contains(2))
+                    {
+                        <div class="item">
+                            <span class="label">身份证反面：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2) ? imageDto.IDCard2 : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button2" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传身份证反面
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                    @if (imageTypes.Contains(3))
+                    {
+                        <div class="item">
+                            <span class="label">两寸蓝底：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg) ? imageDto.LiangCunLanDiImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button3" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传两寸蓝底
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
                 <div class="row orderrow">
-                    <div class="item" style="margin-left: 0px;">
-                        <span class="label">毕业证：</span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg)?imageDto.BiYeZhengImg:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button4" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传毕业证
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <span class="label">社保/居住证正：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button5" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传社保/居住证正面
-                                </button>
+                    @if (imageTypes.Contains(4))
+                    {
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="label">毕业证：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg) ? imageDto.BiYeZhengImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button4" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传毕业证
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <span class="label">社保/居住证反：</span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg)?imageDto.MianKaoJiSuanJiImg:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button6" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传社保/居住证反面
-                                </button>
+                    }
+                    @if (imageTypes.Contains(5))
+                    {
+                        <div class="item">
+                            <span class="label">社保/居住证正：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg) ? imageDto.MianKaoYingYuImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button5" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传社保/居住证正面
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                    @if (imageTypes.Contains(6))
+                    {
+                        <div class="item">
+                            <span class="label">社保/居住证反：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg) ? imageDto.MianKaoJiSuanJiImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button6" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传社保/居住证反面
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
                 <div class="row orderrow">
-                    <div class="item" style="margin-left: 0px;">
-                        <span class="label">教育部学历证书电子备案表：</span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg)?imageDto.XueXinWangImg:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button7" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传教育部学历证书电子备案表
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <span class="label">录取通知书：</span>
-                        <div class="text">
-                            <div class="imgDiv">
-                                <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang)?imageDto.TouXiang:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <button type="button" id="Button8" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
-                                    <i class="layui-icon"></i>上传录取通知书
-                                </button>
+                    @if (imageTypes.Contains(7))
+                    {
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="label">教育部学历证书电子备案表：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg) ? imageDto.XueXinWangImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button7" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传教育部学历证书电子备案表
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                    @if (imageTypes.Contains(8))
+                    {
+                        <div class="item">
+                            <span class="label">录取通知书：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang) ? imageDto.TouXiang : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <button type="button" id="Button8" class="layui-btn layui-btn-normal layui-btn-fluid layui-btn-sm img-oper-holder">
+                                        <i class="layui-icon"></i>上传录取通知书
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div class="item">
                         <span class="label">其他：</span>
                         <div class="text">

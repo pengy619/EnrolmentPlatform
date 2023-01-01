@@ -4,6 +4,7 @@
     OrderDto dto = ViewBag.OrderInfo;
     OrderApprovalDto approvalDto = ViewBag.ApprovalInfo;
     OrderApprovalImgDto imageDto = ViewBag.ImageDto;
+    List<int> imageTypes = ViewBag.ImageTypes;
     Guid approvalId = ViewBag.ApprovalId;
     bool canUpdate = (Request.QueryString["action"] == "update" && approvalDto.ApprovalStatus == (int)OrderApprovalStatusEnum.Init);
 }
@@ -76,109 +77,133 @@
                     </div>
                 </div>
                 <div class="row orderrow">
-                    <div class="item" style="margin-left: 0px;">
-                        <span class="label" style="width:90px;">身份证正面：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1)?imageDto.IDCard1:"/Content/Website/images/nopic.png")" />
+                    @if (imageTypes.Contains(1))
+                    {
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="label" style="width:90px;">身份证正面：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image1" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard1) ? imageDto.IDCard1 : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File1" class="orderFile" type="file" />
+                                    <input id="Button1" class="orderFileBtn" type="button" onclick="postFile(1)" value="上传" />
+                                </div>
                             </div>
-                            <div class="uploadDiv">
-                                <input id="File1" class="orderFile" type="file" />
-                                <input id="Button1" class="orderFileBtn" type="button" onclick="postFile(1)" value="上传" />
+                        </div>
+                    }
+                    @if (imageTypes.Contains(2))
+                    {
+                        <div class="item">
+                            <span class="label">身份证反面：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2) ? imageDto.IDCard2 : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File2" class="orderFile" type="file" />
+                                    <input id="Button2" class="orderFileBtn" type="button" onclick="postFile(2)" value="上传" />
+                                </div>
                             </div>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="label">身份证反面：</span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image2" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.IDCard2)?imageDto.IDCard2:"/Content/Website/images/nopic.png")" />
+                        </div>
+                    }
+                    @if (imageTypes.Contains(3))
+                    {
+                        <div class="item">
+                            <span class="label">两寸蓝底：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg) ? imageDto.LiangCunLanDiImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File3" class="orderFile" type="file" />
+                                    <input id="Button3" class="orderFileBtn" type="button" onclick="postFile(3)" value="上传" />
+                                </div>
                             </div>
-                            <div class="uploadDiv">
-                                <input id="File2" class="orderFile" type="file" />
-                                <input id="Button2" class="orderFileBtn" type="button" onclick="postFile(2)" value="上传" />
-                            </div>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="label">两寸蓝底：</span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image3" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.LiangCunLanDiImg)?imageDto.LiangCunLanDiImg:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <input id="File3" class="orderFile" type="file" />
-                                <input id="Button3" class="orderFileBtn" type="button" onclick="postFile(3)" value="上传" />
-                            </div>
-                        </span>
-                    </div>
+                        </div>
+                    }
                 </div>
                 <div class="row orderrow">
-                    <div class="item" style="margin-left: 0px;">
-                        <span class="label">毕业证：</span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg)?imageDto.BiYeZhengImg:"/Content/Website/images/nopic.png")" />
+                    @if (imageTypes.Contains(4))
+                    {
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="label">毕业证：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image4" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.BiYeZhengImg) ? imageDto.BiYeZhengImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File4" class="orderFile" type="file" />
+                                    <input id="Button4" class="orderFileBtn" type="button" onclick="postFile(4)" value="上传" />
+                                </div>
                             </div>
-                            <div class="uploadDiv">
-                                <input id="File4" class="orderFile" type="file" />
-                                <input id="Button4" class="orderFileBtn" type="button" onclick="postFile(4)" value="上传" />
+                        </div>
+                    }
+                    @if (imageTypes.Contains(5))
+                    {
+                        <div class="item">
+                            <span class="label" style="width:102px;">社保/居住证正：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg) ? imageDto.MianKaoYingYuImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File5" class="orderFile" type="file" />
+                                    <input id="Button5" class="orderFileBtn" type="button" onclick="postFile(5)" value="上传" />
+                                </div>
                             </div>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="label" style="width:102px;">社保/居住证正：<span style="color:red;">(开放大学正反合并一张，上传一份即可)</span></span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image5" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoYingYuImg)?imageDto.MianKaoYingYuImg:"/Content/Website/images/nopic.png")" />
+                        </div>
+                    }
+                    @if (imageTypes.Contains(6))
+                    {
+                        <div class="item">
+                            <span class="label">社保/居住证反：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg) ? imageDto.MianKaoJiSuanJiImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File6" class="orderFile" type="file" />
+                                    <input id="Button6" class="orderFileBtn" type="button" onclick="postFile(6)" value="上传" />
+                                </div>
                             </div>
-                            <div class="uploadDiv">
-                                <input id="File5" class="orderFile" type="file" />
-                                <input id="Button5" class="orderFileBtn" type="button" onclick="postFile(5)" value="上传" />
-                            </div>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="label">社保/居住证反：</span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image6" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.MianKaoJiSuanJiImg)?imageDto.MianKaoJiSuanJiImg:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <input id="File6" class="orderFile" type="file" />
-                                <input id="Button6" class="orderFileBtn" type="button" onclick="postFile(6)" value="上传" />
-                            </div>
-                        </span>
-                    </div>
+                        </div>
+                    }
                 </div>
                 <div class="row orderrow">
-                    <div class="item" style="margin-left: 0px;">
-                        <span class="label" style="width:90px;">教育部学历证书电子备案表：</span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg)?imageDto.XueXinWangImg:"/Content/Website/images/nopic.png")" />
+                    @if (imageTypes.Contains(7))
+                    {
+                        <div class="item" style="margin-left: 0px;">
+                            <span class="label" style="width:90px;">教育部学历证书电子备案表：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image7" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.XueXinWangImg) ? imageDto.XueXinWangImg : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File7" class="orderFile" type="file" />
+                                    <input id="Button7" class="orderFileBtn" type="button" onclick="postFile(7)" value="上传" />
+                                </div>
                             </div>
-                            <div class="uploadDiv">
-                                <input id="File7" class="orderFile" type="file" />
-                                <input id="Button7" class="orderFileBtn" type="button" onclick="postFile(7)" value="上传" />
+                        </div>
+                    }
+                    @if (imageTypes.Contains(8))
+                    {
+                        <div class="item">
+                            <span class="label">录取通知书：</span>
+                            <div class="text">
+                                <div class="imgDiv">
+                                    <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang) ? imageDto.TouXiang : "/Content/Website/images/nopic.png")" />
+                                </div>
+                                <div class="uploadDiv">
+                                    <input id="File8" class="orderFile" type="file" />
+                                    <input id="Button8" class="orderFileBtn" type="button" onclick="postFile(8)" value="上传" />
+                                </div>
                             </div>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="label">录取通知书：</span>
-                        <span class="text">
-                            <div class="imgDiv">
-                                <img id="image8" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.TouXiang)?imageDto.TouXiang:"/Content/Website/images/nopic.png")" />
-                            </div>
-                            <div class="uploadDiv">
-                                <input id="File8" class="orderFile" type="file" />
-                                <input id="Button8" class="orderFileBtn" type="button" onclick="postFile(8)" value="上传" />
-                            </div>
-                        </span>
-                    </div>
+                        </div>
+                    }
                     <div class="item">
                         <span class="label">其他：</span>
-                        <span class="text">
+                        <div class="text">
                             <div class="imgDiv">
                                 <img id="image9" class="orderImg" src="@(!string.IsNullOrWhiteSpace(imageDto.QiTa)?imageDto.QiTa:"/Content/Website/images/nopic.png")" />
                             </div>
@@ -186,7 +211,7 @@
                                 <input id="File9" class="orderFile" type="file" />
                                 <input id="Button9" class="orderFileBtn" type="button" onclick="postFile(9)" value="上传" />
                             </div>
-                        </span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

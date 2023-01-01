@@ -78,6 +78,7 @@
     <Compile Include="Basics\T_SchoolLevelMajorRepository.cs" />
     <Compile Include="Basics\T_MetadataRepository.cs" />
     <Compile Include="Basics\T_ChargeStrategyRepository.cs" />
+    <Compile Include="Basics\T_SchoolImageConfigRepository.cs" />
     <Compile Include="Basics\T_StockSettingRepository.cs" />
     <Compile Include="DbContextFactory.cs" />
     <Compile Include="Orders\T_OrderApprovalRepository.cs" />

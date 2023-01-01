@@ -66,5 +66,27 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// <param name="tags"></param>
         /// <returns></returns>
         List<MetadataDto> GetSchoolListByTags(string tags, Guid? enterpriseId);
+
+        /// <summary>
+        /// 获取学校必须上传的证件
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <returns></returns>
+        List<int> GetSchoolImageTypes(Guid schoolId);
+
+        /// <summary>
+        /// 获取学校必须上传的证件
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <param name="isZsb"></param>
+        /// <returns></returns>
+        List<int> GetSchoolImageTypes(Guid schoolId, bool isZsb = false);
+
+        /// <summary>
+        /// 保存学校证件配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        ResultMsg SaveSchoolImageConfig(SchoolImageConfigDto dto);
     }
 }
