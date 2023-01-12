@@ -548,6 +548,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 学生头像
         /// </summary>
         public string StudentImg { get; set; }
+
+        /// <summary>
+        /// 拒绝理由
+        /// </summary>
+        public string RejectReason { get; set; }
     }
 
     /// <summary>
@@ -1117,5 +1122,46 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 创建用户Id
         /// </summary>
         public Guid CreatorUserId { set; get; }
+    }
+
+    /// <summary>
+    /// 审核不通过导入DTO
+    /// </summary>
+    public class OrderRejectUploadDto
+    {
+        /// <summary>
+        /// 学生姓名
+        /// </summary>
+        public string StudentName { set; get; }
+
+        /// <summary>
+        /// 身份证号码
+        /// </summary>
+        public string IDCardNo { set; get; }
+
+        /// <summary>
+        /// 报名批次
+        /// </summary>
+        public string BatchName { set; get; }
+
+        /// <summary>
+        /// 报考学校
+        /// </summary>
+        public string SchoolName { set; get; }
+
+        /// <summary>
+        /// 报读层次
+        /// </summary>
+        public string LevelName { set; get; }
+
+        /// <summary>
+        /// 报读专业
+        /// </summary>
+        public string MajorName { set; get; }
+
+        /// <summary>
+        /// 拒绝理由
+        /// </summary>
+        public string RejectReason { get; set; }
     }
 }

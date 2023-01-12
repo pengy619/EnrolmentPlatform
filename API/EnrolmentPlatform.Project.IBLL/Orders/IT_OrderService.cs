@@ -271,5 +271,13 @@ namespace EnrolmentPlatform.Project.IBLL.Orders
         /// <param name="dto">dto</param>
         /// <returns></returns>
         bool UpdateBiYeImage(OrderImageDto dto);
+
+        /// <summary>
+        /// 审核不通过名单上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <param name="userId">操作人</param>
+        /// <returns></returns>
+        string RejectUpload(List<OrderRejectUploadDto> list, Guid userId);
     }
 }

@@ -98,5 +98,13 @@ namespace EnrolmentPlatform.Project.IDAL.Orders
         /// <param name="orderId">orderId</param>
         /// <returns></returns>
         OrderDto GetOrder(Guid orderId);
+
+        /// <summary>
+        /// 审核不通过名单上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <param name="userId">操作人</param>
+        /// <returns></returns>
+        string RejectUpload(List<OrderRejectUploadDto> list, Guid userId);
     }
 }

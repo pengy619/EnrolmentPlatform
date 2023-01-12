@@ -360,6 +360,7 @@ namespace EnrolmentPlatform.Project.BLL.Orders
 
                         //修改订单状态
                         entity.Status = (int)OrderStatusEnum.Reject;
+                        entity.RejectReason = comment;
                         entity.ToLearningCenterId = null;
                         entity.LastModifyTime = DateTime.Now;
                         entity.LastModifyUserId = userId;
@@ -1031,6 +1032,17 @@ namespace EnrolmentPlatform.Project.BLL.Orders
                 ret = this.orderRepository.UpdateEntity(order) > 0;
             }
             return ret;
+        }
+
+        /// <summary>
+        /// 审核不通过名单上传
+        /// </summary>
+        /// <param name="list">报名单列表</param>
+        /// <param name="userId">操作人</param>
+        /// <returns></returns>
+        public string RejectUpload(List<OrderRejectUploadDto> list, Guid userId)
+        {
+            return orderRepository.RejectUpload(list, userId);
         }
     }
 }

@@ -828,5 +828,115 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// 审核不通过导入
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <returns></returns>
+        public JsonResult RejectUpload(HttpPostedFileBase file)
+        {
+            //没有文件
+            if (string.IsNullOrWhiteSpace(file.FileName))
+            {
+                return Json(new { ret = false, msg = "请上传文件！" });
+            }
+
+            string strFileExtension = Path.GetExtension(file.FileName).ToLower();
+
+            //验证是否是.xls文件
+            if (strFileExtension != ".xls" && strFileExtension != ".xlsx")
+            {
+                return Json(new { ret = false, msg = "文件格式错误！" });
+            }
+
+            //上传的excel文件
+            IWorkbook hssfworkbook = WorkbookFactory.Create(file.InputStream);
+            ISheet sheet = hssfworkbook.GetSheetAt(0);
+            if (sheet.LastRowNum < 1)
+            {
+                return Json(new { ret = false, msg = "没有任何数据！" });
+            }
+
+            //订单初审数据
+            List<OrderRejectUploadDto> list = new List<OrderRejectUploadDto>();
+            for (var i = 1; i <= sheet.LastRowNum; i++)
+            {
+                try
+                {
+                    IRow row = sheet.GetRow(i);
+                    OrderRejectUploadDto dto = new OrderRejectUploadDto();
+                    dto.StudentName = row.GetCell(0).ToString().Trim();
+                    dto.IDCardNo = row.GetCell(1).ToString().Trim();
+                    dto.BatchName = row.GetCell(2).ToString().Trim();
+                    dto.SchoolName = row.GetCell(3).ToString().Trim();
+                    dto.LevelName = row.GetCell(4).ToString().Trim();
+                    dto.MajorName = row.GetCell(5).ToString().Trim();
+                    dto.RejectReason = row.GetCell(6).ToString().Trim();
+
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
+                        && string.IsNullOrWhiteSpace(dto.BatchName) && string.IsNullOrWhiteSpace(dto.SchoolName)
+                        && string.IsNullOrWhiteSpace(dto.LevelName) && string.IsNullOrWhiteSpace(dto.MajorName))
+                    {
+                        continue;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(dto.StudentName) || string.IsNullOrWhiteSpace(dto.IDCardNo)
+                    || string.IsNullOrWhiteSpace(dto.BatchName) || string.IsNullOrWhiteSpace(dto.SchoolName)
+                    || string.IsNullOrWhiteSpace(dto.LevelName) || string.IsNullOrWhiteSpace(dto.MajorName))
+                    {
+                        return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据填写不完整！" });
+                    }
+
+                    list.Add(dto);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ret = false, msg = "第" + (i + 1).ToString() + "行的数据错误！" });
+                }
+            }
+
+            string msg = OrderService.RejectUpload(list, this.UserId);
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                return Json(new { ret = false, msg = msg });
+            }
+
+            return Json(new { ret = true });
+        }
+
+        /// <summary>
+        /// 审核不通过导出
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public ActionResult RejectExport(OrderListReqDto param)
+        {
+            int reCount = 0;
+            param.Page = 1;
+            param.Limit = int.MaxValue;
+            param.IsChannel = true;
+            List<OrderListDto> list = OrderService.GetStudentList(param, ref reCount);
+            if (list == null || list.Count == 0)
+            {
+                return Content("没有任何可以导出的数据！");
+            }
+
+            DataTable table = list.ToDataTable();
+            ExcelHelper excel = new ExcelHelper();
+            List<ExcelColumn> col = new List<ExcelColumn>()
+            {
+                new ExcelColumn("StudentName","学生姓名"),
+                new ExcelColumn("IDCardNo","证件号码"),
+                new ExcelColumn("BatchName","批次"),
+                new ExcelColumn("SchoolName","学校"),
+                new ExcelColumn("LevelName","层次"),
+                new ExcelColumn("MajorName","专业"),
+                new ExcelColumn("RejectReason","审核不通过原因")
+            };
+            excel.ExportToExcel(table, "审核不通过学员名单", col);
+
+            return new EmptyResult();
+        }
     }
 }

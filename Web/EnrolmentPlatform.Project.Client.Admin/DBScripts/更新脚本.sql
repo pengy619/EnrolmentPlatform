@@ -128,3 +128,10 @@ BEGIN
 	INSERT [dbo].[T_Permissions] ([Id], [Name], [Level], [Area], [Controller], [Action], [Param], [Classify], [ParentId], [Sort], [Icon]) VALUES (N'feb4a17b-d124-4533-92ec-5150e67ba386', N'配置上传证件', 4, N'Basic', N'Metadata', N'SchoolImageConfig', NULL, 1, N'e22b5fb6-3e76-40c6-826a-bcfd48317dd7', 5, NULL)
 END
 GO
+
+--拒绝理由
+IF COL_LENGTH('T_Order','RejectReason') IS NULL
+BEGIN
+	ALTER TABLE T_Order ADD RejectReason nvarchar(max) null
+END
+GO

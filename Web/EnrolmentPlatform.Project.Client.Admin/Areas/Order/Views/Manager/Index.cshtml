@@ -28,6 +28,7 @@
     .text-left {
         text-align: left;
     }
+
     .layui-layer-page .layui-layer-content {
         height: 80px !important;
         overflow: visible;
@@ -139,10 +140,11 @@
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="upload">订单导入</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="luquUpload">录取导入</button>
                 <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="auditUpload">初审导入</button>
+                <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="rejectUpload">审核不通过导入</button>
                 <a href="javascript:exportOpreation();" id="export" class="layui-btn layui-btn-primary">导出</a>
-                <a href="/Temp/student.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;">导入模板下载</a>
-                <a href="/Temp/luqutemp.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;margin-right: 10px;">录取模板下载</a>
-                <a href="/Temp/AuditUploadTemp.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;margin-right: 10px;">初审模板下载</a>
+                @*<a href="/Temp/student.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;">导入模板下载</a>*@
+                @*<a href="/Temp/luqutemp.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;margin-right: 10px;">录取模板下载</a>*@
+                @*<a href="/Temp/AuditUploadTemp.xls" style=" float: right;margin-top: 5px;text-decoration: underline;color:blue;margin-right: 10px;">初审模板下载</a>*@
             </div>
         </div>
         <div class="panel-body">
@@ -228,6 +230,9 @@
 <!-- 导入报名单 -->
 <div id="audit-btn-modalupload" style="display:none;">
     <div class="layui-form">
+        <div class="text-center margin-top-20">
+            <a href="~/Temp/student.xls" class="layui-btn layui-btn-normal">下载批量导入报名单模板</a>
+        </div>
         <div class="layui-form-item required" style="padding-top: 20px;">
             <label class="layui-form-label">文件</label>
             <div class="layui-input-inline">
@@ -240,6 +245,9 @@
 <!-- 导入录取列表 -->
 <div id="audit-btn-modaluploadLuqu" style="display:none;">
     <div class="layui-form">
+        <div class="text-center margin-top-20">
+            <a href="~/Temp/luqutemp.xls" class="layui-btn layui-btn-normal">下载批量导入录取模板</a>
+        </div>
         <div class="layui-form-item required" style="padding-top: 20px;">
             <label class="layui-form-label">文件</label>
             <div class="layui-input-inline">
@@ -252,12 +260,30 @@
 <!-- 导入初审列表 -->
 <div id="audit-upload-modal" style="display:none;">
     <div class="layui-form">
+        <div class="text-center margin-top-20">
+            <a href="~/Temp/AuditUploadTemp.xls" class="layui-btn layui-btn-normal">下载批量导入初审模板</a>
+        </div>
         <div class="layui-form-item required" style="padding-top: 20px;">
             <label class="layui-form-label">文件</label>
             <div class="layui-input-inline">
                 <input type="file" name="uploadAuditFile" id="uploadAuditFile" style="width:200px;" />
             </div>
             <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadAuditConfirm">确定</button>
+        </div>
+    </div>
+</div>
+<!-- 导入审核不通过列表 -->
+<div id="reject-upload-modal" style="display:none;">
+    <div class="layui-form">
+        <div class="text-center margin-top-20">
+            <a href="~/Temp/RejectUploadTemp.xls" class="layui-btn layui-btn-normal">下载批量导入审核不通过模板</a>
+        </div>
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">文件</label>
+            <div class="layui-input-inline">
+                <input type="file" name="uploadRejectFile" id="uploadRejectFile" style="width:200px;" />
+            </div>
+            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadRejectConfirm">确定</button>
         </div>
     </div>
 </div>
@@ -1067,6 +1093,65 @@
                 }
             });
         });
+
+        //审核不通过导入
+        var orderrejectuploadIndex = 0;
+        form.on('submit(rejectUpload)', function (data) {
+            orderrejectuploadIndex = layer.open({
+                type: 1,
+                title: "批量审核不通过",
+                area: ["450px", "200px"],
+                content: $('#reject-upload-modal'),
+                yes: function (index, layero) {
+                    //事件
+                    layer.close(indxex);
+                }
+            });
+        });
+        form.on('submit(uploadRejectConfirm)', function (data) {
+            //上传文件检查
+            if ($("#uploadRejectFile").val() == "") {
+                layer.msg("请选择上传文件！", {
+                    icon: 2,
+                    time: 2000
+                });
+                return false;
+            }
+
+            var file = document.getElementById("uploadRejectFile").files[0];
+            var fdata = new FormData();
+            fdata.append("file", file);
+            $.ajax({
+                url: "@Url.Action("RejectUpload", "Manager")",
+                data: fdata,
+                type: "POST",
+                async: false,
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    if (data.ret == false) {
+                        layer.msg(data.msg, {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                    else {
+                        layer.msg("导入成功！", {
+                            icon: 1,
+                            time: 2000
+                        });
+                        layer.close(orderrejectuploadIndex);
+                        table.reload("table");
+                    }
+                },
+                error: function (e) {
+                    layer.msg("导入失败！", {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+            });
+        });
     });
 
     //加载日志
@@ -1111,6 +1196,9 @@
         var searchData = getSearchData();
         var url = "@Url.Action("Export","Manager",new { area="Order"})" + "?1=1";
         if (searchData.Status != "") {
+            if (searchData.Status == 3) {
+                url = "@Url.Action("RejectExport","Manager",new { area="Order"})" + "?1=1";
+            }
             url += "&Status=" + searchData.Status;
         }
         if (searchData.StudentName != "") {

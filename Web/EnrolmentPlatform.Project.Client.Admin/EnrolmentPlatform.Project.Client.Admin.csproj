@@ -778,6 +778,7 @@
     <Content Include="Temp\luqutemp.xls" />
     <Content Include="Temp\OrderTempNew.xls" />
     <Content Include="Temp\AuditUploadTemp.xls" />
+    <Content Include="Temp\RejectUploadTemp.xls" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\NoPermission.cshtml" />

@@ -284,5 +284,11 @@ namespace EnrolmentPlatform.Project.Domain.Entities.Orders
         /// </summary>
         [DataMember]
         public string CustomerField { get; set; }
+
+        /// <summary>
+        /// 拒绝理由
+        /// </summary>
+        [DataMember]
+        public string RejectReason { get; set; }
     }
 }
