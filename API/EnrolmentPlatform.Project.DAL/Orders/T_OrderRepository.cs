@@ -217,6 +217,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             LevelName = ddtemp.Name,
                             MajorName = eetemp.Name,
                             OrderId = a.Id,
+                            SchoolId = a.SchoolId,
                             SchoolName = cctemp.Name,
                             Status = a.Status,
                             StudentName = a.StudentName,
@@ -758,6 +759,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     IDCardNo = dto.IDCardNo,
                     Phone = dto.Phone,
                     TencentNo = dto.TencentNo,
+                    DegreeType = dto.DegreeType,
                     SchoolId = school.Id,
                     LevelId = level.Id,
                     MajorId = majar.Id,
@@ -779,6 +781,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     GongZuoDanWei = dto.GongZuoDanWei,
                     GraduateSchool = dto.GraduateSchool,
                     HighesDegree = dto.HighesDegree,
+                    SuoDuZhuanYe = dto.SuoDuZhuanYe,
                     JiGuan = dto.JiGuan,
                     MinZu = dto.MinZu,
                     Sex = dto.Sex,
@@ -789,7 +792,8 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                     ToLearningCenterId = zx.Id,
                     UserName = dto.UserName,
                     WorkUnit = dto.GongZuoDanWei,
-                    EnrollAddress = dto.Address
+                    EnrollAddress = dto.Address,
+                    CustomerField = dto.CustomerField
                 };
 
                 var exisit = dbContext.T_Order.Count(a => a.IsDelete == false && a.BatchId == order.BatchId && a.SchoolId == order.SchoolId && a.IDCardNo == order.IDCardNo

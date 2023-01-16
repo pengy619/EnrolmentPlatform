@@ -291,6 +291,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string BatchName { set; get; }
 
         /// <summary>
+        /// 报考学校ID
+        /// </summary>
+        public Guid SchoolId { get; set; }
+
+        /// <summary>
         /// 报考学校
         /// </summary>
         public string SchoolName { set; get; }
@@ -858,6 +863,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string Email { set; get; }
 
         /// <summary>
+        /// 学历类型
+        /// </summary>
+        public string DegreeType { get; set; }
+
+        /// <summary>
         /// 报名批次
         /// </summary>
         public string BatchName { set; get; }
@@ -996,6 +1006,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         /// 中心已缴
         /// </summary>
         public decimal ZhongXinPayedAmount { set; get; }
+
+        /// <summary>
+        /// 自定义字段
+        /// </summary>
+        public string CustomerField { get; set; }
     }
 
     /// <summary>

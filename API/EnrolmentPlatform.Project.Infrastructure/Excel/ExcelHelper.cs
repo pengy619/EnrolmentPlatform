@@ -643,5 +643,20 @@ namespace EnrolmentPlatform.Project.Infrastructure
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// 根据Excel的内容，创建DataTable的列
+        /// </summary>
+        /// <param name="columns"></param>
+        /// <returns></returns>
+        public DataTable GetDataTableByExcelColumn(List<ExcelColumn> columns)
+        {
+            var dataTable = new DataTable();
+            foreach (var column in columns)
+            {
+                dataTable.Columns.Add(new DataColumn(column.TbColumnName));
+            }
+            return dataTable;
+        }
     }
 }

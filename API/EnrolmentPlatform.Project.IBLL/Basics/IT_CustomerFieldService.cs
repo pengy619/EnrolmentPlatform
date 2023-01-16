@@ -17,9 +17,9 @@ namespace EnrolmentPlatform.Project.IBLL.Basics
         /// <summary>
         /// 获得所有学校不重复自定义字段列表
         /// </summary>
-        /// <param name="dto">dto</param>
+        /// <param name="schoolIds"></param>
         /// <returns></returns>
-        List<CustomerFieldDto> GetFullList();
+        List<CustomerFieldDto> GetFullList(List<Guid> schoolIds);
 
         /// <summary>
         /// 获得一个学校所有自定义字段列表

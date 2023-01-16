@@ -24,11 +24,12 @@ namespace EnrolmentPlatform.Project.BLL.Basics
         /// <summary>
         /// 获得所有学校不重复自定义字段列表
         /// </summary>
-        /// <param name="dto">dto</param>
+        /// <param name="schoolIds"></param>
         /// <returns></returns>
-        public List<CustomerFieldDto> GetFullList()
+        public List<CustomerFieldDto> GetFullList(List<Guid> schoolIds)
         {
             return this.customerFieldRepository.LoadEntities(a => true)
+                .Where(a => schoolIds.Contains(a.SchoolId))
                 .OrderBy(a => a.CreatorTime)
                 .Select(a => new CustomerFieldDto()
                 {

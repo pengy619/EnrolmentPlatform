@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> trainingList = ViewBag.TrainingList;
     List<EnrolmentPlatform.Project.DTO.Accounts.SupplierListDto> learningList = ViewBag.LearningList;
+    List<EnrolmentPlatform.Project.DTO.Basics.MetadataDto> schoolList = ViewBag.SchoolList;
 }
 <style type="text/css">
     .searchMore {
@@ -230,15 +231,25 @@
 <!-- 导入报名单 -->
 <div id="audit-btn-modalupload" style="display:none;">
     <div class="layui-form">
-        <div class="text-center margin-top-20">
-            <a href="~/Temp/student.xls" class="layui-btn layui-btn-normal">下载批量导入报名单模板</a>
+        <div class="layui-form-item required" style="padding-top: 20px;">
+            <label class="layui-form-label">学校</label>
+            <div class="layui-input-inline">
+                <select id="SchoolId" name="SchoolId" lay-search>
+                    <option value=""></option>
+                    @foreach (var item in schoolList)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="downloadTemplate">下载模板</button>
         </div>
         <div class="layui-form-item required" style="padding-top: 20px;">
             <label class="layui-form-label">文件</label>
             <div class="layui-input-inline">
                 <input type="file" name="uploadFile" id="uploadFile" style="width:200px;" />
             </div>
-            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadConfirm">确定</button>
+            <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="uploadConfirm">确定导入</button>
         </div>
     </div>
 </div>
@@ -253,7 +264,7 @@
             <div class="layui-input-inline">
                 <input type="file" name="uploadLuquFile" id="uploadLuquFile" style="width:200px;" />
             </div>
-            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadLuquConfirm">确定</button>
+            <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="uploadLuquConfirm">确定导入</button>
         </div>
     </div>
 </div>
@@ -268,7 +279,7 @@
             <div class="layui-input-inline">
                 <input type="file" name="uploadAuditFile" id="uploadAuditFile" style="width:200px;" />
             </div>
-            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadAuditConfirm">确定</button>
+            <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="uploadAuditConfirm">确定导入</button>
         </div>
     </div>
 </div>
@@ -283,7 +294,7 @@
             <div class="layui-input-inline">
                 <input type="file" name="uploadRejectFile" id="uploadRejectFile" style="width:200px;" />
             </div>
-            <button class="layui-btn layui-btn-warm" lay-submit="" lay-filter="uploadRejectConfirm">确定</button>
+            <button class="layui-btn layui-btn-danger" lay-submit="" lay-filter="uploadRejectConfirm">确定导入</button>
         </div>
     </div>
 </div>
@@ -931,6 +942,10 @@
                 }
             });
         });
+        form.on('submit(downloadTemplate)', function (data) {
+            var schoolId = $("#SchoolId").val();
+            location.href = "@Url.Action("DownloadTemplate", "Manager")?schoolId=" + schoolId;
+        });
         form.on('submit(uploadConfirm)', function (data) {
             //上传文件检查
             if ($("#uploadFile").val() == "") {
@@ -941,9 +956,11 @@
                 return false;
             }
 
+            var schoolId = $("#SchoolId").val();
             var file = document.getElementById("uploadFile").files[0];
             var fdata = new FormData();
             fdata.append("file", file);
+            fdata.append("schoolId", schoolId);
             $.ajax({
                 url: "@Url.Action("Upload", "Manager")",
                 data: fdata,

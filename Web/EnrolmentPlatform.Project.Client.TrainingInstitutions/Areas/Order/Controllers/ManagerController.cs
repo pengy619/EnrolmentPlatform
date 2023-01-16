@@ -83,7 +83,8 @@ namespace EnrolmentPlatform.Project.Client.TrainingInstitutions.Areas.Order.Cont
             IRow firstRow = sheet.GetRow(0);
 
             //增加自定义列
-            var customerFieldList = CustomerFieldService.GetFullList();
+            var schoolIds = list.Select(t => t.SchoolId).Distinct().ToList();
+            var customerFieldList = CustomerFieldService.GetFullList(schoolIds);
             int customerFieldStart = 24;
             if (customerFieldList != null && customerFieldList.Count > 0)
             {

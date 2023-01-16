@@ -29,8 +29,10 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         {
             //招生机构
             ViewBag.TrainingList = EnterpriseService.GetUserList(SystemTypeEnum.TrainingInstitutions);
-            //学习中心
+            //学院中心
             ViewBag.LearningList = EnterpriseService.GetUserList(SystemTypeEnum.LearningCenter);
+            //学校列表
+            ViewBag.SchoolList = MetadataService.GetSchoolListByTags(null, null);
             return View();
         }
 
@@ -69,7 +71,8 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
             IRow firstRow = sheet.GetRow(0);
 
             //增加自定义列
-            var customerFieldList = CustomerFieldService.GetFullList();
+            var schoolIds = list.Select(t => t.SchoolId).Distinct().ToList();
+            var customerFieldList = CustomerFieldService.GetFullList(schoolIds);
             int customerFieldStart = 27;
             if (customerFieldList != null && customerFieldList.Count > 0)
             {
@@ -409,7 +412,7 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
         /// </summary>
         /// <param name="file">文件</param>
         /// <returns></returns>
-        public JsonResult Upload(HttpPostedFileBase file)
+        public JsonResult Upload(HttpPostedFileBase file, Guid? schoolId)
         {
             //没有文件
             if (string.IsNullOrWhiteSpace(file.FileName))
@@ -446,48 +449,69 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                     dto.Phone = row.GetCell(2).ToString().Trim();
                     dto.TencentNo = row.GetCell(3).ToString().Trim();
                     dto.Email = row.GetCell(4).ToString().Trim();
-                    dto.BatchName = row.GetCell(5).ToString().Trim();
-                    dto.SchoolName = row.GetCell(6).ToString().Trim();
-                    dto.LevelName = row.GetCell(7).ToString().Trim();
-                    dto.MajorName = row.GetCell(8).ToString().Trim();
-                    if (!row.GetCell(9).IsEmpty())
+                    dto.DegreeType = row.GetCell(5).ToString().Trim();
+                    dto.BatchName = row.GetCell(6).ToString().Trim();
+                    dto.SchoolName = row.GetCell(7).ToString().Trim();
+                    dto.LevelName = row.GetCell(8).ToString().Trim();
+                    dto.MajorName = row.GetCell(9).ToString().Trim();
+                    if (!row.GetCell(10).IsEmpty())
                     {
-                        dto.CreateDate = row.GetCell(9).ToDate();
+                        dto.CreateDate = row.GetCell(10).DateCellValue;
                     }
                     else
                     {
                         dto.CreateDate = DateTime.Now;
                     }
-                    if (!row.GetCell(10).IsEmpty())
+                    if (!row.GetCell(11).IsEmpty())
                     {
-                        dto.LuquDate = row.GetCell(10).ToDate();
+                        dto.LuquDate = row.GetCell(11).DateCellValue;
                     }
                     else
                     {
-                        dto.LuquDate = DateTime.Now;
+                        dto.LuquDate = DateTime.Today;
                     }
-                    dto.CreateUserName = row.GetCell(11).ToString().Trim();
-                    dto.Sex = row.GetCell(12).ToString().Trim();
-                    dto.MinZu = row.GetCell(13).ToString().Trim();
-                    dto.JiGuan = row.GetCell(14).ToString().Trim();
-                    dto.HighesDegree = row.GetCell(15).ToString().Trim();
-                    dto.GraduateSchool = row.GetCell(16).ToString().Trim();
-                    dto.BiYeZhengBianHao = row.GetCell(17).ToString().Trim();
-                    dto.Address = row.GetCell(18).ToString().Trim();
-                    dto.GongZuoDanWei = row.GetCell(19).ToString().Trim();
-                    if (row.GetCell(20) != null)
+                    dto.CreateUserName = row.GetCell(12).ToString().Trim();
+                    dto.Sex = row.GetCell(13).ToString().Trim();
+                    dto.MinZu = row.GetCell(14).ToString().Trim();
+                    dto.JiGuan = row.GetCell(15).ToString().Trim();
+                    dto.HighesDegree = row.GetCell(16).ToString().Trim();
+                    dto.SuoDuZhuanYe = row.GetCell(17).ToString().Trim();
+                    dto.GraduateSchool = row.GetCell(18).ToString().Trim();
+                    dto.BiYeZhengBianHao = row.GetCell(19).ToString().Trim();
+                    dto.Address = row.GetCell(20).ToString().Trim();
+                    dto.GongZuoDanWei = row.GetCell(21).ToString().Trim();
+                    if (row.GetCell(22) != null)
                     {
-                        dto.Remark = row.GetCell(20).ToString().Trim();
+                        dto.Remark = row.GetCell(22).ToString().Trim();
                     }
-                    dto.FromChannelName = row.GetCell(21).ToString().Trim();
-                    dto.ToLearningCenterName = row.GetCell(22).ToString().Trim();
-                    dto.StudentNo = row.GetCell(23).ToString().Trim();
-                    dto.UserName = row.GetCell(24).ToString().Trim();
-                    dto.Password = row.GetCell(25).ToString().Trim();
-                    dto.JiGouAmount = row.GetCell(26).ToDecimal();
-                    dto.JiGouPayedAmount = row.GetCell(27).ToDecimal();
-                    dto.ZhongXinAmount = row.GetCell(28).ToDecimal();
-                    dto.ZhongXinPayedAmount = row.GetCell(29).ToDecimal();
+                    dto.FromChannelName = row.GetCell(23).ToString().Trim();
+                    dto.ToLearningCenterName = row.GetCell(24).ToString().Trim();
+                    dto.StudentNo = row.GetCell(25).ToString().Trim();
+                    dto.UserName = row.GetCell(26).ToString().Trim();
+                    dto.Password = row.GetCell(27).ToString().Trim();
+                    dto.JiGouAmount = row.GetCell(28).ToDecimal();
+                    dto.JiGouPayedAmount = row.GetCell(29).ToDecimal();
+                    dto.ZhongXinAmount = row.GetCell(30).ToDecimal();
+                    dto.ZhongXinPayedAmount = row.GetCell(31).ToDecimal();
+                    //自定义字段
+                    if (schoolId.HasValue)
+                    {
+                        Dictionary<string, string> dic = new Dictionary<string, string>();
+                        var customerFieldList = CustomerFieldService.GetAllList(new DTO.Basics.GetAllListSearchDto() { SchoolId = schoolId.Value });
+                        if (customerFieldList != null && customerFieldList.Any())
+                        {
+                            int customerFieldStart = 32;
+                            for (int j = 0; j < customerFieldList.Count; j++)
+                            {
+                                if (row.GetCell(customerFieldStart + j) != null)
+                                {
+                                    dic.Add(customerFieldList[j].Name, row.GetCell(customerFieldStart + j).ToString().Trim());
+                                }
+                            }
+                        }
+                        var javaScriptSerializer = new JavaScriptSerializer();
+                        dto.CustomerField = javaScriptSerializer.Serialize(dic);
+                    }
 
                     if (string.IsNullOrWhiteSpace(dto.StudentName) && string.IsNullOrWhiteSpace(dto.IDCardNo)
                         && string.IsNullOrWhiteSpace(dto.Phone) && string.IsNullOrWhiteSpace(dto.TencentNo)
@@ -935,6 +959,72 @@ namespace EnrolmentPlatform.Project.Client.Admin.Areas.Order.Controllers
                 new ExcelColumn("RejectReason","审核不通过原因")
             };
             excel.ExportToExcel(table, "审核不通过学员名单", col);
+
+            return new EmptyResult();
+        }
+
+        /// <summary>
+        /// 下载学校报名单模板
+        /// </summary>
+        /// <param name="schoolId"></param>
+        /// <returns></returns>
+        public ActionResult DownloadTemplate(Guid? schoolId)
+        {
+            ExcelHelper excel = new ExcelHelper();
+            List<ExcelColumn> columnList = new List<ExcelColumn>()
+            {
+                new ExcelColumn("学生姓名","学生姓名"),
+                new ExcelColumn("身份证号","身份证号"),
+                new ExcelColumn("手机号","手机号"),
+                new ExcelColumn("微信/QQ","微信/QQ"),
+                new ExcelColumn("邮箱地址","邮箱地址"),
+                new ExcelColumn("学历类型","学历类型", EExcelHeadColer.WHITE, new List<string>() { "自考", "成考", "网教", "开放", "全日制", "中专", "研究生", "资格证书" }),
+                new ExcelColumn("批次","批次"),
+                new ExcelColumn("学校","学校"),
+                new ExcelColumn("层次","层次"),
+                new ExcelColumn("专业","专业"),
+                new ExcelColumn("报名时间","报名时间"),
+                new ExcelColumn("录取时间","录取时间"),
+                new ExcelColumn("招生老师","招生老师"),
+                new ExcelColumn("性别","性别", EExcelHeadColer.WHITE, new List<string>() { "男", "女" }),
+                new ExcelColumn("民族","民族"),
+                new ExcelColumn("籍贯","籍贯"),
+                new ExcelColumn("最高学历","最高学历"),
+                new ExcelColumn("所读专业","所读专业"),
+                new ExcelColumn("毕业学校","毕业学校"),
+                new ExcelColumn("毕业证编号","毕业证编号"),
+                new ExcelColumn("地址","地址"),
+                new ExcelColumn("工作单位","工作单位"),
+                new ExcelColumn("备注","备注"),
+                new ExcelColumn("来源机构","来源机构"),
+                new ExcelColumn("学院中心","学院中心"),
+                new ExcelColumn("学号","学号"),
+                new ExcelColumn("用户名","用户名"),
+                new ExcelColumn("密码","密码"),
+                new ExcelColumn("机构应缴金额","机构应缴金额"),
+                new ExcelColumn("机构已缴金额","机构已缴金额"),
+                new ExcelColumn("中心应缴金额","中心应缴金额"),
+                new ExcelColumn("中心已缴金额","中心已缴金额"),
+            };
+            if (schoolId.HasValue)
+            {
+                var customerFieldList = CustomerFieldService.GetAllList(new DTO.Basics.GetAllListSearchDto() { SchoolId = schoolId.Value });
+                if (customerFieldList != null && customerFieldList.Any())
+                {
+                    foreach (var item in customerFieldList)
+                    {
+                        if (item.CustomerFieldType == 2)
+                        {
+                            columnList.Add(new ExcelColumn(item.Name, item.Name, EExcelHeadColer.WHITE, item.SelectItems.Split('|').ToList()));
+                        }
+                        else
+                        {
+                            columnList.Add(new ExcelColumn(item.Name, item.Name));
+                        }
+                    }
+                }
+            }
+            excel.ExportToExcel(excel.GetDataTableByExcelColumn(columnList), "报名单导入模板", columnList);
 
             return new EmptyResult();
         }
