@@ -213,7 +213,7 @@
                                                         if (!string.IsNullOrEmpty(dto.CustomerField))
                                                         {
                                                             var jsonData = JObject.Parse(dto.CustomerField);
-                                                            value1 = jsonData[name1].ToString();
+                                                            value1 = jsonData[name1]?.ToString();
                                                         }
                                                         <tr>
                                                             <th class="text-center">@name1</th>
@@ -235,8 +235,8 @@
                                                         if (!string.IsNullOrEmpty(dto.CustomerField))
                                                         {
                                                             var jsonData = JObject.Parse(dto.CustomerField);
-                                                            value1 = jsonData[name1].ToString();
-                                                            value2 = jsonData[name2].ToString();
+                                                            value1 = jsonData[name1]?.ToString();
+                                                            value2 = jsonData[name2]?.ToString();
                                                         }
                                                         <tr>
                                                             <th class="text-center">@name1</th>
