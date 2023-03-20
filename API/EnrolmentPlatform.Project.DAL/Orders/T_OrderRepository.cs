@@ -1043,6 +1043,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                         LEFT JOIN T_Metadata AS m1 ON o.BatchId = m1.Id
                         LEFT JOIN T_Metadata AS m2 ON o.SchoolId = m2.Id
                         LEFT JOIN T_Metadata AS m3 ON o.LevelId = m3.Id
+                        LEFT JOIN T_Metadata AS m4 ON o.MajorId = m4.Id
                         where o.IsDelete=0");
 
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -1139,6 +1140,13 @@ namespace EnrolmentPlatform.Project.DAL.Orders
             {
                 sql.Append(" and m3.Name like @LevelName");
                 parameters.Add(new SqlParameter("@LevelName", "%" + req.LevelName + "%"));
+            }
+
+            //专业
+            if (!string.IsNullOrWhiteSpace(req.MajorName))
+            {
+                sql.Append(" and m4.Name like @MajorName");
+                parameters.Add(new SqlParameter("@MajorName", "%" + req.MajorName + "%"));
             }
 
             //批次
