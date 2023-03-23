@@ -231,6 +231,7 @@ namespace EnrolmentPlatform.Project.DAL.Orders
                             GongZuoDanWei = a.GongZuoDanWei,
                             GraduateSchool = a.GraduateSchool,
                             HighesDegree = a.HighesDegree,
+                            SuoDuZhuanYe = a.SuoDuZhuanYe,
                             IDCardNo = a.IDCardNo,
                             JiGuan = a.JiGuan,
                             MinZu = a.MinZu,

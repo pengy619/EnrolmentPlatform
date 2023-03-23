@@ -514,6 +514,11 @@ namespace EnrolmentPlatform.Project.DTO.Orders
         public string HighesDegree { set; get; }
 
         /// <summary>
+        /// 所读专业
+        /// </summary>
+        public string SuoDuZhuanYe { get; set; }
+
+        /// <summary>
         /// 微信/QQ
         /// </summary>
         public string TencentNo { set; get; }
